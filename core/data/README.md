@@ -15,6 +15,7 @@ Package root: `io.github.submark.core.data`. Everything is a Hilt `@Singleton`; 
 - **Change bus.** After every committed mutation `ChangeNotifier` calls every `SubscriptionChangeListener`
   (`suspend fun onSubscriptionsChanged(ids: Set<String>?)`, `null` = anything changed). Contribute one with
   `@Binds @IntoSet` in your feature module (notifications, calendar sync, widgets).
+- **App start.** Contribute `change.AppStartListener` (`suspend fun onAppStart()`) with `@Binds @IntoSet` for work needed at every launch; the app calls all of them after seeding and `processDue()`.
 - **Time.** Inject `TimeProvider` (`today(): LocalDate`, `now(): Instant`, `zone(): ZoneId`); never call `LocalDate.now()`.
 - **System notes.** Notes the data layer writes start with `@` (`SystemNotes.PAYMENT_DELETED`, `PAYMENT_EDITED`,
   `SUBSCRIPTION_DELETED`, `STORED_VALUE_RECORD_DELETED`, `INITIAL_BALANCE`); localize them, check with `SystemNotes.isSystem(note)`.

@@ -12,6 +12,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.Multibinds
+import io.github.submark.core.data.change.AppStartListener
 import io.github.submark.core.data.change.SubscriptionChangeListener
 import io.github.submark.core.data.currency.CurrencyCatalog
 import io.github.submark.core.data.currency.ExchangeRateSource
@@ -42,6 +43,8 @@ abstract class DataBindingsModule {
 
     /** Empty by default; features add listeners with `@IntoSet`. */
     @Multibinds abstract fun changeListeners(): Set<SubscriptionChangeListener>
+
+    @Multibinds abstract fun appStartListeners(): Set<AppStartListener>
 }
 
 @Module

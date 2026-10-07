@@ -86,7 +86,8 @@ import kotlinx.serialization.Serializable
 @Serializable data object PopularRepositoriesRoute
 @Serializable data class PriceMonitorRoute(val subscriptionId: String)
 @Serializable data object PriceMonitorSettingsRoute
-@Serializable data object AiRecognitionRoute
+/** [imagePath] = image copied into cacheDir by the share target; null = let the user pick one. */
+@Serializable data class AiRecognitionRoute(val imagePath: String? = null)
 @Serializable data object AiSettingsRoute
 @Serializable data object RawgSettingsRoute
 @Serializable data class ApiBudgetEditRoute(val id: String? = null)
@@ -96,6 +97,9 @@ import kotlinx.serialization.Serializable
  * [NavResults.ICON] as "TYPE|value" (IconType name + value). [query] seeds searches (e.g. subscription name).
  */
 @Serializable data class IconPickerRoute(val query: String? = null)
+
+/** Deep-link scheme handled by MainActivity, e.g. `submark://ai-recognize?imagePath=...`. */
+const val DEEP_LINK_SCHEME = "submark"
 
 object NavResults {
     const val ICON = "nav_result_icon"
