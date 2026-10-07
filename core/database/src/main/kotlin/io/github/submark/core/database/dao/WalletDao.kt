@@ -1,6 +1,8 @@
 package io.github.submark.core.database.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
 import io.github.submark.core.model.Wallet
@@ -44,4 +46,20 @@ interface WalletDao : BaseDao<Wallet> {
 
     @Query("UPDATE subscriptions SET walletId = NULL WHERE walletId = :walletId")
     suspend fun unlinkSubscriptions(walletId: String)
+
+    @Query("SELECT COUNT(*) FROM wallets WHERE currencyCode = :code")
+    suspend fun countWithCurrency(code: String): Int
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertIgnoreTransactions(items: List<WalletTransaction>): List<Long>
+
+    /** Keeps a deleted subscription's wallet history while dropping the dangling links. */
+    @Query("UPDATE wallet_transactions SET subscriptionId = NULL, paymentRecordId = NULL, storedValueRecordId = NULL WHERE subscriptionId = :subscriptionId")
+    suspend fun detachSubscription(subscriptionId: String)
+
+    @Query("DELETE FROM wallet_transactions")
+    suspend fun deleteAllTransactions()
+
+    @Query("DELETE FROM wallets")
+    suspend fun deleteAll()
 }

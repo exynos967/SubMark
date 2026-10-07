@@ -48,4 +48,7 @@ interface CurrencyDao : BaseDao<Currency> {
 
     @Query("DELETE FROM historical_rates")
     suspend fun clearHistorical()
+
+    @Query("DELETE FROM currencies")
+    suspend fun deleteAll()
 }

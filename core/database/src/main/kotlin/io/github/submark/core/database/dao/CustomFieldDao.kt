@@ -1,6 +1,8 @@
 package io.github.submark.core.database.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
 import io.github.submark.core.model.CustomFieldDefinition
@@ -40,4 +42,28 @@ interface CustomFieldDao : BaseDao<CustomFieldDefinition> {
 
     @Query("DELETE FROM custom_field_values WHERE subscriptionId = :subscriptionId")
     suspend fun clearValues(subscriptionId: String)
+
+    @Query("SELECT * FROM custom_field_values WHERE subscriptionId = :subscriptionId")
+    suspend fun getValues(subscriptionId: String): List<CustomFieldValue>
+
+    @Query("SELECT * FROM custom_field_values")
+    fun observeAllValues(): Flow<List<CustomFieldValue>>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertIgnoreOptions(items: List<CustomFieldOption>): List<Long>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertIgnoreValues(items: List<CustomFieldValue>): List<Long>
+
+    @Query("DELETE FROM custom_field_definitions WHERE id = :id")
+    suspend fun deleteById(id: String)
+
+    @Query("DELETE FROM custom_field_definitions")
+    suspend fun deleteAll()
+
+    @Query("DELETE FROM custom_field_options")
+    suspend fun deleteAllOptions()
+
+    @Query("DELETE FROM custom_field_values")
+    suspend fun deleteAllValues()
 }

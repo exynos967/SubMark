@@ -38,6 +38,9 @@ interface PaymentDao : BaseDao<PaymentRecord> {
 
     @Query("DELETE FROM payment_records WHERE id = :id")
     suspend fun deleteById(id: String)
+
+    @Query("DELETE FROM payment_records")
+    suspend fun deleteAll()
 }
 
 @Dao
@@ -53,4 +56,13 @@ interface PaymentMethodDao : BaseDao<PaymentMethod> {
 
     @Query("DELETE FROM payment_methods WHERE isSystem = 0")
     suspend fun deleteCustom()
+
+    @Query("SELECT * FROM payment_methods WHERE id = :id")
+    suspend fun get(id: String): PaymentMethod?
+
+    @Query("DELETE FROM payment_methods WHERE id = :id")
+    suspend fun deleteById(id: String)
+
+    @Query("DELETE FROM payment_methods")
+    suspend fun deleteAll()
 }

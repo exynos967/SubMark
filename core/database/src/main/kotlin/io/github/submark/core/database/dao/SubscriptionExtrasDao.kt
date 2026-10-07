@@ -1,6 +1,8 @@
 package io.github.submark.core.database.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
@@ -33,4 +35,19 @@ interface SubscriptionExtrasDao {
 
     @Query("DELETE FROM custom_reminders WHERE subscriptionId = :subscriptionId")
     suspend fun clearReminders(subscriptionId: String)
+
+    @Query("SELECT * FROM subscription_photos WHERE subscriptionId IN (:subscriptionIds)")
+    suspend fun getPhotos(subscriptionIds: List<String>): List<SubscriptionPhoto>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertIgnorePhotos(items: List<SubscriptionPhoto>): List<Long>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertIgnoreReminders(items: List<CustomReminder>): List<Long>
+
+    @Query("DELETE FROM subscription_photos")
+    suspend fun deleteAllPhotos()
+
+    @Query("DELETE FROM custom_reminders")
+    suspend fun deleteAllReminders()
 }

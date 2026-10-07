@@ -18,4 +18,16 @@ interface StoredValueDao : BaseDao<StoredValueRecord> {
 
     @Query("SELECT * FROM stored_value_records WHERE id = :id")
     suspend fun get(id: String): StoredValueRecord?
+
+    @Query("SELECT * FROM stored_value_records WHERE subscriptionId = :subscriptionId")
+    suspend fun getForSubscription(subscriptionId: String): List<StoredValueRecord>
+
+    @Query("SELECT * FROM stored_value_records WHERE paymentRecordId = :paymentRecordId LIMIT 1")
+    suspend fun getByPaymentRecord(paymentRecordId: String): StoredValueRecord?
+
+    @Query("DELETE FROM stored_value_records WHERE id = :id")
+    suspend fun deleteById(id: String)
+
+    @Query("DELETE FROM stored_value_records")
+    suspend fun deleteAll()
 }

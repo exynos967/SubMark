@@ -1,6 +1,8 @@
 package io.github.submark.core.database.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
 import io.github.submark.core.model.SubscriptionTag
@@ -56,4 +58,28 @@ interface TagDao : BaseDao<Tag> {
 
     @Query("DELETE FROM tag_folder_tags WHERE folderId = :folderId")
     suspend fun clearFolderTags(folderId: String)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertIgnoreSubscriptionTags(items: List<SubscriptionTag>): List<Long>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertIgnoreFolders(items: List<TagFolder>): List<Long>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertIgnoreFolderTags(items: List<TagFolderTag>): List<Long>
+
+    @Query("DELETE FROM tags WHERE id = :id")
+    suspend fun deleteById(id: String)
+
+    @Query("DELETE FROM tags")
+    suspend fun deleteAll()
+
+    @Query("DELETE FROM subscription_tags")
+    suspend fun deleteAllSubscriptionTags()
+
+    @Query("DELETE FROM tag_folders")
+    suspend fun deleteAllFolders()
+
+    @Query("DELETE FROM tag_folder_tags")
+    suspend fun deleteAllFolderTags()
 }

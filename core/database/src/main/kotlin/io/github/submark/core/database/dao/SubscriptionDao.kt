@@ -47,4 +47,13 @@ interface SubscriptionDao : BaseDao<Subscription> {
 
     @Query("DELETE FROM subscriptions")
     suspend fun deleteAll()
+
+    @Query("SELECT COUNT(*) FROM subscriptions WHERE currencyCode = :code")
+    suspend fun countWithCurrency(code: String): Int
+
+    @Query("UPDATE subscriptions SET paymentMethodId = NULL WHERE paymentMethodId = :methodId")
+    suspend fun clearPaymentMethod(methodId: String)
+
+    @Query("UPDATE subscriptions SET paymentMethodId = NULL WHERE paymentMethodId IN (SELECT id FROM payment_methods WHERE isSystem = 0)")
+    suspend fun clearCustomPaymentMethods()
 }

@@ -1,6 +1,8 @@
 package io.github.submark.core.database.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
 import io.github.submark.core.model.ApiBudgetConfig
@@ -38,6 +40,12 @@ interface PriceMonitorDao : BaseDao<PriceMonitor> {
 
     @Query("DELETE FROM price_records")
     suspend fun clearRecords()
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertIgnoreRecords(items: List<PriceRecord>): List<Long>
+
+    @Query("DELETE FROM price_monitors")
+    suspend fun deleteAll()
 }
 
 @Dao
@@ -47,6 +55,9 @@ interface PopularRepositoryDao : BaseDao<PopularRepository> {
 
     @Query("SELECT * FROM popular_repositories")
     suspend fun getAll(): List<PopularRepository>
+
+    @Query("DELETE FROM popular_repositories")
+    suspend fun deleteAll()
 }
 
 @Dao
@@ -56,6 +67,9 @@ interface IconRepositoryDao : BaseDao<IconRepository> {
 
     @Query("SELECT * FROM icon_repositories")
     suspend fun getAll(): List<IconRepository>
+
+    @Query("DELETE FROM icon_repositories")
+    suspend fun deleteAll()
 }
 
 @Dao
@@ -68,6 +82,9 @@ interface ApiBudgetDao : BaseDao<ApiBudgetConfig> {
 
     @Query("SELECT * FROM api_budget_configs WHERE id = :id")
     suspend fun get(id: String): ApiBudgetConfig?
+
+    @Query("DELETE FROM api_budget_configs")
+    suspend fun deleteAll()
 }
 
 @Dao
@@ -80,4 +97,7 @@ interface ServiceConnectionDao : BaseDao<ServiceConnection> {
 
     @Query("SELECT * FROM service_connections WHERE id = :id")
     suspend fun get(id: String): ServiceConnection?
+
+    @Query("DELETE FROM service_connections")
+    suspend fun deleteAll()
 }
