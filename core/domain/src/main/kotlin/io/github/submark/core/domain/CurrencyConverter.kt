@@ -15,7 +15,7 @@ class CurrencyConverter(private val usdRates: Map<String, BigDecimal>) {
         if (from == to) return amount
         val rFrom = rate(from) ?: return null
         val rTo = rate(to) ?: return null
-        return amount.divide(rFrom, MC).multiply(rTo, MC)
+        return amount.multiply(rTo, MC).divide(rFrom, MC)
     }
 
     /** "1 [base] = x [quote]" for display. */

@@ -56,13 +56,14 @@ object SplitCalculator {
     fun fixedAmountDifference(total: BigDecimal, members: List<SharedMember>): BigDecimal =
         members.filter { it.status == MemberStatus.ACTIVE }.sumOf { it.fixedAmount ?: BigDecimal.ZERO } - total
 
-    /** Equal ratios for active members, rounded to 2 decimals, remainder on the first. */
+    /** Equal ratios for active members, rounded to 2 decimals, remainder on the creator (or first active). */
     fun equalRatios(members: List<SharedMember>): Map<String, BigDecimal> {
         val active = members.filter { it.status == MemberStatus.ACTIVE }
         if (active.isEmpty()) return emptyMap()
         val each = HUNDRED.divide(BigDecimal(active.size), 2, RoundingMode.DOWN)
         val map = active.associate { it.id to each }.toMutableMap()
-        map[active.first().id] = each + (HUNDRED - each.multiply(BigDecimal(active.size)))
+        val payer = active.firstOrNull { it.isCreator } ?: active.first()
+        map[payer.id] = each + (HUNDRED - each.multiply(BigDecimal(active.size)))
         return map
     }
 }

@@ -147,7 +147,9 @@ object BillingCalculator {
         }
         if (anchor >= today) return InitialSchedule(anchor, capByEnd(anchor, sub.endDate), null, emptyList())
         return if (generateHistory) {
-            val past = occurrencesBetween(anchor, cycle, anchor, today, sub.fixedPaymentDay)
+            // No history beyond the end of validity.
+            val historyEnd = sub.endDate?.let { minOf(it, today) } ?: today
+            val past = occurrencesBetween(anchor, cycle, anchor, historyEnd, sub.fixedPaymentDay)
             val next = firstOccurrenceAfter(anchor, cycle, today, inclusive = false, fixedDay = sub.fixedPaymentDay)
             InitialSchedule(anchor, capByEnd(next, sub.endDate), past.lastOrNull(), past)
         } else {
@@ -177,14 +179,18 @@ object BillingCalculator {
         val rebase = timing == MarkTiming.EARLY_NEW_CYCLE || timing == MarkTiming.OVERDUE_NEW_CYCLE
         val newAnchor = if (rebase) paidOn else anchor
         val next = if (rebase) {
-            add(paidOn, cycle)
+            // Occurrence 1 of the re-based schedule, so the fixed payment day applies like on every later occurrence.
+            occurrence(paidOn, cycle, 1, sub.fixedPaymentDay)
         } else {
             firstOccurrenceAfter(anchor, cycle, due, inclusive = false, fixedDay = sub.fixedPaymentDay)
         }
         return MarkOutcome(newAnchor, capByEnd(next, sub.endDate), paidOn)
     }
 
-    /** Overdue = active manual recurring subscription whose next date is in the past. */
+    /**
+     * Overdue = active recurring subscription whose next date is in the past. AUTO renewals are
+     * auto-marked on the due date, so they only become overdue when that failed (e.g. wallet charge).
+     */
     fun isOverdue(sub: Subscription, today: LocalDate): Boolean {
         val next = sub.nextPaymentDate ?: return false
         return sub.status == SubscriptionStatus.ACTIVE &&
