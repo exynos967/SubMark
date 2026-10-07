@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common actions -->
+    <string name="ui_action_back">Back</string>
+    <string name="ui_action_cancel">Cancel</string>
+    <string name="ui_action_clear">Clear</string>
+    <string name="ui_action_confirm">Confirm</string>
+    <string name="ui_action_done">Done</string>
+    <string name="ui_action_ok">OK</string>
+    <string name="ui_action_save">Save</string>
+    <string name="ui_action_delete">Delete</string>
+    <string name="ui_action_edit">Edit</string>
+    <string name="ui_action_add">Add</string>
+    <string name="ui_action_retry">Try again</string>
+    <string name="ui_action_move_up">Move up</string>
+    <string name="ui_action_move_down">Move down</string>
+    <string name="ui_action_reorder">Drag to reorder</string>
+    <string name="ui_action_remove_named">Remove %1$s</string>
+    <string name="ui_selected">Selected</string>
+    <string name="ui_error_title">Something went wrong</string>
+    <string name="ui_search_placeholder">Search</string>
+    <string name="ui_search_no_results">No matches</string>
+
+    <!-- Relative dates -->
+    <string name="ui_date_today">Today</string>
+    <string name="ui_date_tomorrow">Tomorrow</string>
+    <string name="ui_date_yesterday">Yesterday</string>
+    <plurals name="ui_date_in_days">
+        <item quantity="one">In %d day</item>
+        <item quantity="other">In %d days</item>
+    </plurals>
+    <plurals name="ui_date_days_ago">
+        <item quantity="one">%d day ago</item>
+        <item quantity="other">%d days ago</item>
+    </plurals>
+    <plurals name="ui_date_overdue_days">
+        <item quantity="one">Overdue %d day</item>
+        <item quantity="other">Overdue %d days</item>
+    </plurals>
+    <string name="ui_quick_week_ago">1 week ago</string>
+    <string name="ui_quick_in_week">In 1 week</string>
+    <string name="ui_quick_month_ago">1 month ago</string>
+    <string name="ui_quick_in_month">In 1 month</string>
+    <string name="ui_quick_year_ago">1 year ago</string>
+    <string name="ui_quick_in_year">In 1 year</string>
+    <string name="ui_ymd_years">%dY</string>
+    <string name="ui_ymd_months">%dM</string>
+    <string name="ui_ymd_days">%dD</string>
+
+    <!-- Billing cycles -->
+    <string name="ui_cycle_weekly">Weekly</string>
+    <string name="ui_cycle_monthly">Monthly</string>
+    <string name="ui_cycle_quarterly">Quarterly</string>
+    <string name="ui_cycle_semiannually">Every 6 months</string>
+    <string name="ui_cycle_annually">Yearly</string>
+    <string name="ui_cycle_custom">Custom</string>
+    <string name="ui_cycle_one_time">One-time</string>
+    <string name="ui_cycle_lifetime">Lifetime</string>
+    <string name="ui_cycle_single">Single period</string>
+    <string name="ui_cycle_every_ymd">Every %1$s</string>
+    <plurals name="ui_cycle_every_days">
+        <item quantity="one">Every day</item>
+        <item quantity="other">Every %d days</item>
+    </plurals>
+    <plurals name="ui_cycle_every_weeks">
+        <item quantity="one">Every week</item>
+        <item quantity="other">Every %d weeks</item>
+    </plurals>
+    <plurals name="ui_cycle_every_months">
+        <item quantity="one">Every month</item>
+        <item quantity="other">Every %d months</item>
+    </plurals>
+    <plurals name="ui_cycle_every_years">
+        <item quantity="one">Every year</item>
+        <item quantity="other">Every %d years</item>
+    </plurals>
+    <string name="ui_cycle_per_day">/day</string>
+    <string name="ui_cycle_per_week">/wk</string>
+    <string name="ui_cycle_per_month">/mo</string>
+    <string name="ui_cycle_per_quarter">/qtr</string>
+    <string name="ui_cycle_per_half_year">/6 mo</string>
+    <string name="ui_cycle_per_year">/yr</string>
+    <string name="ui_cycle_per_custom">/%1$s</string>
+    <plurals name="ui_unit_days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+    <plurals name="ui_unit_weeks">
+        <item quantity="one">%d week</item>
+        <item quantity="other">%d weeks</item>
+    </plurals>
+    <plurals name="ui_unit_months">
+        <item quantity="one">%d month</item>
+        <item quantity="other">%d months</item>
+    </plurals>
+    <plurals name="ui_unit_years">
+        <item quantity="one">%d year</item>
+        <item quantity="other">%d years</item>
+    </plurals>
+    <string name="ui_unit_day">Days</string>
+    <string name="ui_unit_week">Weeks</string>
+    <string name="ui_unit_month">Months</string>
+    <string name="ui_unit_year">Years</string>
+
+    <!-- Enums -->
+    <string name="ui_kind_regular">Recurring</string>
+    <string name="ui_kind_stored_value">Prepaid balance</string>
+    <string name="ui_kind_lifetime">Lifetime purchase</string>
+    <string name="ui_kind_wishlist">Wishlist</string>
+    <string name="ui_status_active">Active</string>
+    <string name="ui_status_paused">Paused</string>
+    <string name="ui_renewal_auto">Auto-renew</string>
+    <string name="ui_renewal_manual">Manual renewal</string>
+    <string name="ui_renewal_trial">Free trial</string>
+    <string name="ui_payment_status_success">Paid</string>
+    <string name="ui_payment_status_pending">Pending</string>
+    <string name="ui_payment_status_failed">Failed</string>
+    <string name="ui_payment_kind_regular">Payment</string>
+    <string name="ui_payment_kind_iap">In-app purchase</string>
+    <string name="ui_payment_kind_extension">Extension</string>
+    <string name="ui_payment_kind_lifetime">One-time purchase</string>
+    <string name="ui_payment_kind_deposit">Top-up</string>
+    <string name="ui_payment_source_manual">Marked by you</string>
+    <string name="ui_payment_source_auto">Auto-recorded</string>
+    <string name="ui_payment_source_overdue">Back-filled</string>
+    <string name="ui_payment_source_trial">Trial ended</string>
+    <string name="ui_payment_source_widget">From widget</string>
+    <string name="ui_payment_source_history">Generated history</string>
+    <string name="ui_payment_source_bundle">Bundle sync</string>
+    <string name="ui_payment_source_import">Imported</string>
+    <string name="ui_mark_timing_on_time">On time</string>
+    <string name="ui_mark_timing_early_new">Early, new cycle</string>
+    <string name="ui_mark_timing_early_original">Early, schedule kept</string>
+    <string name="ui_mark_timing_overdue_new">Late, new cycle</string>
+    <string name="ui_mark_timing_overdue_original">Late, schedule kept</string>
+    <string name="ui_split_equal">Split evenly</string>
+    <string name="ui_split_equal_desc">Everyone pays the same share.</string>
+    <string name="ui_split_ratio">By percentage</string>
+    <string name="ui_split_ratio_desc">Each member pays a set percentage; the total must be 100%.</string>
+    <string name="ui_split_fixed">Fixed amounts</string>
+    <string name="ui_split_fixed_desc">Each member pays a set amount; you cover the rest.</string>
+    <string name="ui_split_creator_pays">I pay it all</string>
+    <string name="ui_split_creator_pays_desc">Members are listed but you cover the whole price.</string>
+    <string name="ui_member_active">Active</string>
+    <string name="ui_member_inactive">Inactive</string>
+    <string name="ui_member_pending">Invited</string>
+    <string name="ui_wallet_kind_balance">Balance account</string>
+    <string name="ui_wallet_kind_balance_desc">Tracks real money, counts toward assets and cannot go below zero.</string>
+    <string name="ui_wallet_kind_credit">Credit account</string>
+    <string name="ui_wallet_kind_credit_desc">Spend now, settle later. May go negative down to its limit.</string>
+    <string name="ui_wallet_kind_settlement">Record only</string>
+    <string name="ui_wallet_kind_settlement_desc">Only logs money flow; may go negative and is not counted as an asset.</string>
+    <string name="ui_wallet_txn_top_up">Top-up</string>
+    <string name="ui_wallet_txn_expense">Expense</string>
+    <string name="ui_wallet_txn_refund">Refund</string>
+    <string name="ui_wallet_txn_adjustment">Adjustment</string>
+    <string name="ui_category_video">Video</string>
+    <string name="ui_category_music">Music</string>
+    <string name="ui_category_entertainment">Entertainment</string>
+    <string name="ui_category_gaming">Games</string>
+    <string name="ui_category_productivity">Productivity</string>
+    <string name="ui_category_utility">Tools</string>
+    <string name="ui_category_ai">AI</string>
+    <string name="ui_category_news">News &amp; reading</string>
+    <string name="ui_category_lifestyle">Lifestyle</string>
+    <string name="ui_category_other">Other</string>
+
+    <!-- Tag colors -->
+    <string name="ui_color_blue">Blue</string>
+    <string name="ui_color_brown">Brown</string>
+    <string name="ui_color_cyan">Cyan</string>
+    <string name="ui_color_gray">Gray</string>
+    <string name="ui_color_green">Green</string>
+    <string name="ui_color_indigo">Indigo</string>
+    <string name="ui_color_mint">Mint</string>
+    <string name="ui_color_orange">Orange</string>
+    <string name="ui_color_pink">Pink</string>
+    <string name="ui_color_purple">Purple</string>
+    <string name="ui_color_red">Red</string>
+    <string name="ui_color_teal">Teal</string>
+    <string name="ui_color_yellow">Yellow</string>
+
+    <!-- Color picker -->
+    <string name="ui_color_picker_title">Pick a color</string>
+    <string name="ui_color_presets">Presets</string>
+    <string name="ui_color_custom">Custom</string>
+    <string name="ui_color_hue">Hue</string>
+    <string name="ui_color_saturation">Saturation</string>
+    <string name="ui_color_brightness">Brightness</string>
+    <string name="ui_color_use_default">Use default</string>
+
+    <!-- Money input -->
+    <string name="ui_money_error_empty">Enter an amount</string>
+    <string name="ui_money_error_invalid">Not a valid number</string>
+    <string name="ui_money_error_zero">Amount must be greater than zero</string>
+    <string name="ui_money_error_negative">Amount can\'t be negative</string>
+    <string name="ui_money_error_too_large">Amount is too large</string>
+
+    <!-- Currency picker -->
+    <string name="ui_currency_picker_title">Choose currency</string>
+    <string name="ui_currency_search">Search code or name</string>
+    <string name="ui_currency_group_default">Default currency</string>
+    <string name="ui_currency_group_all">Currencies</string>
+    <string name="ui_currency_group_custom">Your currencies</string>
+
+    <!-- Subscription badges -->
+    <string name="ui_badge_overdue">Overdue</string>
+    <string name="ui_badge_paused">Paused</string>
+    <string name="ui_badge_trial">Trial</string>
+    <string name="ui_badge_shared">Shared</string>
+    <string name="ui_badge_single_cycle">One period</string>
+    <string name="ui_badge_stored_value">Prepaid</string>
+    <string name="ui_badge_child">In bundle</string>
+    <string name="ui_badge_lifetime">Paid off</string>
+    <string name="ui_badge_wishlist">Wishlist</string>
+    <string name="ui_badge_auto">Auto</string>
+
+    <!-- Mark paid -->
+    <string name="ui_mark_paid_title">Mark as paid?</string>
+    <string name="ui_mark_paid_message">Record a %2$s payment for %1$s due today.</string>
+    <string name="ui_mark_paid_early_title">Paying early</string>
+    <string name="ui_mark_paid_overdue_title">Late payment</string>
+    <plurals name="ui_mark_paid_early_message">
+        <item quantity="one">%1$s isn\'t due until %2$s (%3$d day from now). Record %4$s now?</item>
+        <item quantity="other">%1$s isn\'t due until %2$s (%3$d days from now). Record %4$s now?</item>
+    </plurals>
+    <plurals name="ui_mark_paid_overdue_message">
+        <item quantity="one">%1$s was due on %2$s (%3$d day ago). Record %4$s now?</item>
+        <item quantity="other">%1$s was due on %2$s (%3$d days ago). Record %4$s now?</item>
+    </plurals>
+    <string name="ui_mark_paid_original_cycle">Keep the schedule</string>
+    <string name="ui_mark_paid_original_cycle_desc">The next charge stays on the usual billing date.</string>
+    <string name="ui_mark_paid_new_cycle">Restart from today</string>
+    <string name="ui_mark_paid_new_cycle_desc">A new cycle begins today and later dates move with it.</string>
+    <string name="ui_mark_paid_confirm">Mark paid</string>
+
+    <!-- Icon groups -->
+    <string name="ui_icon_group_activities">Activities</string>
+    <string name="ui_icon_group_apps">Apps</string>
+    <string name="ui_icon_group_categories">Categories</string>
+    <string name="ui_icon_group_documents">Documents</string>
+    <string name="ui_icon_group_markers">Markers</string>
+    <string name="ui_icon_group_nature">Nature</string>
+    <string name="ui_icon_group_shapes">Shapes</string>
+    <string name="ui_icon_group_symbols">Symbols</string>
+    <string name="ui_icon_group_system">System</string>
+    <string name="ui_icon_group_media">Media</string>
+    <string name="ui_icon_group_finance">Finance</string>
+
+    <!-- Charts -->
+    <string name="ui_chart_less">Less</string>
+    <string name="ui_chart_more">More</string>
+</resources>

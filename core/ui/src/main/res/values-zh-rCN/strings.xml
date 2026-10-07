@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ui_action_back">返回</string>
+    <string name="ui_action_cancel">取消</string>
+    <string name="ui_action_clear">清除</string>
+    <string name="ui_action_confirm">确定</string>
+    <string name="ui_action_done">完成</string>
+    <string name="ui_action_ok">好</string>
+    <string name="ui_action_save">保存</string>
+    <string name="ui_action_delete">删除</string>
+    <string name="ui_action_edit">编辑</string>
+    <string name="ui_action_add">添加</string>
+    <string name="ui_action_retry">重试</string>
+    <string name="ui_action_move_up">上移</string>
+    <string name="ui_action_move_down">下移</string>
+    <string name="ui_action_reorder">拖动排序</string>
+    <string name="ui_action_remove_named">移除 %1$s</string>
+    <string name="ui_selected">已选中</string>
+    <string name="ui_error_title">出了点问题</string>
+    <string name="ui_search_placeholder">搜索</string>
+    <string name="ui_search_no_results">没有找到匹配项</string>
+
+    <string name="ui_date_today">今天</string>
+    <string name="ui_date_tomorrow">明天</string>
+    <string name="ui_date_yesterday">昨天</string>
+    <plurals name="ui_date_in_days">
+        <item quantity="other">%d 天后</item>
+    </plurals>
+    <plurals name="ui_date_days_ago">
+        <item quantity="other">%d 天前</item>
+    </plurals>
+    <plurals name="ui_date_overdue_days">
+        <item quantity="other">已逾期 %d 天</item>
+    </plurals>
+    <string name="ui_quick_week_ago">一周前</string>
+    <string name="ui_quick_in_week">一周后</string>
+    <string name="ui_quick_month_ago">一个月前</string>
+    <string name="ui_quick_in_month">一个月后</string>
+    <string name="ui_quick_year_ago">一年前</string>
+    <string name="ui_quick_in_year">一年后</string>
+    <string name="ui_ymd_years">%d年</string>
+    <string name="ui_ymd_months">%d个月</string>
+    <string name="ui_ymd_days">%d天</string>
+
+    <string name="ui_cycle_weekly">每周</string>
+    <string name="ui_cycle_monthly">每月</string>
+    <string name="ui_cycle_quarterly">每季度</string>
+    <string name="ui_cycle_semiannually">每半年</string>
+    <string name="ui_cycle_annually">每年</string>
+    <string name="ui_cycle_custom">自定义</string>
+    <string name="ui_cycle_one_time">一次性</string>
+    <string name="ui_cycle_lifetime">买断</string>
+    <string name="ui_cycle_single">单一周期</string>
+    <string name="ui_cycle_every_ymd">每 %1$s</string>
+    <plurals name="ui_cycle_every_days">
+        <item quantity="other">每 %d 天</item>
+    </plurals>
+    <plurals name="ui_cycle_every_weeks">
+        <item quantity="other">每 %d 周</item>
+    </plurals>
+    <plurals name="ui_cycle_every_months">
+        <item quantity="other">每 %d 个月</item>
+    </plurals>
+    <plurals name="ui_cycle_every_years">
+        <item quantity="other">每 %d 年</item>
+    </plurals>
+    <string name="ui_cycle_per_day">/天</string>
+    <string name="ui_cycle_per_week">/周</string>
+    <string name="ui_cycle_per_month">/月</string>
+    <string name="ui_cycle_per_quarter">/季</string>
+    <string name="ui_cycle_per_half_year">/半年</string>
+    <string name="ui_cycle_per_year">/年</string>
+    <string name="ui_cycle_per_custom">/%1$s</string>
+    <plurals name="ui_unit_days">
+        <item quantity="other">%d 天</item>
+    </plurals>
+    <plurals name="ui_unit_weeks">
+        <item quantity="other">%d 周</item>
+    </plurals>
+    <plurals name="ui_unit_months">
+        <item quantity="other">%d 个月</item>
+    </plurals>
+    <plurals name="ui_unit_years">
+        <item quantity="other">%d 年</item>
+    </plurals>
+    <string name="ui_unit_day">天</string>
+    <string name="ui_unit_week">周</string>
+    <string name="ui_unit_month">月</string>
+    <string name="ui_unit_year">年</string>
+
+    <string name="ui_kind_regular">周期订阅</string>
+    <string name="ui_kind_stored_value">预付余额</string>
+    <string name="ui_kind_lifetime">买断</string>
+    <string name="ui_kind_wishlist">心愿单</string>
+    <string name="ui_status_active">使用中</string>
+    <string name="ui_status_paused">已暂停</string>
+    <string name="ui_renewal_auto">自动续费</string>
+    <string name="ui_renewal_manual">手动续费</string>
+    <string name="ui_renewal_trial">免费试用</string>
+    <string name="ui_payment_status_success">已支付</string>
+    <string name="ui_payment_status_pending">处理中</string>
+    <string name="ui_payment_status_failed">失败</string>
+    <string name="ui_payment_kind_regular">付款</string>
+    <string name="ui_payment_kind_iap">应用内购买</string>
+    <string name="ui_payment_kind_extension">延期</string>
+    <string name="ui_payment_kind_lifetime">一次性购买</string>
+    <string name="ui_payment_kind_deposit">充值</string>
+    <string name="ui_payment_source_manual">手动标记</string>
+    <string name="ui_payment_source_auto">自动记录</string>
+    <string name="ui_payment_source_overdue">逾期补记</string>
+    <string name="ui_payment_source_trial">试用结束</string>
+    <string name="ui_payment_source_widget">来自小组件</string>
+    <string name="ui_payment_source_history">历史生成</string>
+    <string name="ui_payment_source_bundle">套餐同步</string>
+    <string name="ui_payment_source_import">导入</string>
+    <string name="ui_mark_timing_on_time">按时</string>
+    <string name="ui_mark_timing_early_new">提前，开启新周期</string>
+    <string name="ui_mark_timing_early_original">提前，保持原日程</string>
+    <string name="ui_mark_timing_overdue_new">逾期，开启新周期</string>
+    <string name="ui_mark_timing_overdue_original">逾期，保持原日程</string>
+    <string name="ui_split_equal">平均分摊</string>
+    <string name="ui_split_equal_desc">每个人承担相同份额。</string>
+    <string name="ui_split_ratio">按比例</string>
+    <string name="ui_split_ratio_desc">每位成员按设定百分比承担，合计须为 100%。</string>
+    <string name="ui_split_fixed">固定金额</string>
+    <string name="ui_split_fixed_desc">每位成员承担固定金额，剩余部分由你承担。</string>
+    <string name="ui_split_creator_pays">我全包</string>
+    <string name="ui_split_creator_pays_desc">列出成员，但全部费用由你承担。</string>
+    <string name="ui_member_active">活跃</string>
+    <string name="ui_member_inactive">停用</string>
+    <string name="ui_member_pending">已邀请</string>
+    <string name="ui_wallet_kind_balance">余额账户</string>
+    <string name="ui_wallet_kind_balance_desc">记录真实余额，计入资产，不能低于零。</string>
+    <string name="ui_wallet_kind_credit">信用账户</string>
+    <string name="ui_wallet_kind_credit_desc">先消费后结算，可透支到额度上限。</string>
+    <string name="ui_wallet_kind_settlement">仅记账</string>
+    <string name="ui_wallet_kind_settlement_desc">只记录资金流水，可为负数，不计入资产。</string>
+    <string name="ui_wallet_txn_top_up">充值</string>
+    <string name="ui_wallet_txn_expense">支出</string>
+    <string name="ui_wallet_txn_refund">退款</string>
+    <string name="ui_wallet_txn_adjustment">调整</string>
+    <string name="ui_category_video">视频</string>
+    <string name="ui_category_music">音乐</string>
+    <string name="ui_category_entertainment">娱乐</string>
+    <string name="ui_category_gaming">游戏</string>
+    <string name="ui_category_productivity">效率</string>
+    <string name="ui_category_utility">工具</string>
+    <string name="ui_category_ai">AI</string>
+    <string name="ui_category_news">新闻阅读</string>
+    <string name="ui_category_lifestyle">生活</string>
+    <string name="ui_category_other">其他</string>
+
+    <string name="ui_color_blue">蓝</string>
+    <string name="ui_color_brown">棕</string>
+    <string name="ui_color_cyan">青</string>
+    <string name="ui_color_gray">灰</string>
+    <string name="ui_color_green">绿</string>
+    <string name="ui_color_indigo">靛蓝</string>
+    <string name="ui_color_mint">薄荷</string>
+    <string name="ui_color_orange">橙</string>
+    <string name="ui_color_pink">粉</string>
+    <string name="ui_color_purple">紫</string>
+    <string name="ui_color_red">红</string>
+    <string name="ui_color_teal">蓝绿</string>
+    <string name="ui_color_yellow">黄</string>
+
+    <string name="ui_color_picker_title">选择颜色</string>
+    <string name="ui_color_presets">预设</string>
+    <string name="ui_color_custom">自定义</string>
+    <string name="ui_color_hue">色相</string>
+    <string name="ui_color_saturation">饱和度</string>
+    <string name="ui_color_brightness">亮度</string>
+    <string name="ui_color_use_default">使用默认</string>
+
+    <string name="ui_money_error_empty">请输入金额</string>
+    <string name="ui_money_error_invalid">不是有效的数字</string>
+    <string name="ui_money_error_zero">金额需大于零</string>
+    <string name="ui_money_error_negative">金额不能为负数</string>
+    <string name="ui_money_error_too_large">金额过大</string>
+
+    <string name="ui_currency_picker_title">选择货币</string>
+    <string name="ui_currency_search">搜索代码或名称</string>
+    <string name="ui_currency_group_default">默认货币</string>
+    <string name="ui_currency_group_all">货币</string>
+    <string name="ui_currency_group_custom">自定义货币</string>
+
+    <string name="ui_badge_overdue">逾期</string>
+    <string name="ui_badge_paused">暂停</string>
+    <string name="ui_badge_trial">试用</string>
+    <string name="ui_badge_shared">共享</string>
+    <string name="ui_badge_single_cycle">单周期</string>
+    <string name="ui_badge_stored_value">预付</string>
+    <string name="ui_badge_child">套餐内</string>
+    <string name="ui_badge_lifetime">已买断</string>
+    <string name="ui_badge_wishlist">心愿单</string>
+    <string name="ui_badge_auto">自动</string>
+
+    <string name="ui_mark_paid_title">标记为已支付？</string>
+    <string name="ui_mark_paid_message">为今天到期的 %1$s 记录一笔 %2$s 的付款。</string>
+    <string name="ui_mark_paid_early_title">提前支付</string>
+    <string name="ui_mark_paid_overdue_title">逾期支付</string>
+    <plurals name="ui_mark_paid_early_message">
+        <item quantity="other">%1$s 将于 %2$s 到期（还有 %3$d 天）。现在记录 %4$s 吗？</item>
+    </plurals>
+    <plurals name="ui_mark_paid_overdue_message">
+        <item quantity="other">%1$s 已于 %2$s 到期（%3$d 天前）。现在记录 %4$s 吗？</item>
+    </plurals>
+    <string name="ui_mark_paid_original_cycle">保持原日程</string>
+    <string name="ui_mark_paid_original_cycle_desc">下次扣费仍在原来的账单日。</string>
+    <string name="ui_mark_paid_new_cycle">从今天重新计算</string>
+    <string name="ui_mark_paid_new_cycle_desc">新周期从今天开始，之后的日期随之顺延。</string>
+    <string name="ui_mark_paid_confirm">标记已付</string>
+
+    <string name="ui_icon_group_activities">活动</string>
+    <string name="ui_icon_group_apps">应用</string>
+    <string name="ui_icon_group_categories">分类</string>
+    <string name="ui_icon_group_documents">文档</string>
+    <string name="ui_icon_group_markers">标记</string>
+    <string name="ui_icon_group_nature">自然</string>
+    <string name="ui_icon_group_shapes">形状</string>
+    <string name="ui_icon_group_symbols">符号</string>
+    <string name="ui_icon_group_system">系统</string>
+    <string name="ui_icon_group_media">媒体</string>
+    <string name="ui_icon_group_finance">财务</string>
+
+    <string name="ui_chart_less">少</string>
+    <string name="ui_chart_more">多</string>
+</resources>
