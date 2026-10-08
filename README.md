@@ -16,6 +16,18 @@
 
 </div>
 
+## 📱 截图
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/screenshots/overview.png" width="180" alt="概览"><br><sub>概览</sub></td>
+    <td align="center"><img src="docs/screenshots/subscriptions.png" width="180" alt="订阅列表"><br><sub>订阅列表</sub></td>
+    <td align="center"><img src="docs/screenshots/detail.png" width="180" alt="订阅详情"><br><sub>订阅详情</sub></td>
+    <td align="center"><img src="docs/screenshots/calendar.png" width="180" alt="日历"><br><sub>日历</sub></td>
+    <td align="center"><img src="docs/screenshots/analytics.png" width="180" alt="统计"><br><sub>统计</sub></td>
+  </tr>
+</table>
+
 ---
 
 ## ✨ 功能
