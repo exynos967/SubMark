@@ -212,7 +212,10 @@ class OverviewViewModel @Inject constructor(
         val paidThisPeriod = projection.paid
         val scheduledThisPeriod = projection.scheduled
         val comingUp = PaymentProjection.comingUp(projection, today)
+        // Each spending mode lists only its own kind: recurring payments vs one-off lifetime purchases.
+        val lifetimeMode = s.overview.mode == SpendingMode.LIFETIME
         val recentPayments = PaymentProjection.recentPaid(projection, today)
+            .filter { (it.subscription.kind == SubscriptionKind.LIFETIME) == lifetimeMode }
 
         val subById = visible.associateBy { it.id }
 
