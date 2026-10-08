@@ -1,15 +1,8 @@
 package io.github.submark.ui
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material.icons.rounded.CalendarMonth
@@ -18,21 +11,18 @@ import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.ViewList
 import androidx.compose.material.icons.rounded.Widgets
-import androidx.compose.material3.FilledTonalIconButton
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -41,7 +31,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import io.github.submark.R
 import io.github.submark.core.data.settings.AppSettings
-import io.github.submark.core.data.settings.FloatingTabWidth
 import io.github.submark.core.data.settings.StartupTab
 import io.github.submark.core.ui.navigation.AnalyticsRoute
 import io.github.submark.core.ui.navigation.CalendarRoute
@@ -82,7 +71,6 @@ fun AppSettings.visibleTabs(): List<TopTab> = TopTab.entries.filter {
     }
 }
 
-/** Startup tab, falling back to Subscriptions when the chosen tab is hidden. */
 fun AppSettings.startTab(): TopTab {
     val wanted = when (navigation.startupTab) {
         StartupTab.OVERVIEW -> TopTab.OVERVIEW
@@ -93,14 +81,6 @@ fun AppSettings.startTab(): TopTab {
     return if (wanted in visibleTabs()) wanted else TopTab.SUBSCRIPTIONS
 }
 
-private fun FloatingTabWidth.fraction(): Float = when (this) {
-    FloatingTabWidth.NARROW -> 0.6f
-    FloatingTabWidth.COMPACT -> 0.7f
-    FloatingTabWidth.STANDARD -> 0.82f
-    FloatingTabWidth.COMFORTABLE -> 0.9f
-    FloatingTabWidth.WIDE -> 1f
-}
-
 @Composable
 fun SubMarkNavHost(navController: NavHostController, settings: AppSettings, startTab: TopTab) {
     val backStack by navController.currentBackStackEntryAsState()
@@ -109,29 +89,45 @@ fun SubMarkNavHost(navController: NavHostController, settings: AppSettings, star
     val currentTab = tabs.firstOrNull { tab -> destination?.hierarchy?.any { it.hasRoute(tab.routeClass) } == true }
 
     Scaffold(
-        bottomBar = {
+        topBar = {
             if (currentTab != null) {
-                FloatingTabBar(
-                    tabs = tabs,
-                    selected = currentTab,
-                    widthFraction = settings.navigation.floatingTabWidth.fraction(),
-                    showSearch = settings.navigation.globalSearchButton,
-                    onSelect = { tab ->
-                        navController.navigate(tab.route) {
-                            popUpTo(navController.graph.findStartDestination().id) { saveState = true }
-                            launchSingleTop = true
-                            restoreState = true
+                TopAppBar(
+                    title = { Text(stringResource(currentTab.label)) },
+                    actions = {
+                        if (settings.navigation.globalSearchButton) {
+                            IconButton(onClick = { navController.navigate(GlobalSearchRoute) }) {
+                                Icon(Icons.Rounded.Search, contentDescription = stringResource(R.string.action_search))
+                            }
                         }
                     },
-                    onSearch = { navController.navigate(GlobalSearchRoute) },
                 )
+            }
+        },
+        bottomBar = {
+            if (currentTab != null) {
+                NavigationBar {
+                    tabs.forEach { tab ->
+                        NavigationBarItem(
+                            selected = tab == currentTab,
+                            onClick = {
+                                navController.navigate(tab.route) {
+                                    popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
+                            icon = { Icon(tab.icon, contentDescription = null) },
+                            label = { Text(stringResource(tab.label)) },
+                        )
+                    }
+                }
             }
         },
     ) { padding ->
         NavHost(
             navController = navController,
             startDestination = startTab.route,
-            modifier = Modifier.fillMaxSize().padding(bottom = padding.calculateBottomPadding()),
+            modifier = Modifier.fillMaxSize().padding(padding),
         ) {
             overviewGraph(navController)
             subscriptionsGraph(navController)
@@ -144,45 +140,6 @@ fun SubMarkNavHost(navController: NavHostController, settings: AppSettings, star
             notificationsGraph(navController)
             backupGraph(navController)
             integrationsGraph(navController)
-        }
-    }
-}
-
-@Composable
-private fun FloatingTabBar(
-    tabs: List<TopTab>,
-    selected: TopTab,
-    widthFraction: Float,
-    showSearch: Boolean,
-    onSelect: (TopTab) -> Unit,
-    onSearch: () -> Unit,
-) {
-    Box(Modifier.fillMaxWidth().navigationBarsPadding().padding(horizontal = 12.dp, vertical = 8.dp)) {
-        Row(Modifier.align(Alignment.Center), verticalAlignment = Alignment.CenterVertically) {
-            Surface(
-                modifier = Modifier.fillMaxWidth(if (showSearch) widthFraction * 0.86f else widthFraction),
-                shape = RoundedCornerShape(28.dp),
-                tonalElevation = 3.dp,
-                shadowElevation = 6.dp,
-            ) {
-                NavigationBar(containerColor = MaterialTheme.colorScheme.surfaceContainer, windowInsets = androidx.compose.foundation.layout.WindowInsets(0)) {
-                    tabs.forEach { tab ->
-                        NavigationBarItem(
-                            selected = tab == selected,
-                            onClick = { onSelect(tab) },
-                            icon = { Icon(tab.icon, contentDescription = null) },
-                            label = { Text(stringResource(tab.label), maxLines = 1) },
-                            alwaysShowLabel = tabs.size <= 5,
-                        )
-                    }
-                }
-            }
-            if (showSearch) {
-                Spacer(Modifier.width(8.dp))
-                FilledTonalIconButton(onClick = onSearch) {
-                    Icon(Icons.Rounded.Search, contentDescription = stringResource(R.string.action_search))
-                }
-            }
         }
     }
 }
