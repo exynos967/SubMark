@@ -31,7 +31,8 @@ feature: subscriptions money overview calendar analytics share notifications bac
 5. **通知在模拟器里还没测**（提醒 + 开机重排） 。
 6. UI 层仍有 14 处直接 `LocalDate.now()`（share/overview/analytics/calendar/money）。`SystemTimeProvider` 也用系统时区，运行时结果一致，仅影响可测试性；后续统一改为从 UiState 取 `today`。
 7. 待确认：新订阅首付日为今天且未付时，详情页「当前周期」显示为开始日之前的一个周期（如 Sep 8 – Oct 7）。是否符合预期需产品决定。
-8. 小问题：自定义概览页冷启动时会闪一下「至少显示一个组件」（初始空状态）；全局搜索页 "Categories" chip 文字折行。
+8. 小问题：自定义概览页冷启动时会闪一下「至少显示一个组件」（初始空状态）。
+9. 文案宽度约定：`SegmentedTabs` 各段等宽、单行省略。在 411dp 宽屏幕上，3 等分时每段约可容纳 12 个英文字符，4 等分约 8 个；底栏 5 个 tab 时每项约 8 个。超出时先缩短文案；一行放不下的 chip 改为可横向滚动。
 
 ## 使用
 - 工具链：`source /Users/exynos/workdir/markbuy/env.sh`，Gradle 8.9 + JDK 17 + Android SDK 35
