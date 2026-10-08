@@ -99,7 +99,8 @@ fun SubscriptionIcon(
             }
             type == IconType.EMOJI -> {
                 val fontSize = with(LocalDensity.current) { (size * 0.56f).toSp() }
-                Text(text = value, fontSize = fontSize, textAlign = TextAlign.Center)
+                // Line height follows the font size; the theme's default (24sp) pushes glyphs down in small icons.
+                Text(text = value, fontSize = fontSize, lineHeight = fontSize, textAlign = TextAlign.Center)
             }
             else -> {
                 val model: Any = if (type == IconType.FILE) {
@@ -133,6 +134,7 @@ private fun Monogram(name: String, size: Dp, color: Color) {
         text = monogramOf(name),
         color = color,
         fontSize = fontSize,
+        lineHeight = fontSize,
         fontWeight = FontWeight.SemiBold,
         textAlign = TextAlign.Center,
         modifier = Modifier.padding(2.dp),
