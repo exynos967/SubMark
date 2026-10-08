@@ -1,6 +1,7 @@
-# Builds signed per-ABI APKs (x86_64, armeabi-v7a, arm64-v8a).
-# - Push a tag like v1.2.0: builds and publishes a GitHub Release with the APKs attached.
-# - Run manually (workflow_dispatch): builds and uploads the APKs as a workflow artifact only.
+# Builds signed per-ABI APKs (x86_64, armeabi-v7a, arm64-v8a). Two ways to publish:
+# - Actions tab → Release → Run workflow with a version (e.g. 0.1.0): builds, then creates the
+#   v0.1.0 tag and GitHub Release with the APKs attached. Leave the version empty to only build.
+# - Publish a Release on GitHub (its tag names the version): builds and attaches the APKs to it.
 #
 # Required repository secrets:
 #   SUBMARK_KEYSTORE_BASE64   base64 of the release .jks
@@ -10,15 +11,20 @@
 name: Release
 
 on:
-  push:
-    tags: ["v*"]
+  release:
+    types: [published]
   workflow_dispatch:
+    inputs:
+      version:
+        description: "版本号，如 0.1.0（会创建 v0.1.0 标签并发布 Release）；留空则只构建不发布"
+        required: false
+        default: ""
 
 permissions:
   contents: write
 
 concurrency:
-  group: release-${{ github.ref }}
+  group: release-${{ github.event.release.tag_name || inputs.version || github.run_id }}
   cancel-in-progress: false
 
 jobs:
@@ -37,17 +43,49 @@ jobs:
 
       - name: Resolve version
         id: version
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_PRERELEASE: ${{ github.event.release.prerelease }}
+          INPUT_VERSION: ${{ inputs.version }}
         run: |
-          if [[ "$GITHUB_REF_TYPE" == "tag" ]]; then
-            name="${GITHUB_REF_NAME#v}"
+          if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
+            tag="$RELEASE_TAG"
+            prerelease="$RELEASE_PRERELEASE"
+            publish=true
+          elif [[ -n "$INPUT_VERSION" ]]; then
+            tag="v${INPUT_VERSION#v}"
+            prerelease=false
+            [[ "$tag" == *-* ]] && prerelease=true
+            if git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null; then
+              echo "::error::Tag $tag already exists; pick a new version"
+              exit 1
+            fi
+            publish=true
+          else
+            tag=""
+            prerelease=false
+            publish=false
+          fi
+
+          if [[ "$publish" == true ]]; then
+            name="${tag#v}"
+            if ! [[ "$name" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$ ]]; then
+              echo "::error::Version '$name' is not like 1.2.3 or 1.2.3-beta.1"
+              exit 1
+            fi
           else
             name="0.0.0-dev.${GITHUB_RUN_NUMBER}"
           fi
           # Monotonic across runs so every published APK can update the previous one.
           code=$((GITHUB_RUN_NUMBER + 1))
-          echo "name=$name" >> "$GITHUB_OUTPUT"
-          echo "code=$code" >> "$GITHUB_OUTPUT"
-          echo "Building $name ($code)"
+          {
+            echo "name=$name"
+            echo "code=$code"
+            echo "tag=$tag"
+            echo "publish=$publish"
+            echo "prerelease=$prerelease"
+          } >> "$GITHUB_OUTPUT"
+          echo "Building $name ($code), publish=$publish"
 
       - name: Decode signing key
         env:
@@ -82,18 +120,22 @@ jobs:
           ls -l dist
 
       - name: Upload artifact
-        if: github.ref_type != 'tag'
+        if: steps.version.outputs.publish != 'true'
         uses: actions/upload-artifact@v7
         with:
           name: SubMark-${{ steps.version.outputs.name }}
           path: dist/
           if-no-files-found: error
 
+      # Creates the tag + Release for a manual run, or adds the APKs to the Release that triggered us.
       - name: Publish GitHub Release
-        if: github.ref_type == 'tag'
+        if: steps.version.outputs.publish == 'true'
         uses: softprops/action-gh-release@v3
         with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          target_commitish: ${{ github.sha }}
           files: dist/*
           fail_on_unmatched_files: true
-          generate_release_notes: true
-          prerelease: ${{ contains(github.ref_name, '-') }}
+          prerelease: ${{ steps.version.outputs.prerelease }}
+          # Keep the notes the author wrote on a Release created in the web UI.
+          generate_release_notes: ${{ github.event_name != 'release' }}

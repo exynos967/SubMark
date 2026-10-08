@@ -121,11 +121,12 @@ cd SubMark
 | `SUBMARK_KEY_ALIAS` | `keyAlias` |
 | `SUBMARK_KEY_PASSWORD` | `keyPassword` |
 
-**自动发版**：推送 `v*` 标签（如 `v1.0.0`）后，[Release 工作流](.github/workflows/release.yml) 会构建三个架构的签名 APK 并发布到 GitHub Releases；带 `-` 的标签（如 `v1.0.0-beta.1`）标记为预发布。
+**自动发版**：[Release 工作流](.github/workflows/release.yml) 会构建三个架构的签名 APK 并附加到 GitHub Release，两种方式任选：
 
-```bash
-git tag v1.0.0 && git push origin v1.0.0
-```
+1. **在 Actions 页面手动运行**：Actions → Release → Run workflow，填写版本号（如 `0.1.0`），会自动创建 `v0.1.0` 标签和 Release；留空则只构建、产物在运行记录里下载
+2. **在 GitHub 网页发布 Release**：新建 Release 并以版本号作标签（如 `v0.1.0`），发布后自动构建并把 APK 附加上去
+
+版本号带 `-`（如 `0.2.0-beta.1`）时标记为预发布。
 
 ---
 
