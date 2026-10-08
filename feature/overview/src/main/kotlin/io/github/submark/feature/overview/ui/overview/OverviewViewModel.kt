@@ -209,8 +209,10 @@ class OverviewViewModel @Inject constructor(
         )
 
         val byDate = projection.byDate
-        val paidThisPeriod = projection.paid
-        val scheduledThisPeriod = projection.scheduled
+        // The projection reaches back three months for recent history; totals cover the period only.
+        val periodTotals = projection.between(periodStart, periodEnd)
+        val paidThisPeriod = periodTotals.paid
+        val scheduledThisPeriod = periodTotals.scheduled
         val comingUp = PaymentProjection.comingUp(projection, today)
         // Each spending mode lists only its own kind: recurring payments vs one-off lifetime purchases.
         val lifetimeMode = s.overview.mode == SpendingMode.LIFETIME

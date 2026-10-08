@@ -101,6 +101,19 @@ class PaymentProjectionTest {
     // ---- Period paid/scheduled split ----
 
     @Test
+    fun `between limits paid and scheduled totals to the period`() {
+        // The overview loads three months of history, but this month's totals must ignore September's payment.
+        val s = sub(anchor = LocalDate.of(2026, 9, 15), next = LocalDate.of(2026, 10, 15))
+        val report = PaymentProjection.project(
+            subs = listOf(s), payments = listOf(payment(s.id, LocalDate.of(2026, 9, 15))),
+            from = LocalDate.of(2026, 7, 1), to = LocalDate.of(2026, 10, 31), today = today,
+            defaultCode = "USD", converter = identity,
+        ).between(LocalDate.of(2026, 10, 1), LocalDate.of(2026, 10, 31))
+        assertThat(report.paid.compareTo(BigDecimal.ZERO)).isEqualTo(0)
+        assertThat(report.scheduled.compareTo(BigDecimal("9.99"))).isEqualTo(0)
+    }
+
+    @Test
     fun `paid and scheduled totals separate actual records from projected dues`() {
         val s = sub(anchor = LocalDate.of(2026, 9, 1), next = LocalDate.of(2026, 11, 1))
         val record = payment(s.id, LocalDate.of(2026, 10, 1))

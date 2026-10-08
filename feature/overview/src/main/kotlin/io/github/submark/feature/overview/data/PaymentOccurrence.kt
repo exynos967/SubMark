@@ -49,7 +49,19 @@ object PaymentProjection {
         val scheduled: BigDecimal = BigDecimal.ZERO,
     ) {
         val projectedTotal: BigDecimal get() = paid + scheduled
+
+        /** Same occurrences, with [paid] / [scheduled] re-totalled over [from]..[to] only. */
+        fun between(from: LocalDate, to: LocalDate): Report =
+            byDate.filterKeys { it in from..to }.values.flatten().let { occ ->
+                copy(paid = paidTotal(occ), scheduled = scheduledTotal(occ))
+            }
     }
+
+    private fun paidTotal(occ: List<PaymentOccurrence>): BigDecimal =
+        occ.filter { it.paid }.mapNotNull { it.amount }.fold(BigDecimal.ZERO) { a, b -> a + b }
+
+    private fun scheduledTotal(occ: List<PaymentOccurrence>): BigDecimal =
+        occ.filter { it.scheduled && !it.paid }.mapNotNull { it.amount }.fold(BigDecimal.ZERO) { a, b -> a + b }
 
     /**
      * Build [PaymentOccurrence]s over [from]..[to] from actual payments + projected due dates.
@@ -148,16 +160,8 @@ object PaymentProjection {
             list.sortWith(compareBy<PaymentOccurrence> { it.subscription.name.lowercase() })
         }
 
-        val paidTotal = byDate.values.flatten()
-            .filter { it.paid }
-            .mapNotNull { it.amount }
-            .fold(BigDecimal.ZERO) { a, b -> a + b }
-        val scheduledTotal = byDate.values.flatten()
-            .filter { it.scheduled && !it.paid }
-            .mapNotNull { it.amount }
-            .fold(BigDecimal.ZERO) { a, b -> a + b }
-
-        return Report(byDate = byDate, paid = paidTotal, scheduled = scheduledTotal)
+        val all = byDate.values.flatten()
+        return Report(byDate = byDate, paid = paidTotal(all), scheduled = scheduledTotal(all))
     }
 
     /** All unpaid occurrences from today (inclusive) within the next [windowDays]. */
