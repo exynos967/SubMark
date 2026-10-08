@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -760,9 +761,11 @@ internal fun RecentPaymentTimelineCard(
         } else {
             timeline.take(15).forEach { occ ->
                 val label = when {
-                    occ.isOverdue(today) -> "Overdue by ${java.time.temporal.ChronoUnit.DAYS.between(occ.date, today).toInt()} days"
-                    occ.paid -> "Paid"
-                    else -> "In ${java.time.temporal.ChronoUnit.DAYS.between(LocalDate.now(), occ.date).toInt()} days"
+                    occ.isOverdue(today) -> java.time.temporal.ChronoUnit.DAYS.between(occ.date, today).toInt()
+                        .let { pluralStringResource(io.github.submark.core.ui.R.plurals.ui_date_overdue_days, it, it) }
+                    occ.paid -> stringResource(R.string.overview_badge_paid)
+                    // The window ends today, so anything neither paid nor overdue is due today.
+                    else -> stringResource(R.string.overview_badge_today)
                 }
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
