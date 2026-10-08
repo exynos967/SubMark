@@ -378,7 +378,7 @@ class OverviewViewModel @Inject constructor(
             comingUp = comingUp,
             scheduleStrip = byDate.filterKeys { it >= today && it <= today.plusDays(6) },
             stripSelectedDate = env.stripSelected,
-            stripAgenda = byDate[env.stripSelected].orEmpty().filter { !it.paid },
+            stripAgenda = env.stripSelected?.let { byDate[it].orEmpty().filter { o -> !o.paid } }.orEmpty(),
             recentPayments = recentPayments,
             categoryBreakdown = categorySpend,
             monthlyTrend = trend,
