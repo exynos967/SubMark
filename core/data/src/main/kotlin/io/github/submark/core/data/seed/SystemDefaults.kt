@@ -13,12 +13,12 @@ object SystemCategories {
 
     private val style = mapOf(
         SystemCategory.VIDEO to ("movie" to "#E53935"),
-        SystemCategory.MUSIC to ("music_note" to "#8E24AA"),
-        SystemCategory.ENTERTAINMENT to ("theater_comedy" to "#FB8C00"),
-        SystemCategory.GAMING to ("sports_esports" to "#3949AB"),
+        SystemCategory.MUSIC to ("music" to "#8E24AA"),
+        SystemCategory.ENTERTAINMENT to ("theater" to "#FB8C00"),
+        SystemCategory.GAMING to ("gamepad" to "#3949AB"),
         SystemCategory.PRODUCTIVITY to ("work" to "#1E88E5"),
         SystemCategory.UTILITY to ("build" to "#546E7A"),
-        SystemCategory.AI to ("auto_awesome" to "#00ACC1"),
+        SystemCategory.AI to ("sparkle" to "#00ACC1"),
         SystemCategory.NEWS to ("newspaper" to "#6D4C41"),
         SystemCategory.LIFESTYLE to ("spa" to "#43A047"),
         SystemCategory.OTHER to ("category" to "#757575"),
