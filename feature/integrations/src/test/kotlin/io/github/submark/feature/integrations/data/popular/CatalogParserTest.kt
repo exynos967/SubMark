@@ -62,8 +62,10 @@ class CatalogParserTest {
 
     @Test
     fun `debug enum parse`() {
-        val c = kotlinx.serialization.json.Json.decodeFromString<RepoCategory>("\"nonexistent-category\"")
+        val c = kotlinx.serialization.json.Json.decodeFromString(RepoCategorySerializer, "\"nonexistent-category\"")
         assertThat(c).isEqualTo(RepoCategory.OTHER)
+        assertThat(RepoCategory.of("GAMING")).isEqualTo(RepoCategory.GAMING)
+        assertThat(RepoBillingCycle.of("semiannually")).isEqualTo(RepoBillingCycle.SEMI_ANNUALLY)
     }
 
     @Test

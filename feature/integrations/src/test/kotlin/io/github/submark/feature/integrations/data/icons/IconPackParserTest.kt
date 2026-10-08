@@ -62,6 +62,5 @@ class IconPackParserTest {
 
 /** Tests never touch the network; resolve() is not exercised here. */
 private object NoOpClient {
-    val client: okhttp3.OkHttpClient
-        get() = throw UnsupportedOperationException("tests do not need a working client")
+    val client = okhttp3.OkHttpClient.Builder().build()
 }

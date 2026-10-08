@@ -23,11 +23,9 @@ import io.github.submark.core.database.dao.ApiBudgetDao
 import io.github.submark.core.database.dao.ServiceConnectionDao
 import io.github.submark.feature.integrations.R
 import io.github.submark.feature.integrations.panel.data.BudgetComputation
+import io.github.submark.feature.integrations.panel.data.BudgetSnapshot
 import io.github.submark.feature.integrations.panel.data.BudgetStatus
-import io.github.submark.feature.integrations.panel.data.PanelFetchException
-import io.github.submark.feature.integrations.panel.data.PanelErrorReason
 import io.github.submark.feature.integrations.panel.data.PanelRepository
-import io.github.submark.feature.integrations.panel.data.SnapshotCodec
 import java.util.concurrent.TimeUnit
 
 /**
@@ -74,7 +72,7 @@ class PanelRefreshWorker @AssistedInject constructor(
         id: String,
         name: String,
         thresholdPercent: Int,
-        snapshot: io.github.submark.feature.integrations.panel.data.BudgetSnapshot,
+        snapshot: BudgetSnapshot,
         monthlyBudget: java.math.BigDecimal?,
         dailyBudget: java.math.BigDecimal?,
     ) {
