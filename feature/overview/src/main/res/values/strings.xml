@@ -5,9 +5,6 @@
     <string name="overview_subtitle">Expense management</string>
 
     <!-- ── Layout / mode / period ───────────────────── -->
-    <string name="overview_layout_modern">Modern</string>
-    <string name="overview_layout_classic">Classic</string>
-    <string name="overview_layout_switch">Switch to %1$s</string>
     <string name="overview_mode_subscriptions">Subscriptions</string>
     <string name="overview_mode_lifetime">Lifetime</string>
     <string name="overview_period_month">Month</string>
@@ -23,7 +20,6 @@
     <string name="overview_hero_paid">Paid</string>
     <string name="overview_hero_scheduled">Scheduled</string>
     <string name="overview_hero_projected">Projected total</string>
-    <string name="overview_hero_daily_avg">Daily Avg</string>
     <string name="overview_hero_added_days">Added %1$d days</string>
     <string name="overview_hero_no_projected">No projected spending this period</string>
     <string name="overview_hero_split">Paid %1$s, unpaid %2$s, projected %3$s</string>
@@ -46,11 +42,9 @@
 
     <!-- ── Categories ───────────────────────────────── -->
     <string name="overview_category_breakdown">By category</string>
-    <string name="overview_category_empty">No data yet — add subscriptions</string>
 
     <!-- ── Trend ────────────────────────────────────── -->
     <string name="overview_trend">Spending trend</string>
-    <string name="overview_trend_empty">Need two or more months of data</string>
 
     <!-- ── Wallet balances ──────────────────────────── -->
     <string name="overview_wallet_balances">Wallet balances</string>
@@ -91,15 +85,6 @@
     <string name="overview_hidden_all_action">Customize overview</string>
 
     <!-- ── Classic component names (for customization) ─ -->
-    <string name="overview_component_expenseOverview">Expense overview</string>
-    <string name="overview_component_upcomingPayments">Upcoming payments</string>
-    <string name="overview_component_recentPaid">Recently paid</string>
-    <string name="overview_component_monthlyTimeline">Monthly timeline</string>
-    <string name="overview_component_recentPaymentTimeline">Recent payment timeline</string>
-    <string name="overview_component_categoryBreakdown">By category</string>
-    <string name="overview_component_trend">Trend</string>
-    <string name="overview_component_globalWallet">Global wallets</string>
-    <string name="overview_component_priceMonitoring">Price monitoring</string>
 
     <!-- ── Modern component names (for customization) ── -->
     <string name="overview_component_spendingHero">Spending hero</string>
@@ -177,14 +162,7 @@
     <!-- ── Missing labels used across sections ────────────── -->
     <string name="overview_view_all">View all</string>
     <string name="overview_lifetime_count">%1$d purchases</string>
-    <string name="overview_expense_monthly">Monthly expense</string>
-    <string name="overview_expense_annual_est">Annual expense (estimate)</string>
     <string name="overview_financial_detail_tip">Financial detail</string>
     <string name="overview_financial_detail_link">Financial detail</string>
     <string name="overview_insights_hint">Open analytics to explore spending patterns</string>
-    <string name="overview_no_payments_7days">No payments in the past 7 days</string>
-    <string name="overview_no_payments_this_month">No payments scheduled this month</string>
-    <string name="overview_no_activity_15days">No activity in the past 15 days</string>
-    <string name="overview_badge_auto">Auto</string>
-    <string name="overview_badge_manual">Manual</string>
 </resources>

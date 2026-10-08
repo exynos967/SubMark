@@ -200,10 +200,3 @@ object PaymentProjection {
 }
 
 data class MonthlyPoint(val month: LocalDate, val total: BigDecimal)
-
-data class DailyBucket(
-    val date: LocalDate,
-    val paidTotal: BigDecimal,
-    val scheduledTotal: BigDecimal,
-    val hasOccurrences: Boolean,
-)

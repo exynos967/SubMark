@@ -2,7 +2,6 @@ package io.github.submark.feature.overview.ui.overview
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -61,10 +60,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import io.github.submark.core.data.settings.ClassicOverviewComponent
 import io.github.submark.core.data.settings.ComponentSetting
 import io.github.submark.core.data.settings.ModernOverviewComponent
-import io.github.submark.core.data.settings.OverviewLayout
 import io.github.submark.core.data.settings.SummaryPeriod
 import io.github.submark.core.data.settings.SpendingMode
 import io.github.submark.core.model.MarkTiming
@@ -121,7 +118,6 @@ fun OverviewRoute(
         onPriceMonitor = onPriceMonitor,
         onPeriodSelect = viewModel::setPeriod,
         onSpendingModeSelect = viewModel::setSpendingMode,
-        onLayoutSelect = viewModel::setLayout,
         onSelectStripDate = viewModel::selectStripDate,
         onMarkPaid = viewModel::requestMarkPaid,
         onConfirmMarkPaid = viewModel::confirmMarkPaid,
@@ -148,7 +144,6 @@ private fun OverviewScreen(
     onPriceMonitor: () -> Unit,
     onPeriodSelect: (SummaryPeriod) -> Unit,
     onSpendingModeSelect: (SpendingMode) -> Unit,
-    onLayoutSelect: (OverviewLayout) -> Unit,
     onSelectStripDate: (LocalDate) -> Unit,
     onMarkPaid: (PaymentOccurrence) -> Unit,
     onConfirmMarkPaid: (MarkTiming) -> Unit,
@@ -180,64 +175,24 @@ private fun OverviewScreen(
                 return@Column
             }
 
-            // ── Inline layout switcher (Modern | Classic) ──────────────────
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 4.dp),
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                SegmentedTabs(
-                    items = OverviewLayout.entries.toList(),
-                    selected = uiState.layout,
-                    onSelect = onLayoutSelect,
-                    modifier = Modifier.width(160.dp),
-                    label = {
-                        when (it) {
-                            OverviewLayout.MODERN -> stringResource(R.string.overview_layout_modern)
-                            OverviewLayout.CLASSIC -> stringResource(R.string.overview_layout_classic)
-                        }
-                    },
-                )
-            }
-
             // ── Body ──────────────────────────────────────────────────────
-            when {
-                uiState.layout == OverviewLayout.MODERN -> ModernBody(
-                    uiState = uiState,
-                    onPeriodSelect = onPeriodSelect,
-                    onSpendingModeSelect = onSpendingModeSelect,
-                    onMarkPaid = onMarkPaid,
-                    onSelectStripDate = onSelectStripDate,
-                    onPause = onPause,
-                    onFinancialDetail = onFinancialDetail,
-                    onWalletManagement = onWalletManagement,
-                    onWalletTopUp = onWalletTopUp,
-                    onWalletExpense = onWalletExpense,
-                    onAddSubscription = onAddSubscription,
-                    onSubscriptions = onSubscriptions,
-                    onAnalytics = onAnalytics,
-                    onPriceMonitor = onPriceMonitor,
-                    modifier = Modifier.weight(1f),
-                )
-                else -> ClassicBody(
-                    uiState = uiState,
-                    onPeriodSelect = onPeriodSelect,
-                    onSpendingModeSelect = onSpendingModeSelect,
-                    onMarkPaid = onMarkPaid,
-                    onSelectStripDate = onSelectStripDate,
-                    onPause = onPause,
-                    onFinancialDetail = onFinancialDetail,
-                    onWalletManagement = onWalletManagement,
-                    onWalletTopUp = onWalletTopUp,
-                    onWalletExpense = onWalletExpense,
-                    onSubscriptions = onSubscriptions,
-                    onAnalytics = onAnalytics,
-                    onPriceMonitor = onPriceMonitor,
-                    modifier = Modifier.weight(1f),
-                )
-            }
+            ModernBody(
+                uiState = uiState,
+                onPeriodSelect = onPeriodSelect,
+                onSpendingModeSelect = onSpendingModeSelect,
+                onMarkPaid = onMarkPaid,
+                onSelectStripDate = onSelectStripDate,
+                onPause = onPause,
+                onFinancialDetail = onFinancialDetail,
+                onWalletManagement = onWalletManagement,
+                onWalletTopUp = onWalletTopUp,
+                onWalletExpense = onWalletExpense,
+                onAddSubscription = onAddSubscription,
+                onSubscriptions = onSubscriptions,
+                onAnalytics = onAnalytics,
+                onPriceMonitor = onPriceMonitor,
+                modifier = Modifier.weight(1f),
+            )
         }
     }
 
@@ -542,58 +497,3 @@ private fun ModernBody(
     }
 }
 
-// ── Classic body ───────────────────────────────────────────────────────────────
-
-@Composable
-private fun ClassicBody(
-    uiState: OverviewUiState,
-    onPeriodSelect: (SummaryPeriod) -> Unit,
-    onSpendingModeSelect: (SpendingMode) -> Unit,
-    onMarkPaid: (PaymentOccurrence) -> Unit,
-    onSelectStripDate: (LocalDate) -> Unit,
-    onPause: (String) -> Unit,
-    onFinancialDetail: () -> Unit,
-    onWalletManagement: () -> Unit,
-    onWalletTopUp: (String) -> Unit,
-    onWalletExpense: (String) -> Unit,
-    onSubscriptions: () -> Unit,
-    onAnalytics: () -> Unit,
-    onPriceMonitor: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val mode = uiState.spendingMode
-    val comps = uiState.classicComponents.filter { it.visible }
-
-    LazyColumn(modifier = modifier) {
-        // Subscription vs Lifetime segmented switch
-        item {
-            Spacer(Modifier.height(4.dp))
-            SpendingModeSelector(selected = mode, onSelect = onSpendingModeSelect, modifier = Modifier.padding(horizontal = 16.dp))
-        }
-
-        comps.forEach { comp ->
-            when (comp.id) {
-                ClassicOverviewComponent.EXPENSE_OVERVIEW ->
-                    item { ExpenseOverviewCard(uiState, onPeriodSelect, onFinancialDetail) }
-                ClassicOverviewComponent.UPCOMING_PAYMENTS ->
-                    item { ComingUpSection(uiState, onMarkPaid, onPause) }
-                ClassicOverviewComponent.RECENT_PAID ->
-                    item { RecentlyPaidSection(uiState) }
-                ClassicOverviewComponent.MONTHLY_TIMELINE ->
-                    item { MonthlyTimelineCard(uiState) }
-                ClassicOverviewComponent.RECENT_PAYMENT_TIMELINE ->
-                    item { RecentPaymentTimelineCard(uiState, onMarkPaid) }
-                ClassicOverviewComponent.CATEGORY_BREAKDOWN ->
-                    item { CategoryBreakdownCard(uiState, onPeriodSelect) }
-                ClassicOverviewComponent.TREND ->
-                    item { TrendCard(uiState) }
-                ClassicOverviewComponent.GLOBAL_WALLET ->
-                    item { WalletSection(uiState, onWalletManagement, onWalletTopUp, onWalletExpense) }
-                ClassicOverviewComponent.PRICE_MONITORING ->
-                    item { WishlistPricesSection(uiState, onPriceMonitor) }
-            }
-        }
-
-        item { Spacer(Modifier.height(24.dp)) }
-    }
-}

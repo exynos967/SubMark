@@ -25,20 +25,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable enum class TimelinePeriod { ONE_MONTH, THREE_MONTHS, SIX_MONTHS, ONE_YEAR }
 
-@Serializable enum class OverviewLayout { MODERN, CLASSIC }
-
 @Serializable enum class SummaryPeriod { MONTH, QUARTER, YEAR }
 
 /** Subscriptions vs lifetime purchases, used by overview and analytics. */
 @Serializable enum class SpendingMode { SUBSCRIPTIONS, LIFETIME }
 
 @Serializable enum class TrendPeriod { MONTHLY, YEARLY }
-
-@Serializable
-enum class ClassicOverviewComponent {
-    EXPENSE_OVERVIEW, UPCOMING_PAYMENTS, RECENT_PAID, MONTHLY_TIMELINE, RECENT_PAYMENT_TIMELINE,
-    CATEGORY_BREAKDOWN, TREND, GLOBAL_WALLET, PRICE_MONITORING,
-}
 
 @Serializable
 enum class ModernOverviewComponent {

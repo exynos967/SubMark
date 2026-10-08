@@ -90,11 +90,8 @@ data class ComponentSetting<T>(val id: T, val visible: Boolean = true)
 
 @Serializable
 data class OverviewSettings(
-    val layout: OverviewLayout = OverviewLayout.MODERN,
     val period: SummaryPeriod = SummaryPeriod.MONTH,
     val mode: SpendingMode = SpendingMode.SUBSCRIPTIONS,
-    val classicComponents: List<ComponentSetting<ClassicOverviewComponent>> =
-        ClassicOverviewComponent.entries.map { ComponentSetting(it) },
     val modernComponents: List<ComponentSetting<ModernOverviewComponent>> =
         ModernOverviewComponent.entries.map { ComponentSetting(it) },
 )

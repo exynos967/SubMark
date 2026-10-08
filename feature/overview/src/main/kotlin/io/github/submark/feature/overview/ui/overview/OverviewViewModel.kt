@@ -4,17 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.submark.core.data.currency.CurrencyRepository
-import io.github.submark.core.data.repository.CategoryRepository
 import io.github.submark.core.data.repository.PaymentMethodRepository
 import io.github.submark.core.data.repository.SubscriptionRepository
 import io.github.submark.core.data.service.PaymentService
 import io.github.submark.core.data.service.WalletService
 import io.github.submark.core.data.service.SharedService
 import io.github.submark.core.data.service.SubscriptionService
-import io.github.submark.core.data.settings.ClassicOverviewComponent
 import io.github.submark.core.data.settings.ComponentSetting
 import io.github.submark.core.data.settings.ModernOverviewComponent
-import io.github.submark.core.data.settings.OverviewLayout
 import io.github.submark.core.data.settings.SettingsRepository
 import io.github.submark.core.data.settings.SummaryPeriod
 import io.github.submark.core.data.settings.SpendingMode
@@ -28,9 +25,7 @@ import io.github.submark.core.model.SubscriptionKind
 import io.github.submark.core.model.SubscriptionStatus
 import io.github.submark.core.ui.util.SnackbarMessage
 import io.github.submark.feature.overview.R
-import io.github.submark.feature.overview.data.DailyBucket
 import io.github.submark.feature.overview.data.PriceMonitorReader
-import io.github.submark.feature.overview.data.MonthlyPoint
 import io.github.submark.feature.overview.data.PaymentOccurrence
 import io.github.submark.feature.overview.data.PaymentProjection
 import kotlinx.coroutines.channels.Channel
@@ -54,12 +49,10 @@ import javax.inject.Inject
 /** Section visibility + order driven by settings. */
 data class OverviewUiState(
     val loading: Boolean = true,
-    val layout: OverviewLayout = OverviewLayout.MODERN,
     val period: SummaryPeriod = SummaryPeriod.MONTH,
     val spendingMode: SpendingMode = SpendingMode.SUBSCRIPTIONS,
 
     // ---- Settings-driven component lists ----
-    val classicComponents: List<ComponentSetting<ClassicOverviewComponent>> = emptyList(),
     val modernComponents: List<ComponentSetting<ModernOverviewComponent>> = emptyList(),
 
     // ---- Currency ----
@@ -71,8 +64,6 @@ data class OverviewUiState(
     val paidThisPeriod: BigDecimal = BigDecimal.ZERO,
     val scheduledThisPeriod: BigDecimal = BigDecimal.ZERO,
     val periodProjectedTotal: BigDecimal = BigDecimal.ZERO,
-    val monthlyAvg: BigDecimal = BigDecimal.ZERO,
-    val annualTotal: BigDecimal = BigDecimal.ZERO,
     val lifetimeTotal: BigDecimal = BigDecimal.ZERO,
 
     // ---- Counts ----
@@ -91,19 +82,8 @@ data class OverviewUiState(
     // ---- Recent payments ----
     val recentPayments: List<PaymentOccurrence> = emptyList(),
 
-    /** Raw occurrences map, used internally by classic cards (not exposed to UI). */
-    val rawByDate: Map<LocalDate, List<PaymentOccurrence>> = emptyMap(),
-
-    // ---- By category ----
-    val categoryBreakdown: List<CategorySpend> = emptyList(),
-
-    // ---- Trend ----
-    val monthlyTrend: List<MonthlyPoint> = emptyList(),
-    val hasEnoughTrendData: Boolean = false,
-
     // ---- Wallets ----
     val wallets: List<io.github.submark.core.model.Wallet> = emptyList(),
-    val monthlyTimeline: List<DailyBucket> = emptyList(),
 
     // ---- Price monitor summary ----
     val wishlistPriceStatus: WishlistPriceState = WishlistPriceState.EMPTY,
@@ -124,9 +104,6 @@ data class OverviewUiState(
     val annualBudget: BigDecimal? = null,
     val annualSpentYtd: BigDecimal = BigDecimal.ZERO,
     val budgetUsagePercent: Int? = null,
-
-    /** Allows showing the payment records individually (e.g. classic mode). */
-    val recentActivity: List<ActivityItem> = emptyList(),
 )
 
 data class MarkTarget(
@@ -137,17 +114,6 @@ data class MarkTarget(
     val dueDate: LocalDate,
 )
 
-data class CategorySpend(
-    val categoryId: String,
-    val categoryName: String,
-    val amount: BigDecimal,
-    val colorHex: String?,
-)
-
-sealed interface ActivityItem {
-    data class Row(val occurrence: PaymentOccurrence) : ActivityItem
-}
-
 sealed interface WishlistPriceState {
     data object EMPTY : WishlistPriceState
     data class Count(val count: Int) : WishlistPriceState
@@ -156,7 +122,6 @@ sealed interface WishlistPriceState {
 @HiltViewModel
 class OverviewViewModel @Inject constructor(
     private val subscriptions: SubscriptionRepository,
-    private val categories: CategoryRepository,
     private val paymentMethods: PaymentMethodRepository,
     private val payments: PaymentService,
     private val shared: SharedService,
@@ -190,7 +155,6 @@ class OverviewViewModel @Inject constructor(
             val (periodStart, periodEnd) = periodRange(env.settings.overview.period, env.today)
             combine(
                 subscriptions.observeAll(),
-                categories.observeAll(),
                 payments.observeBetween(periodStart.minusMonths(3), periodEnd),
                 currencies.observeCurrencies(),
                 currencies.observeConverter(),
@@ -200,18 +164,16 @@ class OverviewViewModel @Inject constructor(
                 @Suppress("UNCHECKED_CAST")
                 val subs = values[0] as List<Subscription>
                 @Suppress("UNCHECKED_CAST")
-                val cats = values[1] as List<io.github.submark.core.model.Category>
+                val payList = values[1] as List<PaymentRecord>
                 @Suppress("UNCHECKED_CAST")
-                val payList = values[2] as List<PaymentRecord>
+                val curList = values[2] as List<Currency>
                 @Suppress("UNCHECKED_CAST")
-                val curList = values[3] as List<Currency>
+                val converter = values[3] as CurrencyConverter
                 @Suppress("UNCHECKED_CAST")
-                val converter = values[4] as CurrencyConverter
+                val wallets = values[4] as List<io.github.submark.core.model.Wallet>
                 @Suppress("UNCHECKED_CAST")
-                val wallets = values[5] as List<io.github.submark.core.model.Wallet>
-                @Suppress("UNCHECKED_CAST")
-                val priceSummary = values[6] as io.github.submark.feature.overview.data.PriceMonitorSummary
-                buildState(env, subs, cats, payList, curList, converter, wallets, priceSummary)
+                val priceSummary = values[5] as io.github.submark.feature.overview.data.PriceMonitorSummary
+                buildState(env, subs, payList, curList, converter, wallets, priceSummary)
             }
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), OverviewUiState())
@@ -219,7 +181,6 @@ class OverviewViewModel @Inject constructor(
     private fun buildState(
         env: Env,
         subs: List<Subscription>,
-        cats: List<io.github.submark.core.model.Category>,
         payList: List<PaymentRecord>,
         curList: List<Currency>,
         converter: CurrencyConverter,
@@ -253,61 +214,7 @@ class OverviewViewModel @Inject constructor(
         val comingUp = PaymentProjection.comingUp(projection, today)
         val recentPayments = PaymentProjection.recentPaid(projection, today)
 
-        // Category breakdown (SUBSCRIPTIONS mode: scheduled spending this period)
-        val categoryMap = cats.associateBy { it.id }
         val subById = visible.associateBy { it.id }
-
-        val subsMode = s.overview.mode == SpendingMode.SUBSCRIPTIONS
-        val categorySpend = byDate
-            .toList()
-            .flatMap { (date, list) ->
-                list.filter { occ ->
-                    if (subsMode) {
-                        occ.scheduled && !occ.paid && occ.date in periodStart..periodEnd
-                    } else {
-                        occ.paid && occ.subscription.kind == SubscriptionKind.LIFETIME
-                    }
-                }
-            }
-            .groupBy { occ ->
-                if (occ.subscription.kind == SubscriptionKind.LIFETIME) "lifetime"
-                else occ.subscription.categoryId
-            }
-            .mapNotNull { (id, list) ->
-                val total = list.mapNotNull { it.amount }
-                    .fold(BigDecimal.ZERO) { a, b -> a + b }
-                if (total.signum() <= 0) return@mapNotNull null
-                val name = when {
-                    id == "lifetime" -> "Lifetime"
-                    else -> categoryMap[id]?.name
-                        ?: categoryMap[id]?.systemKey?.name?.let { it.lowercase().replaceFirstChar { c -> c.uppercase() } }
-                        ?: id.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
-                }
-                CategorySpend(id, name, total, categoryMap[id]?.colorHex)
-            }
-            .sortedByDescending { it.amount }
-
-        // Monthly trend: last 6 months of paid amounts
-        val trendBuckets = lastSixMonths(today)
-        val trend = trendBuckets.map { ym ->
-            val ms = ym.atDay(1)
-            val me = ym.atEndOfMonth()
-            val paid = byDate.filterKeys { it in ms..me }
-                .values.flatMap { it }.filter { it.paid }
-                .mapNotNull { it.amount }.fold(BigDecimal.ZERO) { a, b -> a + b }
-            MonthlyPoint(ms, paid)
-        }
-
-        // Monthly timeline (current calendar month, current week day by day)
-        val monthStart = YearMonth.from(today).atDay(1)
-        val monthEnd = YearMonth.from(today).atEndOfMonth()
-        val monthlyTimeline = (0..ChronoUnit.DAYS.between(monthStart, monthEnd)).map { offset ->
-            val date = monthStart.plusDays(offset)
-            val dayOccurrences = byDate[date].orEmpty()
-            val dayPaid = dayOccurrences.filter { it.paid }.mapNotNull { it.amount }.fold(BigDecimal.ZERO, BigDecimal::add)
-            val dayScheduled = dayOccurrences.filter { it.scheduled && !it.paid }.mapNotNull { it.amount }.fold(BigDecimal.ZERO, BigDecimal::add)
-            DailyBucket(date, dayPaid, dayScheduled, dayOccurrences.isNotEmpty())
-        }
 
         // Wallet balances
         val walletBalances: List<io.github.submark.core.model.Wallet> = wallets
@@ -336,30 +243,10 @@ class OverviewViewModel @Inject constructor(
             ChronoUnit.DAYS.between(LocalDate.ofInstant(firstCreated, time.zone()), today)
         } else 0L
 
-        // Annual expense = monthlyEquiv * 12 (CostCalculator approximation)
-        val annualTotal = visible
-            .filter { it.kind == SubscriptionKind.REGULAR || it.kind == SubscriptionKind.STORED_VALUE }
-            .mapNotNull { io.github.submark.core.domain.CostCalculator.monthlyOf(it) }
-            .fold(BigDecimal.ZERO, BigDecimal::add)
-            .multiply(BigDecimal(12))
-
-        val avgMonthly = visible
-            .filter { it.status == SubscriptionStatus.ACTIVE && (it.kind == SubscriptionKind.REGULAR || it.kind == SubscriptionKind.STORED_VALUE) }
-            .mapNotNull { sub -> io.github.submark.core.domain.CostCalculator.monthlyOf(sub)?.let { m -> converterSafe.convert(m, sub.currencyCode, defaultCode) } }
-            .fold(BigDecimal.ZERO, BigDecimal::add)
-
-        // Recent Activity for classic
-        val recentActivity = (recentPayments.take(30) + comingUp.take(30))
-            .distinctBy { it.subscription.id + it.date + it.payment?.id }
-            .sortedBy { it.date }
-            .map { ActivityItem.Row(it) }
-
         return OverviewUiState(
             loading = false,
-            layout = s.overview.layout,
             period = s.overview.period,
             spendingMode = s.overview.mode,
-            classicComponents = s.overview.classicComponents,
             modernComponents = s.overview.modernComponents,
             defaultCurrencyCode = defaultCode,
             currencySymbols = curList.associate { it.code to it.symbol },
@@ -367,8 +254,6 @@ class OverviewViewModel @Inject constructor(
             paidThisPeriod = paidThisPeriod,
             scheduledThisPeriod = scheduledThisPeriod,
             periodProjectedTotal = paidThisPeriod + scheduledThisPeriod,
-            monthlyAvg = avgMonthly,
-            annualTotal = annualTotal,
             lifetimeTotal = visible
                 .filter { it.kind == SubscriptionKind.LIFETIME }
                 .mapNotNull { converterSafe.convert(it.price, it.currencyCode, defaultCode) }
@@ -380,10 +265,6 @@ class OverviewViewModel @Inject constructor(
             stripSelectedDate = env.stripSelected,
             stripAgenda = env.stripSelected?.let { byDate[it].orEmpty().filter { o -> !o.paid } }.orEmpty(),
             recentPayments = recentPayments,
-            categoryBreakdown = categorySpend,
-            monthlyTrend = trend,
-            hasEnoughTrendData = trend.count { it.total.signum() > 0 } >= 2,
-            monthlyTimeline = monthlyTimeline,
             wallets = walletBalances,
             wishlistPriceStatus = when {
                 priceSummary == null || priceSummary.monitorCount == 0 -> WishlistPriceState.EMPTY
@@ -396,20 +277,12 @@ class OverviewViewModel @Inject constructor(
             annualBudget = annualBudget,
             annualSpentYtd = annualSpentYtd,
             budgetUsagePercent = budgetUsagePercent,
-            recentActivity = recentActivity,
-            rawByDate = byDate,
         )
     }
 
     fun setPeriod(period: SummaryPeriod) {
         viewModelScope.launch {
             settings.update { it.copy(overview = it.overview.copy(period = period)) }
-        }
-    }
-
-    fun setLayout(layout: OverviewLayout) {
-        viewModelScope.launch {
-            settings.update { it.copy(overview = it.overview.copy(layout = layout)) }
         }
     }
 
@@ -478,9 +351,6 @@ fun periodRange(period: SummaryPeriod, today: LocalDate): Pair<LocalDate, LocalD
     }
     SummaryPeriod.YEAR -> LocalDate.of(today.year, 1, 1) to LocalDate.of(today.year, 12, 31)
 }
-
-private fun lastSixMonths(today: LocalDate): List<YearMonth> =
-    (5 downTo 0).map { YearMonth.from(today).minusMonths(it.toLong()) }
 
 /** Pure preview math (for tests): added-days, active count. */
 

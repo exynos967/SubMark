@@ -5,9 +5,6 @@
     <string name="overview_subtitle">费用管理</string>
 
     <!-- ── Layout / mode / period ───────────────────── -->
-    <string name="overview_layout_modern">新版</string>
-    <string name="overview_layout_classic">经典</string>
-    <string name="overview_layout_switch">切换到%1$s</string>
     <string name="overview_mode_subscriptions">订阅</string>
     <string name="overview_mode_lifetime">买断</string>
     <string name="overview_period_month">月</string>
@@ -23,7 +20,6 @@
     <string name="overview_hero_paid">已支付</string>
     <string name="overview_hero_scheduled">已计划</string>
     <string name="overview_hero_projected">预计总计</string>
-    <string name="overview_hero_daily_avg">日均</string>
     <string name="overview_hero_added_days">已添加 %1$d 天</string>
     <string name="overview_hero_no_projected">本周期无预计支出</string>
     <string name="overview_hero_split">已支付 %1$s，未支付 %2$s，预计 %3$s</string>
@@ -46,11 +42,9 @@
 
     <!-- ── Categories ───────────────────────────────── -->
     <string name="overview_category_breakdown">按类别</string>
-    <string name="overview_category_empty">暂无数据——请先添加订阅</string>
 
     <!-- ── Trend ────────────────────────────────────── -->
     <string name="overview_trend">支出趋势</string>
-    <string name="overview_trend_empty">需要至少两个月数据</string>
 
     <!-- ── Wallet balances ──────────────────────────── -->
     <string name="overview_wallet_balances">钱包余额</string>
@@ -91,15 +85,6 @@
     <string name="overview_hidden_all_action">自定义概览</string>
 
     <!-- ── Classic component names (for customization) ─ -->
-    <string name="overview_component_expenseOverview">支出概览</string>
-    <string name="overview_component_upcomingPayments">即将付款</string>
-    <string name="overview_component_recentPaid">最近已付</string>
-    <string name="overview_component_monthlyTimeline">本月时间线</string>
-    <string name="overview_component_recentPaymentTimeline">最近付款时间线</string>
-    <string name="overview_component_categoryBreakdown">按类别</string>
-    <string name="overview_component_trend">趋势</string>
-    <string name="overview_component_globalWallet">全局钱包</string>
-    <string name="overview_component_priceMonitoring">价格监控</string>
 
     <!-- ── Modern component names (for customization) ── -->
     <string name="overview_component_spendingHero">支出总览</string>
@@ -177,14 +162,7 @@
     <!-- ── Missing labels used across sections ────────────── -->
     <string name="overview_view_all">查看全部</string>
     <string name="overview_lifetime_count">%1$d 个购买</string>
-    <string name="overview_expense_monthly">月支出</string>
-    <string name="overview_expense_annual_est">年支出（预估）</string>
     <string name="overview_financial_detail_tip">财务详情</string>
     <string name="overview_financial_detail_link">财务详情</string>
     <string name="overview_insights_hint">打开分析以探索支出规律</string>
-    <string name="overview_no_payments_7days">过去7天无付款</string>
-    <string name="overview_no_payments_this_month">本月无计划付款</string>
-    <string name="overview_no_activity_15days">过去15天无活动</string>
-    <string name="overview_badge_auto">自动</string>
-    <string name="overview_badge_manual">手动</string>
 </resources>

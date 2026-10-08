@@ -47,13 +47,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import io.github.submark.core.data.settings.ClassicOverviewComponent
 import io.github.submark.core.data.settings.ComponentSetting
 import io.github.submark.core.data.settings.ModernOverviewComponent
-import io.github.submark.core.data.settings.OverviewLayout
 import io.github.submark.core.ui.component.DragHandleIcon
 import io.github.submark.core.ui.component.ReorderableItemsColumn
-import io.github.submark.core.ui.component.SegmentedTabs
 import io.github.submark.feature.overview.ui.customize.OverviewPreset
 import io.github.submark.core.ui.component.SubMarkTopAppBar
 import io.github.submark.core.ui.theme.SubMarkTheme
@@ -68,7 +65,6 @@ fun OverviewCustomizationRoute(
     OverviewCustomizationScreen(
         uiState = uiState,
         onBack = onBack,
-        onLayoutSelect = viewModel::setLayout,
         onToggleVisible = viewModel::toggleVisible,
         onMove = viewModel::move,
         onApplyPreset = viewModel::applyPreset,
@@ -81,8 +77,7 @@ fun OverviewCustomizationRoute(
 private fun OverviewCustomizationScreen(
     uiState: OverviewCustomizationUiState,
     onBack: () -> Unit,
-    onLayoutSelect: (OverviewLayout) -> Unit,
-    onToggleVisible: (ComponentSetting<*>, Boolean) -> Unit,
+    onToggleVisible: (ComponentSetting<ModernOverviewComponent>, Boolean) -> Unit,
     onMove: (from: Int, to: Int) -> Unit,
     onApplyPreset: (OverviewPreset) -> Unit,
     onResetOrder: () -> Unit,
@@ -104,28 +99,6 @@ private fun OverviewCustomizationScreen(
                 .padding(innerPadding),
             contentPadding = androidx.compose.foundation.layout.PaddingValues(16.dp),
         ) {
-            // ── Layout selection ────────────────────────────────────────────
-            item {
-                Text(
-                    stringResource(R.string.overview_layout_modern) + " / " + stringResource(R.string.overview_layout_classic),
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                Spacer(Modifier.height(8.dp))
-                SegmentedTabs(
-                    items = OverviewLayout.entries.toList(),
-                    selected = uiState.layout,
-                    onSelect = onLayoutSelect,
-                    label = {
-                        when (it) {
-                            OverviewLayout.MODERN -> stringResource(R.string.overview_layout_modern)
-                            OverviewLayout.CLASSIC -> stringResource(R.string.overview_layout_classic)
-                        }
-                    },
-                )
-                Spacer(Modifier.height(16.dp))
-            }
-
             // ── Presets ──────────────────────────────────────────────────────
             item {
                 Row(
@@ -179,7 +152,6 @@ private fun OverviewCustomizationScreen(
                         item = item,
                         onToggle = { visible -> onToggleVisible(item, visible) },
                         dragHandle = dragHandle,
-                        layout = uiState.layout,
                     )
                 }
             }
@@ -208,13 +180,12 @@ private fun PresetButton(
 
 @Composable
 private fun ComponentRow(
-    item: ComponentSetting<*>,
+    item: ComponentSetting<ModernOverviewComponent>,
     onToggle: (Boolean) -> Unit,
     dragHandle: Modifier,
-    layout: OverviewLayout,
     modifier: Modifier = Modifier,
 ) {
-    val componentName = componentName(item.id as Any, layout)
+    val componentName = componentName(item.id)
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
@@ -239,32 +210,15 @@ private fun ComponentRow(
 }
 
 @Composable
-private fun componentName(id: Any, layout: OverviewLayout): String {
-    return when {
-        layout == OverviewLayout.MODERN -> when (id as? ModernOverviewComponent) {
-            ModernOverviewComponent.SPENDING_HERO -> stringResource(R.string.overview_component_spendingHero)
-            ModernOverviewComponent.COMING_UP -> stringResource(R.string.overview_component_comingUp)
-            ModernOverviewComponent.PAYMENT_SCHEDULE -> stringResource(R.string.overview_component_paymentSchedule)
-            ModernOverviewComponent.RECENT_PAYMENTS -> stringResource(R.string.overview_component_recentPayments)
-            ModernOverviewComponent.WALLET_BALANCES -> stringResource(R.string.overview_component_walletBalances)
-            ModernOverviewComponent.WISHLIST_PRICES -> stringResource(R.string.overview_component_wishlistPrices)
-            ModernOverviewComponent.MY_SUBSCRIPTIONS -> stringResource(R.string.overview_component_mySubscriptions)
-            ModernOverviewComponent.SPENDING_INSIGHTS -> stringResource(R.string.overview_component_spendingInsights)
-            else -> id.toString()
-        }
-        else -> when (id as? ClassicOverviewComponent) {
-            ClassicOverviewComponent.EXPENSE_OVERVIEW -> stringResource(R.string.overview_component_expenseOverview)
-            ClassicOverviewComponent.UPCOMING_PAYMENTS -> stringResource(R.string.overview_component_upcomingPayments)
-            ClassicOverviewComponent.RECENT_PAID -> stringResource(R.string.overview_component_recentPaid)
-            ClassicOverviewComponent.MONTHLY_TIMELINE -> stringResource(R.string.overview_component_monthlyTimeline)
-            ClassicOverviewComponent.RECENT_PAYMENT_TIMELINE -> stringResource(R.string.overview_component_recentPaymentTimeline)
-            ClassicOverviewComponent.CATEGORY_BREAKDOWN -> stringResource(R.string.overview_component_categoryBreakdown)
-            ClassicOverviewComponent.TREND -> stringResource(R.string.overview_component_trend)
-            ClassicOverviewComponent.GLOBAL_WALLET -> stringResource(R.string.overview_component_globalWallet)
-            ClassicOverviewComponent.PRICE_MONITORING -> stringResource(R.string.overview_component_priceMonitoring)
-            else -> id.toString()
-        }
-    }
+private fun componentName(id: ModernOverviewComponent): String = when (id) {
+    ModernOverviewComponent.SPENDING_HERO -> stringResource(R.string.overview_component_spendingHero)
+    ModernOverviewComponent.COMING_UP -> stringResource(R.string.overview_component_comingUp)
+    ModernOverviewComponent.PAYMENT_SCHEDULE -> stringResource(R.string.overview_component_paymentSchedule)
+    ModernOverviewComponent.RECENT_PAYMENTS -> stringResource(R.string.overview_component_recentPayments)
+    ModernOverviewComponent.WALLET_BALANCES -> stringResource(R.string.overview_component_walletBalances)
+    ModernOverviewComponent.WISHLIST_PRICES -> stringResource(R.string.overview_component_wishlistPrices)
+    ModernOverviewComponent.MY_SUBSCRIPTIONS -> stringResource(R.string.overview_component_mySubscriptions)
+    ModernOverviewComponent.SPENDING_INSIGHTS -> stringResource(R.string.overview_component_spendingInsights)
 }
 
 @Composable
