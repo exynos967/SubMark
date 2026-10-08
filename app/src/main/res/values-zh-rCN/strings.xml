@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SubMark</string>
+    <string name="tab_overview">概览</string>
+    <string name="tab_subscriptions">订阅</string>
+    <string name="tab_calendar">日历</string>
+    <string name="tab_analytics">统计</string>
+    <string name="tab_panel">面板</string>
+    <string name="tab_settings">设置</string>
+    <string name="action_search">搜索</string>
+    <string name="list_separator">、</string>
+    <string name="startup_alert_title">离开期间的变化</string>
+    <plurals name="startup_alert_expired">
+        <item quantity="other">%1$d 个订阅已到结束日期并自动暂停：%2$s</item>
+    </plurals>
+    <string name="startup_alert_trials">免费试用已结束，请决定后续续费方式：%1$s</string>
+    <string name="startup_alert_wallet">自动付款无法从关联钱包扣款：%1$s</string>
+    <string name="startup_alert_review_trial">去处理</string>
+    <string name="startup_alert_later">稍后</string>
 </resources>
