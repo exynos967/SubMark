@@ -1,6 +1,7 @@
 package io.github.submark.feature.overview.ui.search
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material.icons.rounded.History
@@ -116,7 +118,10 @@ private fun GlobalSearchScreen(
 
             // Scope tabs
             Row(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 SearchScope.entries.forEach { scope ->
@@ -124,7 +129,7 @@ private fun GlobalSearchScreen(
                     androidx.compose.material3.FilterChip(
                         selected = isSelected,
                         onClick = { onScopeChange(scope) },
-                        label = { Text(stringResource(scope.labelRes)) },
+                        label = { Text(stringResource(scope.labelRes), maxLines = 1) },
                     )
                 }
             }

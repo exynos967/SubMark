@@ -110,7 +110,7 @@
     <string name="ui_status_active">Active</string>
     <string name="ui_status_paused">Paused</string>
     <string name="ui_renewal_auto">Auto-renew</string>
-    <string name="ui_renewal_manual">Manual renewal</string>
+    <string name="ui_renewal_manual">Manual</string>
     <string name="ui_renewal_trial">Free trial</string>
     <string name="ui_payment_status_success">Paid</string>
     <string name="ui_payment_status_pending">Pending</string>
