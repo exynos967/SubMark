@@ -275,7 +275,8 @@ private fun TrendSection(
                 val symbol = uiState.currencySymbols[uiState.defaultCurrencyCode]
                 val entries = uiState.trendBuckets.map { bucket ->
                     ChartEntry(
-                        label = bucket.label?.let { DateLabels.formatYearMonth(it.atDay(1)) }
+                        // Six full "2026年5月" labels don't fit the axis; the selected-point readout keeps the year.
+                        label = bucket.label?.let { DateLabels.formatMonth(it.atDay(1)) }
                             ?: bucket.year?.toString().orEmpty(),
                         value = bucket.total.toDouble(),
                     )

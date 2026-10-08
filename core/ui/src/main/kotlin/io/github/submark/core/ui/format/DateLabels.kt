@@ -68,6 +68,10 @@ object DateLabels {
     fun formatMonthDay(date: LocalDate, locale: Locale = Locale.getDefault()): String =
         DateTimeFormatter.ofPattern(if (locale.language == "zh") "M月d日" else "MMM d", locale).format(date)
 
+    /** "Mar" / "3月", for compact chart axes. */
+    fun formatMonth(date: LocalDate, locale: Locale = Locale.getDefault()): String =
+        DateTimeFormatter.ofPattern(if (locale.language == "zh") "M月" else "MMM", locale).format(date)
+
     /** "Mar 2026" / "2026年3月". */
     fun formatYearMonth(date: LocalDate, locale: Locale = Locale.getDefault()): String =
         DateTimeFormatter.ofPattern(if (locale.language == "zh") "yyyy年M月" else "MMM yyyy", locale).format(date)

@@ -164,12 +164,16 @@ internal fun MetricsSection(state: DetailUiState, content: DetailContent) {
                 tiles += { m ->
                     MetricTile(
                         stringResource(R.string.subscriptions_detail_metric_current_period),
-                        // Drop the start year when both ends share it, so the range fits on one line.
-                        stringResource(
-                            R.string.subscriptions_detail_range,
-                            if (period.start.year == period.end.year) DateLabels.formatMonthDay(period.start) else formatDay(period.start),
-                            formatDay(period.end),
-                        ),
+                        // The current period contains today, so a shared year adds nothing; dropping it keeps one line.
+                        if (period.start.year == period.end.year) {
+                            stringResource(
+                                R.string.subscriptions_detail_range,
+                                DateLabels.formatMonthDay(period.start),
+                                DateLabels.formatMonthDay(period.end),
+                            )
+                        } else {
+                            stringResource(R.string.subscriptions_detail_range, formatDay(period.start), formatDay(period.end))
+                        },
                         m,
                     )
                 }
