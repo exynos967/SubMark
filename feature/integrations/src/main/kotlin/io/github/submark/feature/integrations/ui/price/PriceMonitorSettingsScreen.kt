@@ -116,12 +116,12 @@ fun PriceMonitorSettingsScreen(
                         onValueChange = { onThreshold(it.toInt()) },
                         valueRange = 1f..50f,
                     )
-                    SettingsValueRow(
-                        title = stringResource(R.string.integrations_price_store_region),
-                        value = "${CountryCatalog.nameOf(state.storeRegion)} (${state.storeRegion})",
-                        onClick = { showRegionPicker.value = true },
-                    )
                 }
+                SettingsValueRow(
+                    title = stringResource(R.string.integrations_price_store_region),
+                    value = "${CountryCatalog.nameOf(state.storeRegion)} (${state.storeRegion})",
+                    onClick = { showRegionPicker.value = true },
+                )
             }
             SettingsGroup(title = stringResource(R.string.integrations_price_group_notifications)) {
                 SettingsValueRow(
@@ -130,9 +130,10 @@ fun PriceMonitorSettingsScreen(
                         if (state.notificationsAllowed) {
                             R.string.integrations_price_notifications_ready
                         } else {
-                            R.string.integrations_price_notifications_denied
+                            R.string.integrations_price_notifications_denied_short
                         },
                     ),
+                    subtitle = if (state.notificationsAllowed) null else stringResource(R.string.integrations_price_notifications_denied),
                 )
                 Column(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
                     Button(onClick = onTestNotification, modifier = Modifier.fillMaxWidth()) {

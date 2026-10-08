@@ -113,6 +113,7 @@
     <string name="integrations_price_notification_status">通知权限</string>
     <string name="integrations_price_notifications_ready">正常</string>
     <string name="integrations_price_notifications_denied">已被拒绝，请在系统设置中允许通知</string>
+    <string name="integrations_price_notifications_denied_short">已拒绝</string>
     <string name="integrations_price_test_notification">发送测试通知</string>
     <string name="integrations_price_run_now">立即运行检查</string>
     <string name="integrations_price_run_scheduled">已安排检查</string>

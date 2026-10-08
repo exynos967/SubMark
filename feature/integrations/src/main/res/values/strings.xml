@@ -113,6 +113,7 @@
     <string name="integrations_price_notification_status">Notification permission</string>
     <string name="integrations_price_notifications_ready">Ready</string>
     <string name="integrations_price_notifications_denied">Denied — allow notifications in system settings</string>
+    <string name="integrations_price_notifications_denied_short">Denied</string>
     <string name="integrations_price_test_notification">Send test notification</string>
     <string name="integrations_price_run_now">Run a check now</string>
     <string name="integrations_price_run_scheduled">Check scheduled</string>
