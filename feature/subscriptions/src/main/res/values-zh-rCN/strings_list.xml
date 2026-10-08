@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="subscriptions_list_title">订阅</string>
+    <string name="subscriptions_list_add">添加订阅</string>
+    <string name="subscriptions_list_segment_subscriptions">订阅</string>
+    <string name="subscriptions_list_segment_lifetime">买断</string>
+    <string name="subscriptions_list_segment_wishlist">心愿单</string>
+    <string name="subscriptions_list_search_placeholder">按名称、备注或标签搜索</string>
+    <string name="subscriptions_list_open_archive">打开归档</string>
+    <string name="subscriptions_list_sort">排序</string>
+    <string name="subscriptions_list_sort_name">名称</string>
+    <string name="subscriptions_list_sort_price">价格</string>
+    <string name="subscriptions_list_sort_date">日期</string>
+    <string name="subscriptions_list_show_grid">网格显示</string>
+    <string name="subscriptions_list_show_list">列表显示</string>
+    <string name="subscriptions_list_more">更多选项</string>
+    <string name="subscriptions_list_manage_categories">管理分类</string>
+    <string name="subscriptions_list_manage_tags">管理标签</string>
+    <string name="subscriptions_list_manage_fields">自定义字段</string>
+    <string name="subscriptions_list_summary_count">数量</string>
+    <string name="subscriptions_list_summary_monthly">每月</string>
+    <string name="subscriptions_list_summary_annual">每年</string>
+    <string name="subscriptions_list_summary_average">平均每项</string>
+    <string name="subscriptions_list_summary_total">累计花费</string>
+    <string name="subscriptions_list_summary_planned">计划总额</string>
+    <string name="subscriptions_list_summary_none">—</string>
+    <string name="subscriptions_list_summary_missing_rates">未计入（缺少汇率）：%1$s</string>
+    <string name="subscriptions_list_tag_filter">标签</string>
+    <plurals name="subscriptions_list_tag_filter_count">
+        <item quantity="other">%d 个标签</item>
+    </plurals>
+    <string name="subscriptions_list_tag_filter_title">按标签筛选</string>
+    <string name="subscriptions_list_tag_filter_empty">还没有标签，可以在“管理标签”中创建。</string>
+    <string name="subscriptions_list_category_all">全部</string>
+    <plurals name="subscriptions_list_result_count">
+        <item quantity="other">%d 个结果</item>
+    </plurals>
+    <string name="subscriptions_list_clear_filters">清除筛选</string>
+    <string name="subscriptions_list_empty_title">这里还是空的</string>
+    <string name="subscriptions_list_empty_message">记录第一个订阅，看看每月花了多少。</string>
+    <string name="subscriptions_list_empty_lifetime_message">添加的一次性买断会显示在这里。</string>
+    <string name="subscriptions_list_empty_wishlist_message">把打算购买的东西先存起来。</string>
+    <string name="subscriptions_list_no_match_title">没有匹配项</string>
+    <string name="subscriptions_list_no_match_message">换个关键词，或去掉一些筛选条件。</string>
+    <string name="subscriptions_list_free">免费</string>
+    <string name="subscriptions_list_date_next">下次 %1$s</string>
+    <string name="subscriptions_list_date_end">%1$s 到期</string>
+    <string name="subscriptions_list_date_bought">%1$s 购买</string>
+    <string name="subscriptions_list_action_mark_paid">标记为已付款</string>
+    <string name="subscriptions_list_action_pause">暂停</string>
+    <string name="subscriptions_list_action_activate">启用</string>
+    <string name="subscriptions_list_action_copy_note">复制备注</string>
+    <string name="subscriptions_list_note_copied">备注已复制</string>
+    <string name="subscriptions_list_marked_paid">已将“%1$s”标记为已付款</string>
+    <string name="subscriptions_list_paused">已暂停“%1$s”</string>
+    <string name="subscriptions_list_activated">“%1$s”已重新启用</string>
+    <string name="subscriptions_list_deleted">已删除“%1$s”</string>
+    <string name="subscriptions_list_pause_title">暂停“%1$s”？</string>
+    <string name="subscriptions_list_pause_message">提醒将停止，也不会再自动记录付款，直到你重新启用。</string>
+    <string name="subscriptions_list_pause_message_archive">提醒将停止，也不会再自动记录付款。它会移入归档，直到你重新启用。</string>
+    <string name="subscriptions_list_activate_title">启用“%1$s”？</string>
+    <string name="subscriptions_list_activate_message">恢复计费。错过的日期不会补扣，已过期的下次付款日会顺延到今天之后的第一个日期。</string>
+    <string name="subscriptions_list_delete_title">删除“%1$s”？</string>
+    <string name="subscriptions_list_delete_message">它的付款记录和详细信息都会被删除，且无法恢复。</string>
+    <plurals name="subscriptions_list_delete_children">
+        <item quantity="other">组合中包含的 %d 个子订阅也会被删除。</item>
+    </plurals>
+    <string name="subscriptions_list_delete_wallet_message">部分付款是从钱包扣除的。要保留这些钱包记录，还是退回到钱包？</string>
+    <string name="subscriptions_list_delete_keep">删除并保留钱包记录</string>
+    <string name="subscriptions_list_delete_reverse">删除并退款到钱包</string>
+
+    <string name="subscriptions_archive_title">归档</string>
+    <string name="subscriptions_archive_title_lifetime">买断归档</string>
+    <string name="subscriptions_archive_subtitle">已暂停的订阅</string>
+    <string name="subscriptions_archive_subtitle_lifetime">不再使用的买断项目</string>
+    <string name="subscriptions_archive_search">搜索归档</string>
+    <string name="subscriptions_archive_empty_title">归档是空的</string>
+    <string name="subscriptions_archive_empty_message">暂停的项目会放在这里，免得占用列表。</string>
+    <string name="subscriptions_archive_paused">已暂停</string>
+    <string name="subscriptions_archive_paused_on">暂停于 %1$s</string>
+    <string name="subscriptions_archive_restore">恢复</string>
+    <string name="subscriptions_archive_restore_title">恢复“%1$s”？</string>
+    <string name="subscriptions_archive_restore_message">它将重新启用，新的计费周期从今天开始，因此今天就有一笔待付款。已经过去的结束日期会被清除。</string>
+    <string name="subscriptions_archive_restore_message_lifetime">它会回到正在使用的买断列表。已经过去的结束日期会被清除。</string>
+    <string name="subscriptions_archive_restored">已恢复“%1$s”</string>
+
+    <string name="subscriptions_folder_title">文件夹</string>
+    <plurals name="subscriptions_folder_count">
+        <item quantity="other">%d 个订阅</item>
+    </plurals>
+    <string name="subscriptions_folder_per_month">每月</string>
+    <string name="subscriptions_folder_not_found">该文件夹已不存在</string>
+    <string name="subscriptions_folder_empty_title">没有匹配的订阅</string>
+    <string name="subscriptions_folder_empty_message">带有该文件夹标签的订阅会显示在这里。</string>
+    <string name="subscriptions_folder_stat_count">数量</string>
+    <string name="subscriptions_folder_stat_monthly">每月</string>
+    <string name="subscriptions_folder_stat_one_time">一次性</string>
+    <string name="subscriptions_folder_match_any">匹配任一标签</string>
+    <string name="subscriptions_folder_match_all">匹配全部标签</string>
+    <string name="subscriptions_folder_no_tags">无标签</string>
+    <plurals name="subscriptions_folder_tags_more">
+        <item quantity="other">%1$s 及另外 %2$d 个</item>
+    </plurals>
+</resources>

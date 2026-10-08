@@ -1,0 +1,35 @@
+{
+  "title": "Terms of use",
+  "updated": "2026-10-01",
+  "intro": "By using SubMark you agree to these terms. They are short because the app is free and runs on your device.",
+  "sections": [
+    {
+      "title": "License",
+      "content": "SubMark is open-source software released under the MIT License. You may use, copy, modify and distribute it under the terms of that license, which is included with the source code."
+    },
+    {
+      "title": "No warranty",
+      "content": "The app is provided \"as is\", without warranty of any kind. Dates, totals, exchange rates and reminders are calculated to help you, but they may be incomplete or wrong. Always confirm charges with the service or your bank."
+    },
+    {
+      "title": "Your data",
+      "content": "You are responsible for your data and its backups. The authors cannot access or recover it."
+    },
+    {
+      "title": "Third-party services",
+      "content": "Optional features connect to services run by others, such as exchange-rate providers, AI providers, RAWG or your WebDAV host. Your use of those services, including any API keys you supply and costs they charge, is governed by their own terms."
+    },
+    {
+      "title": "Trademarks",
+      "content": "Names and logos of subscription services shown in the app belong to their owners. SubMark is not affiliated with or endorsed by them, or by Apple or Google."
+    },
+    {
+      "title": "Liability",
+      "content": "To the extent permitted by law, the authors are not liable for any loss arising from use of the app, including missed or duplicated payments."
+    },
+    {
+      "title": "Changes",
+      "content": "These terms may be updated with new versions of the app. Continuing to use a new version means you accept the updated terms."
+    }
+  ]
+}

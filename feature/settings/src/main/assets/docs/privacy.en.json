@@ -1,0 +1,31 @@
+{
+  "title": "Privacy policy",
+  "updated": "2026-10-01",
+  "intro": "SubMark is built so that your subscription data stays with you. This policy explains what the app stores and when it connects to the internet.",
+  "sections": [
+    {
+      "title": "No accounts, no tracking",
+      "content": "SubMark has no user accounts and no server of its own. It contains no analytics, advertising or crash-reporting libraries, and it does not sell or share data."
+    },
+    {
+      "title": "What is stored on your device",
+      "content": "Subscriptions, payments, categories, tags, wallets, reminders, settings and any photos or icons you add are stored in the app's private storage. Passwords and API keys you enter are encrypted with a key held in the Android Keystore and are excluded from exports and Android backups."
+    },
+    {
+      "title": "When SubMark goes online",
+      "content": "The app only contacts other services for features you use:\n• Exchange rates: Frankfurter and public mirrors of the fawazahmed0 currency data (jsDelivr, pages.dev).\n• Icons: website favicons and App Store artwork for the icons you search for.\n• Price monitoring: Apple's public iTunes lookup service for apps you choose to watch.\n• AI recognition: the AI provider and endpoint you configure, which receives the image you submit.\n• Game artwork: RAWG, using your own API key.\n• Subscription catalogues: the catalogue URLs you add.\n• Backup: your own WebDAV server.\nThese requests carry only what the feature needs (for example a currency code, an app ID or the image you chose). Each service handles requests under its own privacy policy."
+    },
+    {
+      "title": "Permissions",
+      "content": "Notifications are used for payment reminders and alerts. Calendar access is requested only if you turn on calendar sync. Images are picked through the system photo picker. SubMark does not request location, contacts or microphone access."
+    },
+    {
+      "title": "Your control",
+      "content": "You can export your data at any time, delete individual items, or erase everything from Data management. Uninstalling the app removes all local data."
+    },
+    {
+      "title": "Changes and contact",
+      "content": "Changes to this policy ship with app updates and are visible in the public source repository, where you can also ask questions by opening an issue."
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <!--
+            Launcher entries. Exactly one alias is enabled at a time (see AppIconManager);
+            MainActivity itself must not declare a MAIN/LAUNCHER intent filter.
+        -->
+        <activity-alias
+            android:name="io.github.submark.LauncherDefault"
+            android:enabled="true"
+            android:exported="true"
+            android:icon="@mipmap/settings_ic_launcher_default"
+            android:roundIcon="@mipmap/settings_ic_launcher_default"
+            android:targetActivity="io.github.submark.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name="io.github.submark.LauncherStyle1"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/settings_ic_launcher_style1"
+            android:roundIcon="@mipmap/settings_ic_launcher_style1"
+            android:targetActivity="io.github.submark.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name="io.github.submark.LauncherStyle2"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/settings_ic_launcher_style2"
+            android:roundIcon="@mipmap/settings_ic_launcher_style2"
+            android:targetActivity="io.github.submark.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name="io.github.submark.LauncherStyle3"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/settings_ic_launcher_style3"
+            android:roundIcon="@mipmap/settings_ic_launcher_style3"
+            android:targetActivity="io.github.submark.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <!-- Persists the per-app language chosen in Appearance on API < 33 (AppCompat). -->
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false"
+            android:exported="false">
+            <meta-data
+                android:name="autoStoreLocales"
+                android:value="true" />
+        </service>
+    </application>
+</manifest>

@@ -42,6 +42,8 @@ data class DisplaySettings(
     val appIcon: AppIcon = AppIcon.DEFAULT,
     val animatedBackground: Boolean = true,
     val haptics: Boolean = true,
+    /** Material You wallpaper colors on API 31+. */
+    val dynamicColor: Boolean = true,
 )
 
 @Serializable

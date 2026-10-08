@@ -1,0 +1,96 @@
+{
+  "title": "FAQ",
+  "updated": "2026-10-01",
+  "intro": "Short answers to the questions people ask most about SubMark.",
+  "sections": [
+    {
+      "title": "Getting started",
+      "items": [
+        {
+          "question": "What is SubMark?",
+          "answer": "A free, open-source app for tracking subscriptions, one-time purchases and free trials. It shows what is due next and what you spend per month and per year."
+        },
+        {
+          "question": "Do I need an account?",
+          "answer": "No. There is no sign-up and no SubMark server. Everything you enter is stored on your device."
+        },
+        {
+          "question": "How do I add a subscription?",
+          "answer": "Tap the add button on the Subscriptions tab. Enter a name, price and billing cycle; the next payment date is calculated for you. You can turn optional form sections on or off in Settings > Customization."
+        },
+        {
+          "question": "What is the difference between pausing and archiving?",
+          "answer": "A paused subscription stops generating payments. With archive mode on (Settings > Customization), paused subscriptions also leave the main list and appear in the archive, where you can restore them."
+        }
+      ]
+    },
+    {
+      "title": "Reminders",
+      "items": [
+        {
+          "question": "Why did I not get a reminder?",
+          "answer": "Check that notifications are allowed for SubMark and turned on in Settings > Notifications. Some phones delay alarms to save battery; allowing SubMark to run unrestricted in the system battery settings usually helps."
+        },
+        {
+          "question": "Can I set different reminders per subscription?",
+          "answer": "Yes. Open a subscription and add custom reminders with their own days-before and time. Otherwise the defaults from Settings > Notifications apply."
+        },
+        {
+          "question": "What happens with auto-renewing subscriptions?",
+          "answer": "When an auto-renewing payment date passes, SubMark records the payment and moves to the next date the next time the app runs."
+        }
+      ]
+    },
+    {
+      "title": "Money and currencies",
+      "items": [
+        {
+          "question": "Which currency are totals shown in?",
+          "answer": "Your default currency, set in Settings > Region and currency. Other currencies are converted with the latest exchange rates SubMark has downloaded."
+        },
+        {
+          "question": "Where do exchange rates come from?",
+          "answer": "From free public sources (Frankfurter, with community-maintained mirrors as fallback). You can also enter a fixed rate for any currency or add your own custom currency."
+        },
+        {
+          "question": "What are wallets for?",
+          "answer": "Wallets let you track a balance, such as a prepaid card or a credit line. Payments linked to a wallet are deducted automatically, and reversing a payment refunds the wallet."
+        }
+      ]
+    },
+    {
+      "title": "Data and backup",
+      "items": [
+        {
+          "question": "How do I move my data to a new phone?",
+          "answer": "Export a backup file in Settings > Data management and import it on the new phone, or back up to your own WebDAV server and restore from there."
+        },
+        {
+          "question": "Are passwords and API keys included in backups?",
+          "answer": "No. Secrets such as WebDAV passwords and API keys stay encrypted on the device and are never written to exports. Re-enter them after restoring."
+        },
+        {
+          "question": "Can I delete everything?",
+          "answer": "Yes. Data management has an option to erase all data. This cannot be undone, so export a backup first if you might need it."
+        }
+      ]
+    },
+    {
+      "title": "Privacy and security",
+      "items": [
+        {
+          "question": "Does SubMark collect analytics?",
+          "answer": "No. SubMark has no analytics, ads or tracking."
+        },
+        {
+          "question": "Can I protect the app with a passcode?",
+          "answer": "Yes. Settings > Security lets you set a 4-digit passcode and, on supported devices, unlock with your fingerprint or face. The app locks on start and after 30 seconds in the background."
+        },
+        {
+          "question": "I forgot my passcode. What now?",
+          "answer": "The passcode cannot be recovered. Clearing the app's storage in Android settings removes the lock together with all local data, so keep a recent backup."
+        }
+      ]
+    }
+  ]
+}

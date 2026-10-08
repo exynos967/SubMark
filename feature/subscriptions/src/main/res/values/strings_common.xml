@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Data errors -->
+    <string name="subscriptions_error_not_found">This item no longer exists.</string>
+    <plurals name="subscriptions_error_in_use">
+        <item quantity="one">Still used by %d item.</item>
+        <item quantity="other">Still used by %d items.</item>
+    </plurals>
+    <string name="subscriptions_error_duplicate_app_id">“%1$s” already uses this App Store app.</string>
+    <string name="subscriptions_error_insufficient_funds">The linked wallet doesn\'t have enough balance.</string>
+    <string name="subscriptions_error_rate_unavailable">No exchange rate available for %1$s.</string>
+    <string name="subscriptions_error_unsupported_currency">The currency %1$s is not supported.</string>
+    <string name="subscriptions_error_stale">The subscription changed in the meantime. Please review it and try again.</string>
+    <string name="subscriptions_error_network">Network request failed.</string>
+    <string name="subscriptions_error_blank_name">Please enter a name.</string>
+    <string name="subscriptions_error_name_exists">That name is already taken.</string>
+    <string name="subscriptions_error_negative_amount">The amount can\'t be negative.</string>
+    <string name="subscriptions_error_non_positive_amount">The amount must be greater than zero.</string>
+    <string name="subscriptions_error_end_not_after_start">The end date must be at least one day after the start date.</string>
+    <string name="subscriptions_error_cycle_required">Choose a billing cycle.</string>
+    <string name="subscriptions_error_custom_cycle_required">Enter a custom cycle length of at least 1.</string>
+    <string name="subscriptions_error_single_cycle_requires_end">A single-cycle plan needs an end date.</string>
+    <string name="subscriptions_error_trial_fields_required">Set the trial start date and the number of trial days.</string>
+    <string name="subscriptions_error_fixed_day_unsupported">A fixed payment day only works with monthly, quarterly, half-yearly or yearly cycles.</string>
+    <string name="subscriptions_error_bundle_needs_child">A bundle needs at least one included subscription.</string>
+    <string name="subscriptions_error_start_date_locked">The start date can\'t change once payments are recorded.</string>
+    <string name="subscriptions_error_not_markable">This subscription has no payment due that can be marked.</string>
+    <string name="subscriptions_error_not_extendable">Only single-cycle plans with an end date can be extended.</string>
+    <string name="subscriptions_error_extend_value_out_of_range">Enter 1–1000 days or 1–120 months.</string>
+    <string name="subscriptions_error_extend_date_invalid">The new end date must be after the current end date and after today.</string>
+    <string name="subscriptions_error_not_in_trial">The trial is not over yet.</string>
+    <string name="subscriptions_error_invalid_renewal_type">Choose automatic or manual renewal.</string>
+    <string name="subscriptions_error_not_wishlist">This item is not on the wishlist.</string>
+    <string name="subscriptions_error_wishlist_not_allowed">Wishlist items can\'t be activated this way.</string>
+    <string name="subscriptions_error_read_only">This record can\'t be changed here.</string>
+    <string name="subscriptions_error_wallet_deleted">The selected wallet was deleted.</string>
+    <string name="subscriptions_error_wallet_inactive">The selected wallet is inactive.</string>
+    <string name="subscriptions_error_wallet_unsupported">This wallet can\'t pay for that.</string>
+    <string name="subscriptions_error_balance_negative">The balance would become negative.</string>
+    <string name="subscriptions_error_system_item">Built-in items can\'t be changed or deleted.</string>
+    <string name="subscriptions_error_other_protected">The “Other” category can\'t be hidden or deleted.</string>
+    <string name="subscriptions_error_folder_needs_tag">Pick at least one tag for the folder.</string>
+    <string name="subscriptions_error_dropdown_needs_option">A dropdown needs at least one option.</string>
+    <string name="subscriptions_error_required_field_missing">Fill in all required custom fields.</string>
+    <string name="subscriptions_error_invalid_field_value">A custom field has an invalid value.</string>
+    <string name="subscriptions_error_not_system">Only built-in items support this.</string>
+    <string name="subscriptions_error_generic_invalid">The input is not valid.</string>
+    <string name="subscriptions_error_unexpected">Something went wrong. Please try again.</string>
+
+    <!-- Tag picker -->
+    <string name="subscriptions_tag_picker_title">Tags</string>
+    <string name="subscriptions_tag_picker_clear">Clear all</string>
+    <string name="subscriptions_tag_picker_search">Search tags</string>
+    <string name="subscriptions_tag_picker_search_or_create">Search or create a tag</string>
+    <string name="subscriptions_tag_picker_create">Create tag “%1$s”</string>
+    <string name="subscriptions_tag_picker_selected">Selected (%1$d)</string>
+    <string name="subscriptions_tag_picker_available">Available tags</string>
+    <string name="subscriptions_tag_picker_empty">No tags yet. Type a name above to create your first one.</string>
+    <string name="subscriptions_tag_picker_no_match">No tags match your search.</string>
+</resources>

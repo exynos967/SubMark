@@ -7,4 +7,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.biometric)
+    implementation(libs.work.runtime.ktx)
 }

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="subscriptions_list_title">Subscriptions</string>
+    <string name="subscriptions_list_add">Add subscription</string>
+    <string name="subscriptions_list_segment_subscriptions">Subscriptions</string>
+    <string name="subscriptions_list_segment_lifetime">Lifetime</string>
+    <string name="subscriptions_list_segment_wishlist">Wishlist</string>
+    <string name="subscriptions_list_search_placeholder">Search by name, note or tag</string>
+    <string name="subscriptions_list_open_archive">Open archive</string>
+    <string name="subscriptions_list_sort">Sort</string>
+    <string name="subscriptions_list_sort_name">Name</string>
+    <string name="subscriptions_list_sort_price">Price</string>
+    <string name="subscriptions_list_sort_date">Date</string>
+    <string name="subscriptions_list_show_grid">Show as grid</string>
+    <string name="subscriptions_list_show_list">Show as list</string>
+    <string name="subscriptions_list_more">More options</string>
+    <string name="subscriptions_list_manage_categories">Manage categories</string>
+    <string name="subscriptions_list_manage_tags">Manage tags</string>
+    <string name="subscriptions_list_manage_fields">Custom fields</string>
+    <string name="subscriptions_list_summary_count">Items</string>
+    <string name="subscriptions_list_summary_monthly">Monthly</string>
+    <string name="subscriptions_list_summary_annual">Yearly</string>
+    <string name="subscriptions_list_summary_average">Avg / item</string>
+    <string name="subscriptions_list_summary_total">Total spent</string>
+    <string name="subscriptions_list_summary_planned">Planned total</string>
+    <string name="subscriptions_list_summary_none">—</string>
+    <string name="subscriptions_list_summary_missing_rates">Not included (no exchange rate): %1$s</string>
+    <string name="subscriptions_list_tag_filter">Tags</string>
+    <plurals name="subscriptions_list_tag_filter_count">
+        <item quantity="one">%d tag</item>
+        <item quantity="other">%d tags</item>
+    </plurals>
+    <string name="subscriptions_list_tag_filter_title">Filter by tags</string>
+    <string name="subscriptions_list_tag_filter_empty">You have no tags yet. Create them under Manage tags.</string>
+    <string name="subscriptions_list_category_all">All</string>
+    <plurals name="subscriptions_list_result_count">
+        <item quantity="one">%d result</item>
+        <item quantity="other">%d results</item>
+    </plurals>
+    <string name="subscriptions_list_clear_filters">Clear filters</string>
+    <string name="subscriptions_list_empty_title">Nothing here yet</string>
+    <string name="subscriptions_list_empty_message">Track your first subscription to see what you spend each month.</string>
+    <string name="subscriptions_list_empty_lifetime_message">One-time purchases you add will show up here.</string>
+    <string name="subscriptions_list_empty_wishlist_message">Save things you are thinking about buying.</string>
+    <string name="subscriptions_list_no_match_title">No matches</string>
+    <string name="subscriptions_list_no_match_message">Try another search or remove some filters.</string>
+    <string name="subscriptions_list_free">Free</string>
+    <string name="subscriptions_list_date_next">Next %1$s</string>
+    <string name="subscriptions_list_date_end">Ends %1$s</string>
+    <string name="subscriptions_list_date_bought">Bought %1$s</string>
+    <string name="subscriptions_list_action_mark_paid">Mark as paid</string>
+    <string name="subscriptions_list_action_pause">Pause</string>
+    <string name="subscriptions_list_action_activate">Activate</string>
+    <string name="subscriptions_list_action_copy_note">Copy note</string>
+    <string name="subscriptions_list_note_copied">Note copied</string>
+    <string name="subscriptions_list_marked_paid">Marked “%1$s” as paid</string>
+    <string name="subscriptions_list_paused">“%1$s” paused</string>
+    <string name="subscriptions_list_activated">“%1$s” is active again</string>
+    <string name="subscriptions_list_deleted">“%1$s” deleted</string>
+    <string name="subscriptions_list_pause_title">Pause “%1$s”?</string>
+    <string name="subscriptions_list_pause_message">Reminders stop and no payments are recorded automatically until you activate it again.</string>
+    <string name="subscriptions_list_pause_message_archive">Reminders stop and no payments are recorded automatically. It moves to the archive until you activate it again.</string>
+    <string name="subscriptions_list_activate_title">Activate “%1$s”?</string>
+    <string name="subscriptions_list_activate_message">Billing resumes. Missed dates are not charged; a past due date moves to the next one from today.</string>
+    <string name="subscriptions_list_delete_title">Delete “%1$s”?</string>
+    <string name="subscriptions_list_delete_message">Its payment history and details are removed. This can\'t be undone.</string>
+    <plurals name="subscriptions_list_delete_children">
+        <item quantity="one">The %d subscription included in this bundle is deleted too.</item>
+        <item quantity="other">The %d subscriptions included in this bundle are deleted too.</item>
+    </plurals>
+    <string name="subscriptions_list_delete_wallet_message">Some payments were charged to a wallet. Keep those wallet records, or refund them to the wallet?</string>
+    <string name="subscriptions_list_delete_keep">Delete, keep wallet records</string>
+    <string name="subscriptions_list_delete_reverse">Delete and refund wallets</string>
+
+    <string name="subscriptions_archive_title">Archive</string>
+    <string name="subscriptions_archive_title_lifetime">Lifetime archive</string>
+    <string name="subscriptions_archive_subtitle">Paused subscriptions</string>
+    <string name="subscriptions_archive_subtitle_lifetime">Purchases you no longer use</string>
+    <string name="subscriptions_archive_search">Search the archive</string>
+    <string name="subscriptions_archive_empty_title">Archive is empty</string>
+    <string name="subscriptions_archive_empty_message">Paused items are kept here so they don\'t clutter your list.</string>
+    <string name="subscriptions_archive_paused">Paused</string>
+    <string name="subscriptions_archive_paused_on">Paused on %1$s</string>
+    <string name="subscriptions_archive_restore">Restore</string>
+    <string name="subscriptions_archive_restore_title">Restore “%1$s”?</string>
+    <string name="subscriptions_archive_restore_message">It becomes active again and a new billing cycle starts today, so a payment is due today. An end date that has already passed is removed.</string>
+    <string name="subscriptions_archive_restore_message_lifetime">It goes back to your list of purchases in use. An end date that has already passed is removed.</string>
+    <string name="subscriptions_archive_restored">“%1$s” restored</string>
+
+    <string name="subscriptions_folder_title">Folder</string>
+    <plurals name="subscriptions_folder_count">
+        <item quantity="one">%d subscription</item>
+        <item quantity="other">%d subscriptions</item>
+    </plurals>
+    <string name="subscriptions_folder_per_month">per month</string>
+    <string name="subscriptions_folder_not_found">This folder no longer exists</string>
+    <string name="subscriptions_folder_empty_title">No matching subscriptions</string>
+    <string name="subscriptions_folder_empty_message">Subscriptions with this folder\'s tags will appear here.</string>
+    <string name="subscriptions_folder_stat_count">Count</string>
+    <string name="subscriptions_folder_stat_monthly">Monthly</string>
+    <string name="subscriptions_folder_stat_one_time">One-time</string>
+    <string name="subscriptions_folder_match_any">matches any tag</string>
+    <string name="subscriptions_folder_match_all">matches all tags</string>
+    <string name="subscriptions_folder_no_tags">No tags</string>
+    <plurals name="subscriptions_folder_tags_more">
+        <item quantity="one">%1$s and %2$d more</item>
+        <item quantity="other">%1$s and %2$d more</item>
+    </plurals>
+</resources>
