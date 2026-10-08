@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("submark.android.application")
     id("submark.android.compose")
@@ -5,13 +7,43 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
+// Release signing: CI passes SUBMARK_* env vars; locally an (ignored) keystore.properties works too.
+// With neither, release builds fall back to the debug key so they still install for local testing.
+val keystoreProps = Properties().apply {
+    rootProject.file("keystore.properties").takeIf { it.exists() }?.inputStream()?.use(::load)
+}
+fun signingValue(key: String, env: String): String? =
+    System.getenv(env)?.takeIf { it.isNotBlank() } ?: keystoreProps.getProperty(key)
+
 android {
     namespace = "io.github.submark"
 
     defaultConfig {
         applicationId = "io.github.submark"
-        versionCode = 1
-        versionName = "0.1.0"
+        // The release workflow overrides these from the tag and run number.
+        versionCode = (findProperty("versionCode") as String?)?.toInt() ?: 1
+        versionName = (findProperty("versionName") as String?) ?: "0.1.0"
+    }
+
+    signingConfigs {
+        val storePath = signingValue("storeFile", "SUBMARK_KEYSTORE_FILE")
+        if (storePath != null) {
+            create("release") {
+                storeFile = rootProject.file(storePath)
+                storePassword = signingValue("storePassword", "SUBMARK_KEYSTORE_PASSWORD")
+                keyAlias = signingValue("keyAlias", "SUBMARK_KEY_ALIAS")
+                keyPassword = signingValue("keyPassword", "SUBMARK_KEY_PASSWORD")
+            }
+        }
+    }
+
+    splits {
+        abi {
+            isEnable = true
+            reset()
+            include("x86_64", "armeabi-v7a", "arm64-v8a")
+            isUniversalApk = false
+        }
     }
 
     buildTypes {
@@ -19,7 +51,7 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.findByName("release") ?: signingConfigs.getByName("debug")
         }
         debug {
             applicationIdSuffix = ".debug"
