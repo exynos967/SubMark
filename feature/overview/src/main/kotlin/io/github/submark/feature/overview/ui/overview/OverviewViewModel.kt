@@ -28,6 +28,7 @@ import io.github.submark.core.model.SubscriptionStatus
 import io.github.submark.core.ui.util.SnackbarMessage
 import io.github.submark.feature.overview.R
 import io.github.submark.feature.overview.data.DailyBucket
+import io.github.submark.feature.overview.data.PriceMonitorReader
 import io.github.submark.feature.overview.data.MonthlyPoint
 import io.github.submark.feature.overview.data.PaymentOccurrence
 import io.github.submark.feature.overview.data.PaymentProjection
@@ -161,6 +162,7 @@ class OverviewViewModel @Inject constructor(
     private val subscriptionService: SubscriptionService,
     private val settings: SettingsRepository,
     private val currencies: CurrencyRepository,
+    private val priceMonitors: PriceMonitorReader,
     private val time: TimeProvider,
 ) : ViewModel() {
 
@@ -288,7 +290,19 @@ class OverviewViewModel @Inject constructor(
         }
 
         // Wallet balances
-        val walletBalances: List<io.github.submark.core.model.Wallet> = emptyList() // placeholder, filled below
+        val walletBalances: List<io.github.submark.core.model.Wallet> = wallets
+
+        // Annual budget usage (paid in the current calendar year, default currency).
+        val yearStart = LocalDate.of(today.year, 1, 1)
+        val annualBudget = s.money.annualBudget
+        val annualSpentYtd = payList
+            .filter { it.status == io.github.submark.core.model.PaymentStatus.SUCCESS && it.paymentDate in yearStart..today }
+            .mapNotNull { converterSafe.convert(it.amount, it.currencyCode, defaultCode) }
+            .fold(BigDecimal.ZERO) { a, b -> a + b }
+        val budgetUsagePercent = annualBudget?.takeIf { it.signum() > 0 }?.let { budget ->
+            annualSpentYtd.divide(budget, 4, java.math.RoundingMode.HALF_UP)
+                .multiply(BigDecimal(100)).toInt()
+        }
 
         // Counts
         val subCount = visible.count { it.kind == SubscriptionKind.REGULAR || it.kind == SubscriptionKind.STORED_VALUE }
@@ -356,6 +370,9 @@ class OverviewViewModel @Inject constructor(
             subscriptionById = subById,
             addedDays = addedDays,
             activeCount = activeCount,
+            annualBudget = annualBudget,
+            annualSpentYtd = annualSpentYtd,
+            budgetUsagePercent = budgetUsagePercent,
             recentActivity = recentActivity,
             rawByDate = byDate,
         )

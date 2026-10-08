@@ -13,25 +13,25 @@ import javax.inject.Inject
 
 /** Rebuilds reminders + calendar events after subscription mutations. */
 class NotificationsChangeListener @Inject constructor(
-    private val rebuild: ReminderRebuildService,
-    private val calendarSync: CalendarSyncManager,
+    private val rebuild: dagger.Lazy<ReminderRebuildService>,
+    private val calendarSync: dagger.Lazy<CalendarSyncManager>,
 ) : SubscriptionChangeListener {
     override suspend fun onSubscriptionsChanged(ids: Set<String>?) {
-        rebuild.rebuildAll()
-        calendarSync.sync(ids)
+        rebuild.get().rebuildAll()
+        calendarSync.get().sync(ids)
     }
 }
 
 /** On every launch: rebuild everything and make sure the daily refresh worker exists. */
 class NotificationsAppStartListener @Inject constructor(
     @param:ApplicationContext private val context: Context,
-    private val rebuild: ReminderRebuildService,
-    private val calendarSync: CalendarSyncManager,
+    private val rebuild: dagger.Lazy<ReminderRebuildService>,
+    private val calendarSync: dagger.Lazy<CalendarSyncManager>,
 ) : AppStartListener {
     override suspend fun onAppStart() {
         NotificationChannels.create(context)
-        rebuild.rebuildAll()
-        calendarSync.syncAll()
+        rebuild.get().rebuildAll()
+        calendarSync.get().syncAll()
         NotificationRefreshWorker.schedule(context)
     }
 }
