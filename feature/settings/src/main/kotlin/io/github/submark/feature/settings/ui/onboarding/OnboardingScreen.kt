@@ -1,6 +1,7 @@
 package io.github.submark.feature.settings.ui.onboarding
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -37,6 +38,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SuggestionChip
+import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -194,13 +196,24 @@ private fun DemoDashboard(page: OnboardingPage) {
                     Text(
                         stringResource(tile.label),
                         style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.weight(1f).padding(horizontal = 12.dp),
                     )
-                    Text(stringResource(tile.value), style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(tile.value), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
                 }
             }
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                page.chips.forEach { chip -> SuggestionChip(onClick = {}, label = { Text(stringResource(chip)) }, enabled = false) }
+                page.chips.forEach { chip ->
+                    SuggestionChip(
+                        onClick = {},
+                        label = { Text(stringResource(chip)) },
+                        enabled = false,
+                        colors = SuggestionChipDefaults.suggestionChipColors(
+                            disabledLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        ),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.5f)),
+                    )
+                }
             }
         }
     }
