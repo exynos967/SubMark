@@ -91,7 +91,6 @@ import java.time.format.FormatStyle
 
 @Composable
 fun CalendarRoute(
-    onBack: () -> Unit,
     onAddSubscription: () -> Unit,
     viewModel: CalendarViewModel = hiltViewModel(),
 ) {
@@ -103,7 +102,6 @@ fun CalendarRoute(
     CalendarScreen(
         nativeState = uiState,
         snackbarHostState = snackbarHostState,
-        onBack = onBack,
         onAddSubscription = onAddSubscription,
         onModeSelect = viewModel::setMode,
         onTimelinePeriodSelect = viewModel::setTimelinePeriod,
@@ -122,7 +120,6 @@ fun CalendarRoute(
 private fun CalendarScreen(
     nativeState: CalendarUiState,
     snackbarHostState: SnackbarHostState,
-    onBack: () -> Unit,
     onAddSubscription: () -> Unit,
     onModeSelect: (CalendarMode) -> Unit,
     onTimelinePeriodSelect: (TimelinePeriod) -> Unit,
@@ -147,7 +144,6 @@ private fun CalendarScreen(
             SubMarkTopAppBar(
                 title = stringResource(R.string.calendar_title),
                 subtitle = stringResource(R.string.calendar_subtitle),
-                onBack = onBack,
                 actions = {
                     IconButton(onClick = { showJumpDialog = true }) {
                         Icon(
@@ -208,11 +204,12 @@ private fun CalendarScreen(
                     modifier = contentModifier,
                     today = scenario.today,
                 )
+                // The week strip is short; the selected day's agenda below takes the remaining height.
                 CalendarMode.WEEK -> WeekStrip(
                     scenario = scenario,
                     byDate = nativeState.byDate,
                     onSelectDate = onSelectDate,
-                    modifier = contentModifier,
+                    modifier = Modifier.fillMaxWidth(),
                 )
                 CalendarMode.TIMELINE -> TimelineView(
                     scenario = scenario,
@@ -228,8 +225,8 @@ private fun CalendarScreen(
                 )
             }
 
-            // Bottom agenda for Month mode
-            if (scenario.mode == CalendarMode.MONTH && nativeState.agenda.isNotEmpty()) {
+            // Agenda for the selected day (Month and Week modes)
+            if (scenario.mode != CalendarMode.TIMELINE && nativeState.agenda.isNotEmpty()) {
                 AgendaStrip(
                     agenda = nativeState.agenda,
                     selectedDate = scenario.selectedDate,
@@ -329,7 +326,7 @@ private fun MonthGrid(
     val monthStart = YearMonth.from(scenario.anchorDate).atDay(1)
     val monthEnd = YearMonth.from(scenario.anchorDate).atEndOfMonth()
     val weeks = mutableListOf<List<LocalDate>>()
-    var weekStart = monthStart
+    var weekStart = monthStart.startOfWeek()
     while (weekStart <= monthEnd) {
         val week = (0..6).map { weekStart.plusDays(it.toLong()) }
         weeks.add(week)
@@ -447,8 +444,8 @@ private fun CalendarDayCell(
                         SubscriptionIcon(
                             type = occ.subscription.iconType,
                             value = occ.subscription.iconValue,
-                            fallbackName = "payments",
-                            modifier = Modifier.size(18.dp),
+                            fallbackName = occ.subscription.name,
+                            size = 18.dp,
                         )
                     }
                 } else {
@@ -751,8 +748,8 @@ private fun TimelineRow(
         SubscriptionIcon(
             type = occ.subscription.iconType,
             value = occ.subscription.iconValue,
-            fallbackName = "payments",
-            modifier = Modifier.size(36.dp),
+            fallbackName = occ.subscription.name,
+            size = 36.dp,
         )
 
         Spacer(Modifier.width(10.dp))
@@ -881,7 +878,6 @@ private fun CalendarScreenPreview() {
                 scenario = null,
             ),
             snackbarHostState = remember { SnackbarHostState() },
-            onBack = {},
             onAddSubscription = {},
             onModeSelect = {},
             onTimelinePeriodSelect = {},

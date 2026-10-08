@@ -8,11 +8,8 @@ import io.github.submark.feature.calendar.ui.calendar.CalendarRoute
 
 /** Registers every screen owned by feature:calendar. */
 fun NavGraphBuilder.calendarGraph(navController: NavController) {
-    val back: () -> Unit = { navController.popBackStack() }
-
     composable<CalendarDest> {
         CalendarRoute(
-            onBack = back,
             onAddSubscription = { navController.navigate(io.github.submark.core.ui.navigation.SubscriptionEditRoute()) },
         )
     }

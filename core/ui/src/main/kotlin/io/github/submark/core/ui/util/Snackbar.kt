@@ -38,6 +38,6 @@ fun SnackbarEffect(messages: Flow<SnackbarMessage>, hostState: SnackbarHostState
     }
 }
 
-/** Applies [block] only when [condition] holds. */
+/** Appends the modifier built by [block] only when [condition] holds; the existing chain is always kept. */
 inline fun Modifier.thenIf(condition: Boolean, block: Modifier.() -> Modifier): Modifier =
-    if (condition) this.block() else this
+    if (condition) then(Modifier.block()) else this
