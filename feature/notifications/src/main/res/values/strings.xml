@@ -61,7 +61,8 @@
     <string name="notifications_open_settings">Open Settings</string>
     <string name="notifications_exact_alarm_row">Exact alarms</string>
     <string name="notifications_exact_granted">Allowed</string>
-    <string name="notifications_exact_denied">Not allowed — reminders may arrive late</string>
+    <string name="notifications_exact_denied">Not allowed</string>
+    <string name="notifications_exact_denied_hint">Reminders may arrive late</string>
     <string name="notifications_master_switch">Enable notifications</string>
     <string name="notifications_section_default">Default reminder settings</string>
     <string name="notifications_advance_row">Advance reminder</string>

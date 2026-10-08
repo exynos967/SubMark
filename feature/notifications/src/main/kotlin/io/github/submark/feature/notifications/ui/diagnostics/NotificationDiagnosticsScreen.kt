@@ -82,6 +82,7 @@ internal fun NotificationDiagnosticsScreen(
                 value = stringResource(
                     if (state.exactAlarmsGranted) R.string.notifications_exact_granted else R.string.notifications_exact_denied,
                 ),
+                subtitle = if (state.exactAlarmsGranted) null else stringResource(R.string.notifications_exact_denied_hint),
             )
             SettingsValueRow(
                 title = stringResource(R.string.notifications_diag_master),

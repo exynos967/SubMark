@@ -164,6 +164,7 @@ internal fun NotificationSettingsScreen(
                     if (state.exactAlarmsGranted) R.string.notifications_exact_granted
                     else R.string.notifications_exact_denied,
                 ),
+                subtitle = if (state.exactAlarmsGranted) null else stringResource(R.string.notifications_exact_denied_hint),
                 onClick = onOpenExactAlarmSettings,
             )
             if (!state.permissionGranted) {

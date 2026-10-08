@@ -57,7 +57,8 @@
     <string name="notifications_open_settings">打开系统设置</string>
     <string name="notifications_exact_alarm_row">精确闹钟</string>
     <string name="notifications_exact_granted">已允许</string>
-    <string name="notifications_exact_denied">未允许 — 提醒可能延迟</string>
+    <string name="notifications_exact_denied">未允许</string>
+    <string name="notifications_exact_denied_hint">提醒可能延迟</string>
     <string name="notifications_master_switch">启用通知</string>
     <string name="notifications_section_default">默认提醒设置</string>
     <string name="notifications_advance_row">提前提醒</string>
