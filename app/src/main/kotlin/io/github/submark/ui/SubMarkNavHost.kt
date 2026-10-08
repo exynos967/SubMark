@@ -1,6 +1,8 @@
 package io.github.submark.ui
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -13,12 +15,10 @@ import androidx.compose.material.icons.rounded.ViewList
 import androidx.compose.material.icons.rounded.Widgets
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -88,21 +88,10 @@ fun SubMarkNavHost(navController: NavHostController, settings: AppSettings, star
     val tabs = settings.visibleTabs()
     val currentTab = tabs.firstOrNull { tab -> destination?.hierarchy?.any { it.hasRoute(tab.routeClass) } == true }
 
+    // Tab screens draw their own top bars and handle status-bar insets; the shell only adds the bottom bar,
+    // and marks the space it occupies as consumed so inner Scaffolds don't pad for the navigation bar again.
     Scaffold(
-        topBar = {
-            if (currentTab != null) {
-                TopAppBar(
-                    title = { Text(stringResource(currentTab.label)) },
-                    actions = {
-                        if (settings.navigation.globalSearchButton) {
-                            IconButton(onClick = { navController.navigate(GlobalSearchRoute) }) {
-                                Icon(Icons.Rounded.Search, contentDescription = stringResource(R.string.action_search))
-                            }
-                        }
-                    },
-                )
-            }
-        },
+        contentWindowInsets = WindowInsets(0),
         bottomBar = {
             if (currentTab != null) {
                 NavigationBar {
@@ -114,6 +103,13 @@ fun SubMarkNavHost(navController: NavHostController, settings: AppSettings, star
                             label = { Text(stringResource(tab.label)) },
                         )
                     }
+                    if (settings.navigation.globalSearchButton) {
+                        NavigationBarItem(
+                            selected = false,
+                            onClick = { navController.navigate(GlobalSearchRoute) },
+                            icon = { Icon(Icons.Rounded.Search, contentDescription = stringResource(R.string.action_search)) },
+                        )
+                    }
                 }
             }
         },
@@ -121,7 +117,7 @@ fun SubMarkNavHost(navController: NavHostController, settings: AppSettings, star
         NavHost(
             navController = navController,
             startDestination = startTab.route,
-            modifier = Modifier.fillMaxSize().padding(padding),
+            modifier = Modifier.fillMaxSize().padding(padding).consumeWindowInsets(padding),
         ) {
             overviewGraph(navController)
             subscriptionsGraph(navController)
