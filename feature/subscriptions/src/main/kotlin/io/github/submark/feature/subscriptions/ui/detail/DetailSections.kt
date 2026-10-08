@@ -87,7 +87,11 @@ internal fun HeaderSection(state: DetailUiState, content: DetailContent) {
     Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         SubscriptionIcon(type = sub.iconType, value = sub.iconValue, fallbackName = sub.name, size = 72.dp)
         Text(sub.name, style = MaterialTheme.typography.headlineSmall, maxLines = 2, overflow = TextOverflow.Ellipsis)
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
+            verticalArrangement = Arrangement.spacedBy(6.dp),
+        ) {
             if (sub.kind != SubscriptionKind.REGULAR) StatusBadge(stringResource(sub.kind.labelRes), tone = BadgeTone.PRIMARY)
             if (sub.kind != SubscriptionKind.WISHLIST) {
                 val active = sub.status == SubscriptionStatus.ACTIVE
@@ -160,7 +164,12 @@ internal fun MetricsSection(state: DetailUiState, content: DetailContent) {
                 tiles += { m ->
                     MetricTile(
                         stringResource(R.string.subscriptions_detail_metric_current_period),
-                        stringResource(R.string.subscriptions_detail_range, formatDay(period.start), formatDay(period.end)),
+                        // Drop the start year when both ends share it, so the range fits on one line.
+                        stringResource(
+                            R.string.subscriptions_detail_range,
+                            if (period.start.year == period.end.year) DateLabels.formatMonthDay(period.start) else formatDay(period.start),
+                            formatDay(period.end),
+                        ),
                         m,
                     )
                 }
