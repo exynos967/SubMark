@@ -54,6 +54,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -435,7 +436,7 @@ internal fun OccurrenceRow(
                     val countdownText = when {
                         daysUntil == 0L -> stringResource(R.string.overview_badge_today)
                         daysUntil == 1L -> stringResource(R.string.overview_badge_tomorrow)
-                        else -> stringResource(R.plurals.overview_days_until, daysUntil.toInt(), daysUntil.toInt())
+                        else -> pluralStringResource(R.plurals.overview_days_until, daysUntil.toInt(), daysUntil.toInt())
                     }
                     Badge(containerColor = MaterialTheme.colorScheme.tertiaryContainer) {
                         Text(countdownText, style = MaterialTheme.typography.labelSmall)

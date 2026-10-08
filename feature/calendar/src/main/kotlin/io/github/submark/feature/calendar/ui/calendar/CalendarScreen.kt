@@ -59,6 +59,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -712,8 +713,8 @@ private fun TimelineRow(
     val countdownText = when {
         daysUntilValue == 0L -> stringResource(R.string.calendar_badge_today)
         daysUntilValue == 1L -> stringResource(R.string.calendar_badge_tomorrow)
-        daysUntilValue > 0 -> stringResource(R.plurals.calendar_days_until, daysUntilValue.toInt(), daysUntilValue.toInt())
-        else -> stringResource(R.plurals.calendar_days_overdue, (-daysUntilValue).toInt(), (-daysUntilValue).toInt())
+        daysUntilValue > 0 -> pluralStringResource(R.plurals.calendar_days_until, daysUntilValue.toInt(), daysUntilValue.toInt())
+        else -> pluralStringResource(R.plurals.calendar_days_overdue, (-daysUntilValue).toInt(), (-daysUntilValue).toInt())
     }
     val countdownColor = when {
         occ.paid -> SubMarkTheme.extendedColors.success
