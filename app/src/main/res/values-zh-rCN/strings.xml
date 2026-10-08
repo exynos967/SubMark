@@ -7,7 +7,6 @@
     <string name="tab_analytics">统计</string>
     <string name="tab_panel">面板</string>
     <string name="tab_settings">设置</string>
-    <string name="action_search">搜索</string>
     <string name="list_separator">、</string>
     <string name="startup_alert_title">离开期间的变化</string>
     <plurals name="startup_alert_expired">

@@ -2,12 +2,11 @@
 <resources>
     <string name="app_name">SubMark</string>
     <string name="tab_overview">Overview</string>
-    <string name="tab_subscriptions">Subscriptions</string>
+    <string name="tab_subscriptions">Subs</string>
     <string name="tab_calendar">Calendar</string>
     <string name="tab_analytics">Analytics</string>
     <string name="tab_panel">Panel</string>
     <string name="tab_settings">Settings</string>
-    <string name="action_search">Search</string>
     <string name="list_separator">", "</string>
     <string name="startup_alert_title">While you were away</string>
     <plurals name="startup_alert_expired">

@@ -2,6 +2,7 @@ package io.github.submark.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -9,13 +10,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material.icons.rounded.CalendarMonth
 import androidx.compose.material.icons.rounded.Dashboard
-import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.ViewList
 import androidx.compose.material.icons.rounded.Widgets
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -23,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
@@ -33,7 +35,6 @@ import io.github.submark.core.data.settings.AppSettings
 import io.github.submark.core.data.settings.StartupTab
 import io.github.submark.core.ui.navigation.AnalyticsRoute
 import io.github.submark.core.ui.navigation.CalendarRoute
-import io.github.submark.core.ui.navigation.GlobalSearchRoute
 import io.github.submark.core.ui.navigation.OverviewRoute
 import io.github.submark.core.ui.navigation.PanelRoute
 import io.github.submark.core.ui.navigation.SettingsRoute
@@ -94,20 +95,16 @@ fun SubMarkNavHost(navController: NavHostController, settings: AppSettings, star
         contentWindowInsets = WindowInsets(0),
         bottomBar = {
             if (currentTab != null) {
-                NavigationBar {
+                // Extra side inset keeps the selected-item pill away from the screen edges.
+                NavigationBar(
+                    windowInsets = NavigationBarDefaults.windowInsets.add(WindowInsets(left = 12.dp, right = 12.dp)),
+                ) {
                     tabs.forEach { tab ->
                         NavigationBarItem(
                             selected = tab == currentTab,
                             onClick = { navController.navigateToTab(tab.route) },
                             icon = { Icon(tab.icon, contentDescription = null) },
-                            label = { Text(stringResource(tab.label)) },
-                        )
-                    }
-                    if (settings.navigation.globalSearchButton) {
-                        NavigationBarItem(
-                            selected = false,
-                            onClick = { navController.navigate(GlobalSearchRoute) },
-                            icon = { Icon(Icons.Rounded.Search, contentDescription = stringResource(R.string.action_search)) },
+                            label = { Text(stringResource(tab.label), maxLines = 1) },
                         )
                     }
                 }
