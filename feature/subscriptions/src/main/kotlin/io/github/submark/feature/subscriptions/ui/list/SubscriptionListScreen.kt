@@ -100,6 +100,7 @@ import io.github.submark.core.ui.navigation.SubscriptionEditRoute
 import io.github.submark.core.ui.navigation.TagFolderRoute
 import io.github.submark.core.ui.navigation.TagManagementRoute
 import io.github.submark.core.ui.util.SnackbarEffect
+import io.github.submark.core.ui.util.bleedHorizontally
 import io.github.submark.core.ui.util.colorFromHex
 import io.github.submark.feature.subscriptions.R
 import io.github.submark.feature.subscriptions.ui.common.SubscriptionItemCard
@@ -418,7 +419,12 @@ private fun SummaryCell(label: String, value: String, modifier: Modifier) {
 @Composable
 private fun FilterRow(state: SubscriptionListUiState, actions: SubscriptionListActions, onOpenTags: () -> Unit) {
     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+        LazyRow(
+            modifier = Modifier.bleedHorizontally(16.dp),
+            contentPadding = PaddingValues(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             item(key = "tags") {
                 val count = state.filter.tagIds.size
                 FilterChip(

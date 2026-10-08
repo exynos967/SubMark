@@ -46,6 +46,7 @@ import io.github.submark.core.ui.component.formatMoney
 import io.github.submark.core.ui.format.BadgeTone
 import io.github.submark.core.ui.format.asString
 import io.github.submark.core.ui.format.labelRes
+import io.github.submark.core.ui.util.bleedHorizontally
 import io.github.submark.feature.money.R
 import io.github.submark.feature.money.ui.common.BadgeRow
 import io.github.submark.feature.money.ui.common.StatCell
@@ -127,7 +128,10 @@ fun FinancialDetailScreen(
                 }
             }
             item(key = "controls") {
-                Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(
+                    Modifier.fillMaxWidth().bleedHorizontally(16.dp).horizontalScroll(rememberScrollState()).padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
                     FinancialDetailFilter.entries.forEach { f ->
                         FilterChip(selected = state.filter == f, onClick = { onFilter(f) }, label = { Text(stringResource(filterLabelRes(f))) })
                     }

@@ -34,6 +34,7 @@ import io.github.submark.core.ui.component.SectionCard
 import io.github.submark.core.ui.component.SubMarkTopAppBar
 import io.github.submark.core.ui.component.formatMoney
 import io.github.submark.core.ui.icon.SubscriptionIcon
+import io.github.submark.core.ui.util.bleedHorizontally
 import io.github.submark.feature.money.R
 import io.github.submark.feature.money.data.MoneyEnv
 import io.github.submark.feature.money.ui.common.StatCell
@@ -82,7 +83,10 @@ fun StoredValueStatsScreen(
                 }
             }
             item(key = "period") {
-                Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(
+                    Modifier.fillMaxWidth().bleedHorizontally(16.dp).horizontalScroll(rememberScrollState()).padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
                     StoredValuePeriod.entries.forEach { p ->
                         FilterChip(selected = p == state.period, onClick = { onPeriod(p) }, label = { Text(stringResource(p.labelRes())) })
                     }
