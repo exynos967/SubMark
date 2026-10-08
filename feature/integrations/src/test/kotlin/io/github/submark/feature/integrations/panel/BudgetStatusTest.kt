@@ -25,7 +25,7 @@ class BudgetStatusTest {
         val result = BudgetComputation.compute(snapshot("70"), BigDecimal("100"), null, 90)
         assertThat(result.status).isEqualTo(BudgetStatus.NORMAL)
         assertThat(result.usagePercent).isEqualTo(70)
-        assertThat(result.monthlyRemaining).isEqualByComparingTo(BigDecimal("30"))
+        assertThat(result.monthlyRemaining!!.compareTo(BigDecimal("30"))).isEqualTo(0)
     }
 
     @Test

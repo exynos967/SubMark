@@ -45,7 +45,11 @@ object SubscriptionUserinfo {
 
     fun toSnapshot(header: String?, now: Instant): ClashSnapshot {
         val parsed = parse(header)
-        if (parsed == null || !parsed.hasAny) return ClashSnapshot(hasTrafficInfo = false, fetchedAt = now)
+        // Zero/negative values are sentinels, not stats; a header carrying only those counts as "no info".
+        val meaningful = parsed != null &&
+            ((parsed.upload ?: 0) > 0 || (parsed.download ?: 0) > 0 ||
+                (parsed.total ?: 0) > 0 || (parsed.expireEpochSeconds ?: 0) > 0)
+        if (!meaningful) return ClashSnapshot(hasTrafficInfo = false, fetchedAt = now)
         return ClashSnapshot(
             hasTrafficInfo = true,
             uploadBytes = parsed.upload ?: 0,

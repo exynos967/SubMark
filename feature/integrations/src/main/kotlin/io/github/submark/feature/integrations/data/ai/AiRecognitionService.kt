@@ -298,7 +298,7 @@ class AiRecognitionService @Inject constructor(
                     return emptyList()
                 }
             }
-            val array: kotlinx.serialization.json.JsonArray? = when (element) {
+            val array = when (element) {
                 is kotlinx.serialization.json.JsonArray -> element
                 is kotlinx.serialization.json.JsonObject -> {
                     listOf("subscriptions", "results", "items", "data")

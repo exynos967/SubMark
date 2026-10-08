@@ -10,6 +10,11 @@ import java.math.BigDecimal
 
 class CatalogParserTest {
 
+    private val json = kotlinx.serialization.json.Json { ignoreUnknownKeys = true }
+
+    private fun parseOrThrow(raw: String): PopularCatalog =
+        json.decodeFromString<PopularCatalog>(raw)
+
     private val sample = """
         {
           "version": "1.3",
@@ -46,7 +51,7 @@ class CatalogParserTest {
 
     @Test
     fun `parses valid catalogue`() {
-        val catalog = CatalogParser.parse(sample)
+        val catalog = parseOrThrow(sample)
         assertThat(catalog).isNotNull()
         assertThat(catalog!!.version).isEqualTo("1.3")
         assertThat(catalog.subscriptions).hasSize(2)
@@ -56,8 +61,14 @@ class CatalogParserTest {
     }
 
     @Test
+    fun `debug enum parse`() {
+        val c = kotlinx.serialization.json.Json.decodeFromString<RepoCategory>("\"nonexistent-category\"")
+        assertThat(c).isEqualTo(RepoCategory.OTHER)
+    }
+
+    @Test
     fun `unknown enum values tolerated`() {
-        val catalog = CatalogParser.parse(sample)!!
+        val catalog = parseOrThrow(sample)
         val tool = catalog.subscriptions[1]
         assertThat(tool.category).isEqualTo(RepoCategory.OTHER)
         assertThat(tool.commonPrices[0].billingCycle).isEqualTo(RepoBillingCycle.CUSTOM)
@@ -83,7 +94,7 @@ class CatalogParserTest {
 
     @Test
     fun `merge dedupes by id - first wins`() {
-        val a = CatalogParser.parse(sample)!!
+        val a = parseOrThrow(sample)
         val b = PopularCatalog(
             subscriptions = listOf(
                 CatalogEntry(id = "netflix", name = "Netflix Dup"),
@@ -97,7 +108,7 @@ class CatalogParserTest {
 
     @Test
     fun `prefill maps regular subscription`() {
-        val entry = CatalogParser.parse(sample)!!.subscriptions[0]
+        val entry = parseOrThrow(sample).subscriptions[0]
         val option = entry.commonPrices[0]
         val prefill = CatalogParser.toPrefill(entry, option)
         assertThat(prefill.name).isEqualTo("Netflix")
@@ -115,7 +126,7 @@ class CatalogParserTest {
 
     @Test
     fun `prefill maps permanent price to lifetime`() {
-        val entry = CatalogParser.parse(sample)!!.subscriptions[1]
+        val entry = parseOrThrow(sample).subscriptions[1]
         val prefill = CatalogParser.toPrefill(entry, entry.commonPrices[0])
         assertThat(prefill.kind).isEqualTo(SubscriptionKind.LIFETIME)
         assertThat(prefill.billingCycle).isNull()

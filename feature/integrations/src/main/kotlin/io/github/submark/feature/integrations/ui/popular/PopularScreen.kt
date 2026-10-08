@@ -37,7 +37,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -363,9 +365,7 @@ private fun PopularDetailSheet(
     onDismiss: () -> Unit,
     onChoose: (PricingOption, BundlePrefillMode) -> Unit,
 ) {
-    var bundleChoice by androidx.compose.runtime.remember(entry.id) {
-        androidx.compose.runtime.mutableStateOf<PricingOption?>(null)
-    }
+    var bundleChoice by remember(entry.id) { mutableStateOf<PricingOption?>(null) }
     ModalBottomSheet(onDismissRequest = onDismiss) {
         Column(
             Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 8.dp),

@@ -36,6 +36,7 @@ fun NavGraphBuilder.overviewGraph(navController: NavController) {
             onWalletExpense = { navController.navigate(WalletActivityRoute(it)) },
             onFinancialDetail = { navController.navigate(FinancialDetailRoute) },
             onFinancialReport = { navController.navigate(FinancialReportPosterRoute) },
+            onPriceMonitor = { navController.navigate(io.github.submark.core.ui.navigation.PriceMonitorSettingsRoute) },
         )
     }
     composable<OverviewCustomizeDest> {

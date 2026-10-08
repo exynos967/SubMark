@@ -472,15 +472,31 @@ internal fun WalletSection(
 @Composable
 internal fun WishlistPricesSection(
     uiState: OverviewUiState,
+    onOpenPriceMonitor: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
-    SectionCard(title = stringResource(R.string.overview_price_monitor), modifier = modifier) {
-        Text(
-            stringResource(R.string.overview_price_monitor_empty),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(vertical = 8.dp),
-        )
+    SectionCard(
+        title = stringResource(R.string.overview_price_monitor),
+        modifier = modifier,
+        action = {
+            TextButton(onClick = onOpenPriceMonitor) {
+                Text(stringResource(R.string.overview_price_monitor_action), style = MaterialTheme.typography.labelLarge)
+            }
+        },
+    ) {
+        when (val state = uiState.wishlistPriceStatus) {
+            WishlistPriceState.EMPTY -> Text(
+                stringResource(R.string.overview_price_monitor_empty),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(vertical = 8.dp),
+            )
+            is WishlistPriceState.Count -> Text(
+                stringResource(R.string.overview_price_monitor_count, state.count),
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(vertical = 8.dp),
+            )
+        }
     }
 }
 

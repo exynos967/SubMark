@@ -96,6 +96,7 @@ fun OverviewRoute(
     onWalletExpense: (String) -> Unit,
     onFinancialDetail: () -> Unit,
     onFinancialReport: () -> Unit,
+    onPriceMonitor: () -> Unit,
     viewModel: OverviewViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -116,6 +117,7 @@ fun OverviewRoute(
         onWalletExpense = onWalletExpense,
         onFinancialDetail = onFinancialDetail,
         onFinancialReport = onFinancialReport,
+        onPriceMonitor = onPriceMonitor,
         onPeriodSelect = viewModel::setPeriod,
         onSpendingModeSelect = viewModel::setSpendingMode,
         onLayoutSelect = viewModel::setLayout,
@@ -142,6 +144,7 @@ private fun OverviewScreen(
     onWalletExpense: (String) -> Unit,
     onFinancialDetail: () -> Unit,
     onFinancialReport: () -> Unit,
+    onPriceMonitor: () -> Unit,
     onPeriodSelect: (SummaryPeriod) -> Unit,
     onSpendingModeSelect: (SpendingMode) -> Unit,
     onLayoutSelect: (OverviewLayout) -> Unit,
@@ -213,6 +216,7 @@ private fun OverviewScreen(
                     onWalletExpense = onWalletExpense,
                     onSubscriptions = onSubscriptions,
                     onAnalytics = onAnalytics,
+                    onPriceMonitor = onPriceMonitor,
                     modifier = Modifier.weight(1f),
                 )
                 else -> ClassicBody(
@@ -228,6 +232,7 @@ private fun OverviewScreen(
                     onWalletExpense = onWalletExpense,
                     onSubscriptions = onSubscriptions,
                     onAnalytics = onAnalytics,
+                    onPriceMonitor = onPriceMonitor,
                     modifier = Modifier.weight(1f),
                 )
             }
@@ -489,6 +494,7 @@ private fun ModernBody(
     onWalletExpense: (String) -> Unit,
     onSubscriptions: () -> Unit,
     onAnalytics: () -> Unit,
+    onPriceMonitor: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val mode = uiState.spendingMode
@@ -529,7 +535,7 @@ private fun ModernBody(
 
         // Wishlist prices
         if (components.any { it.id == ModernOverviewComponent.WISHLIST_PRICES }) {
-            item { WishlistPricesSection(uiState) }
+            item { WishlistPricesSection(uiState, onPriceMonitor) }
         }
 
         // My subscriptions & purchases
@@ -564,6 +570,7 @@ private fun ClassicBody(
     onWalletExpense: (String) -> Unit,
     onSubscriptions: () -> Unit,
     onAnalytics: () -> Unit,
+    onPriceMonitor: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val mode = uiState.spendingMode
@@ -595,7 +602,7 @@ private fun ClassicBody(
                 ClassicOverviewComponent.GLOBAL_WALLET ->
                     item { WalletSection(uiState, onWalletManagement, onWalletTopUp, onWalletExpense) }
                 ClassicOverviewComponent.PRICE_MONITORING ->
-                    item { WishlistPricesSection(uiState) }
+                    item { WishlistPricesSection(uiState, onPriceMonitor) }
             }
         }
 

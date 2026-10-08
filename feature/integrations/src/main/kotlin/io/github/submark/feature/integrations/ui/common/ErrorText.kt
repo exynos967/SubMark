@@ -5,6 +5,7 @@ import androidx.compose.ui.res.stringResource
 import io.github.submark.core.data.result.DataError
 import io.github.submark.core.data.result.InvalidReason
 import io.github.submark.core.ui.format.UiText
+import io.github.submark.core.ui.format.asString
 import io.github.submark.feature.integrations.R
 import io.github.submark.feature.integrations.data.ai.AiError
 import io.github.submark.feature.integrations.data.icons.IconPackError

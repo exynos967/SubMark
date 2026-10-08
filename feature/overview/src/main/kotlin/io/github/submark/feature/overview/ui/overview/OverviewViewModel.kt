@@ -8,6 +8,7 @@ import io.github.submark.core.data.repository.CategoryRepository
 import io.github.submark.core.data.repository.PaymentMethodRepository
 import io.github.submark.core.data.repository.SubscriptionRepository
 import io.github.submark.core.data.service.PaymentService
+import io.github.submark.core.data.service.WalletService
 import io.github.submark.core.data.service.SharedService
 import io.github.submark.core.data.service.SubscriptionService
 import io.github.submark.core.data.settings.ClassicOverviewComponent
@@ -162,6 +163,7 @@ class OverviewViewModel @Inject constructor(
     private val subscriptionService: SubscriptionService,
     private val settings: SettingsRepository,
     private val currencies: CurrencyRepository,
+    private val walletService: WalletService,
     private val priceMonitors: PriceMonitorReader,
     private val time: TimeProvider,
 ) : ViewModel() {
@@ -192,8 +194,24 @@ class OverviewViewModel @Inject constructor(
                 payments.observeBetween(periodStart.minusMonths(3), periodEnd),
                 currencies.observeCurrencies(),
                 currencies.observeConverter(),
-            ) { subs, cats, payList, curList, converter ->
-                buildState(env, subs, cats, payList, curList, converter)
+                walletService.observeWallets(),
+                priceMonitors.observeSummary(),
+            ) { values ->
+                @Suppress("UNCHECKED_CAST")
+                val subs = values[0] as List<Subscription>
+                @Suppress("UNCHECKED_CAST")
+                val cats = values[1] as List<io.github.submark.core.model.Category>
+                @Suppress("UNCHECKED_CAST")
+                val payList = values[2] as List<PaymentRecord>
+                @Suppress("UNCHECKED_CAST")
+                val curList = values[3] as List<Currency>
+                @Suppress("UNCHECKED_CAST")
+                val converter = values[4] as CurrencyConverter
+                @Suppress("UNCHECKED_CAST")
+                val wallets = values[5] as List<io.github.submark.core.model.Wallet>
+                @Suppress("UNCHECKED_CAST")
+                val priceSummary = values[6] as io.github.submark.feature.overview.data.PriceMonitorSummary
+                buildState(env, subs, cats, payList, curList, converter, wallets, priceSummary)
             }
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), OverviewUiState())
@@ -205,6 +223,8 @@ class OverviewViewModel @Inject constructor(
         payList: List<PaymentRecord>,
         curList: List<Currency>,
         converter: CurrencyConverter,
+        wallets: List<io.github.submark.core.model.Wallet> = emptyList(),
+        priceSummary: io.github.submark.feature.overview.data.PriceMonitorSummary? = null,
     ): OverviewUiState {
         val s = env.settings
         val today = env.today
@@ -365,7 +385,10 @@ class OverviewViewModel @Inject constructor(
             hasEnoughTrendData = trend.count { it.total.signum() > 0 } >= 2,
             monthlyTimeline = monthlyTimeline,
             wallets = walletBalances,
-            wishlistPriceStatus = WishlistPriceState.EMPTY, // filled by screen via IntegrationsGate
+            wishlistPriceStatus = when {
+                priceSummary == null || priceSummary.monitorCount == 0 -> WishlistPriceState.EMPTY
+                else -> WishlistPriceState.Count(priceSummary.monitorCount)
+            },
             markTarget = env.mark,
             subscriptionById = subById,
             addedDays = addedDays,
