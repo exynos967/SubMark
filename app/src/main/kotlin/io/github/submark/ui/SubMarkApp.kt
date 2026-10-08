@@ -20,9 +20,9 @@ import io.github.submark.core.ui.component.LocalMoneyDisplayOptions
 import io.github.submark.core.ui.component.MoneyDisplayOptions
 import io.github.submark.core.ui.navigation.SubscriptionDetailRoute
 import io.github.submark.core.ui.theme.SubMarkTheme
-import io.github.submark.feature.settings.onboarding.OnboardingScreenRoute
-import io.github.submark.feature.settings.security.AppLockScreen
-import io.github.submark.feature.settings.toThemeConfig
+import io.github.submark.feature.settings.ui.onboarding.OnboardingScreenRoute
+import io.github.submark.feature.settings.AppLockScreen
+import io.github.submark.feature.settings.theme.toThemeConfig
 
 /** Pending navigation requested by an incoming intent (notification, widget, deep link). */
 sealed interface LaunchRequest {

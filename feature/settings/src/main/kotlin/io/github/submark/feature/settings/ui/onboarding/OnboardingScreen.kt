@@ -55,7 +55,7 @@ import io.github.submark.feature.settings.R
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun OnboardingScreenRoute(onFinished: () -> Unit, viewModel: OnboardingViewModel = hiltViewModel()) {
+fun OnboardingScreenRoute(onFinished: () -> Unit, viewModel: OnboardingViewModel = hiltViewModel()) {
     OnboardingScreen(onFinish = { viewModel.complete(onFinished) })
 }
 
