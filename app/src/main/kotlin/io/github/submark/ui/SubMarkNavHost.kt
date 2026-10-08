@@ -1,6 +1,8 @@
 package io.github.submark.ui
 
 import androidx.annotation.StringRes
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -13,6 +15,7 @@ import androidx.compose.material.icons.rounded.Dashboard
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.ViewList
 import androidx.compose.material.icons.rounded.Widgets
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -23,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hasRoute
@@ -111,10 +115,17 @@ fun SubMarkNavHost(navController: NavHostController, settings: AppSettings, star
             }
         },
     ) { padding ->
+        val density = LocalDensity.current
+        val motion = remember(density) { NavMotion(density) }
+        val animate = settings.display.animatedBackground
         NavHost(
             navController = navController,
             startDestination = startTab.route,
             modifier = Modifier.fillMaxSize().padding(padding).consumeWindowInsets(padding),
+            enterTransition = { if (animate) motion.enter(this) else EnterTransition.None },
+            exitTransition = { if (animate) motion.exit(this) else ExitTransition.None },
+            popEnterTransition = { if (animate) motion.popEnter(this) else EnterTransition.None },
+            popExitTransition = { if (animate) motion.popExit(this) else ExitTransition.None },
         ) {
             overviewGraph(navController)
             subscriptionsGraph(navController)
