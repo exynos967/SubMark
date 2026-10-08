@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_upcoming_title">Upcoming subscriptions</string>
+    <string name="widget_upcoming_description">Next due subscriptions with a quick “mark paid” action</string>
+    <string name="widget_spending_title">Spending summary</string>
+    <string name="widget_spending_description">Projected spending this month and budget usage</string>
+    <string name="widget_total">Total</string>
+    <plurals name="widget_subs_count">
+        <item quantity="one">%d sub</item>
+        <item quantity="other">%d subs</item>
+    </plurals>
+    <string name="widget_no_upcoming">Nothing due soon</string>
+    <string name="widget_add_hint">Add subscriptions in SubMark</string>
+    <string name="widget_today">Today</string>
+    <string name="widget_tomorrow">Tomorrow</string>
+    <plurals name="widget_in_days">
+        <item quantity="one">In %d day</item>
+        <item quantity="other">In %d days</item>
+    </plurals>
+    <plurals name="widget_overdue_days">
+        <item quantity="one">Overdue by %d day</item>
+        <item quantity="other">Overdue by %d days</item>
+    </plurals>
+    <string name="widget_unknown_date">—</string>
+    <string name="widget_mark_paid">Mark paid</string>
+    <string name="widget_marked_paid">Marked %1$s as paid</string>
+    <string name="widget_mark_failed">Could not mark %1$s as paid</string>
+    <string name="widget_this_month">This month</string>
+    <string name="widget_active_count">Active</string>
+    <string name="widget_budget_used">%1$d%% of budget used</string>
+    <string name="widget_over_budget">Over budget</string>
+    <string name="widget_no_budget">No budget set</string>
+    <string name="widget_loading">Loading…</string>
+    <string name="widget_error">Could not load widget data</string>
+</resources>

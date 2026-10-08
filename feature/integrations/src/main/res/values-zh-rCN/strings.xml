@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 通用错误 -->
+    <string name="integrations_error_generic">出错了，请稍后重试</string>
+    <string name="integrations_error_network">网络错误，请检查连接</string>
+    <string name="integrations_error_parse">无法解析返回的数据</string>
+    <string name="integrations_error_http">服务器错误（HTTP %1$d）</string>
+    <string name="integrations_error_invalid_url">请输入有效的 http(s) 链接</string>
+    <string name="integrations_error_not_found">未找到</string>
+    <string name="integrations_error_invalid">输入无效</string>
+    <string name="integrations_error_blank_name">名称不能为空</string>
+    <string name="integrations_error_bad_amount">金额必须大于零</string>
+    <string name="integrations_error_in_use">该项目仍被使用中</string>
+    <string name="integrations_error_itunes_no_items">没有找到匹配的应用</string>
+    <string name="integrations_error_itunes_incomplete">商店未返回该应用的价格</string>
+    <string name="integrations_error_rawg_no_key">请先在设置中添加 RAWG API 密钥</string>
+    <string name="integrations_error_rawg_no_results">没有找到相关游戏</string>
+    <string name="integrations_error_ai_config">AI 识别尚未配置，请选择服务提供商并保存 API 密钥</string>
+    <string name="integrations_error_ai_disabled">AI 识别已关闭</string>
+    <string name="integrations_error_ai_image">无法处理该图片</string>
+    <string name="integrations_error_ai_http">API 错误（状态码 %1$d）</string>
+    <string name="integrations_error_ai_empty">AI 返回了空结果</string>
+    <string name="integrations_error_ai_json">无法解析 AI 的返回内容</string>
+
+    <!-- 热门订阅 -->
+    <string name="integrations_popular_title">热门订阅</string>
+    <string name="integrations_popular_search_hint">搜索名称或标签</string>
+    <string name="integrations_popular_repositories">管理仓库</string>
+    <string name="integrations_popular_add_repository">添加仓库</string>
+    <string name="integrations_popular_no_repo_title">还没有目录</string>
+    <string name="integrations_popular_no_repo_message">热门订阅来自你自己添加的仓库链接。添加一个兼容 MarkBuyRepo 格式的 JSON 目录，即可浏览现成的订阅模板。</string>
+    <string name="integrations_popular_format_title">格式要求</string>
+    <string name="integrations_popular_format_message">一个包含 version、lastUpdated 和 subscriptions 数组的 JSON 文档：</string>
+    <string name="integrations_popular_empty_filter">没有符合当前筛选条件的内容</string>
+    <string name="integrations_popular_load_failed">目录加载失败，请检查仓库链接和网络连接</string>
+    <plurals name="integrations_popular_failed_repos">
+        <item quantity="one">%1$d 个仓库加载失败</item>
+        <item quantity="other">%1$d 个仓库加载失败</item>
+    </plurals>
+    <string name="integrations_popular_scope_all">全部地区</string>
+    <string name="integrations_popular_scope_local">%1$s + 全球</string>
+    <string name="integrations_popular_sort_name">按名称排序</string>
+    <string name="integrations_popular_sort_category">按类别排序</string>
+    <string name="integrations_popular_from_price">%1$s 起</string>
+    <string name="integrations_popular_bundle_badge">套装</string>
+    <string name="integrations_popular_pricing">价格</string>
+    <string name="integrations_popular_price_cycle">%1$s / %2$s</string>
+    <string name="integrations_popular_price_lifetime">%1$s 买断</string>
+    <string name="integrations_popular_use">使用</string>
+    <string name="integrations_popular_included">包含 %1$d 项服务</string>
+    <string name="integrations_popular_total_value">总价值 %1$s</string>
+    <string name="integrations_popular_save">省 %1$s</string>
+    <string name="integrations_popular_free">免费</string>
+    <string name="integrations_popular_bundle_choice_message">此套装包含 %1$d 项服务，价格 %2$s。只添加主订阅，还是同时添加全部服务作为子订阅？</string>
+    <string name="integrations_popular_bundle_full">完整套装（%1$d 项）</string>
+    <string name="integrations_popular_bundle_main_only">仅主订阅</string>
+    <string name="integrations_filter_all">全部</string>
+
+    <!-- 仓库管理 -->
+    <string name="integrations_repo_title">订阅仓库</string>
+    <string name="integrations_repo_empty">还没有仓库</string>
+    <string name="integrations_repo_edit">编辑仓库</string>
+    <string name="integrations_repo_name">名称</string>
+    <string name="integrations_repo_url">目录链接</string>
+    <string name="integrations_repo_description">描述（可选）</string>
+    <string name="integrations_repo_validate">验证</string>
+    <string name="integrations_repo_validate_ok">目录有效，共 %1$d 条订阅</string>
+    <string name="integrations_repo_saved">已保存“%1$s”</string>
+    <string name="integrations_repo_deleted">已删除“%1$s”</string>
+    <string name="integrations_repo_delete_title">删除仓库？</string>
+    <string name="integrations_repo_delete_message">将删除“%1$s”及其缓存的目录。</string>
+    <string name="integrations_repo_clear_cache">清除缓存</string>
+    <string name="integrations_repo_clear_cache_message">缓存的目录将在下次打开时重新下载。</string>
+    <string name="integrations_repo_cache_cleared">缓存已清除</string>
+    <string name="integrations_repo_status_ok">%1$d 条订阅 · 更新于 %2$s</string>
+    <string name="integrations_repo_status_error">加载失败：%1$s</string>
+    <string name="integrations_repo_never_fetched">从未</string>
+    <string name="integrations_cd_move_up">上移</string>
+    <string name="integrations_cd_move_down">下移</string>
+    <string name="integrations_cd_expand">展开</string>
+    <string name="integrations_cd_collapse">收起</string>
+
+    <!-- 价格监控 -->
+    <string name="integrations_price_title">价格监控</string>
+    <string name="integrations_price_enable">监控此应用的价格</string>
+    <string name="integrations_price_wishlist_only">价格监控仅适用于愿望单项目</string>
+    <string name="integrations_price_needs_app_store_id">请先为该订阅添加 App Store ID</string>
+    <string name="integrations_price_master_off_hint">总开关已关闭</string>
+    <string name="integrations_price_master_off_body">在监控设置中开启价格监控后，将自动检查价格。</string>
+    <string name="integrations_price_last_check">上次检查 %1$s</string>
+    <string name="integrations_price_never_checked">从未检查</string>
+    <string name="integrations_price_regions">监控的商店地区</string>
+    <string name="integrations_price_add_region">添加</string>
+    <string name="integrations_price_remove_region">移除</string>
+    <string name="integrations_price_need_one_region">至少保留一个地区</string>
+    <string name="integrations_price_check_now">立即检查</string>
+    <string name="integrations_price_check_done">已检查 %1$d 个地区</string>
+    <string name="integrations_price_check_partial">已检查 %1$d 个地区，%2$d 个失败</string>
+    <string name="integrations_price_no_history">还没有价格记录</string>
+    <string name="integrations_price_no_history_hint">点击“立即检查”，或等待下一次自动检查。</string>
+    <string name="integrations_price_stats">当前 %1$s · 最低 %2$s · 最高 %3$s · 平均 %4$s</string>
+    <string name="integrations_price_selected_point">%2$s 时为 %1$s</string>
+    <string name="integrations_price_settings_title">监控设置</string>
+    <string name="integrations_price_group_monitoring">价格监控</string>
+    <string name="integrations_price_master">启用价格监控</string>
+    <string name="integrations_price_master_hint">定期检查受监控愿望单项目的 App Store 价格</string>
+    <string name="integrations_price_group_schedule">检查计划</string>
+    <string name="integrations_price_interval">检查间隔</string>
+    <string name="integrations_price_interval_hours">每 %1$d 小时</string>
+    <string name="integrations_price_threshold">价格下降 %1$d%% 时通知</string>
+    <string name="integrations_price_store_region">App Store 地区</string>
+    <string name="integrations_price_group_notifications">通知</string>
+    <string name="integrations_price_notification_status">通知权限</string>
+    <string name="integrations_price_notifications_ready">正常</string>
+    <string name="integrations_price_notifications_denied">已被拒绝，请在系统设置中允许通知</string>
+    <string name="integrations_price_test_notification">发送测试通知</string>
+    <string name="integrations_price_run_now">立即运行检查</string>
+    <string name="integrations_price_run_scheduled">已安排检查</string>
+    <string name="integrations_price_group_history">历史记录</string>
+    <string name="integrations_price_history_count">已保存的记录</string>
+    <string name="integrations_price_clear_history">清除全部价格记录</string>
+    <string name="integrations_price_clear_history_message">将删除所有已记录的价格检查。</string>
+    <string name="integrations_price_history_cleared">价格记录已清除</string>
+    <string name="integrations_price_drop_channel_name">降价提醒</string>
+    <string name="integrations_price_drop_channel_desc">当受监控的愿望单应用降价时通知你</string>
+    <string name="integrations_price_drop_title">降价提醒</string>
+    <string name="integrations_price_drop_body">%1$s（%2$s）降价 %3$d%%，现价 %4$s，原价 %5$s</string>
+
+    <!-- 地区选择 -->
+    <string name="integrations_region_picker_title">选择地区</string>
+
+    <!-- AI 识别 -->
+    <string name="integrations_ai_settings_title">AI 识别</string>
+    <string name="integrations_ai_enable">启用 AI 识别</string>
+    <string name="integrations_ai_enable_hint">在应用各处显示截图识别入口</string>
+    <string name="integrations_ai_provider">服务提供商</string>
+    <string name="integrations_ai_provider_openai">OpenAI</string>
+    <string name="integrations_ai_provider_qwen">通义千问（DashScope）</string>
+    <string name="integrations_ai_provider_custom">自定义</string>
+    <string name="integrations_ai_key">API 密钥</string>
+    <string name="integrations_ai_key_replace">更换 API 密钥</string>
+    <string name="integrations_ai_key_saved">API 密钥已保存</string>
+    <string name="integrations_ai_key_hint">仅加密保存在本设备上，不会包含在备份中。</string>
+    <string name="integrations_ai_model_group">模型</string>
+    <string name="integrations_ai_model">模型</string>
+    <string name="integrations_ai_endpoint">接口地址</string>
+    <string name="integrations_ai_test">测试连接</string>
+    <string name="integrations_ai_test_ok">连接正常</string>
+    <string name="integrations_ai_recognition_title">识别订阅</string>
+    <string name="integrations_ai_analyzing">正在分析截图…</string>
+    <string name="integrations_ai_pick_title">选择一张截图</string>
+    <string name="integrations_ai_pick_message">选择一张应用商店或价格页面的截图，让 AI 帮你填写订阅信息。</string>
+    <string name="integrations_ai_pick">选择截图</string>
+    <string name="integrations_ai_pick_another">换一张截图</string>
+    <string name="integrations_ai_open_settings">AI 设置</string>
+    <string name="integrations_ai_no_results">没有识别出订阅</string>
+    <string name="integrations_ai_select_all">全选</string>
+    <string name="integrations_ai_clear">清空</string>
+    <string name="integrations_ai_use">使用此结果</string>
+    <string name="integrations_ai_use_next">使用下一条（剩 %1$d 条）</string>
+    <string name="integrations_ai_confidence">置信度 %1$d%%</string>
+
+    <!-- RAWG -->
+    <string name="integrations_rawg_title">游戏数据库（RAWG）</string>
+    <string name="integrations_rawg_group">RAWG</string>
+    <string name="integrations_rawg_explain">RAWG 为图标选择器提供游戏封面。注册免费账号即可获取 API 密钥。</string>
+    <string name="integrations_rawg_get_key">获取免费 API 密钥</string>
+    <string name="integrations_rawg_key">RAWG API 密钥</string>
+
+    <!-- 图标选择器 -->
+    <string name="integrations_icon_title">选择图标</string>
+    <string name="integrations_icon_tab_system">系统</string>
+    <string name="integrations_icon_tab_emoji">表情</string>
+    <string name="integrations_icon_tab_app_store">App Store</string>
+    <string name="integrations_icon_tab_website">网站</string>
+    <string name="integrations_icon_tab_repository">图标仓库</string>
+    <string name="integrations_icon_tab_games">游戏</string>
+    <string name="integrations_icon_tab_photo">照片</string>
+    <string name="integrations_icon_search_system">搜索图标</string>
+    <string name="integrations_icon_search_store">搜索 App Store</string>
+    <string name="integrations_icon_search_repo">搜索图标</string>
+    <string name="integrations_icon_search_games">搜索游戏</string>
+    <string name="integrations_icon_emoji_input">或输入任意表情</string>
+    <string name="integrations_icon_domain">网站域名</string>
+    <string name="integrations_icon_fetch">获取图标</string>
+    <string name="integrations_icon_recent">最近使用</string>
+    <string name="integrations_icon_invalid_domain">请输入 apple.com 这样的域名</string>
+    <string name="integrations_icon_no_website">未找到网站图标</string>
+    <string name="integrations_icon_no_artwork">该应用没有图标</string>
+    <string name="integrations_icon_no_cover">该游戏没有封面图</string>
+    <string name="integrations_icon_repo_empty">还没有图标仓库</string>
+    <string name="integrations_icon_repo_add">添加图标仓库</string>
+    <string name="integrations_icon_repo_count">%1$d 个图标</string>
+    <string name="integrations_icon_repo_get">获取</string>
+    <string name="integrations_icon_repo_format">JSON 格式：{ "name": "…", "icons": [ { "name": "…", "url": "https://…" } ] }</string>
+    <string name="integrations_icon_preview">使用这个图标？</string>
+    <string name="integrations_icon_cached_note">远程图标首次下载后会缓存在本地。</string>
+    <string name="integrations_icon_photo_explain">选择一张照片，将以中心裁剪为正方形后保存在应用内。</string>
+    <string name="integrations_icon_photo_pick">选择照片</string>
+    <string name="integrations_icon_photo_saving">正在保存…</string>
+    <string name="integrations_icon_photo_failed">照片保存失败</string>
+</resources>

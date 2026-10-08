@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Generic errors -->
+    <string name="integrations_error_generic">Something went wrong</string>
+    <string name="integrations_error_network">Network error — check your connection</string>
+    <string name="integrations_error_parse">The response could not be read</string>
+    <string name="integrations_error_http">Server error (HTTP %1$d)</string>
+    <string name="integrations_error_invalid_url">Enter a valid http(s) URL</string>
+    <string name="integrations_error_not_found">Not found</string>
+    <string name="integrations_error_invalid">Invalid input</string>
+    <string name="integrations_error_blank_name">Name cannot be empty</string>
+    <string name="integrations_error_bad_amount">Amount must be greater than zero</string>
+    <string name="integrations_error_in_use">This item is still in use</string>
+    <string name="integrations_error_itunes_no_items">No matching apps found</string>
+    <string name="integrations_error_itunes_incomplete">The store did not return a price for this app</string>
+    <string name="integrations_error_rawg_no_key">Add your RAWG API key in settings first</string>
+    <string name="integrations_error_rawg_no_results">No games found</string>
+    <string name="integrations_error_ai_config">AI recognition is not configured — choose a provider and save an API key</string>
+    <string name="integrations_error_ai_disabled">AI recognition is turned off</string>
+    <string name="integrations_error_ai_image">The image could not be processed</string>
+    <string name="integrations_error_ai_http">API error (status %1$d)</string>
+    <string name="integrations_error_ai_empty">The AI returned an empty response</string>
+    <string name="integrations_error_ai_json">Could not read the AI response</string>
+
+    <!-- Popular subscriptions -->
+    <string name="integrations_popular_title">Popular subscriptions</string>
+    <string name="integrations_popular_search_hint">Search name or tag</string>
+    <string name="integrations_popular_repositories">Manage repositories</string>
+    <string name="integrations_popular_add_repository">Add repository</string>
+    <string name="integrations_popular_no_repo_title">No catalogue yet</string>
+    <string name="integrations_popular_no_repo_message">Popular subscriptions come from repository URLs you add yourself. Add a MarkBuyRepo-compatible JSON catalogue to browse ready-made subscriptions.</string>
+    <string name="integrations_popular_format_title">Expected format</string>
+    <string name="integrations_popular_format_message">A JSON document with version, lastUpdated and a subscriptions array:</string>
+    <string name="integrations_popular_empty_filter">Nothing matches the current filters</string>
+    <string name="integrations_popular_load_failed">The catalogue could not be loaded — check the repository URLs and your connection</string>
+    <string name="integrations_popular_scope_all">All regions</string>
+    <string name="integrations_popular_scope_local">%1$s + Global</string>
+    <string name="integrations_popular_sort_name">Sort: name</string>
+    <string name="integrations_popular_sort_category">Sort: category</string>
+    <string name="integrations_popular_from_price">from %1$s</string>
+    <plurals name="integrations_popular_failed_repos">
+        <item quantity="one">%1$d repository failed to load</item>
+        <item quantity="other">%1$d repositories failed to load</item>
+    </plurals>
+    <string name="integrations_popular_bundle_badge">Bundle</string>
+    <string name="integrations_popular_pricing">Pricing</string>
+    <string name="integrations_popular_price_cycle">%1$s / %2$s</string>
+    <string name="integrations_popular_price_lifetime">%1$s one-time</string>
+    <string name="integrations_popular_use">Use</string>
+    <string name="integrations_popular_included">Includes %1$d services</string>
+    <string name="integrations_popular_total_value">Total value %1$s</string>
+    <string name="integrations_popular_save">Save %1$s</string>
+    <string name="integrations_popular_free">Free</string>
+    <string name="integrations_popular_bundle_choice_message">This bundle includes %1$d services for %2$s. Add only the main subscription, or the main plus every service as children?</string>
+    <string name="integrations_popular_bundle_full">Full bundle (%1$d)</string>
+    <string name="integrations_popular_bundle_main_only">Main only</string>
+    <string name="integrations_filter_all">All</string>
+
+    <!-- Repository management -->
+    <string name="integrations_repo_title">Repositories</string>
+    <string name="integrations_repo_empty">No repositories yet</string>
+    <string name="integrations_repo_edit">Edit repository</string>
+    <string name="integrations_repo_name">Name</string>
+    <string name="integrations_repo_url">Catalogue URL</string>
+    <string name="integrations_repo_description">Description (optional)</string>
+    <string name="integrations_repo_validate">Validate</string>
+    <string name="integrations_repo_validate_ok">Valid catalogue — %1$d subscriptions</string>
+    <string name="integrations_repo_saved">Saved “%1$s”</string>
+    <string name="integrations_repo_deleted">Deleted “%1$s”</string>
+    <string name="integrations_repo_delete_title">Delete repository?</string>
+    <string name="integrations_repo_delete_message">“%1$s” and its cached catalogue will be removed.</string>
+    <string name="integrations_repo_clear_cache">Clear cache</string>
+    <string name="integrations_repo_clear_cache_message">Cached catalogues will be re-downloaded on next open.</string>
+    <string name="integrations_repo_cache_cleared">Cache cleared</string>
+    <string name="integrations_repo_status_ok">%1$d subscriptions · Updated %2$s</string>
+    <string name="integrations_repo_status_error">Load failed: %1$s</string>
+    <string name="integrations_repo_never_fetched">never</string>
+    <string name="integrations_cd_move_up">Move up</string>
+    <string name="integrations_cd_move_down">Move down</string>
+    <string name="integrations_cd_expand">Expand</string>
+    <string name="integrations_cd_collapse">Collapse</string>
+
+    <!-- Price monitoring -->
+    <string name="integrations_price_title">Price monitoring</string>
+    <string name="integrations_price_enable">Monitor this app\'s price</string>
+    <string name="integrations_price_wishlist_only">Price monitoring is only available for wishlist items</string>
+    <string name="integrations_price_needs_app_store_id">Add an App Store ID to this subscription first</string>
+    <string name="integrations_price_master_off_hint">Master switch is off</string>
+    <string name="integrations_price_master_off_body">Enable price monitoring in Monitoring Settings to check prices automatically.</string>
+    <string name="integrations_price_last_check">Last check %1$s</string>
+    <string name="integrations_price_never_checked">Never checked</string>
+    <string name="integrations_price_regions">Storefronts</string>
+    <string name="integrations_price_add_region">Add</string>
+    <string name="integrations_price_remove_region">Remove</string>
+    <string name="integrations_price_need_one_region">Keep at least one storefront</string>
+    <string name="integrations_price_check_now">Check now</string>
+    <string name="integrations_price_check_done">Checked %1$d storefronts</string>
+    <string name="integrations_price_check_partial">Checked %1$d storefronts, %2$d failed</string>
+    <string name="integrations_price_no_history">No price history yet</string>
+    <string name="integrations_price_no_history_hint">Run “Check now” or wait for the next scheduled check.</string>
+    <string name="integrations_price_stats">Now %1$s · Low %2$s · High %3$s · Avg %4$s</string>
+    <string name="integrations_price_selected_point">%1$s on %2$s</string>
+    <string name="integrations_price_settings_title">Monitoring settings</string>
+    <string name="integrations_price_group_monitoring">Price monitoring</string>
+    <string name="integrations_price_master">Enable price monitoring</string>
+    <string name="integrations_price_master_hint">Periodically checks App Store prices of monitored wishlist items</string>
+    <string name="integrations_price_group_schedule">Schedule</string>
+    <string name="integrations_price_interval">Check interval</string>
+    <string name="integrations_price_interval_hours">Every %1$d h</string>
+    <string name="integrations_price_threshold">Notify when the price drops by %1$d%%</string>
+    <string name="integrations_price_store_region">App Store region</string>
+    <string name="integrations_price_group_notifications">Notifications</string>
+    <string name="integrations_price_notification_status">Notification permission</string>
+    <string name="integrations_price_notifications_ready">Ready</string>
+    <string name="integrations_price_notifications_denied">Denied — allow notifications in system settings</string>
+    <string name="integrations_price_test_notification">Send test notification</string>
+    <string name="integrations_price_run_now">Run a check now</string>
+    <string name="integrations_price_run_scheduled">Check scheduled</string>
+    <string name="integrations_price_group_history">History</string>
+    <string name="integrations_price_history_count">Stored records</string>
+    <string name="integrations_price_clear_history">Clear all price history</string>
+    <string name="integrations_price_clear_history_message">Every recorded price check will be deleted.</string>
+    <string name="integrations_price_history_cleared">Price history cleared</string>
+    <string name="integrations_price_drop_channel_name">Price drops</string>
+    <string name="integrations_price_drop_channel_desc">Notifies when a monitored wishlist app gets cheaper</string>
+    <string name="integrations_price_drop_title">Price drop</string>
+    <string name="integrations_price_drop_body">%1$s (%2$s) dropped %3$d%% — now %4$s, was %5$s</string>
+
+    <!-- Region picker -->
+    <string name="integrations_region_picker_title">Choose a region</string>
+
+    <!-- AI recognition -->
+    <string name="integrations_ai_settings_title">AI recognition</string>
+    <string name="integrations_ai_enable">Enable AI recognition</string>
+    <string name="integrations_ai_enable_hint">Shows screenshot recognition entries across the app</string>
+    <string name="integrations_ai_provider">Provider</string>
+    <string name="integrations_ai_provider_openai">OpenAI</string>
+    <string name="integrations_ai_provider_qwen">Qwen (DashScope)</string>
+    <string name="integrations_ai_provider_custom">Custom</string>
+    <string name="integrations_ai_key">API key</string>
+    <string name="integrations_ai_key_replace">Replace API key</string>
+    <string name="integrations_ai_key_saved">API key saved</string>
+    <string name="integrations_ai_key_hint">Stored encrypted on this device only; never included in backups.</string>
+    <string name="integrations_ai_model_group">Model</string>
+    <string name="integrations_ai_model">Model</string>
+    <string name="integrations_ai_endpoint">Endpoint</string>
+    <string name="integrations_ai_test">Test connection</string>
+    <string name="integrations_ai_test_ok">Connection works</string>
+    <string name="integrations_ai_recognition_title">Recognize subscriptions</string>
+    <string name="integrations_ai_analyzing">Analyzing screenshot…</string>
+    <string name="integrations_ai_pick_title">Pick a screenshot</string>
+    <string name="integrations_ai_pick_message">Choose a screenshot of an app store page or pricing plan and let AI fill in the details.</string>
+    <string name="integrations_ai_pick">Pick screenshot</string>
+    <string name="integrations_ai_pick_another">Pick another screenshot</string>
+    <string name="integrations_ai_open_settings">AI settings</string>
+    <string name="integrations_ai_no_results">No subscriptions recognized</string>
+    <string name="integrations_ai_select_all">Select all</string>
+    <string name="integrations_ai_clear">Clear</string>
+    <string name="integrations_ai_use">Use this result</string>
+    <string name="integrations_ai_use_next">Use next (%1$d left)</string>
+    <string name="integrations_ai_confidence">%1$d%% sure</string>
+
+    <!-- RAWG -->
+    <string name="integrations_rawg_title">Game database (RAWG)</string>
+    <string name="integrations_rawg_group">RAWG</string>
+    <string name="integrations_rawg_explain">RAWG provides game covers for the icon picker. Create a free account to get an API key.</string>
+    <string name="integrations_rawg_get_key">Get a free API key</string>
+    <string name="integrations_rawg_key">RAWG API key</string>
+
+    <!-- Icon picker -->
+    <string name="integrations_icon_title">Choose an icon</string>
+    <string name="integrations_icon_tab_system">System</string>
+    <string name="integrations_icon_tab_emoji">Emoji</string>
+    <string name="integrations_icon_tab_app_store">App Store</string>
+    <string name="integrations_icon_tab_website">Website</string>
+    <string name="integrations_icon_tab_repository">Repository</string>
+    <string name="integrations_icon_tab_games">Games</string>
+    <string name="integrations_icon_tab_photo">Photo</string>
+    <string name="integrations_icon_search_system">Search icons</string>
+    <string name="integrations_icon_search_store">Search the App Store</string>
+    <string name="integrations_icon_search_repo">Search icons</string>
+    <string name="integrations_icon_search_games">Search games</string>
+    <string name="integrations_icon_emoji_input">Or type any emoji</string>
+    <string name="integrations_icon_domain">Website domain</string>
+    <string name="integrations_icon_fetch">Fetch icon</string>
+    <string name="integrations_icon_recent">Recent</string>
+    <string name="integrations_icon_invalid_domain">Enter a domain like apple.com</string>
+    <string name="integrations_icon_no_website">No website icon found</string>
+    <string name="integrations_icon_no_artwork">This app has no icon</string>
+    <string name="integrations_icon_no_cover">This game has no cover image</string>
+    <string name="integrations_icon_repo_empty">No icon repositories yet</string>
+    <string name="integrations_icon_repo_add">Add icon repository</string>
+    <string name="integrations_icon_repo_count">%1$d icons</string>
+    <string name="integrations_icon_repo_get">Get</string>
+    <string name="integrations_icon_repo_format">JSON format: { "name": "…", "icons": [ { "name": "…", "url": "https://…" } ] }</string>
+    <string name="integrations_icon_preview">Use this icon?</string>
+    <string name="integrations_icon_cached_note">Remote icons are cached locally after the first download.</string>
+    <string name="integrations_icon_photo_explain">Pick a photo; it is center-cropped to a square and saved inside the app.</string>
+    <string name="integrations_icon_photo_pick">Pick a photo</string>
+    <string name="integrations_icon_photo_saving">Saving…</string>
+    <string name="integrations_icon_photo_failed">The photo could not be saved</string>
+</resources>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Data Management root -->
+    <string name="backup_data_title">Data Management</string>
+    <string name="backup_group_backup_restore">Backup &amp; Restore</string>
+    <string name="backup_export">Export</string>
+    <string name="backup_export_subtitle">Save subscriptions, payments and settings as JSON or ZIP</string>
+    <string name="backup_import">Import</string>
+    <string name="backup_import_subtitle">Restore from a JSON or ZIP file</string>
+    <string name="backup_webdav">WebDAV Backup</string>
+    <string name="backup_webdav_subtitle">Automatic backups to your own server</string>
+    <string name="backup_qr_import">QR Code Import</string>
+    <string name="backup_qr_import_subtitle">Scan a QR code from an image to add a subscription</string>
+    <string name="backup_group_display">Data Display</string>
+    <string name="backup_toggle_archive_mode">Archive mode</string>
+    <string name="backup_toggle_archive_mode_subtitle">Paused subscriptions move to the archive</string>
+    <string name="backup_toggle_custom_cycle_ymd">Show custom cycle as Y/M/D</string>
+    <string name="backup_toggle_end_date_fixed">Show end date for fixed cycle</string>
+    <string name="backup_toggle_iap_total">Show IAP total price</string>
+    <string name="backup_toggle_lifetime_label">Show lifetime label</string>
+    <string name="backup_group_cleanup">Cleanup</string>
+    <string name="backup_clean_orphans">Clean orphaned shared members</string>
+    <string name="backup_clean_orphans_subtitle">Remove members whose subscription no longer exists</string>
+    <string name="backup_clean_duplicates">Clean duplicate shared members</string>
+    <string name="backup_clean_duplicates_subtitle">Merge members with the same name on one subscription</string>
+    <string name="backup_clear_rate_cache">Clear historical rate cache</string>
+    <string name="backup_clear_rate_cache_subtitle">Cached exchange-rate days are re-fetched on demand</string>
+    <string name="backup_group_danger">Danger Zone</string>
+    <string name="backup_clear_all">Clear all data</string>
+    <string name="backup_clear_all_subtitle">Delete every subscription, payment, setting and file</string>
+    <string name="backup_clear_all_confirm1_title">Delete all data?</string>
+    <string name="backup_clear_all_confirm1_body">This removes every subscription, payment record and wallet. It cannot be undone.</string>
+    <string name="backup_clear_all_confirm2_title">Are you absolutely sure?</string>
+    <string name="backup_clear_all_confirm2_body">All local data will be permanently deleted. Photos and icons will be removed too.</string>
+    <string name="backup_clear_all_done">All data deleted</string>
+    <string name="backup_delete">Delete</string>
+    <string name="backup_erase">Erase everything</string>
+
+    <!-- Export / import -->
+    <string name="backup_export_running">Preparing export…</string>
+    <string name="backup_export_done">Export saved</string>
+    <string name="backup_export_failed">Export failed</string>
+    <string name="backup_import_running">Importing…</string>
+    <string name="backup_import_failed">Import failed</string>
+    <string name="backup_import_nothing">No data imported</string>
+    <string name="backup_import_file_failed">File access failed</string>
+    <string name="backup_import_malformed">The file is not a valid backup</string>
+    <string name="backup_import_unsupported">This backup was made by a newer version of the app</string>
+    <string name="backup_import_result_title">Import complete</string>
+    <string name="backup_mode_title">Choose how to restore</string>
+    <string name="backup_mode_merge">Merge</string>
+    <string name="backup_mode_merge_desc">Add records that are missing; keep existing data untouched</string>
+    <string name="backup_mode_replace">Replace matching</string>
+    <string name="backup_mode_replace_desc">Backup values overwrite local records with the same ID</string>
+    <string name="backup_mode_exact">Exact (erase then restore)</string>
+    <string name="backup_mode_exact_desc">Delete everything the backup covers, then restore it</string>
+    <string name="backup_mode_exact_confirm_title">Erase and restore?</string>
+    <string name="backup_mode_exact_confirm_body">Current data in every covered table will be deleted before the backup is restored.</string>
+    <string name="backup_mode_exact_confirm_action">Erase and Restore</string>
+
+    <!-- Import result count labels (ExportBundle field names) -->
+    <string name="backup_count_categories">Categories</string>
+    <string name="backup_count_tags">Tags</string>
+    <string name="backup_count_tagFolders">Tag folders</string>
+    <string name="backup_count_customFields">Custom fields</string>
+    <string name="backup_count_paymentMethods">Payment methods</string>
+    <string name="backup_count_currencies">Currencies</string>
+    <string name="backup_count_wallets">Wallets</string>
+    <string name="backup_count_subscriptions">Subscriptions</string>
+    <string name="backup_count_subscriptionPhotos">Photos</string>
+    <string name="backup_count_customReminders">Reminders</string>
+    <string name="backup_count_paymentRecords">Payment records</string>
+    <string name="backup_count_walletTransactions">Wallet transactions</string>
+    <string name="backup_count_storedValueRecords">Stored-value records</string>
+    <string name="backup_count_sharedConfigs">Shared configs</string>
+    <string name="backup_count_sharedMembers">Shared members</string>
+
+    <!-- Cleanup reports -->
+    <string name="backup_orphan_report">Checked %1$d members: %2$d orphaned removed, %3$d kept.</string>
+    <string name="backup_duplicate_report">Checked %1$d members: removed %2$d duplicates across %3$d groups (%4$d subscriptions). %5$d remain.</string>
+    <string name="backup_rate_cache_cleared">Historical rate cache cleared</string>
+
+    <!-- Profiles list -->
+    <string name="backup_profiles_title">WebDAV Backup</string>
+    <string name="backup_profiles_empty_title">No backup profiles</string>
+    <string name="backup_profiles_empty_message">Add a WebDAV server to keep automatic backups of your data.</string>
+    <string name="backup_profiles_add">Add profile</string>
+    <string name="backup_profile_last_success">Last backup: %1$s</string>
+    <string name="backup_profile_never_backed_up">Never backed up</string>
+    <string name="backup_profile_last_error">Last error: %1$s</string>
+    <string name="backup_profile_disabled">Disabled</string>
+    <string name="backup_back_up_now">Back up now</string>
+    <string name="backup_running">Another backup or restore is already running</string>
+    <string name="backup_backup_started">Backup started</string>
+    <string name="backup_backup_completed">Backup completed</string>
+    <string name="backup_backup_failed">Backup failed</string>
+
+    <!-- Notification channel -->
+    <string name="backup_channel_name">Backup status</string>
+    <string name="backup_channel_description">WebDAV backup results</string>
+    <string name="backup_failed_title">Backup failed</string>
+    <string name="backup_failed_body">%1$s could not complete its scheduled backup.</string>
+
+    <!-- Profile editor -->
+    <string name="backup_editor_title_new">New profile</string>
+    <string name="backup_editor_title_edit">Edit profile</string>
+    <string name="backup_editor_name">Profile name</string>
+    <string name="backup_editor_section_connection">Connection</string>
+    <string name="backup_editor_server_url">Server URL</string>
+    <string name="backup_editor_server_url_hint">https://dav.example.com/remote.php/dav</string>
+    <string name="backup_editor_remote_path">Remote path</string>
+    <string name="backup_editor_username">Username</string>
+    <string name="backup_editor_password">Password</string>
+    <string name="backup_editor_password_keep">Leave empty to keep the saved password</string>
+    <string name="backup_editor_password_required">Password is required</string>
+    <string name="backup_editor_allow_http_local">Allow plain HTTP for local servers</string>
+    <string name="backup_editor_allow_http_local_subtitle">Only for loopback, private-network and .local hosts. Plain HTTP also requires the app to allow cleartext traffic.</string>
+    <string name="backup_editor_section_security">Security</string>
+    <string name="backup_editor_encrypt">Encrypt backups</string>
+    <string name="backup_editor_encrypt_subtitle">AES-256-GCM; passwords are never sent to the server</string>
+    <string name="backup_editor_enc_password">Encryption password</string>
+    <string name="backup_editor_enc_password_confirm">Confirm encryption password</string>
+    <string name="backup_editor_enc_password_keep">Leave empty to keep the current encryption password</string>
+    <string name="backup_editor_section_schedule">Schedule</string>
+    <string name="backup_editor_frequency">Frequency</string>
+    <string name="backup_editor_frequency_manual">Manual</string>
+    <string name="backup_editor_frequency_daily">Daily</string>
+    <string name="backup_editor_frequency_weekly">Weekly</string>
+    <string name="backup_editor_frequency_every30">Every 30 days</string>
+    <string name="backup_editor_wifi_only">Wi-Fi only</string>
+    <string name="backup_editor_enabled">Enable this profile</string>
+    <string name="backup_editor_section_retention">Retention</string>
+    <string name="backup_editor_keep_count">Keep backups (count)</string>
+    <string name="backup_editor_keep_days">Keep backups for (days)</string>
+    <string name="backup_editor_keep_hint">0 disables that limit; the newest backup is always kept</string>
+    <string name="backup_editor_verify_after_upload">Verify after upload</string>
+    <string name="backup_editor_verify_after_upload_subtitle">Compare the remote size with the local payload</string>
+    <string name="backup_editor_name_required">Name is required</string>
+    <string name="backup_editor_url_invalid">Enter a valid http(s) URL</string>
+    <string name="backup_editor_https_required">HTTPS is required unless “plain HTTP for local servers” is on and the host is local</string>
+    <string name="backup_editor_http_host_not_local">Plain HTTP is allowed only for local hosts</string>
+    <string name="backup_editor_remote_path_invalid">Remote path is invalid</string>
+    <string name="backup_editor_username_required">Username is required</string>
+    <string name="backup_editor_enc_too_short">Use at least 10 characters</string>
+    <string name="backup_editor_enc_mismatch">Passwords do not match</string>
+    <string name="backup_editor_saved">Profile saved</string>
+    <string name="backup_editor_test_connection">Test connection</string>
+    <string name="backup_editor_test_running">Testing…</string>
+    <string name="backup_editor_test_ok">Connection OK — read, write and delete verified</string>
+    <string name="backup_editor_test_failed">Connection test failed</string>
+    <string name="backup_test_step_read">Read directory</string>
+    <string name="backup_test_step_mkcol">Create directory</string>
+    <string name="backup_test_step_put">Upload probe file</string>
+    <string name="backup_test_step_get">Download probe file</string>
+    <string name="backup_test_step_delete">Delete probe file</string>
+    <string name="backup_editor_delete_profile">Delete profile</string>
+    <string name="backup_editor_delete_profile_title">Delete profile?</string>
+    <string name="backup_editor_delete_profile_body">Only the local configuration and saved passwords are removed. Backup files on the server are kept.</string>
+    <string name="backup_editor_delete_keep_files">Delete profile, keep server files</string>
+
+    <!-- WebDAV errors -->
+    <string name="backup_error_invalid_url">The server URL is invalid</string>
+    <string name="backup_error_http_plain">HTTPS is required for a public server</string>
+    <string name="backup_error_host_not_local">Plain HTTP is only allowed for local hosts</string>
+    <string name="backup_error_http_status">HTTP %1$d %2$s</string>
+    <string name="backup_error_malformed">The server response could not be parsed</string>
+    <string name="backup_error_network">Network error: %1$s</string>
+    <string name="backup_error_canceled">Canceled</string>
+    <string name="backup_error_missing_password">No password saved for this profile</string>
+    <string name="backup_error_missing_enc_password">No encryption password saved for this profile</string>
+    <string name="backup_error_wrong_password">Wrong encryption password, or the backup is damaged</string>
+    <string name="backup_error_checksum">Checksum mismatch — the backup is damaged</string>
+    <string name="backup_error_size">Size mismatch — the backup is incomplete</string>
+    <string name="backup_error_manifest">The manifest is invalid</string>
+    <string name="backup_error_manifest_version">This backup uses a newer manifest format</string>
+    <string name="backup_error_export_version">This backup was made by a newer version of the app</string>
+    <string name="backup_error_verify_size">Verification failed (expected %1$d bytes, got %2$d)</string>
+    <string name="backup_error_staged_missing">The staged payload is missing; starting over</string>
+
+    <!-- Profile detail -->
+    <string name="backup_detail_jobs">Recent jobs</string>
+    <string name="backup_detail_jobs_empty">No jobs yet</string>
+    <string name="backup_detail_remote">Remote backups</string>
+    <string name="backup_detail_remote_empty">No backups on the server</string>
+    <string name="backup_detail_remote_load">Load remote backups</string>
+    <string name="backup_detail_refresh">Refresh</string>
+    <string name="backup_detail_restore">Restore</string>
+    <string name="backup_detail_verify_quick">Quick verify</string>
+    <string name="backup_detail_verify_full">Download &amp; verify SHA-256</string>
+    <string name="backup_detail_verify_ok">Backup is intact</string>
+    <string name="backup_detail_delete_remote">Delete remote backup</string>
+    <string name="backup_detail_delete_remote_title">Delete remote backup?</string>
+    <string name="backup_detail_delete_remote_body">The payload and manifest will be removed from the server.</string>
+    <string name="backup_detail_restore_running">Restoring…</string>
+    <string name="backup_detail_restore_done">Restore complete</string>
+    <string name="backup_detail_enc_prompt_title">Encryption password</string>
+    <string name="backup_detail_enc_prompt_body">Enter the password used when this backup was created.</string>
+    <string name="backup_detail_device">Device: %1$s</string>
+    <string name="backup_detail_app_version">App version: %1$s</string>
+    <string name="backup_detail_size">Size: %1$s</string>
+    <string name="backup_detail_encrypted">Encrypted</string>
+
+    <!-- Job phases -->
+    <string name="backup_phase_PREPARING">Preparing</string>
+    <string name="backup_phase_ENCRYPTING">Encrypting</string>
+    <string name="backup_phase_UPLOADING_PAYLOAD">Uploading</string>
+    <string name="backup_phase_VERIFYING_PAYLOAD">Verifying</string>
+    <string name="backup_phase_COMMITTING_MANIFEST">Committing manifest</string>
+    <string name="backup_phase_PRUNING">Pruning old backups</string>
+    <string name="backup_phase_DOWNLOADING">Downloading</string>
+    <string name="backup_phase_DECRYPTING">Decrypting</string>
+    <string name="backup_phase_RESTORING">Restoring</string>
+    <string name="backup_phase_COMPLETED">Completed</string>
+    <string name="backup_phase_FAILED">Failed</string>
+    <string name="backup_phase_CANCELED">Canceled</string>
+    <string name="backup_kind_BACKUP">Backup</string>
+    <string name="backup_kind_RESTORE">Restore</string>
+    <string name="backup_kind_VERIFY">Verify</string>
+</resources>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 数据管理 -->
+    <string name="backup_data_title">数据管理</string>
+    <string name="backup_group_backup_restore">备份与恢复</string>
+    <string name="backup_export">导出</string>
+    <string name="backup_export_subtitle">将订阅、账单与设置保存为 JSON 或 ZIP</string>
+    <string name="backup_import">导入</string>
+    <string name="backup_import_subtitle">从 JSON 或 ZIP 文件恢复</string>
+    <string name="backup_webdav">WebDAV 备份</string>
+    <string name="backup_webdav_subtitle">自动备份到你自己的服务器</string>
+    <string name="backup_qr_import">二维码导入</string>
+    <string name="backup_qr_import_subtitle">扫描图片中的二维码以添加订阅</string>
+    <string name="backup_group_display">数据显示</string>
+    <string name="backup_toggle_archive_mode">归档模式</string>
+    <string name="backup_toggle_archive_mode_subtitle">已暂停的订阅移入归档</string>
+    <string name="backup_toggle_custom_cycle_ymd">自定义周期按 年/月/日 显示</string>
+    <string name="backup_toggle_end_date_fixed">固定周期显示结束日期</string>
+    <string name="backup_toggle_iap_total">显示应用内购买总价</string>
+    <string name="backup_toggle_lifetime_label">显示终身标签</string>
+    <string name="backup_group_cleanup">清理工具</string>
+    <string name="backup_clean_orphans">清理孤立的共享成员</string>
+    <string name="backup_clean_orphans_subtitle">移除所属订阅已不存在的成员</string>
+    <string name="backup_clean_duplicates">清理重复的共享成员</string>
+    <string name="backup_clean_duplicates_subtitle">合并同一订阅下同名的成员</string>
+    <string name="backup_clear_rate_cache">清除历史汇率缓存</string>
+    <string name="backup_clear_rate_cache_subtitle">缓存的汇率日期将按需重新获取</string>
+    <string name="backup_group_danger">危险区</string>
+    <string name="backup_clear_all">清除所有数据</string>
+    <string name="backup_clear_all_subtitle">删除所有订阅、账单、设置和文件</string>
+    <string name="backup_clear_all_confirm1_title">删除所有数据？</string>
+    <string name="backup_clear_all_confirm1_body">将移除所有订阅、账单记录和钱包，此操作无法撤销。</string>
+    <string name="backup_clear_all_confirm2_title">确定要继续吗？</string>
+    <string name="backup_clear_all_confirm2_body">所有本地数据将被永久删除，照片和图标也会一并移除。</string>
+    <string name="backup_clear_all_done">已删除所有数据</string>
+    <string name="backup_delete">删除</string>
+    <string name="backup_erase">全部删除</string>
+
+    <!-- 导出 / 导入 -->
+    <string name="backup_export_running">正在准备导出…</string>
+    <string name="backup_export_done">导出已保存</string>
+    <string name="backup_export_failed">导出失败</string>
+    <string name="backup_import_running">正在导入…</string>
+    <string name="backup_import_failed">导入失败</string>
+    <string name="backup_import_nothing">未导入任何数据</string>
+    <string name="backup_import_file_failed">文件访问失败</string>
+    <string name="backup_import_malformed">该文件不是有效的备份</string>
+    <string name="backup_import_unsupported">此备份由更新版本的应用创建</string>
+    <string name="backup_import_result_title">导入完成</string>
+    <string name="backup_mode_title">选择恢复方式</string>
+    <string name="backup_mode_merge">合并</string>
+    <string name="backup_mode_merge_desc">仅添加缺失的记录，保留现有数据不变</string>
+    <string name="backup_mode_replace">替换匹配项</string>
+    <string name="backup_mode_replace_desc">备份中的值覆盖相同 ID 的本地记录</string>
+    <string name="backup_mode_exact">完全恢复（先清空再恢复）</string>
+    <string name="backup_mode_exact_desc">先删除备份覆盖的所有数据，再进行恢复</string>
+    <string name="backup_mode_exact_confirm_title">清空并恢复？</string>
+    <string name="backup_mode_exact_confirm_body">所有被备份覆盖的表中的当前数据将在恢复前被删除。</string>
+    <string name="backup_mode_exact_confirm_action">清空并恢复</string>
+
+    <!-- 导入结果计数（与 ExportBundle 字段名对应） -->
+    <string name="backup_count_categories">分类</string>
+    <string name="backup_count_tags">标签</string>
+    <string name="backup_count_tagFolders">标签文件夹</string>
+    <string name="backup_count_customFields">自定义字段</string>
+    <string name="backup_count_paymentMethods">支付方式</string>
+    <string name="backup_count_currencies">货币</string>
+    <string name="backup_count_wallets">钱包</string>
+    <string name="backup_count_subscriptions">订阅</string>
+    <string name="backup_count_subscriptionPhotos">照片</string>
+    <string name="backup_count_customReminders">提醒</string>
+    <string name="backup_count_paymentRecords">账单记录</string>
+    <string name="backup_count_walletTransactions">钱包交易</string>
+    <string name="backup_count_storedValueRecords">储值记录</string>
+    <string name="backup_count_sharedConfigs">共享配置</string>
+    <string name="backup_count_sharedMembers">共享成员</string>
+
+    <!-- 清理报告 -->
+    <string name="backup_orphan_report">已检查 %1$d 名成员：移除 %2$d 个孤立成员，保留 %3$d 个。</string>
+    <string name="backup_duplicate_report">已检查 %1$d 名成员：在 %3$d 组（%4$d 个订阅）中移除 %2$d 个重复项，剩余 %5$d 个。</string>
+    <string name="backup_rate_cache_cleared">历史汇率缓存已清除</string>
+
+    <!-- 配置列表 -->
+    <string name="backup_profiles_title">WebDAV 备份</string>
+    <string name="backup_profiles_empty_title">还没有备份配置</string>
+    <string name="backup_profiles_empty_message">添加一个 WebDAV 服务器，自动备份你的数据。</string>
+    <string name="backup_profiles_add">添加配置</string>
+    <string name="backup_profile_last_success">上次备份：%1$s</string>
+    <string name="backup_profile_never_backed_up">从未备份</string>
+    <string name="backup_profile_last_error">上次错误：%1$s</string>
+    <string name="backup_profile_disabled">已停用</string>
+    <string name="backup_back_up_now">立即备份</string>
+    <string name="backup_running">已有另一个备份或恢复正在进行</string>
+    <string name="backup_backup_started">备份已开始</string>
+    <string name="backup_backup_completed">备份完成</string>
+    <string name="backup_backup_failed">备份失败</string>
+
+    <!-- 通知渠道 -->
+    <string name="backup_channel_name">备份状态</string>
+    <string name="backup_channel_description">WebDAV 备份结果</string>
+    <string name="backup_failed_title">备份失败</string>
+    <string name="backup_failed_body">%1$s 未能完成计划备份。</string>
+
+    <!-- 配置编辑器 -->
+    <string name="backup_editor_title_new">新建配置</string>
+    <string name="backup_editor_title_edit">编辑配置</string>
+    <string name="backup_editor_name">配置名称</string>
+    <string name="backup_editor_section_connection">连接</string>
+    <string name="backup_editor_server_url">服务器 URL</string>
+    <string name="backup_editor_server_url_hint">https://dav.example.com/remote.php/dav</string>
+    <string name="backup_editor_remote_path">远程路径</string>
+    <string name="backup_editor_username">用户名</string>
+    <string name="backup_editor_password">密码</string>
+    <string name="backup_editor_password_keep">留空则保留已保存的密码</string>
+    <string name="backup_editor_password_required">必须填写密码</string>
+    <string name="backup_editor_allow_http_local">允许本地服务器使用明文 HTTP</string>
+    <string name="backup_editor_allow_http_local_subtitle">仅适用于回环、内网及 .local 主机。明文 HTTP 还需应用允许明文传输。</string>
+    <string name="backup_editor_section_security">安全</string>
+    <string name="backup_editor_encrypt">加密备份</string>
+    <string name="backup_editor_encrypt_subtitle">AES-256-GCM；密码永远不会发送到服务器</string>
+    <string name="backup_editor_enc_password">加密密码</string>
+    <string name="backup_editor_enc_password_confirm">确认加密密码</string>
+    <string name="backup_editor_enc_password_keep">留空则保留当前加密密码</string>
+    <string name="backup_editor_section_schedule">计划</string>
+    <string name="backup_editor_frequency">频率</string>
+    <string name="backup_editor_frequency_manual">手动</string>
+    <string name="backup_editor_frequency_daily">每天</string>
+    <string name="backup_editor_frequency_weekly">每周</string>
+    <string name="backup_editor_frequency_every30">每 30 天</string>
+    <string name="backup_editor_wifi_only">仅 Wi-Fi</string>
+    <string name="backup_editor_enabled">启用此配置</string>
+    <string name="backup_editor_section_retention">保留策略</string>
+    <string name="backup_editor_keep_count">保留备份数量（个）</string>
+    <string name="backup_editor_keep_days">保留备份时长（天）</string>
+    <string name="backup_editor_keep_hint">0 表示不启用该限制；最新的备份始终保留</string>
+    <string name="backup_editor_verify_after_upload">上传后验证</string>
+    <string name="backup_editor_verify_after_upload_subtitle">对比服务器上的文件大小与本地负载</string>
+    <string name="backup_editor_name_required">必须填写名称</string>
+    <string name="backup_editor_url_invalid">请输入有效的 http(s) 地址</string>
+    <string name="backup_editor_https_required">必须 HTTPS，除非开启“本地服务器明文 HTTP”且主机位于本地</string>
+    <string name="backup_editor_http_host_not_local">明文 HTTP 仅允许用于本地主机</string>
+    <string name="backup_editor_remote_path_invalid">远程路径无效</string>
+    <string name="backup_editor_username_required">必须填写用户名</string>
+    <string name="backup_editor_enc_too_short">至少 10 个字符</string>
+    <string name="backup_editor_enc_mismatch">两次输入的密码不一致</string>
+    <string name="backup_editor_saved">配置已保存</string>
+    <string name="backup_editor_test_connection">测试连接</string>
+    <string name="backup_editor_test_running">正在测试…</string>
+    <string name="backup_editor_test_ok">连接正常 —— 读、写、删除均已验证</string>
+    <string name="backup_editor_test_failed">连接测试失败</string>
+    <string name="backup_test_step_read">读取目录</string>
+    <string name="backup_test_step_mkcol">创建目录</string>
+    <string name="backup_test_step_put">上传测试文件</string>
+    <string name="backup_test_step_get">下载测试文件</string>
+    <string name="backup_test_step_delete">删除测试文件</string>
+    <string name="backup_editor_delete_profile">删除配置</string>
+    <string name="backup_editor_delete_profile_title">删除配置？</string>
+    <string name="backup_editor_delete_profile_body">仅移除本地配置与已保存的密码，服务器上的备份文件会保留。</string>
+    <string name="backup_editor_delete_keep_files">删除配置，保留服务器文件</string>
+
+    <!-- WebDAV 错误 -->
+    <string name="backup_error_invalid_url">服务器地址无效</string>
+    <string name="backup_error_http_plain">公网服务器必须使用 HTTPS</string>
+    <string name="backup_error_host_not_local">明文 HTTP 仅允许用于本地主机</string>
+    <string name="backup_error_http_status">HTTP %1$d %2$s</string>
+    <string name="backup_error_malformed">无法解析服务器响应</string>
+    <string name="backup_error_network">网络错误：%1$s</string>
+    <string name="backup_error_canceled">已取消</string>
+    <string name="backup_error_missing_password">此配置没有保存密码</string>
+    <string name="backup_error_missing_enc_password">此配置没有保存加密密码</string>
+    <string name="backup_error_wrong_password">加密密码错误，或备份已损坏</string>
+    <string name="backup_error_checksum">校验和不匹配 —— 备份已损坏</string>
+    <string name="backup_error_size">大小不匹配 —— 备份不完整</string>
+    <string name="backup_error_manifest">清单文件无效</string>
+    <string name="backup_error_manifest_version">此备份使用了更新的清单格式</string>
+    <string name="backup_error_export_version">此备份由更新版本的应用创建</string>
+    <string name="backup_error_verify_size">验证失败（预期 %1$d 字节，实际 %2$d）</string>
+    <string name="backup_error_staged_missing">暂存的负载丢失，将重新开始</string>
+
+    <!-- 配置详情 -->
+    <string name="backup_detail_jobs">最近任务</string>
+    <string name="backup_detail_jobs_empty">暂无任务</string>
+    <string name="backup_detail_remote">远程备份</string>
+    <string name="backup_detail_remote_empty">服务器上没有备份</string>
+    <string name="backup_detail_remote_load">加载远程备份</string>
+    <string name="backup_detail_refresh">刷新</string>
+    <string name="backup_detail_restore">恢复</string>
+    <string name="backup_detail_verify_quick">快速验证</string>
+    <string name="backup_detail_verify_full">下载并验证 SHA-256</string>
+    <string name="backup_detail_verify_ok">备份完好</string>
+    <string name="backup_detail_delete_remote">删除远程备份</string>
+    <string name="backup_detail_delete_remote_title">删除远程备份？</string>
+    <string name="backup_detail_delete_remote_body">负载与清单将从服务器移除。</string>
+    <string name="backup_detail_restore_running">正在恢复…</string>
+    <string name="backup_detail_restore_done">恢复完成</string>
+    <string name="backup_detail_enc_prompt_title">加密密码</string>
+    <string name="backup_detail_enc_prompt_body">请输入创建此备份时使用的密码。</string>
+    <string name="backup_detail_device">设备：%1$s</string>
+    <string name="backup_detail_app_version">应用版本：%1$s</string>
+    <string name="backup_detail_size">大小：%1$s</string>
+    <string name="backup_detail_encrypted">已加密</string>
+
+    <!-- 任务阶段 -->
+    <string name="backup_phase_PREPARING">正在准备</string>
+    <string name="backup_phase_ENCRYPTING">正在加密</string>
+    <string name="backup_phase_UPLOADING_PAYLOAD">正在上传</string>
+    <string name="backup_phase_VERIFYING_PAYLOAD">正在验证</string>
+    <string name="backup_phase_COMMITTING_MANIFEST">正在提交清单</string>
+    <string name="backup_phase_PRUNING">正在清理旧备份</string>
+    <string name="backup_phase_DOWNLOADING">正在下载</string>
+    <string name="backup_phase_DECRYPTING">正在解密</string>
+    <string name="backup_phase_RESTORING">正在恢复</string>
+    <string name="backup_phase_COMPLETED">已完成</string>
+    <string name="backup_phase_FAILED">失败</string>
+    <string name="backup_phase_CANCELED">已取消</string>
+    <string name="backup_kind_BACKUP">备份</string>
+    <string name="backup_kind_RESTORE">恢复</string>
+    <string name="backup_kind_VERIFY">验证</string>
+</resources>

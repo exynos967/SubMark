@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tab / top bar -->
+    <string name="calendar_title">Calendar</string>
+    <string name="calendar_subtitle">Payment schedule</string>
+
+    <!-- Modes -->
+    <string name="calendar_mode_month">Month</string>
+    <string name="calendar_mode_week">Week</string>
+    <string name="calendar_mode_timeline">Timeline</string>
+
+    <!-- Timeline periods -->
+    <string name="calendar_timeline_period_1m">1 month</string>
+    <string name="calendar_timeline_period_3m">3 months</string>
+    <string name="calendar_timeline_period_6m">6 months</string>
+    <string name="calendar_timeline_period_1y">1 year</string>
+
+    <!-- Weekdays -->
+    <string name="calendar_weekday_mon">Mon</string>
+    <string name="calendar_weekday_tue">Tue</string>
+    <string name="calendar_weekday_wed">Wed</string>
+    <string name="calendar_weekday_thu">Thu</string>
+    <string name="calendar_weekday_fri">Fri</string>
+    <string name="calendar_weekday_sat">Sat</string>
+    <string name="calendar_weekday_sun">Sun</string>
+
+    <!-- Today / jump -->
+    <string name="calendar_today">Today</string>
+    <string name="calendar_jump_to_date">Jump to date</string>
+    <string name="calendar_add_subscription">Add subscription</string>
+
+    <!-- Agenda -->
+    <string name="calendar_agenda_empty">No payments on this day</string>
+    <string name="calendar_timeline_empty">No payments in the next %1$s</string>
+    <string name="calendar_no_subscriptions">Add a subscription to see upcoming payments.</string>
+    <string name="calendar_timeline_upcoming">Upcoming</string>
+    <string name="calendar_no_further">No further payments in this period</string>
+
+    <!-- Countdowns -->
+    <plurals name="calendar_days_until">
+        <item quantity="one">%1$d day</item>
+        <item quantity="other">%1$d days</item>
+    </plurals>
+    <plurals name="calendar_days_overdue">
+        <item quantity="one">Overdue by %1$d day</item>
+        <item quantity="other">Overdue by %1$d days</item>
+    </plurals>
+
+    <!-- Badges -->
+    <string name="calendar_badge_child">Child</string>
+    <string name="calendar_badge_paid">Paid</string>
+    <string name="calendar_badge_today">Today</string>
+    <string name="calendar_badge_tomorrow">Tomorrow</string>
+
+    <!-- Mark paid flow -->
+    <string name="calendar_mark_paid_success">Marked %1$s as paid</string>
+    <string name="calendar_mark_paid_auto_today">%1$s will be auto-marked as paid today</string>
+
+    <!-- App bar actions -->
+    <string name="calendar_action_search">Search</string>
+    <string name="calendar_action_settings">Jump to date</string>
+
+    <!-- Legend chips -->
+    <string name="calendar_legend_paid">Paid</string>
+    <string name="calendar_legend_due">Due</string>
+    <string name="calendar_legend_overdue">Overdue</string>
+
+    <!-- Errors -->
+    <string name="calendar_error_not_found">Subscription not found</string>
+    <string name="calendar_error_in_use">Subscription is still in use</string>
+    <string name="calendar_error_duplicate_app">A subscription already exists with this app</string>
+    <string name="calendar_error_insufficient_funds">Insufficient wallet funds</string>
+    <string name="calendar_error_rate_unavailable">Exchange rate unavailable for %1$s</string>
+    <string name="calendar_error_unsupported_currency">Currency %1$s is not supported</string>
+    <string name="calendar_error_stale">This item was changed; please refresh and try again</string>
+    <string name="calendar_error_network">Network error; please try again</string>
+    <string name="calendar_invalid_not_markable">This subscription cannot be marked as paid</string>
+    <string name="calendar_invalid_blank_name">Name must not be blank</string>
+    <string name="calendar_invalid_generic">Invalid input</string>
+</resources>

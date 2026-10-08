@@ -537,6 +537,18 @@ class SubscriptionService @Inject internal constructor(
 
     private fun capByEnd(next: LocalDate?, end: LocalDate?): LocalDate? = next?.takeIf { end == null || it <= end }
 
+    /**
+     * Feature-facing flags that drive notifications/calendar sync. Goes through the normal
+     * transaction + change-bus path so schedulers rebuild. Added for feature:notifications.
+     */
+    suspend fun setNotificationFlags(id: String, customReminderEnabled: Boolean?, calendarSyncEnabled: Boolean?): DataResult<Unit> =
+        mutate(id) { sub ->
+            sub.copy(
+                customReminderEnabled = customReminderEnabled ?: sub.customReminderEnabled,
+                calendarSyncEnabled = calendarSyncEnabled ?: sub.calendarSyncEnabled,
+            )
+        }
+
     private companion object {
         const val SMART_SYNC_DAYS = 3L
         const val MAX_BACKFILL = 1000

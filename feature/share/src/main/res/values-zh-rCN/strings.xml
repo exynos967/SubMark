@@ -1,0 +1,116 @@
+<resources>
+    <!-- Share subscription -->
+    <string name="share_title">分享订阅</string>
+    <string name="share_config_title">分享配置</string>
+    <string name="share_sharer_name">你的名字</string>
+    <string name="share_description">分享描述</string>
+    <string name="share_description_placeholder">例如：与室友分摊</string>
+    <string name="share_show_qr">显示二维码</string>
+    <string name="share_privacy_title">二维码包含隐私数据</string>
+    <string name="share_privacy_message">二维码内嵌了该订阅的详细信息以供他人导入。是否同时包含网站和备注？</string>
+    <string name="share_privacy_include">包含网站与备注</string>
+    <string name="share_privacy_exclude">不包含</string>
+    <string name="share_poster_style">海报样式</string>
+    <string name="share_style_minimal">极简白</string>
+    <string name="share_style_modern">现代简约</string>
+    <string name="share_style_gradient">渐变时尚</string>
+    <string name="share_style_colorful">多彩动感</string>
+    <string name="share_preview_title">分享预览</string>
+    <string name="share_generate">生成海报</string>
+    <string name="share_type_regular">普通订阅</string>
+    <string name="share_type_bundle">套餐</string>
+    <string name="share_type_child">套餐子项</string>
+    <string name="share_type_shared">共享订阅</string>
+    <string name="share_type_stored_value">储值订阅</string>
+    <string name="share_type_lifetime">买断</string>
+    <string name="share_badge_auto_renew">自动续费</string>
+    <string name="share_badge_lifetime">买断</string>
+    <string name="share_shared_by">由 %1$s 分享</string>
+    <string name="share_scan_hint">扫码导入此订阅</string>
+    <string name="share_footer">来自 SubMark</string>
+    <string name="share_created_on">创建于 %1$s</string>
+    <string name="share_saved_toast">海报已保存到相册</string>
+    <string name="share_save_failed">保存失败</string>
+    <string name="share_save">保存到相册</string>
+    <string name="share_send">分享…</string>
+    <string name="share_not_found">未找到该订阅。</string>
+    <plurals name="share_bundle_children">
+        <item quantity="other">包含 %1$d 个子项</item>
+    </plurals>
+
+    <!-- Financial report poster -->
+    <string name="report_title">财务报告海报</string>
+    <string name="report_poster_heading">财务分析报告</string>
+    <string name="report_period_title">报告周期</string>
+    <string name="report_period_start">开始日期</string>
+    <string name="report_period_end">结束日期</string>
+    <string name="report_period_month">按月份</string>
+    <string name="report_period_range">自定义范围</string>
+    <string name="report_period_error">结束日期必须晚于开始日期（至少 1 天）。</string>
+    <string name="report_display_mode">显示模式</string>
+    <string name="report_mode_simple">精简</string>
+    <string name="report_mode_detailed">详细</string>
+    <string name="report_privacy">隐私</string>
+    <string name="report_hide_amounts">隐藏金额</string>
+    <string name="report_hide_names">隐藏订阅名称</string>
+    <string name="report_hide_notes">隐藏备注</string>
+    <string name="report_hide_payment_details">隐藏付款详情</string>
+    <string name="report_options">选项</string>
+    <string name="report_show_logo">显示应用标识</string>
+    <string name="report_show_date">显示生成日期</string>
+    <string name="report_show_stats">显示统计数据</string>
+    <string name="report_total_expenses">总支出</string>
+    <string name="report_expense_months">支出月份数</string>
+    <string name="report_payment_count">付款笔数</string>
+    <string name="report_average_payment">平均单笔金额</string>
+    <string name="report_month_details">支出明细</string>
+    <plurals name="report_more_months">
+        <item quantity="other">以及另外 %1$d 个月</item>
+    </plurals>
+    <plurals name="report_more_items">
+        <item quantity="other">以及另外 %1$d 条</item>
+    </plurals>
+    <string name="report_transaction_count">共 %1$d 笔交易</string>
+    <string name="report_status_success">成功</string>
+    <string name="report_status_pending">待处理</string>
+    <string name="report_col_time">时间</string>
+    <string name="report_col_item">项目</string>
+    <string name="report_col_amount">金额</string>
+    <string name="report_subtotal">小计</string>
+    <string name="report_total">总计</string>
+    <string name="report_no_payments">该周期内没有付款记录。</string>
+    <string name="report_mask">***</string>
+    <string name="report_share_text">我的订阅财务分析报告</string>
+    <string name="report_generate">生成海报</string>
+    <string name="report_zoom_hint">双指缩放 · 点击全屏</string>
+
+    <!-- QR import -->
+    <string name="qr_import_title">二维码导入</string>
+    <string name="qr_import_step1">第 1 步 · 选择包含 SubMark 分享二维码的图片</string>
+    <string name="qr_import_step2">第 2 步 · 预览并导入</string>
+    <string name="qr_import_pick">选择图片</string>
+    <string name="qr_import_paste">粘贴二维码文本</string>
+    <string name="qr_import_recognizing">正在识别二维码…</string>
+    <string name="qr_import_button">导入</string>
+    <string name="qr_import_error_load">无法加载图片。</string>
+    <string name="qr_import_error_no_qr">图片中没有找到二维码。</string>
+    <string name="qr_import_error_not_submark">这不是 SubMark 订阅分享二维码。</string>
+    <string name="qr_import_error_version">不支持的二维码版本，请让对方重新生成。</string>
+    <string name="qr_import_error_processing">处理失败，二维码可能已损坏。</string>
+    <string name="qr_import_success_hint">确认信息无误后导入即可创建新订阅。</string>
+    <string name="qr_field_cycle">账单周期</string>
+    <string name="qr_field_category">分类</string>
+    <string name="qr_field_website">网站</string>
+    <string name="qr_field_notes">备注</string>
+    <string name="qr_cycle_daily">每日</string>
+    <string name="qr_cycle_weekly">每周</string>
+    <string name="qr_cycle_monthly">每月</string>
+    <string name="qr_cycle_quarterly">每季度</string>
+    <string name="qr_cycle_semiannual">每半年</string>
+    <string name="qr_cycle_annual">每年</string>
+    <string name="qr_cycle_custom">自定义（%1$d %2$s）</string>
+    <string name="qr_unit_day">天</string>
+    <string name="qr_unit_week">周</string>
+    <string name="qr_unit_month">个月</string>
+    <string name="qr_unit_year">年</string>
+</resources>

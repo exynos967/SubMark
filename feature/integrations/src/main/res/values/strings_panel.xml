@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Panel tab -->
+    <string name="panel_title">Panel</string>
+    <string name="panel_subtitle">Service status and API budgets</string>
+    <string name="panel_tab_services">Services</string>
+    <string name="panel_tab_api_budget">API Budget</string>
+    <string name="panel_add_service">Add service</string>
+    <string name="panel_add_budget">Add API budget</string>
+    <string name="panel_refresh_all">Refresh all</string>
+    <string name="panel_refresh">Refresh</string>
+    <string name="panel_refresh_wait">Wait %1$ds</string>
+    <string name="panel_empty_services_title">No services yet</string>
+    <string name="panel_empty_services_message">Add a Server (Clash) subscription link or an Emby server to see traffic and status here.</string>
+    <string name="panel_empty_budget_title">No API budgets yet</string>
+    <string name="panel_empty_budget_message">Add an API service to watch its balance or quota against your budget.</string>
+    <string name="panel_status_active">Active</string>
+    <string name="panel_status_paused">Paused</string>
+    <string name="panel_last_updated">Updated %1$s</string>
+    <string name="panel_updated_just_now">just now</string>
+    <string name="panel_updated_minutes_ago">%1$d min ago</string>
+    <string name="panel_updated_hours_ago">%1$d h ago</string>
+    <string name="panel_updated_days_ago">%1$d d ago</string>
+    <string name="panel_edit">Edit</string>
+
+    <!-- Errors -->
+    <string name="panel_error_auth">Invalid API key or credentials</string>
+    <string name="panel_error_rate_limited">Rate limited, try again later</string>
+    <string name="panel_error_not_found">Address or link not found</string>
+    <string name="panel_error_server">Server error, try again later</string>
+    <string name="panel_error_timeout">Connection timed out</string>
+    <string name="panel_error_network">Network error, check your connection</string>
+    <string name="panel_error_parse">Could not read the server response</string>
+    <string name="panel_error_missing_config">Required configuration is missing</string>
+    <string name="panel_error_unknown">Something went wrong</string>
+
+    <!-- Clash card -->
+    <string name="panel_clash_no_traffic_title">No traffic info</string>
+    <string name="panel_clash_no_traffic_message">The link is valid but does not provide traffic statistics.</string>
+    <string name="panel_clash_no_data_title">No data yet</string>
+    <string name="panel_clash_no_data_message">Tap refresh to fetch the latest traffic information.</string>
+    <string name="panel_clash_traffic_usage">Traffic usage</string>
+    <string name="panel_clash_remaining">Remaining</string>
+    <string name="panel_clash_used_of_total">%1$s of %2$s</string>
+    <string name="panel_clash_expiry">Expires %1$s</string>
+    <string name="panel_clash_days_left">%1$d days left</string>
+    <string name="panel_clash_expired">Expired</string>
+
+    <!-- Emby card -->
+    <string name="panel_emby_no_data_title">No server info</string>
+    <string name="panel_emby_no_data_message">Tap refresh to connect and test latency.</string>
+    <string name="panel_emby_server">Server</string>
+    <string name="panel_emby_version">Version</string>
+    <string name="panel_emby_system">System</string>
+    <string name="panel_emby_user">User</string>
+    <string name="panel_emby_admin">Administrator</string>
+    <string name="panel_emby_regular_user">Regular user</string>
+    <string name="panel_emby_latency">Latency %1$d ms</string>
+    <string name="panel_emby_ping">Test latency</string>
+    <string name="panel_emby_last_active">Last active %1$s</string>
+
+    <!-- Budget cards -->
+    <string name="panel_budget_no_data_title">No data yet</string>
+    <string name="panel_budget_no_data_message">Tap refresh to fetch the latest usage.</string>
+    <string name="panel_budget_status_normal">Normal</string>
+    <string name="panel_budget_status_warning">Near budget</string>
+    <string name="panel_budget_status_over">Over budget</string>
+    <string name="panel_budget_used_of_limit">%1$s of %2$s</string>
+    <string name="panel_budget_remaining_month">Remaining this month</string>
+    <string name="panel_budget_remaining_today">Remaining today</string>
+    <string name="panel_budget_usage_percent">%1$d%% of monthly budget</string>
+    <string name="panel_budget_total_requests">Requests %1$d</string>
+    <string name="panel_budget_access_unlimited">Unlimited access</string>
+    <string name="panel_budget_account_id">ID %1$s</string>
+
+    <!-- DeepSeek -->
+    <string name="panel_deepseek_total">Total balance</string>
+    <string name="panel_deepseek_granted">Granted %1$s</string>
+    <string name="panel_deepseek_topped_up">Topped-up %1$s</string>
+    <string name="panel_deepseek_sufficient">Sufficient</string>
+    <string name="panel_deepseek_insufficient">Insufficient</string>
+    <string name="panel_deepseek_all_zero">All balances are zero</string>
+    <plurals name="panel_deepseek_currencies">
+        <item quantity="one">%1$d currency</item>
+        <item quantity="other">%1$d currencies</item>
+    </plurals>
+
+    <!-- Packy -->
+    <string name="panel_packy_daily">Today</string>
+    <string name="panel_packy_monthly">This month</string>
+    <string name="panel_packy_spent_of_budget">%1$s of %2$s</string>
+    <string name="panel_packy_expires">Plan expires %1$s</string>
+
+    <!-- Z.ai -->
+    <string name="panel_zai_session_quota">5-hour quota</string>
+    <string name="panel_zai_weekly_quota">Weekly quota</string>
+    <string name="panel_zai_web_search_quota">Web Search quota</string>
+    <string name="panel_zai_used">Used %1$s</string>
+    <string name="panel_zai_remaining">Remaining %1$s</string>
+    <string name="panel_zai_resets">Resets %1$s</string>
+    <string name="panel_zai_no_plan">No active GLM Coding Plan</string>
+
+    <!-- Alert notification -->
+    <string name="panel_alert_channel_name">API budget alerts</string>
+    <string name="panel_alert_title">%1$s budget alert</string>
+    <string name="panel_alert_warning">Usage reached %1$d%% of the configured budget.</string>
+    <string name="panel_alert_over">The configured budget has been exceeded.</string>
+
+    <!-- Budget edit screen -->
+    <string name="panel_budget_add_title">Add API budget</string>
+    <string name="panel_budget_edit_title">Edit API budget</string>
+    <string name="panel_budget_type">Service</string>
+    <string name="panel_budget_type_locked">Service type cannot be changed after creation</string>
+    <string name="panel_budget_name">Configuration name</string>
+    <string name="panel_budget_api_key">API key</string>
+    <string name="panel_budget_api_key_keep">Leave blank to keep the current key</string>
+    <string name="panel_budget_base_url">Base URL</string>
+    <string name="panel_budget_base_url_optional">Base URL (optional)</string>
+    <string name="panel_budget_user_id">User ID</string>
+    <string name="panel_budget_user_id_optional">User ID (optional)</string>
+    <string name="panel_budget_currency">Currency</string>
+    <string name="panel_budget_monthly">Monthly budget</string>
+    <string name="panel_budget_daily_enabled">Daily budget</string>
+    <string name="panel_budget_daily">Daily amount</string>
+    <string name="panel_budget_threshold">Alert threshold</string>
+    <string name="panel_budget_threshold_value">%1$d%%</string>
+    <string name="panel_budget_enabled">Monitoring enabled</string>
+    <string name="panel_budget_test">Test connection</string>
+    <string name="panel_budget_testing">Testing…</string>
+    <string name="panel_budget_test_success">Connection successful</string>
+    <string name="panel_budget_delete">Delete configuration</string>
+    <string name="panel_budget_delete_message">Delete "%1$s"? This cannot be undone.</string>
+    <string name="panel_budget_duplicate_title">Service already exists</string>
+    <string name="panel_budget_duplicate_message">A configuration for this service type already exists. Delete it first or edit it instead.</string>
+    <string name="panel_budget_name_required">Name is required</string>
+    <string name="panel_budget_key_required">API key is required</string>
+    <string name="panel_budget_base_url_required">Base URL is required for this service</string>
+
+    <!-- Setup guides -->
+    <string name="panel_guide_deepseek">Create an API key at platform.deepseek.com (starts with sk-). The card shows total, granted and topped-up balances per currency.</string>
+    <string name="panel_guide_newapi">Base URL of your New API instance (e.g. https://api.example.com) plus a personal access token. Newer versions also require your numeric user ID (shown in the console).</string>
+    <string name="panel_guide_vapi">Access token from your V-API dashboard. The default endpoint is api.gpt.ge; set a base URL only for a custom deployment.</string>
+    <string name="panel_guide_packy">Permanent token from packycode.com. The card tracks daily and monthly budget usage in USD.</string>
+    <string name="panel_guide_zai">API key from the z.ai console for a GLM Coding Plan account. The card shows the 5-hour, weekly and Web Search quota windows.</string>
+
+    <!-- Service edit screen -->
+    <string name="panel_service_add_title">Add service</string>
+    <string name="panel_service_edit_title">Edit service</string>
+    <string name="panel_service_type">Type</string>
+    <string name="panel_service_type_clash">Server (Clash)</string>
+    <string name="panel_service_type_emby">Emby</string>
+    <string name="panel_service_name">Name</string>
+    <string name="panel_service_url">URL</string>
+    <string name="panel_service_url_clash_hint">Subscription link (https://…)</string>
+    <string name="panel_service_url_emby_hint">Server address (e.g. http://192.168.1.10:8096)</string>
+    <string name="panel_service_paste">Paste</string>
+    <string name="panel_service_username">Username</string>
+    <string name="panel_service_password">Password</string>
+    <string name="panel_service_password_keep">Leave blank to keep the current password</string>
+    <string name="panel_service_api_key">API key (optional, preferred)</string>
+    <string name="panel_service_api_key_keep">Leave blank to keep the current key</string>
+    <string name="panel_service_auto_refresh">Auto refresh</string>
+    <string name="panel_service_interval">Refresh interval (minutes)</string>
+    <string name="panel_service_interval_min">At least 15 minutes</string>
+    <string name="panel_service_enabled">Enabled</string>
+    <string name="panel_service_color">Card color</string>
+    <string name="panel_service_color_default">Default</string>
+    <string name="panel_service_created">Created %1$s</string>
+    <string name="panel_service_last_refresh">Last refresh %1$s</string>
+    <string name="panel_service_never">Never</string>
+    <string name="panel_service_test">Test connection</string>
+    <string name="panel_service_testing">Testing…</string>
+    <string name="panel_service_test_success">Connection successful</string>
+    <string name="panel_service_delete">Delete service</string>
+    <string name="panel_service_delete_message">Delete "%1$s"? This cannot be undone.</string>
+    <string name="panel_service_name_required">Name is required</string>
+    <string name="panel_service_url_required">URL is required</string>
+    <string name="panel_service_url_invalid">Enter a valid http(s) URL</string>
+    <string name="panel_service_auth_required">Emby needs an API key or a username and password</string>
+    <string name="panel_service_interval_invalid">Interval must be at least 15 minutes</string>
+    <string name="panel_service_copy_url">Copy URL</string>
+    <string name="panel_service_copied">Copied</string>
+</resources>

@@ -129,6 +129,12 @@ data class PosterSettings(
 data class ShareSettings(
     val sharerName: String = "",
     val qrPrivacyAcknowledged: Boolean = false,
+    /** Last share-sheet description (poster text), remembered per app rather than per subscription. */
+    val lastDescription: String = "",
+    /** Whether the QR code block is included on generated share posters. */
+    val showQr: Boolean = true,
+    /** Poster style chosen on the share-subscription screen. */
+    val posterStyle: PosterStyle = PosterStyle.MODERN,
 )
 
 @Serializable

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Channels -->
+    <string name="notifications_channel_reminders">Payment reminders</string>
+    <string name="notifications_channel_reminders_desc">Advance and payment-day reminders for your subscriptions</string>
+    <string name="notifications_channel_alerts">Alerts</string>
+    <string name="notifications_channel_alerts_desc">Expired subscriptions, ended trials and blocked wallet payments</string>
+    <string name="notifications_channel_price_drop">Price drops</string>
+    <string name="notifications_channel_price_drop_desc">Price changes of monitored apps</string>
+    <string name="notifications_channel_backup">Backup status</string>
+    <string name="notifications_channel_backup_desc">Results of automatic backups</string>
+    <string name="notifications_channel_api_budget">API budget</string>
+    <string name="notifications_channel_api_budget_desc">AI API usage and budget warnings</string>
+
+    <!-- Notification bodies -->
+    <string name="notifications_reminder_title">Payment reminder</string>
+    <string name="notifications_due_today">%1$s is due today, amount %2$s</string>
+    <string name="notifications_due_tomorrow">%1$s is due tomorrow, amount %2$s</string>
+    <plurals name="notifications_due_in_days">
+        <item quantity="one">%1$s is due in %2$d day, amount %3$s</item>
+        <item quantity="other">%1$s is due in %2$d days, amount %3$s</item>
+    </plurals>
+    <plurals name="notifications_due_in_days_unit">
+        <item quantity="one">%d day before</item>
+        <item quantity="other">%d days before</item>
+    </plurals>
+    <string name="notifications_auto_title">Auto-Renewal Reminder</string>
+    <string name="notifications_auto_body">%1$s will auto-renew today, amount %2$s</string>
+    <string name="notifications_payday_first_title">Payment Due Reminder</string>
+    <string name="notifications_payday_first_body">%1$s is due today, amount %2$s</string>
+    <string name="notifications_payday_second_title">Payment Due Reminder</string>
+    <string name="notifications_payday_second_body">Don\'t forget to pay %1$s today, amount %2$s</string>
+    <string name="notifications_payday_third_title">Final Payment Reminder</string>
+    <string name="notifications_payday_third_body">%1$s: last reminder for today, amount %2$s</string>
+    <string name="notifications_action_mark_paid">Mark paid</string>
+    <string name="notifications_test_title">Test notification</string>
+    <string name="notifications_test_body">Sent at %1$s</string>
+    <string name="notifications_mark_paid_done">%1$s marked as paid</string>
+    <string name="notifications_mark_paid_failed">Could not mark %1$s as paid</string>
+    <string name="notifications_expired_single">%1$s expired and was paused</string>
+    <plurals name="notifications_expired_multiple">
+        <item quantity="one">%1$d subscription expired: %2$s</item>
+        <item quantity="other">%1$d subscriptions expired: %2$s</item>
+    </plurals>
+    <string name="notifications_expired_title">Subscription expired</string>
+    <string name="notifications_trial_title">Trial ended</string>
+    <plurals name="notifications_trial_ended">
+        <item quantity="one">%1$d trial ended. Choose how to continue the subscription.</item>
+        <item quantity="other">%1$d trials ended. Choose how to continue the subscriptions.</item>
+    </plurals>
+    <string name="notifications_wallet_title">Auto-payment blocked</string>
+    <string name="notifications_wallet_body">Could not charge the wallet for %1$s</string>
+
+    <!-- Settings screen -->
+    <string name="notifications_settings_title">Notifications</string>
+    <string name="notifications_section_status">Status</string>
+    <string name="notifications_permission_row">Notifications permission</string>
+    <string name="notifications_permission_granted">Granted</string>
+    <string name="notifications_permission_denied">Not granted</string>
+    <string name="notifications_permission_request">Request permission</string>
+    <string name="notifications_open_settings">Open Settings</string>
+    <string name="notifications_exact_alarm_row">Exact alarms</string>
+    <string name="notifications_exact_granted">Allowed</string>
+    <string name="notifications_exact_denied">Not allowed — reminders may arrive late</string>
+    <string name="notifications_master_switch">Enable notifications</string>
+    <string name="notifications_section_default">Default reminder settings</string>
+    <string name="notifications_advance_row">Advance reminder</string>
+    <string name="notifications_advance_none">No reminder</string>
+    <string name="notifications_advance_same_day">Same day</string>
+    <plurals name="notifications_advance_days">
+        <item quantity="one">%d day early</item>
+        <item quantity="other">%d days early</item>
+    </plurals>
+    <string name="notifications_section_times">Default reminder times</string>
+    <string name="notifications_time_first">First reminder time</string>
+    <string name="notifications_time_second">Second reminder time</string>
+    <string name="notifications_time_third">Third reminder time</string>
+    <string name="notifications_section_slots">Advance reminder control</string>
+    <string name="notifications_slot_first">First slot</string>
+    <string name="notifications_slot_second">Second slot</string>
+    <string name="notifications_slot_third">Third slot</string>
+    <string name="notifications_slots_footer">These switches control advance reminders only. Payment-day reminders always fire.</string>
+    <string name="notifications_section_integrations">Integrations</string>
+    <string name="notifications_calendar_sync">Sync to system calendar</string>
+    <string name="notifications_calendar_sync_footer">Creates recurring events in a local “SubMark” calendar. Can also be toggled per subscription.</string>
+    <string name="notifications_calendar_permission_missing">Calendar permission not granted</string>
+    <string name="notifications_section_test">Test</string>
+    <string name="notifications_send_test">Send a test notification in 5 seconds</string>
+    <string name="notifications_test_scheduled">Test notification scheduled</string>
+    <string name="notifications_test_no_permission">Cannot send test notification</string>
+    <string name="notifications_section_custom">Custom reminders</string>
+    <string name="notifications_custom_empty">No subscription has custom reminders yet</string>
+    <string name="notifications_custom_footer">Custom reminders replace the default ones for that subscription.</string>
+    <string name="notifications_next_reminder">Next: %1$s</string>
+    <string name="notifications_not_scheduled">Not scheduled</string>
+    <string name="notifications_today_badge">Today</string>
+    <string name="notifications_show_all">Show all (%1$d)</string>
+    <string name="notifications_show_less">Collapse</string>
+    <string name="notifications_diagnostics_link">Diagnostics</string>
+    <string name="notifications_snackbar_saved">Saved — reminders updated</string>
+
+    <!-- Subscription reminders screen -->
+    <string name="notifications_reminders_title">Reminders</string>
+    <string name="notifications_custom_switch">Custom reminders</string>
+    <string name="notifications_custom_switch_footer">Replaces the default reminder settings for this subscription.</string>
+    <string name="notifications_custom_default_if_empty">The list is empty — the default reminders apply.</string>
+    <string name="notifications_add_reminder">Add reminder</string>
+    <string name="notifications_reminder_days_before">Days before</string>
+    <string name="notifications_reminder_time">Time</string>
+    <string name="notifications_reminder_same_day">Same day</string>
+    <string name="notifications_reminder_remove">Remove reminder</string>
+    <string name="notifications_section_preview">Next reminders</string>
+    <string name="notifications_preview_empty">No upcoming reminder in the next 60 days</string>
+    <string name="notifications_calendar_sync_sub">Also add to system calendar</string>
+
+    <!-- Diagnostics screen -->
+    <string name="notifications_diagnostics_title">Notification diagnostics</string>
+    <string name="notifications_diag_state">Status</string>
+    <string name="notifications_diag_master">Master switch</string>
+    <string name="notifications_diag_on">On</string>
+    <string name="notifications_diag_off">Off</string>
+    <string name="notifications_diag_user_pref">User preference set</string>
+    <string name="notifications_diag_yes">Yes</string>
+    <string name="notifications_diag_no">No</string>
+    <string name="notifications_diag_channels">Channels</string>
+    <string name="notifications_diag_enabled">Enabled</string>
+    <string name="notifications_diag_disabled">Disabled</string>
+    <string name="notifications_diag_scheduled">Scheduled reminders (%1$d)</string>
+    <string name="notifications_diag_none">Nothing scheduled</string>
+    <string name="notifications_diag_actions">Actions</string>
+    <string name="notifications_diag_copy">Copy diagnostic info</string>
+    <string name="notifications_diag_copied">Copied</string>
+    <string name="notifications_diag_rebuild">Rebuild all reminders</string>
+    <string name="notifications_diag_rebuilt">All reminders rebuilt</string>
+    <string name="notifications_kind_advance">Advance</string>
+    <string name="notifications_kind_payday_first">Payment day</string>
+    <string name="notifications_kind_payday_second">Payment day (second)</string>
+    <string name="notifications_kind_payday_third">Payment day (final)</string>
+    <string name="notifications_kind_custom">Custom</string>
+</resources>

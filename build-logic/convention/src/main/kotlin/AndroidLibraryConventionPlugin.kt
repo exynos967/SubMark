@@ -12,6 +12,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             configureKotlinAndroid(this)
             defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
             testOptions.unitTests.isReturnDefaultValues = true
+            testOptions.unitTests.isIncludeAndroidResources = true
         }
         dependencies {
             testImplementation(libs.findLibrary("junit").get())

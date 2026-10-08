@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="150dp"
+    android:minHeight="110dp"
+    android:targetCellWidth="2"
+    android:targetCellHeight="1"
+    android:minResizeWidth="150dp"
+    android:minResizeHeight="110dp"
+    android:resizeMode="horizontal"
+    android:initialLayout="@layout/widget_loading"
+    android:previewLayout="@layout/widget_spending_preview"
+    android:description="@string/widget_spending_description"
+    android:updatePeriodMillis="3600000"
+    android:widgetCategory="home_screen" />

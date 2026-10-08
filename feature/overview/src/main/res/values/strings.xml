@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ── Tab / top bar ────────────────────────────── -->
+    <string name="overview_title">Overview</string>
+    <string name="overview_subtitle">Expense management</string>
+
+    <!-- ── Layout / mode / period ───────────────────── -->
+    <string name="overview_layout_modern">Modern</string>
+    <string name="overview_layout_classic">Classic</string>
+    <string name="overview_layout_switch">Switch to %1$s</string>
+    <string name="overview_mode_subscriptions">Subscriptions</string>
+    <string name="overview_mode_lifetime">Lifetime</string>
+    <string name="overview_period_month">Month</string>
+    <string name="overview_period_quarter">Quarter</string>
+    <string name="overview_period_year">Year</string>
+
+    <!-- ── Period labels ────────────────────────────── -->
+    <string name="overview_period_this_month">This month</string>
+    <string name="overview_period_this_quarter">This quarter</string>
+    <string name="overview_period_this_year">This year</string>
+
+    <!-- ── Hero (modern layout) ─────────────────────── -->
+    <string name="overview_hero_paid">Paid</string>
+    <string name="overview_hero_scheduled">Scheduled</string>
+    <string name="overview_hero_projected">Projected total</string>
+    <string name="overview_hero_daily_avg">Daily Avg</string>
+    <string name="overview_hero_added_days">Added %1$d days</string>
+    <string name="overview_hero_no_projected">No projected spending this period</string>
+    <string name="overview_hero_split">Paid %1$s, unpaid %2$s, projected %3$s</string>
+    <string name="overview_hero_hint">Unpaid is estimated from current plans</string>
+
+    <!-- ── Coming up ────────────────────────────────── -->
+    <string name="overview_coming_up">Coming up</string>
+    <string name="overview_coming_up_empty">No payments due soon</string>
+    <string name="overview_overdue_by">Overdue by %1$d days</string>
+
+    <!-- ── Payment schedule strip ────────────────────── -->
+    <string name="overview_schedule_strip_label">Payments due: %1$d</string>
+    <string name="overview_schedule_strip_empty">No payments due on this day</string>
+
+    <!-- ── Recent payments ──────────────────────────── -->
+    <string name="overview_recent_payments">Recent payments</string>
+    <string name="overview_recent_payments_empty">No payments recorded yet</string>
+    <string name="overview_payment_type_iap">In-app purchase</string>
+    <string name="overview_payment_type_payment">Payment</string>
+
+    <!-- ── Categories ───────────────────────────────── -->
+    <string name="overview_category_breakdown">By category</string>
+    <string name="overview_category_empty">No data yet — add subscriptions</string>
+
+    <!-- ── Trend ────────────────────────────────────── -->
+    <string name="overview_trend">Spending trend</string>
+    <string name="overview_trend_empty">Need two or more months of data</string>
+
+    <!-- ── Wallet balances ──────────────────────────── -->
+    <string name="overview_wallet_balances">Wallet balances</string>
+    <string name="overview_wallet_empty">No wallets yet</string>
+    <string name="overview_wallet_inactive">Inactive</string>
+    <string name="overview_wallet_add">Add wallet</string>
+    <string name="overview_wallet_manage">Manage</string>
+    <string name="overview_wallet_top_up">Top up</string>
+    <string name="overview_wallet_expense">Expense</string>
+
+    <!-- ── Price monitoring ─────────────────────────── -->
+    <string name="overview_price_monitor">Wishlist prices</string>
+    <string name="overview_price_monitor_empty">No price monitoring</string>
+    <string name="overview_price_monitor_count">Monitoring %1$d app prices</string>
+    <string name="overview_price_monitor_action">Open monitoring</string>
+
+    <!-- ── My subscriptions & purchases ──────────────── -->
+    <string name="overview_my_subscriptions">My subscriptions &amp; purchases</string>
+    <string name="overview_my_subscriptions_empty">No subscriptions yet</string>
+    <string name="overview_my_subscriptions_count">%1$d subscriptions · %2$d purchases</string>
+    <string name="overview_my_lifetime_mode">Lifetime purchases</string>
+
+    <!-- ── Spending insights ────────────────────────── -->
+    <string name="overview_spending_insights">Spending insights</string>
+
+    <!-- ── Budget ────────────────────────────────────── -->
+    <string name="overview_budget_usage">Annual budget</string>
+    <string name="overview_budget_of">%1$s of %2$s used</string>
+
+    <!-- ── Welcome/empty ─────────────────────────────── -->
+    <string name="overview_welcome_title">Keep every subscription in view</string>
+    <string name="overview_welcome_message">Add your first subscription to get started.</string>
+    <string name="overview_welcome_add">Add first subscription</string>
+
+    <!-- ── Hidden-all state ──────────────────────────── -->
+    <string name="overview_hidden_all_title">Make room for what matters</string>
+    <string name="overview_hidden_all_message">All overview components are hidden.</string>
+    <string name="overview_hidden_all_action">Customize overview</string>
+
+    <!-- ── Classic component names (for customization) ─ -->
+    <string name="overview_component_expenseOverview">Expense overview</string>
+    <string name="overview_component_upcomingPayments">Upcoming payments</string>
+    <string name="overview_component_recentPaid">Recently paid</string>
+    <string name="overview_component_monthlyTimeline">Monthly timeline</string>
+    <string name="overview_component_recentPaymentTimeline">Recent payment timeline</string>
+    <string name="overview_component_categoryBreakdown">By category</string>
+    <string name="overview_component_trend">Trend</string>
+    <string name="overview_component_globalWallet">Global wallets</string>
+    <string name="overview_component_priceMonitoring">Price monitoring</string>
+
+    <!-- ── Modern component names (for customization) ── -->
+    <string name="overview_component_spendingHero">Spending hero</string>
+    <string name="overview_component_comingUp">Coming up</string>
+    <string name="overview_component_paymentSchedule">Payment schedule</string>
+    <string name="overview_component_recentPayments">Recent payments</string>
+    <string name="overview_component_walletBalances">Wallet balances</string>
+    <string name="overview_component_wishlistPrices">Wishlist prices</string>
+    <string name="overview_component_mySubscriptions">My subscriptions</string>
+    <string name="overview_component_spendingInsights">Spending insights</string>
+
+    <!-- ── Customization screen ──────────────────────── -->
+    <string name="overview_customize_title">Customize overview</string>
+    <string name="overview_customize_subtitle">Layout and components</string>
+    <string name="overview_preset_complete">Complete</string>
+    <string name="overview_preset_essential">Essential</string>
+    <string name="overview_reset_order">Reset order</string>
+    <string name="overview_at_least_one">At least one component must be visible</string>
+
+    <!-- ── Mark paid flow ────────────────────────────── -->
+    <string name="overview_mark_paid_success">Marked %1$s as paid</string>
+    <string name="overview_paused_success">Subscription paused</string>
+
+    <!-- ── Badges ────────────────────────────────────── -->
+    <string name="overview_badge_paid">Paid</string>
+    <string name="overview_badge_today">Today</string>
+    <string name="overview_badge_tomorrow">Tomorrow</string>
+    <plurals name="overview_days_until">
+        <item quantity="one">%1$d day</item>
+        <item quantity="other">%1$d days</item>
+    </plurals>
+
+    <!-- ── Errors ────────────────────────────────────── -->
+    <string name="overview_error_not_found">Subscription not found</string>
+    <string name="overview_error_in_use">Subscription is still in use</string>
+    <string name="overview_error_duplicate_app">A subscription already exists with this app</string>
+    <string name="overview_error_insufficient_funds">Insufficient wallet funds</string>
+    <string name="overview_error_rate_unavailable">Exchange rate unavailable for %1$s</string>
+    <string name="overview_error_unsupported_currency">Currency %1$s is not supported</string>
+    <string name="overview_error_stale">This subscription was changed; please refresh and try again</string>
+    <string name="overview_error_network">Network error; please try again</string>
+    <string name="overview_invalid_not_markable">This subscription cannot be marked as paid</string>
+    <string name="overview_invalid_blank_name">Name must not be blank</string>
+    <string name="overview_invalid_generic">Invalid input</string>
+
+    <!-- ── Search ────────────────────────────────────── -->
+    <string name="search_title">Search</string>
+    <string name="search_placeholder">Search subscriptions, amounts, categories, tags, notes, payment methods…</string>
+    <string name="search_no_results">No results found</string>
+    <string name="search_empty_query">Type a query to search</string>
+    <string name="search_scope_all">All</string>
+    <string name="search_scope_subscriptions">Subscriptions</string>
+    <string name="search_scope_payments">Payments</string>
+    <string name="search_scope_categories">Categories</string>
+    <string name="search_recent">Recent searches</string>
+    <string name="search_clear_recent">Clear</string>
+    <string name="search_tips_title">Search tips</string>
+    <string name="search_tip_1">By name, tag, note or category</string>
+    <string name="search_tip_2">By amount or price</string>
+    <string name="search_tip_3">By payment method or note</string>
+    <string name="search_tip_4">By date</string>
+    <string name="search_result_section_subscriptions">Subscriptions</string>
+    <string name="search_result_section_payments">Payments</string>
+    <string name="search_result_section_categories">Categories</string>
+    <string name="search_paid">Paid</string>
+    <string name="search_unknown_subscription">Unknown subscription</string>
+    <string name="search_custom_category">Custom category</string>
+
+    <!-- ── Actions ───────────────────────────────────── -->
+    <string name="overview_action_search">Search</string>
+    <string name="overview_action_customize">Customize overview</string>
+    <string name="overview_action_add">Add subscription</string>
+    <string name="overview_action_poster">Financial report</string>
+
+    <!-- ── Missing labels used across sections ────────────── -->
+    <string name="overview_view_all">View all</string>
+    <string name="overview_lifetime_count">%1$d purchases</string>
+    <string name="overview_expense_monthly">Monthly expense</string>
+    <string name="overview_expense_annual_est">Annual expense (estimate)</string>
+    <string name="overview_financial_detail_tip">Financial detail</string>
+    <string name="overview_financial_detail_link">Financial detail</string>
+    <string name="overview_insights_hint">Open analytics to explore spending patterns</string>
+    <string name="overview_no_payments_7days">No payments in the past 7 days</string>
+    <string name="overview_no_payments_this_month">No payments scheduled this month</string>
+    <string name="overview_no_activity_15days">No activity in the past 15 days</string>
+    <string name="overview_badge_auto">Auto</string>
+    <string name="overview_badge_manual">Manual</string>
+</resources>

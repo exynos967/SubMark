@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_upcoming_title">即将到期</string>
+    <string name="widget_upcoming_description">显示最近到期的订阅，可快速“标记已付”</string>
+    <string name="widget_spending_title">支出概览</string>
+    <string name="widget_spending_description">本月预计支出与预算使用情况</string>
+    <string name="widget_total">合计</string>
+    <plurals name="widget_subs_count">
+        <item quantity="other">%d 个订阅</item>
+    </plurals>
+    <string name="widget_no_upcoming">暂无到期项目</string>
+    <string name="widget_add_hint">在 SubMark 中添加订阅</string>
+    <string name="widget_today">今天</string>
+    <string name="widget_tomorrow">明天</string>
+    <plurals name="widget_in_days">
+        <item quantity="other">%d 天后</item>
+    </plurals>
+    <plurals name="widget_overdue_days">
+        <item quantity="other">已逾期 %d 天</item>
+    </plurals>
+    <string name="widget_unknown_date">—</string>
+    <string name="widget_mark_paid">标记已付</string>
+    <string name="widget_marked_paid">已将 %1$s 标记为已付</string>
+    <string name="widget_mark_failed">无法将 %1$s 标记为已付</string>
+    <string name="widget_this_month">本月</string>
+    <string name="widget_active_count">使用中</string>
+    <string name="widget_budget_used">已用预算 %1$d%%</string>
+    <string name="widget_over_budget">超出预算</string>
+    <string name="widget_no_budget">未设置预算</string>
+    <string name="widget_loading">加载中…</string>
+    <string name="widget_error">无法加载小组件数据</string>
+</resources>

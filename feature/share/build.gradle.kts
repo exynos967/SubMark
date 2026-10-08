@@ -7,4 +7,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.zxing.core)
+    testImplementation(libs.junit)
+    testImplementation(libs.truth)
+    testImplementation(libs.kotlinx.coroutines.test)
 }

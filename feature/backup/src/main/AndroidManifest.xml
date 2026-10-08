@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <!--
+            Posts the "backup failed" notification. Created lazily by BackupNotifier on first use;
+            no exported components are needed — WorkManager (Hilt factory in the app) runs the workers.
+            Plain-HTTP backup to private/local hosts additionally requires the app to allow cleartext
+            traffic (android:usesCleartextTraffic); the profile's host check in backup-client code is
+            the primary guard.
+        -->
+    </application>
+</manifest>

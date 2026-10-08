@@ -1,0 +1,131 @@
+<resources>
+    <!-- Screen titles -->
+    <string name="analytics_title">统计分析</string>
+    <string name="analytics_subtitle_subscriptions">订阅</string>
+    <string name="analytics_subtitle_lifetime">买断购买</string>
+    <string name="analytics_loading">正在加载分析数据…</string>
+    <string name="analytics_loading_rates">正在加载历史汇率：%1$d%%</string>
+    <string name="analytics_empty_title">暂无分析数据</string>
+    <string name="analytics_empty_message">当前模式下还没有可供分析的付款记录。</string>
+    <string name="analytics_no_components_title">当前模式没有启用的组件</string>
+    <string name="analytics_no_components_message">请至少启用一个组件以查看分析。</string>
+    <string name="analytics_go_customize">自定义分析</string>
+
+    <!-- Mode -->
+    <string name="analytics_mode_subscriptions">订阅</string>
+    <string name="analytics_mode_lifetime">买断</string>
+
+    <!-- Period -->
+    <string name="analytics_period_month">月</string>
+    <string name="analytics_period_quarter">季</string>
+    <string name="analytics_period_year">年</string>
+
+    <!-- Financial overview -->
+    <string name="analytics_overview_title">总览</string>
+    <string name="analytics_overview_total_spending">总支出</string>
+    <string name="analytics_overview_active_count">活跃订阅</string>
+    <string name="analytics_overview_lifetime_count">买断数量</string>
+    <string name="analytics_overview_daily_avg">日均支出</string>
+    <string name="analytics_overview_budget_usage">预算使用</string>
+    <string name="analytics_overview_more">更多</string>
+
+    <!-- Trend -->
+    <string name="analytics_trend_title">支出趋势</string>
+    <string name="analytics_trend_monthly">按月</string>
+    <string name="analytics_trend_yearly">按年</string>
+    <string name="analytics_trend_details_title">%1$s 详情</string>
+    <string name="analytics_trend_amount">金额</string>
+    <string name="analytics_trend_share">占总额比例</string>
+    <string name="analytics_trend_vs_average">与平均值对比</string>
+    <string name="analytics_trend_total">总计</string>
+    <string name="analytics_trend_average">平均值</string>
+    <string name="analytics_trend_peak">峰值</string>
+    <string name="analytics_trend_clear_selection">取消选择</string>
+    <string name="analytics_trend_not_enough_data">至少需要两个月的付款记录才能显示趋势。</string>
+
+    <!-- Heatmap -->
+    <string name="analytics_heatmap_title">活动热力图</string>
+    <string name="analytics_heatmap_total">总计</string>
+    <string name="analytics_heatmap_average">平均</string>
+    <string name="analytics_heatmap_peak_day">峰值日</string>
+    <string name="analytics_heatmap_count_label">付款笔数</string>
+    <string name="analytics_heatmap_level_none">无</string>
+    <string name="analytics_heatmap_level_low">低</string>
+    <string name="analytics_heatmap_level_medium">中</string>
+    <string name="analytics_heatmap_level_high">高</string>
+
+    <!-- Category -->
+    <string name="analytics_category_title">分类分析</string>
+    <plurals name="analytics_category_count">
+        <item quantity="other">%1$d 个分类</item>
+    </plurals>
+    <string name="analytics_category_shown_of">已显示 %1$d / %2$d</string>
+    <string name="analytics_category_other">其他</string>
+    <string name="analytics_category_expand">展开更多</string>
+    <string name="analytics_category_collapse">收起</string>
+
+    <!-- Multi-dimension radar -->
+    <string name="analytics_radar_title">多维分析</string>
+    <string name="analytics_radar_amount">金额</string>
+    <string name="analytics_radar_count">数量</string>
+    <string name="analytics_radar_average">平均值</string>
+
+    <!-- Stored value -->
+    <string name="analytics_stored_value_title">储值统计</string>
+    <string name="analytics_stored_value_message">查看储值订阅的充值、余额与扣款统计。</string>
+    <string name="analytics_stored_value_open">打开统计</string>
+
+    <!-- Customization -->
+    <string name="analytics_custom_title">自定义分析</string>
+    <string name="analytics_custom_subscriptions_section">订阅模式</string>
+    <string name="analytics_custom_lifetime_section">买断模式</string>
+    <string name="analytics_custom_presets">预设</string>
+    <string name="analytics_custom_preset_minimal">精简</string>
+    <string name="analytics_custom_preset_detailed">完整</string>
+    <string name="analytics_custom_reset">重置顺序</string>
+    <string name="analytics_custom_default_period">默认周期</string>
+    <string name="analytics_component_financial_overview">总览</string>
+    <string name="analytics_component_trend">支出趋势</string>
+    <string name="analytics_component_heatmap">活动热力图</string>
+    <string name="analytics_component_category">分类分析</string>
+    <string name="analytics_component_multi_dimension">多维分析</string>
+    <string name="analytics_component_stored_value">储值统计</string>
+
+    <!-- Per-subscription analysis -->
+    <string name="analytics_detail_title">分析</string>
+    <string name="analytics_detail_not_found">未找到该订阅。</string>
+    <string name="analytics_detail_lifecycle_title">生命周期</string>
+    <string name="analytics_detail_subscribed_duration">已订阅时长</string>
+    <string name="analytics_detail_subscribed_today">今天开始订阅</string>
+    <string name="analytics_detail_completed_cycles">已完成周期</string>
+    <string name="analytics_detail_days_to_next">距下次扣款天数</string>
+    <string name="analytics_detail_next_billing">下次扣款</string>
+    <string name="analytics_detail_trial_active">试用中</string>
+    <string name="analytics_detail_trial_ends">试用结束日期</string>
+    <string name="analytics_detail_paused">已暂停</string>
+    <string name="analytics_detail_payment_trend_title">付款趋势</string>
+    <string name="analytics_detail_highest">最高</string>
+    <string name="analytics_detail_lowest">最低</string>
+    <string name="analytics_detail_average">平均</string>
+    <string name="analytics_detail_last_change">最近变动</string>
+    <string name="analytics_detail_actual_cost_title">实际成本</string>
+    <string name="analytics_detail_actual_daily">实际每日</string>
+    <string name="analytics_detail_actual_monthly">实际每月</string>
+    <string name="analytics_detail_per_person_daily">每人每日</string>
+    <string name="analytics_detail_per_person_monthly">每人每月</string>
+    <string name="analytics_detail_theory_vs_actual_title">理论 vs 实际</string>
+    <string name="analytics_detail_theoretical">理论值</string>
+    <string name="analytics_detail_actual">实际值</string>
+    <string name="analytics_detail_projected_title">预计支出</string>
+    <string name="analytics_detail_current_cycle">当前周期</string>
+    <string name="analytics_detail_weekly">每周</string>
+    <string name="analytics_detail_monthly">每月</string>
+    <string name="analytics_detail_quarterly">每季度</string>
+    <string name="analytics_detail_semiannual">每半年</string>
+    <string name="analytics_detail_annual">每年</string>
+    <string name="analytics_detail_per_person">每人</string>
+    <string name="analytics_detail_holding_cost_title">持有成本</string>
+    <string name="analytics_detail_daily_holding_cost">每日持有成本</string>
+    <string name="analytics_detail_days_owned">持有天数</string>
+    <string name="analytics_detail_no_payments">暂无付款记录。</string>
+</resources>

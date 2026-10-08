@@ -1,0 +1,133 @@
+<resources>
+    <!-- Screen titles -->
+    <string name="analytics_title">Analytics</string>
+    <string name="analytics_subtitle_subscriptions">Subscriptions</string>
+    <string name="analytics_subtitle_lifetime">Lifetime purchases</string>
+    <string name="analytics_loading">Loading analytics data…</string>
+    <string name="analytics_loading_rates">Loading historical exchange rates: %1$d%%</string>
+    <string name="analytics_empty_title">No analytics data</string>
+    <string name="analytics_empty_message">There are no payments to analyse yet in this mode.</string>
+    <string name="analytics_no_components_title">No components in current mode</string>
+    <string name="analytics_no_components_message">Enable at least one component to see analytics.</string>
+    <string name="analytics_go_customize">Customize analytics</string>
+
+    <!-- Mode -->
+    <string name="analytics_mode_subscriptions">Subscription</string>
+    <string name="analytics_mode_lifetime">Lifetime</string>
+
+    <!-- Period -->
+    <string name="analytics_period_month">Mo.</string>
+    <string name="analytics_period_quarter">Quar.</string>
+    <string name="analytics_period_year">Y.</string>
+
+    <!-- Financial overview -->
+    <string name="analytics_overview_title">Overview</string>
+    <string name="analytics_overview_total_spending">Total spending</string>
+    <string name="analytics_overview_active_count">Active subscriptions</string>
+    <string name="analytics_overview_lifetime_count">Lifetime purchases</string>
+    <string name="analytics_overview_daily_avg">Daily average</string>
+    <string name="analytics_overview_budget_usage">Budget usage</string>
+    <string name="analytics_overview_more">More</string>
+
+    <!-- Trend -->
+    <string name="analytics_trend_title">Spending Trends</string>
+    <string name="analytics_trend_monthly">Monthly</string>
+    <string name="analytics_trend_yearly">Yearly</string>
+    <string name="analytics_trend_details_title">%1$s details</string>
+    <string name="analytics_trend_amount">Amount</string>
+    <string name="analytics_trend_share">Share of total</string>
+    <string name="analytics_trend_vs_average">Vs. average</string>
+    <string name="analytics_trend_total">Total</string>
+    <string name="analytics_trend_average">Average</string>
+    <string name="analytics_trend_peak">Peak</string>
+    <string name="analytics_trend_clear_selection">Clear selection</string>
+    <string name="analytics_trend_not_enough_data">Add at least two months of payments to see trends.</string>
+
+    <!-- Heatmap -->
+    <string name="analytics_heatmap_title">Activity Heatmap</string>
+    <string name="analytics_heatmap_total">Total</string>
+    <string name="analytics_heatmap_average">Average</string>
+    <string name="analytics_heatmap_peak_day">Peak day</string>
+    <string name="analytics_heatmap_day_details">%1$s</string>
+    <string name="analytics_heatmap_count_label">Payments</string>
+    <string name="analytics_heatmap_level_none">None</string>
+    <string name="analytics_heatmap_level_low">Low</string>
+    <string name="analytics_heatmap_level_medium">Medium</string>
+    <string name="analytics_heatmap_level_high">High</string>
+
+    <!-- Category -->
+    <string name="analytics_category_title">Category Analysis</string>
+    <plurals name="analytics_category_count">
+        <item quantity="one">%1$d category</item>
+        <item quantity="other">%1$d categories</item>
+    </plurals>
+    <string name="analytics_category_shown_of">%1$d of %2$d shown</string>
+    <string name="analytics_category_other">Other</string>
+    <string name="analytics_category_expand">More</string>
+    <string name="analytics_category_collapse">Less</string>
+
+    <!-- Multi-dimension radar -->
+    <string name="analytics_radar_title">Multi-dimension</string>
+    <string name="analytics_radar_amount">Amount</string>
+    <string name="analytics_radar_count">Count</string>
+    <string name="analytics_radar_average">Average</string>
+
+    <!-- Stored value -->
+    <string name="analytics_stored_value_title">Stored Value Statistics</string>
+    <string name="analytics_stored_value_message">Top-ups, balances and deductions across stored-value subscriptions.</string>
+    <string name="analytics_stored_value_open">Open statistics</string>
+
+    <!-- Customization -->
+    <string name="analytics_custom_title">Customize Analytics</string>
+    <string name="analytics_custom_subscriptions_section">Subscription mode</string>
+    <string name="analytics_custom_lifetime_section">Lifetime mode</string>
+    <string name="analytics_custom_presets">Presets</string>
+    <string name="analytics_custom_preset_minimal">Minimal</string>
+    <string name="analytics_custom_preset_detailed">Detailed</string>
+    <string name="analytics_custom_reset">Reset order</string>
+    <string name="analytics_custom_default_period">Default period</string>
+    <string name="analytics_component_financial_overview">Overview</string>
+    <string name="analytics_component_trend">Spending trends</string>
+    <string name="analytics_component_heatmap">Activity heatmap</string>
+    <string name="analytics_component_category">Category analysis</string>
+    <string name="analytics_component_multi_dimension">Multi-dimension</string>
+    <string name="analytics_component_stored_value">Stored value stats</string>
+
+    <!-- Per-subscription analysis -->
+    <string name="analytics_detail_title">Analysis</string>
+    <string name="analytics_detail_not_found">Subscription not found.</string>
+    <string name="analytics_detail_lifecycle_title">Lifecycle</string>
+    <string name="analytics_detail_subscribed_duration">Subscribed for</string>
+    <string name="analytics_detail_subscribed_today">Started today</string>
+    <string name="analytics_detail_completed_cycles">Completed cycles</string>
+    <string name="analytics_detail_days_to_next">Days to next billing</string>
+    <string name="analytics_detail_next_billing">Next billing</string>
+    <string name="analytics_detail_trial_active">Trial active</string>
+    <string name="analytics_detail_trial_ends">Trial ends</string>
+    <string name="analytics_detail_paused">Paused</string>
+    <string name="analytics_detail_payment_trend_title">Payment Trend</string>
+    <string name="analytics_detail_highest">Highest</string>
+    <string name="analytics_detail_lowest">Lowest</string>
+    <string name="analytics_detail_average">Average</string>
+    <string name="analytics_detail_last_change">Last change</string>
+    <string name="analytics_detail_actual_cost_title">Actual Cost</string>
+    <string name="analytics_detail_actual_daily">Actual daily</string>
+    <string name="analytics_detail_actual_monthly">Actual monthly</string>
+    <string name="analytics_detail_per_person_daily">Per person / day</string>
+    <string name="analytics_detail_per_person_monthly">Per person / month</string>
+    <string name="analytics_detail_theory_vs_actual_title">Theory vs. Actual</string>
+    <string name="analytics_detail_theoretical">Theoretical</string>
+    <string name="analytics_detail_actual">Actual</string>
+    <string name="analytics_detail_projected_title">Projected Spending</string>
+    <string name="analytics_detail_current_cycle">Current cycle</string>
+    <string name="analytics_detail_weekly">Weekly</string>
+    <string name="analytics_detail_monthly">Monthly</string>
+    <string name="analytics_detail_quarterly">Quarterly</string>
+    <string name="analytics_detail_semiannual">Semi-annual</string>
+    <string name="analytics_detail_annual">Annual</string>
+    <string name="analytics_detail_per_person">Per person</string>
+    <string name="analytics_detail_holding_cost_title">Holding Cost</string>
+    <string name="analytics_detail_daily_holding_cost">Daily holding cost</string>
+    <string name="analytics_detail_days_owned">Days owned</string>
+    <string name="analytics_detail_no_payments">No payment records yet.</string>
+</resources>

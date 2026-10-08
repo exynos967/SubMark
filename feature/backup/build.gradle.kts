@@ -7,4 +7,12 @@ android {
 }
 
 dependencies {
+    implementation(libs.okhttp)
+    implementation(libs.work.runtime.ktx)
+    implementation(libs.hilt.work)
+    ksp(libs.hilt.work.compiler)
+    implementation(libs.androidx.core.ktx)
+
+    testImplementation(libs.okhttp.mockwebserver)
+    testImplementation(libs.robolectric)
 }

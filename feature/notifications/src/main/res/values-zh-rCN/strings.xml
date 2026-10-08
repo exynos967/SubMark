@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Channels -->
+    <string name="notifications_channel_reminders">付款提醒</string>
+    <string name="notifications_channel_reminders_desc">订阅的提前和当天付款提醒</string>
+    <string name="notifications_channel_alerts">提醒与警告</string>
+    <string name="notifications_channel_alerts_desc">订阅过期、试用期结束、钱包自动扣款受阻</string>
+    <string name="notifications_channel_price_drop">降价通知</string>
+    <string name="notifications_channel_price_drop_desc">已关注应用的价格变动</string>
+    <string name="notifications_channel_backup">备份状态</string>
+    <string name="notifications_channel_backup_desc">自动备份的结果</string>
+    <string name="notifications_channel_api_budget">API 预算</string>
+    <string name="notifications_channel_api_budget_desc">AI API 用量和预算警告</string>
+
+    <!-- Notification bodies -->
+    <string name="notifications_reminder_title">付款提醒</string>
+    <string name="notifications_due_today">%1$s 今天到期，金额 %2$s</string>
+    <string name="notifications_due_tomorrow">%1$s 明天到期，金额 %2$s</string>
+    <plurals name="notifications_due_in_days">
+        <item quantity="other">%1$s 将在 %2$d 天后到期，金额 %3$s</item>
+    </plurals>
+    <plurals name="notifications_due_in_days_unit">
+        <item quantity="other">提前 %d 天</item>
+    </plurals>
+    <string name="notifications_auto_title">自动续费提醒</string>
+    <string name="notifications_auto_body">%1$s 今天将自动续费，金额 %2$s</string>
+    <string name="notifications_payday_first_title">付款到期提醒</string>
+    <string name="notifications_payday_first_body">%1$s 今天到期，金额 %2$s</string>
+    <string name="notifications_payday_second_title">付款到期提醒</string>
+    <string name="notifications_payday_second_body">别忘了今天支付 %1$s，金额 %2$s</string>
+    <string name="notifications_payday_third_title">最终付款提醒</string>
+    <string name="notifications_payday_third_body">%1$s：今日最后一次提醒，金额 %2$s</string>
+    <string name="notifications_action_mark_paid">标记已付</string>
+    <string name="notifications_test_title">测试通知</string>
+    <string name="notifications_test_body">发送时间：%1$s</string>
+    <string name="notifications_mark_paid_done">%1$s 已标记为已付</string>
+    <string name="notifications_mark_paid_failed">无法将 %1$s 标记为已付</string>
+    <string name="notifications_expired_single">%1$s 已过期并暂停</string>
+    <plurals name="notifications_expired_multiple">
+        <item quantity="other">%1$d 个订阅已过期：%2$s</item>
+    </plurals>
+    <string name="notifications_expired_title">订阅过期</string>
+    <string name="notifications_trial_title">试用期结束</string>
+    <plurals name="notifications_trial_ended">
+        <item quantity="other">%1$d 个订阅的试用期已结束，请选择如何继续。</item>
+    </plurals>
+    <string name="notifications_wallet_title">自动扣款受阻</string>
+    <string name="notifications_wallet_body">无法为 %1$s 从钱包扣款</string>
+
+    <!-- Settings screen -->
+    <string name="notifications_settings_title">通知</string>
+    <string name="notifications_section_status">状态</string>
+    <string name="notifications_permission_row">通知权限</string>
+    <string name="notifications_permission_granted">已授予</string>
+    <string name="notifications_permission_denied">未授予</string>
+    <string name="notifications_permission_request">请求权限</string>
+    <string name="notifications_open_settings">打开系统设置</string>
+    <string name="notifications_exact_alarm_row">精确闹钟</string>
+    <string name="notifications_exact_granted">已允许</string>
+    <string name="notifications_exact_denied">未允许 — 提醒可能延迟</string>
+    <string name="notifications_master_switch">启用通知</string>
+    <string name="notifications_section_default">默认提醒设置</string>
+    <string name="notifications_advance_row">提前提醒</string>
+    <string name="notifications_advance_none">不提醒</string>
+    <string name="notifications_advance_same_day">当天</string>
+    <plurals name="notifications_advance_days">
+        <item quantity="other">提前 %d 天</item>
+    </plurals>
+    <string name="notifications_section_times">默认提醒时间</string>
+    <string name="notifications_time_first">第一次提醒时间</string>
+    <string name="notifications_time_second">第二次提醒时间</string>
+    <string name="notifications_time_third">第三次提醒时间</string>
+    <string name="notifications_section_slots">提前提醒控制</string>
+    <string name="notifications_slot_first">第一个时段</string>
+    <string name="notifications_slot_second">第二个时段</string>
+    <string name="notifications_slot_third">第三个时段</string>
+    <string name="notifications_slots_footer">这些开关只影响提前提醒，当天提醒始终发送。</string>
+    <string name="notifications_section_integrations">集成</string>
+    <string name="notifications_calendar_sync">同步到系统日历</string>
+    <string name="notifications_calendar_sync_footer">在本地“SubMark”日历中创建重复事件，也可按订阅单独开关。</string>
+    <string name="notifications_calendar_permission_missing">未授予日历权限</string>
+    <string name="notifications_section_test">测试</string>
+    <string name="notifications_send_test">5 秒后发送一条测试通知</string>
+    <string name="notifications_test_scheduled">已安排测试通知</string>
+    <string name="notifications_test_no_permission">无法发送测试通知</string>
+    <string name="notifications_section_custom">自定义提醒</string>
+    <string name="notifications_custom_empty">还没有订阅设置自定义提醒</string>
+    <string name="notifications_custom_footer">自定义提醒会替代该订阅的默认提醒。</string>
+    <string name="notifications_next_reminder">下次：%1$s</string>
+    <string name="notifications_not_scheduled">未安排</string>
+    <string name="notifications_today_badge">今天</string>
+    <string name="notifications_show_all">显示全部（%1$d）</string>
+    <string name="notifications_show_less">收起</string>
+    <string name="notifications_diagnostics_link">诊断</string>
+    <string name="notifications_snackbar_saved">已保存，提醒已更新</string>
+
+    <!-- Subscription reminders screen -->
+    <string name="notifications_reminders_title">提醒</string>
+    <string name="notifications_custom_switch">自定义提醒</string>
+    <string name="notifications_custom_switch_footer">替代该订阅的默认提醒设置。</string>
+    <string name="notifications_custom_default_if_empty">列表为空，将使用默认提醒。</string>
+    <string name="notifications_add_reminder">添加提醒</string>
+    <string name="notifications_reminder_days_before">提前天数</string>
+    <string name="notifications_reminder_time">时间</string>
+    <string name="notifications_reminder_same_day">当天</string>
+    <string name="notifications_reminder_remove">删除该提醒</string>
+    <string name="notifications_section_preview">下次提醒</string>
+    <string name="notifications_preview_empty">未来 60 天内没有提醒</string>
+    <string name="notifications_calendar_sync_sub">同时添加到系统日历</string>
+
+    <!-- Diagnostics screen -->
+    <string name="notifications_diagnostics_title">通知诊断</string>
+    <string name="notifications_diag_state">状态</string>
+    <string name="notifications_diag_master">总开关</string>
+    <string name="notifications_diag_on">开</string>
+    <string name="notifications_diag_off">关</string>
+    <string name="notifications_diag_user_pref">用户已设置偏好</string>
+    <string name="notifications_diag_yes">是</string>
+    <string name="notifications_diag_no">否</string>
+    <string name="notifications_diag_channels">通知渠道</string>
+    <string name="notifications_diag_enabled">已启用</string>
+    <string name="notifications_diag_disabled">已停用</string>
+    <string name="notifications_diag_scheduled">已安排的提醒（%1$d）</string>
+    <string name="notifications_diag_none">没有已安排的提醒</string>
+    <string name="notifications_diag_actions">操作</string>
+    <string name="notifications_diag_copy">复制诊断信息</string>
+    <string name="notifications_diag_copied">已复制</string>
+    <string name="notifications_diag_rebuild">重建全部提醒</string>
+    <string name="notifications_diag_rebuilt">已重建全部提醒</string>
+    <string name="notifications_kind_advance">提前</string>
+    <string name="notifications_kind_payday_first">付款当天</string>
+    <string name="notifications_kind_payday_second">付款当天（第二次）</string>
+    <string name="notifications_kind_payday_third">付款当天（最终）</string>
+    <string name="notifications_kind_custom">自定义</string>
+</resources>
