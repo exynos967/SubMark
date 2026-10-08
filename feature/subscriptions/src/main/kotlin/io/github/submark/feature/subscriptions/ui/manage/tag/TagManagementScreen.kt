@@ -164,9 +164,6 @@ fun TagManagementScreen(state: TagManagementUiState, snackbarHost: SnackbarHostS
             SubMarkTopAppBar(
                 title = stringResource(R.string.subscriptions_manage_tag_title),
                 onBack = actions.onBack,
-                actions = {
-                    IconButton(onClick = onAdd) { Icon(Icons.Rounded.Add, contentDescription = addLabel) }
-                },
             )
         },
         floatingActionButton = {
@@ -262,8 +259,6 @@ private fun TagList(state: TagManagementUiState, actions: TagManagementActions, 
                 title = stringResource(R.string.subscriptions_manage_tag_empty_title),
                 message = stringResource(R.string.subscriptions_manage_tag_empty_message),
                 icon = Icons.Rounded.Sell,
-                actionLabel = stringResource(R.string.subscriptions_manage_tag_add),
-                onAction = actions.onAddTag,
             )
         } else {
             EmptyState(title = stringResource(R.string.subscriptions_manage_no_matches), icon = Icons.Rounded.Sell)
@@ -320,8 +315,6 @@ private fun FolderList(state: TagManagementUiState, actions: TagManagementAction
             title = stringResource(if (state.query.isBlank()) R.string.subscriptions_manage_folder_empty_title else R.string.subscriptions_manage_no_matches),
             message = if (state.query.isBlank()) stringResource(R.string.subscriptions_manage_folder_empty_message) else null,
             icon = Icons.Rounded.Folder,
-            actionLabel = if (state.query.isBlank()) stringResource(R.string.subscriptions_manage_folder_add) else null,
-            onAction = if (state.query.isBlank()) actions.onAddFolder else null,
         )
         return
     }

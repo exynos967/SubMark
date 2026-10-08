@@ -188,8 +188,6 @@ fun WalletManagementScreen(
                         title = stringResource(R.string.money_wallet_empty),
                         message = stringResource(R.string.money_wallet_empty_message),
                         icon = Icons.Rounded.AccountBalanceWallet,
-                        actionLabel = stringResource(R.string.money_wallet_create),
-                        onAction = onCreate,
                     )
                 }
             } else {

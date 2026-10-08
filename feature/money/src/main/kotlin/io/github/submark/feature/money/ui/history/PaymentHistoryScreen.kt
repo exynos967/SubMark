@@ -132,8 +132,6 @@ fun PaymentHistoryScreen(
                             title = stringResource(R.string.money_history_empty_title),
                             message = stringResource(if (state.canAdd) R.string.money_history_empty_message else R.string.money_history_wishlist),
                             icon = Icons.AutoMirrored.Rounded.ReceiptLong,
-                            actionLabel = if (state.canAdd) stringResource(R.string.money_history_add) else null,
-                            onAction = if (state.canAdd) onAdd else null,
                         )
                     }
                     state.records.isEmpty() -> item(key = "no_match") {

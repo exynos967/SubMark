@@ -248,8 +248,6 @@ private fun LazyGridScope.listBody(state: SubscriptionListUiState, actions: Subs
                         ListSegment.WISHLIST -> R.string.subscriptions_list_empty_wishlist_message
                     },
                 ),
-                actionLabel = stringResource(R.string.subscriptions_list_add),
-                onAction = actions.onAdd,
             )
         }
         return

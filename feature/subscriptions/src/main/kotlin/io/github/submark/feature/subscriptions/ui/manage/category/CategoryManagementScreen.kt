@@ -136,9 +136,6 @@ fun CategoryManagementScreen(
                 title = stringResource(R.string.subscriptions_manage_category_title),
                 onBack = onBack,
                 actions = {
-                    IconButton(onClick = onAdd) {
-                        Icon(Icons.Rounded.Add, contentDescription = stringResource(R.string.subscriptions_manage_category_add))
-                    }
                     Box {
                         IconButton(onClick = { menuOpen = true }) {
                             Icon(Icons.Rounded.MoreVert, contentDescription = stringResource(R.string.subscriptions_manage_more_actions))

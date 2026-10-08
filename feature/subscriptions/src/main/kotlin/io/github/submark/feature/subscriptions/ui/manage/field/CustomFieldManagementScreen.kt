@@ -131,7 +131,6 @@ fun CustomFieldManagementScreen(
             SubMarkTopAppBar(
                 title = stringResource(R.string.subscriptions_manage_field_title),
                 onBack = onBack,
-                actions = { IconButton(onClick = onAdd) { Icon(Icons.Rounded.Add, contentDescription = addLabel) } },
             )
         },
         floatingActionButton = { FloatingActionButton(onClick = onAdd) { Icon(Icons.Rounded.Add, contentDescription = addLabel) } },
@@ -174,8 +173,6 @@ fun CustomFieldManagementScreen(
                     ),
                     message = if (state.totalCount == 0) stringResource(R.string.subscriptions_manage_field_empty_message) else null,
                     icon = Icons.Rounded.TextFields,
-                    actionLabel = addLabel,
-                    onAction = onAdd,
                 )
             } else if (state.filter == FieldFilter.All) {
                 var items by remember(state.fields) { mutableStateOf(state.fields) }
