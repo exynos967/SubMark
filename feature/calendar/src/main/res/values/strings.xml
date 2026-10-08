@@ -27,6 +27,8 @@
     <!-- Today / jump -->
     <string name="calendar_today">Today</string>
     <string name="calendar_jump_to_date">Jump to date</string>
+    <string name="calendar_previous">Previous</string>
+    <string name="calendar_next">Next</string>
     <string name="calendar_add_subscription">Add subscription</string>
 
     <!-- Agenda -->

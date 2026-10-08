@@ -1,9 +1,21 @@
 package io.github.submark.feature.calendar.ui.calendar
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,17 +31,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowForward
 import androidx.compose.material.icons.rounded.CalendarToday
+import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.ChevronLeft
 import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material.icons.rounded.Circle
 import androidx.compose.material.icons.rounded.Save
-import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Today
 import androidx.compose.material3.AlertDialog
@@ -48,21 +59,26 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -76,9 +92,9 @@ import io.github.submark.core.ui.component.SubMarkTopAppBar
 import io.github.submark.core.ui.component.formatMoney
 import io.github.submark.core.ui.format.DateLabels
 import io.github.submark.core.ui.icon.SubscriptionIcon
-import io.github.submark.core.ui.util.thenIf
 import io.github.submark.core.ui.theme.SubMarkTheme
 import io.github.submark.core.ui.util.SnackbarEffect
+import io.github.submark.core.ui.util.thenIf
 import io.github.submark.feature.calendar.R
 import io.github.submark.feature.calendar.data.CalendarScenario
 import io.github.submark.feature.calendar.data.Occurrence
@@ -88,6 +104,7 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import java.util.Locale
 
 @Composable
 fun CalendarRoute(
@@ -182,7 +199,7 @@ private fun CalendarScreen(
                 PagerRow(
                     anchorText = when (scenario.mode) {
                         CalendarMode.MONTH -> DateLabels.formatYearMonth(scenario.anchorDate)
-                        CalendarMode.WEEK -> weekRangeLabel(scenario.anchorDate)
+                        CalendarMode.WEEK -> weekRangeLabel(scenario.anchorDate.startOfWeek())
                         CalendarMode.TIMELINE -> ""
                     },
                     onPrevious = onPrevious,
@@ -191,24 +208,22 @@ private fun CalendarScreen(
                 )
             }
 
-            val contentModifier = Modifier.fillMaxWidth().weight(1f)
+            // Month grid and week strip keep their natural height; the selected day's agenda below takes the rest.
             when (scenario.mode) {
                 CalendarMode.MONTH -> MonthGrid(
                     scenario = scenario,
                     byDate = nativeState.byDate,
-                    includeChildren = nativeState.includeChildren,
-                    defaultCurrencyCode = nativeState.defaultCurrencyCode,
-                    currencySymbols = nativeState.currencySymbols,
                     onSelectDate = onSelectDate,
-                    onMarkPaid = onMarkPaid,
-                    modifier = contentModifier,
-                    today = scenario.today,
+                    onPrevious = onPrevious,
+                    onNext = onNext,
+                    modifier = Modifier.fillMaxWidth(),
                 )
-                // The week strip is short; the selected day's agenda below takes the remaining height.
                 CalendarMode.WEEK -> WeekStrip(
                     scenario = scenario,
                     byDate = nativeState.byDate,
                     onSelectDate = onSelectDate,
+                    onPrevious = onPrevious,
+                    onNext = onNext,
                     modifier = Modifier.fillMaxWidth(),
                 )
                 CalendarMode.TIMELINE -> TimelineView(
@@ -220,7 +235,7 @@ private fun CalendarScreen(
                     onMarkPaid = onMarkPaid,
                     onAddSubscription = onAddSubscription,
                     hasSubscriptions = nativeState.hasSubscriptions,
-                    modifier = contentModifier,
+                    modifier = Modifier.fillMaxWidth().weight(1f),
                     today = scenario.today,
                 )
             }
@@ -234,6 +249,7 @@ private fun CalendarScreen(
                     currencySymbols = nativeState.currencySymbols,
                     onMarkPaid = onMarkPaid,
                     today = scenario.today,
+                    modifier = Modifier.padding(top = 8.dp).weight(1f),
                 )
             }
         }
@@ -293,7 +309,7 @@ private fun PagerRow(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         IconButton(onClick = onPrevious, modifier = Modifier.size(32.dp)) {
-            Icon(Icons.Rounded.ChevronLeft, contentDescription = stringResource(io.github.submark.core.ui.R.string.ui_action_back))
+            Icon(Icons.Rounded.ChevronLeft, contentDescription = stringResource(R.string.calendar_previous))
         }
         Text(
             text = anchorText,
@@ -306,7 +322,7 @@ private fun PagerRow(
             Text(stringResource(R.string.calendar_today), style = MaterialTheme.typography.labelLarge)
         }
         IconButton(onClick = onNext, modifier = Modifier.size(32.dp)) {
-            Icon(Icons.Rounded.ChevronRight, contentDescription = stringResource(io.github.submark.core.ui.R.string.ui_action_back))
+            Icon(Icons.Rounded.ChevronRight, contentDescription = stringResource(R.string.calendar_next))
         }
     }
 }
@@ -315,177 +331,38 @@ private fun PagerRow(
 private fun MonthGrid(
     scenario: CalendarScenario,
     byDate: Map<LocalDate, List<Occurrence>>,
-    includeChildren: Boolean,
-    defaultCurrencyCode: String,
-    currencySymbols: Map<String, String>,
     onSelectDate: (LocalDate) -> Unit,
-    onMarkPaid: (Occurrence) -> Unit,
-    today: LocalDate,
+    onPrevious: () -> Unit,
+    onNext: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val monthStart = YearMonth.from(scenario.anchorDate).atDay(1)
-    val monthEnd = YearMonth.from(scenario.anchorDate).atEndOfMonth()
-    val weeks = mutableListOf<List<LocalDate>>()
-    var weekStart = monthStart.startOfWeek()
-    while (weekStart <= monthEnd) {
-        val week = (0..6).map { weekStart.plusDays(it.toLong()) }
-        weeks.add(week)
-        weekStart = weekStart.plusWeeks(1)
-    }
-
     Column(modifier = modifier.padding(horizontal = 16.dp)) {
-        // Weekday header
-        Row(Modifier.fillMaxWidth()) {
-            listOf(
-                R.string.calendar_weekday_mon, R.string.calendar_weekday_tue,
-                R.string.calendar_weekday_wed, R.string.calendar_weekday_thu,
-                R.string.calendar_weekday_fri, R.string.calendar_weekday_sat,
-                R.string.calendar_weekday_sun,
-            ).forEach { stringRes ->
-                Text(
-                    text = stringResource(stringRes),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.weight(1f),
-                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-                )
-            }
-        }
-        Spacer(Modifier.height(4.dp))
-
-        weeks.forEach { week ->
-            Row(Modifier.fillMaxWidth().padding(vertical = 1.dp)) {
-                week.forEach { date ->
-                    val dayOccurrences = byDate[date].orEmpty()
-                    val isSelected = date == scenario.selectedDate
-                    val isToday = date == today
-                    val isCurrentMonth = YearMonth.from(date) == YearMonth.from(scenario.anchorDate)
-
-                    CalendarDayCell(
-                        date = date,
-                        dayOccurrences = dayOccurrences,
-                        isSelected = isSelected,
-                        isToday = isToday,
-                        isCurrentMonth = isCurrentMonth,
-                        includeChildren = includeChildren,
-                        defaultCurrencyCode = defaultCurrencyCode,
-                        onSelect = { onSelectDate(date) },
-                        onMarkPaid = onMarkPaid,
-                        modifier = Modifier.weight(1f),
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun CalendarDayCell(
-    date: LocalDate,
-    dayOccurrences: List<Occurrence>,
-    isSelected: Boolean,
-    isToday: Boolean,
-    isCurrentMonth: Boolean,
-    includeChildren: Boolean,
-    defaultCurrencyCode: String,
-    onSelect: () -> Unit,
-    onMarkPaid: (Occurrence) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val backgroundColor = when {
-        isSelected -> MaterialTheme.colorScheme.primary.copy(alpha = 0.10f)
-        isToday -> MaterialTheme.colorScheme.tertiary.copy(alpha = 0.10f)
-        else -> Color.Transparent
-    }
-    val borderColor = when {
-        isSelected -> MaterialTheme.colorScheme.primary
-        isToday -> MaterialTheme.colorScheme.tertiary
-        else -> Color.Transparent
-    }
-
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(96.dp)
-            .clip(RoundedCornerShape(6.dp))
-            .background(backgroundColor)
-            .thenIf(isSelected || isToday) {
-                Modifier.border(
-                    width = 1.5.dp,
-                    color = borderColor,
-                    shape = RoundedCornerShape(6.dp),
-                )
-            }
-            .clickable(onClick = onSelect)
-            .padding(2.dp),
-    ) {
-        // Day number
-        Text(
-            text = date.dayOfMonth.toString(),
-            style = MaterialTheme.typography.labelSmall,
-            color = when {
-                !isCurrentMonth -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.40f)
-                isToday -> MaterialTheme.colorScheme.tertiary
-                isSelected -> MaterialTheme.colorScheme.primary
-                else -> MaterialTheme.colorScheme.onSurface
-            },
-            modifier = Modifier.padding(start = 4.dp, top = 2.dp),
-        )
-
-        // Icons or dots
-        if (dayOccurrences.isNotEmpty()) {
-            val showIcons = dayOccurrences.size <= 4
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 2.dp),
-                horizontalArrangement = Arrangement.spacedBy(2.dp),
-            ) {
-                if (showIcons) {
-                    dayOccurrences.take(4).forEach { occ ->
-                        SubscriptionIcon(
-                            type = occ.subscription.iconType,
-                            value = occ.subscription.iconValue,
-                            fallbackName = occ.subscription.name,
-                            size = 18.dp,
-                        )
-                    }
-                } else {
-                    // Just show markers
-                    dayOccurrences.take(3).forEach { occ ->
-                        val color = when {
-                            occ.paid -> SubMarkTheme.extendedColors.success
-                            occ.scheduled -> MaterialTheme.colorScheme.primary
-                            else -> MaterialTheme.colorScheme.onSurfaceVariant
+        WeekdayHeader()
+        SwipePager(
+            page = YearMonth.from(scenario.anchorDate),
+            onPrevious = onPrevious,
+            onNext = onNext,
+        ) { month ->
+            val weeks = generateSequence(month.atDay(1).startOfWeek()) { it.plusWeeks(1) }
+                .takeWhile { it <= month.atEndOfMonth() }
+                .map { start -> (0L..6L).map(start::plusDays) }
+                .toList()
+            Column {
+                weeks.forEach { week ->
+                    Row(Modifier.fillMaxWidth()) {
+                        week.forEach { date ->
+                            DayCell(
+                                date = date,
+                                occurrences = byDate[date].orEmpty(),
+                                isSelected = date == scenario.selectedDate,
+                                isToday = date == scenario.today,
+                                isOutside = YearMonth.from(date) != month,
+                                onSelect = { onSelectDate(date) },
+                                modifier = Modifier.weight(1f),
+                            )
                         }
-                        Box(
-                            modifier = Modifier
-                                .size(6.dp)
-                                .clip(CircleShape)
-                                .background(color),
-                        )
                     }
-                    Text(
-                        text = "+${dayOccurrences.size - 3}",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
                 }
-            }
-        }
-
-        Spacer(Modifier.weight(1f))
-
-        // Amount if small
-        if (dayOccurrences.isNotEmpty() && dayOccurrences.size <= 2) {
-            val totalAmount = dayOccurrences.mapNotNull { it.amount }.fold(java.math.BigDecimal.ZERO) { a, b -> a + b }
-            if (totalAmount.signum() > 0) {
-                Text(
-                    text = formatMoney(totalAmount, defaultCurrencyCode, hideDecimals = true, compact = true),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(start = 4.dp, bottom = 2.dp),
-                )
             }
         }
     }
@@ -496,94 +373,187 @@ private fun WeekStrip(
     scenario: CalendarScenario,
     byDate: Map<LocalDate, List<Occurrence>>,
     onSelectDate: (LocalDate) -> Unit,
+    onPrevious: () -> Unit,
+    onNext: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val weekStart = scenario.anchorDate.startOfWeek()
     Column(modifier = modifier.padding(horizontal = 16.dp)) {
-        // Weekday labels
-        Row(Modifier.fillMaxWidth()) {
-            listOf(
-                R.string.calendar_weekday_mon, R.string.calendar_weekday_tue,
-                R.string.calendar_weekday_wed, R.string.calendar_weekday_thu,
-                R.string.calendar_weekday_fri, R.string.calendar_weekday_sat,
-                R.string.calendar_weekday_sun,
-            ).forEach { stringRes ->
-                Text(
-                    text = stringResource(stringRes),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.weight(1f),
-                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-                )
-            }
-        }
-        Spacer(Modifier.height(4.dp))
-
-        // Day cells
-        Row(Modifier.fillMaxWidth()) {
-            (0..6).forEach { offset ->
-                val date = weekStart.plusDays(offset.toLong())
-                val dayOccurrences = byDate[date].orEmpty()
-                val isSelected = date == scenario.selectedDate
-                val isToday = date == scenario.today
-
-                WeekDayCell(
-                    date = date,
-                    count = dayOccurrences.size,
-                    isSelected = isSelected,
-                    isToday = isToday,
-                    onSelect = { onSelectDate(date) },
-                    modifier = Modifier.weight(1f),
-                )
+        WeekdayHeader()
+        SwipePager(
+            page = scenario.anchorDate.startOfWeek(),
+            onPrevious = onPrevious,
+            onNext = onNext,
+        ) { weekStart ->
+            Row(Modifier.fillMaxWidth()) {
+                (0L..6L).map(weekStart::plusDays).forEach { date ->
+                    DayCell(
+                        date = date,
+                        occurrences = byDate[date].orEmpty(),
+                        isSelected = date == scenario.selectedDate,
+                        isToday = date == scenario.today,
+                        isOutside = false,
+                        onSelect = { onSelectDate(date) },
+                        modifier = Modifier.weight(1f),
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-private fun WeekDayCell(
-    date: LocalDate,
-    count: Int,
-    isSelected: Boolean,
-    isToday: Boolean,
-    onSelect: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(56.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .background(
-                when {
-                    isSelected -> MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
-                    isToday -> MaterialTheme.colorScheme.tertiary.copy(alpha = 0.12f)
-                    else -> Color.Transparent
-                }
-            )
-            .clickable(onClick = onSelect)
-            .padding(4.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text(
-            text = date.dayOfMonth.toString(),
-            style = MaterialTheme.typography.labelLarge,
-            color = when {
-                isToday -> MaterialTheme.colorScheme.tertiary
-                isSelected -> MaterialTheme.colorScheme.primary
-                else -> MaterialTheme.colorScheme.onSurface
-            },
-        )
-        if (count > 0) {
-            Spacer(Modifier.height(2.dp))
+private fun WeekdayHeader() {
+    Row(Modifier.fillMaxWidth().padding(bottom = 4.dp)) {
+        listOf(
+            R.string.calendar_weekday_mon, R.string.calendar_weekday_tue,
+            R.string.calendar_weekday_wed, R.string.calendar_weekday_thu,
+            R.string.calendar_weekday_fri, R.string.calendar_weekday_sat,
+            R.string.calendar_weekday_sun,
+        ).forEach { stringRes ->
             Text(
-                text = "$count",
-                style = MaterialTheme.typography.labelSmall,
+                text = stringResource(stringRes),
+                style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.weight(1f),
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
             )
         }
     }
 }
+
+/**
+ * Hosts one month / week page: a horizontal swipe pages back or forward, and a page change slides in
+ * from the side it came from (shared axis X, same rhythm as screen navigation).
+ */
+@Composable
+private fun <T : Comparable<T>> SwipePager(
+    page: T,
+    onPrevious: () -> Unit,
+    onNext: () -> Unit,
+    content: @Composable (T) -> Unit,
+) {
+    val currentOnPrevious by rememberUpdatedState(onPrevious)
+    val currentOnNext by rememberUpdatedState(onNext)
+    val thresholdPx = with(LocalDensity.current) { 56.dp.toPx() }
+    val slidePx = with(LocalDensity.current) { 30.dp.roundToPx() }
+
+    AnimatedContent(
+        targetState = page,
+        transitionSpec = {
+            val sign = if (targetState > initialState) 1 else -1
+            val enter = slideInHorizontally(tween(PAGE_DURATION, easing = EmphasizedDecelerate)) { sign * slidePx } +
+                fadeIn(tween(PAGE_DURATION - PAGE_FADE_OUT, delayMillis = PAGE_FADE_OUT))
+            val exit = slideOutHorizontally(tween(PAGE_DURATION, easing = EmphasizedDecelerate)) { -sign * slidePx } +
+                fadeOut(tween(PAGE_FADE_OUT))
+            enter togetherWith exit
+        },
+        label = "calendarPage",
+        modifier = Modifier.pointerInput(Unit) {
+            var dragged = 0f
+            detectHorizontalDragGestures(
+                onDragStart = { dragged = 0f },
+                onDragEnd = {
+                    when {
+                        dragged > thresholdPx -> currentOnPrevious()
+                        dragged < -thresholdPx -> currentOnNext()
+                    }
+                },
+            ) { _, delta -> dragged += delta }
+        },
+    ) { target -> content(target) }
+}
+
+/**
+ * One day in the month grid or week strip: the date sits in a circle (filled when selected, outlined
+ * for today) and up to three dots below mark that day's payments. The whole cell is tappable while the
+ * ripple stays inside the circle.
+ */
+@Composable
+private fun DayCell(
+    date: LocalDate,
+    occurrences: List<Occurrence>,
+    isSelected: Boolean,
+    isToday: Boolean,
+    isOutside: Boolean,
+    onSelect: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val colors = MaterialTheme.colorScheme
+    val containerColor by animateColorAsState(
+        if (isSelected) colors.primary else colors.primary.copy(alpha = 0f),
+        animationSpec = tween(SELECTION_DURATION),
+        label = "dayContainer",
+    )
+    val contentColor by animateColorAsState(
+        when {
+            isSelected -> colors.onPrimary
+            isToday -> colors.primary
+            isOutside -> colors.onSurface.copy(alpha = 0.38f)
+            else -> colors.onSurface
+        },
+        animationSpec = tween(SELECTION_DURATION),
+        label = "dayContent",
+    )
+    val interactionSource = remember { MutableInteractionSource() }
+
+    Column(
+        modifier = modifier
+            .height(DAY_CELL_HEIGHT)
+            .clickable(interactionSource = interactionSource, indication = null, onClick = onSelect),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(top = 4.dp)
+                .size(DAY_CIRCLE_SIZE)
+                .clip(CircleShape)
+                .background(containerColor)
+                .thenIf(isToday && !isSelected) { Modifier.border(1.dp, colors.primary, CircleShape) }
+                .indication(interactionSource, ripple()),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(
+                text = date.dayOfMonth.toString(),
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = if (isToday || isSelected) FontWeight.SemiBold else null,
+                color = contentColor,
+            )
+        }
+        if (occurrences.isNotEmpty()) {
+            Row(
+                modifier = Modifier.padding(top = 4.dp).alpha(if (isOutside) 0.38f else 1f),
+                horizontalArrangement = Arrangement.spacedBy(3.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                occurrences.take(MAX_DOTS).forEach { occ ->
+                    val color = when {
+                        occ.paid -> SubMarkTheme.extendedColors.success
+                        occ.scheduled -> colors.primary
+                        else -> colors.onSurfaceVariant
+                    }
+                    Box(Modifier.size(5.dp).clip(CircleShape).background(color))
+                }
+                if (occurrences.size > MAX_DOTS) {
+                    Text(
+                        text = "+${occurrences.size - MAX_DOTS}",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = colors.onSurfaceVariant,
+                    )
+                }
+            }
+        }
+    }
+}
+
+private val DAY_CELL_HEIGHT = 54.dp
+private val DAY_CIRCLE_SIZE = 38.dp
+private const val MAX_DOTS = 3
+private const val SELECTION_DURATION = 150
+private const val PAGE_DURATION = 300
+private const val PAGE_FADE_OUT = 90
+
+/** M3 "emphasized decelerate" easing. */
+private val EmphasizedDecelerate = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
 
 @Composable
 private fun TimelineView(
@@ -738,7 +708,7 @@ private fun TimelineRow(
                 color = if (occ.date == today) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.onSurface,
             )
             Text(
-                text = "${occ.date.month.name.take(3)}",
+                text = DateTimeFormatter.ofPattern("MMM", Locale.getDefault()).format(occ.date),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -859,14 +829,8 @@ private fun AgendaStrip(
     }
 }
 
-private fun weekRangeLabel(anchor: LocalDate): String {
-    val end = anchor.plusDays(6)
-    return if (end.monthValue == anchor.monthValue && end.year == anchor.year) {
-        "${anchor.month.name.take(3)} ${anchor.dayOfMonth} - ${end.dayOfMonth}"
-    } else {
-        "${anchor.month.name.take(3)} ${anchor.dayOfMonth} - ${end.month.name.take(3)} ${end.dayOfMonth}"
-    }
-}
+private fun weekRangeLabel(weekStart: LocalDate): String =
+    "${DateLabels.formatMonthDay(weekStart)} – ${DateLabels.formatMonthDay(weekStart.plusDays(6))}"
 
 @Preview(showBackground = true)
 @Composable
