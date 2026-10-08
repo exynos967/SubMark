@@ -214,6 +214,7 @@ private fun OverviewScreen(
                     onWalletManagement = onWalletManagement,
                     onWalletTopUp = onWalletTopUp,
                     onWalletExpense = onWalletExpense,
+                    onAddSubscription = onAddSubscription,
                     onSubscriptions = onSubscriptions,
                     onAnalytics = onAnalytics,
                     onPriceMonitor = onPriceMonitor,
@@ -492,6 +493,7 @@ private fun ModernBody(
     onWalletManagement: () -> Unit,
     onWalletTopUp: (String) -> Unit,
     onWalletExpense: (String) -> Unit,
+    onAddSubscription: () -> Unit,
     onSubscriptions: () -> Unit,
     onAnalytics: () -> Unit,
     onPriceMonitor: () -> Unit,
@@ -504,7 +506,7 @@ private fun ModernBody(
         // Welcome / empty
         if (uiState.subscriptionCount == 0 && mode == SpendingMode.SUBSCRIPTIONS) {
             item {
-                EmptyHero(onAdd = onSubscriptions)
+                EmptyHero(onAdd = onAddSubscription)
             }
         }
 
