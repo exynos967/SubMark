@@ -15,6 +15,7 @@ import io.github.submark.core.ui.navigation.SubscriptionEditRoute
 import io.github.submark.core.ui.navigation.SubscriptionsRoute
 import io.github.submark.core.ui.navigation.WalletActivityRoute
 import io.github.submark.core.ui.navigation.WalletManagementRoute
+import io.github.submark.core.ui.navigation.navigateToTab
 import io.github.submark.feature.overview.ui.customize.OverviewCustomizationRoute
 import io.github.submark.feature.overview.ui.overview.OverviewRoute
 import io.github.submark.feature.overview.ui.search.GlobalSearchRoute
@@ -29,8 +30,8 @@ fun NavGraphBuilder.overviewGraph(navController: NavController) {
             onSearch = { navController.navigate(GlobalSearchDest) },
             onCustomize = { navController.navigate(OverviewCustomizeDest) },
             onAddSubscription = { navController.navigate(SubscriptionEditRoute()) },
-            onSubscriptions = { navController.navigate(SubscriptionsRoute) },
-            onAnalytics = { navController.navigate(AnalyticsRoute) },
+            onSubscriptions = { navController.navigateToTab(SubscriptionsRoute) },
+            onAnalytics = { navController.navigateToTab(AnalyticsRoute) },
             onWalletManagement = { navController.navigate(WalletManagementRoute) },
             onWalletTopUp = { navController.navigate(WalletActivityRoute(it)) },
             onWalletExpense = { navController.navigate(WalletActivityRoute(it)) },

@@ -25,7 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -39,6 +38,7 @@ import io.github.submark.core.ui.navigation.OverviewRoute
 import io.github.submark.core.ui.navigation.PanelRoute
 import io.github.submark.core.ui.navigation.SettingsRoute
 import io.github.submark.core.ui.navigation.SubscriptionsRoute
+import io.github.submark.core.ui.navigation.navigateToTab
 import io.github.submark.feature.analytics.analyticsGraph
 import io.github.submark.feature.backup.backupGraph
 import io.github.submark.feature.calendar.calendarGraph
@@ -109,13 +109,7 @@ fun SubMarkNavHost(navController: NavHostController, settings: AppSettings, star
                     tabs.forEach { tab ->
                         NavigationBarItem(
                             selected = tab == currentTab,
-                            onClick = {
-                                navController.navigate(tab.route) {
-                                    popUpTo(navController.graph.findStartDestination().id) { saveState = true }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            },
+                            onClick = { navController.navigateToTab(tab.route) },
                             icon = { Icon(tab.icon, contentDescription = null) },
                             label = { Text(stringResource(tab.label)) },
                         )
