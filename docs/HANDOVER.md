@@ -43,7 +43,7 @@ feature: subscriptions money overview calendar analytics share notifications bac
 ## 使用
 - 工具链：`source /Users/exynos/workdir/markbuy/env.sh`，Gradle 8.9 + JDK 17 + Android SDK 35
 - 构建：`./gradlew :app:assembleDebug`；APK 在 `app/build/outputs/apk/debug/`
-- 模拟器：已建好 `submark_test` (API 35 arm64)，启动命令见 env.sh + `emulator -avd submark_test`
+- 模拟器：已建好 `submark_test` (API 35 arm64)，启动命令见 env.sh + `emulator -avd submark_test -gpu host`。**务必用 `-gpu host`**：`swiftshader_indirect` 是纯 CPU 软件渲染，水波纹等动效会明显变慢、发颗粒，容易误判为 App 问题
 - 设备文件位置：照片 → `filesDir/photos/`，本地图标 → `filesDir/icons/`，备份暂存 → `filesDir/backup-staging/`，分享导出 → `cacheDir/share/`
 
 ## 下一步建议
