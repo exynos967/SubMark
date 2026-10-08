@@ -136,6 +136,7 @@ fun ShareSubscriptionScreen(
                                     minLines = 2,
                                 )
                                 SettingsSwitchRow(
+                                    horizontalPadding = 0.dp,
                                     title = stringResource(R.string.share_show_qr),
                                     checked = uiState.showQr,
                                     onCheckedChange = { checked ->

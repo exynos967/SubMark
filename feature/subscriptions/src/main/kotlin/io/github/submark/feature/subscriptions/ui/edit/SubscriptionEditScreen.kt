@@ -441,6 +441,7 @@ private fun DatesCard(state: SubscriptionEditUiState, form: SubscriptionForm, er
             )
             if (showEnd) {
                 SettingsSwitchRow(
+                    horizontalPadding = 0.dp,
                     title = stringResource(R.string.subscriptions_edit_end_date_toggle),
                     subtitle = stringResource(R.string.subscriptions_edit_end_date_desc),
                     checked = form.endDate != null,
@@ -478,6 +479,7 @@ private fun DatesCard(state: SubscriptionEditUiState, form: SubscriptionForm, er
                 }
                 if (form.isRecurring) {
                     SettingsSwitchRow(
+                        horizontalPadding = 0.dp,
                         title = stringResource(R.string.subscriptions_edit_single_cycle),
                         subtitle = stringResource(R.string.subscriptions_edit_single_cycle_desc),
                         checked = form.isSingleCycle,
@@ -551,6 +553,7 @@ private fun PaymentCard(state: SubscriptionEditUiState, form: SubscriptionForm, 
             }
             if (settings.showFixedPaymentDay && SubscriptionFormLogic.fixedDayEligible(form)) {
                 SettingsSwitchRow(
+                    horizontalPadding = 0.dp,
                     title = stringResource(R.string.subscriptions_edit_fixed_day),
                     subtitle = form.fixedPaymentDay?.let { stringResource(R.string.subscriptions_edit_fixed_day_value, it) }
                         ?: stringResource(R.string.subscriptions_edit_fixed_day_desc),
@@ -609,6 +612,7 @@ private fun PaymentCard(state: SubscriptionEditUiState, form: SubscriptionForm, 
                 form.startDate < state.today && settings.showHistoricalPaymentsOption
             if (historyVisible) {
                 SettingsSwitchRow(
+                    horizontalPadding = 0.dp,
                     title = stringResource(R.string.subscriptions_edit_generate_history),
                     subtitle = stringResource(R.string.subscriptions_edit_generate_history_desc),
                     checked = form.generateHistory,
@@ -889,6 +893,7 @@ private fun AdditionalCard(state: SubscriptionEditUiState, form: SubscriptionFor
             if (showExtras) {
                 val wishlist = form.kind == FormKind.WISHLIST
                 SettingsSwitchRow(
+                    horizontalPadding = 0.dp,
                     title = stringResource(R.string.subscriptions_edit_active),
                     subtitle = stringResource(
                         when {

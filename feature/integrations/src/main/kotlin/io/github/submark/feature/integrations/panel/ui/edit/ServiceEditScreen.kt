@@ -262,6 +262,7 @@ fun ServiceEditScreen(
 
             SectionCard(contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp)) {
                 SettingsSwitchRow(
+                    horizontalPadding = 0.dp,
                     title = stringResource(R.string.panel_service_auto_refresh),
                     checked = state.autoRefresh,
                     onCheckedChange = { v -> onUpdate { it.copy(autoRefresh = v) } },
@@ -284,6 +285,7 @@ fun ServiceEditScreen(
 
             SectionCard(contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp)) {
                 SettingsSwitchRow(
+                    horizontalPadding = 0.dp,
                     title = stringResource(R.string.panel_service_enabled),
                     checked = state.enabled,
                     onCheckedChange = { v -> onUpdate { it.copy(enabled = v) } },
@@ -315,11 +317,13 @@ fun ServiceEditScreen(
                 SectionCard {
                     state.createdAtSeconds?.let {
                         SettingsValueRow(
+                            horizontalPadding = 0.dp,
                             title = stringResource(R.string.panel_service_created, formatInstant(Instant.ofEpochSecond(it))),
                             value = "",
                         )
                     }
                     SettingsValueRow(
+                        horizontalPadding = 0.dp,
                         title = stringResource(
                             R.string.panel_service_last_refresh,
                             state.lastRefreshSeconds?.let { formatInstant(Instant.ofEpochSecond(it)) }

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
@@ -27,8 +28,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.submark.core.ui.theme.SubMarkTheme
 
@@ -103,6 +106,12 @@ fun SettingsNavRow(
     }
 }
 
+/**
+ * Default side padding of settings rows. Pass `0.dp` when a row sits inside a container that already
+ * pads its content (e.g. SectionCard), so it lines up with the container's other content.
+ */
+val SettingsRowHorizontalPadding: Dp = 16.dp
+
 /** Whole row toggles the switch (single accessibility node). */
 @Composable
 fun SettingsSwitchRow(
@@ -113,12 +122,14 @@ fun SettingsSwitchRow(
     subtitle: String? = null,
     icon: ImageVector? = null,
     enabled: Boolean = true,
+    horizontalPadding: Dp = SettingsRowHorizontalPadding,
 ) {
     SettingsRowLayout(
         title = title,
         subtitle = subtitle,
         icon = icon,
         enabled = enabled,
+        horizontalPadding = horizontalPadding,
         modifier = modifier.toggleable(value = checked, enabled = enabled, role = Role.Switch, onValueChange = onCheckedChange),
     ) {
         Switch(checked = checked, onCheckedChange = null, enabled = enabled, modifier = Modifier.padding(start = 8.dp))
@@ -135,12 +146,14 @@ fun SettingsValueRow(
     icon: ImageVector? = null,
     onClick: (() -> Unit)? = null,
     enabled: Boolean = true,
+    horizontalPadding: Dp = SettingsRowHorizontalPadding,
 ) {
     SettingsRowLayout(
         title = title,
         subtitle = subtitle,
         icon = icon,
         enabled = enabled,
+        horizontalPadding = horizontalPadding,
         modifier = if (onClick != null) modifier.clickable(enabled = enabled, onClick = onClick) else modifier,
     ) {
         Text(
@@ -149,7 +162,9 @@ fun SettingsValueRow(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(start = 8.dp),
+            textAlign = TextAlign.End,
+            // Cap the value so a long one can't squeeze the title into a sliver.
+            modifier = Modifier.padding(start = 8.dp).widthIn(max = 180.dp),
         )
     }
 }
@@ -161,13 +176,14 @@ private fun SettingsRowLayout(
     icon: ImageVector?,
     enabled: Boolean,
     modifier: Modifier,
+    horizontalPadding: Dp = SettingsRowHorizontalPadding,
     trailing: @Composable () -> Unit,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .heightIn(min = 56.dp)
-            .padding(horizontal = 16.dp, vertical = 10.dp)
+            .padding(horizontal = horizontalPadding, vertical = 10.dp)
             .alpha(if (enabled) 1f else 0.5f),
         verticalAlignment = Alignment.CenterVertically,
     ) {

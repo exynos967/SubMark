@@ -264,6 +264,7 @@ private fun PaymentInfoSection(state: AddPaymentUiState, onUpdate: ((PaymentForm
         val kind = state.editingRecord?.kind
         if (kind == null || kind == PaymentKind.REGULAR || kind == PaymentKind.IN_APP_PURCHASE) {
             SettingsSwitchRow(
+                horizontalPadding = 0.dp,
                 title = stringResource(R.string.money_add_iap),
                 subtitle = stringResource(R.string.money_add_iap_desc),
                 checked = f.inAppPurchase,
@@ -304,6 +305,7 @@ private fun DateAdjustmentSection(
     val success = f.status == PaymentStatus.SUCCESS
     SectionCard(title = stringResource(R.string.money_add_section_dates)) {
         SettingsSwitchRow(
+            horizontalPadding = 0.dp,
             title = stringResource(R.string.money_add_adjust_dates),
             subtitle = stringResource(if (success) R.string.money_add_adjust_dates_desc else R.string.money_add_adjust_success_only),
             checked = f.adjustDates && success,
@@ -413,6 +415,7 @@ private fun OptionsSection(state: AddPaymentUiState, onUpdate: ((PaymentForm) ->
     val sub = state.subscription ?: return
     SectionCard(title = stringResource(R.string.money_add_section_options)) {
         SettingsSwitchRow(
+            horizontalPadding = 0.dp,
             title = stringResource(R.string.money_add_sync_price),
             subtitle = stringResource(R.string.money_add_sync_price_desc, formatMoney(sub.price, sub.currencyCode, state.env.symbol(sub.currencyCode))),
             checked = f.syncPrice,
@@ -421,6 +424,7 @@ private fun OptionsSection(state: AddPaymentUiState, onUpdate: ((PaymentForm) ->
         val success = f.status == PaymentStatus.SUCCESS
         val positive = (f.amount?.signum() ?: 0) > 0
         SettingsSwitchRow(
+            horizontalPadding = 0.dp,
             title = stringResource(R.string.money_add_pay_wallet),
             subtitle = stringResource(
                 when {

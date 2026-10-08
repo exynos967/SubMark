@@ -267,6 +267,7 @@ fun BudgetEditScreen(
 
             SectionCard(contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp)) {
                 SettingsSwitchRow(
+                    horizontalPadding = 0.dp,
                     title = stringResource(R.string.panel_budget_daily_enabled),
                     checked = state.dailyEnabled,
                     onCheckedChange = { v -> onUpdate { it.copy(dailyEnabled = v) } },
@@ -294,6 +295,7 @@ fun BudgetEditScreen(
 
             SectionCard(contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp)) {
                 SettingsSwitchRow(
+                    horizontalPadding = 0.dp,
                     title = stringResource(R.string.panel_budget_enabled),
                     checked = state.enabled,
                     onCheckedChange = { v -> onUpdate { it.copy(enabled = v) } },
