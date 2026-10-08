@@ -516,7 +516,7 @@
     <string name="money_fin_note_filter">当前启用了买断筛选。</string>
     <string name="money_fin_note_subscriptions">每笔付款只计一次，按月分组。</string>
     <plurals name="money_fin_converting">
-        <item quantity="other">换算第 %2$d / %3$d 天汇率</item>
+        <item quantity="other">换算第 %1$d / %2$d 天汇率</item>
     </plurals>
     <string name="money_fin_type_monthly">按月计费</string>
     <string name="money_fin_type_quarterly">按季计费</string>

@@ -526,8 +526,8 @@
     <string name="money_fin_note_filter">A lifetime filter is active.</string>
     <string name="money_fin_note_subscriptions">Each payment counted once, grouped by month.</string>
     <plurals name="money_fin_converting">
-        <item quantity="one">Converting %2$d/%3$d day\'s rate</item>
-        <item quantity="other">Converting %2$d/%3$d day rates</item>
+        <item quantity="one">Converting %1$d/%2$d day\'s rate</item>
+        <item quantity="other">Converting %1$d/%2$d day rates</item>
     </plurals>
     <string name="money_fin_type_monthly">Monthly billing</string>
     <string name="money_fin_type_quarterly">Quarterly billing</string>
