@@ -456,7 +456,11 @@ private fun ModernBody(
     modifier: Modifier = Modifier,
 ) {
     val mode = uiState.spendingMode
-    val components = uiState.modernComponents.filter { it.visible }
+    // Lifetime purchases are one-off, so the recurring-payment sections have nothing to show.
+    val recurringOnly = setOf(ModernOverviewComponent.COMING_UP, ModernOverviewComponent.PAYMENT_SCHEDULE)
+    val components = uiState.modernComponents.filter {
+        it.visible && !(mode == SpendingMode.LIFETIME && it.id in recurringOnly)
+    }
 
     LazyColumn(modifier = modifier) {
         item {
