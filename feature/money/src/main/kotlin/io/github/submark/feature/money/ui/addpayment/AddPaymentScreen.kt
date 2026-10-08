@@ -411,7 +411,7 @@ private fun PreviewCard(state: AddPaymentUiState, sub: Subscription) {
 private fun OptionsSection(state: AddPaymentUiState, onUpdate: ((PaymentForm) -> PaymentForm) -> Unit) {
     val f = state.form
     val sub = state.subscription ?: return
-    SectionCard(title = stringResource(R.string.money_add_section_options), contentPadding = androidx.compose.foundation.layout.PaddingValues(vertical = 8.dp)) {
+    SectionCard(title = stringResource(R.string.money_add_section_options)) {
         SettingsSwitchRow(
             title = stringResource(R.string.money_add_sync_price),
             subtitle = stringResource(R.string.money_add_sync_price_desc, formatMoney(sub.price, sub.currencyCode, state.env.symbol(sub.currencyCode))),
