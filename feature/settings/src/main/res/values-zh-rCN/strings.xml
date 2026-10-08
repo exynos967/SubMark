@@ -262,7 +262,7 @@
     <string name="settings_about_open_source_group">开源</string>
     <string name="settings_about_open_source_note">SubMark 是自由软件，没有广告、账号或付费功能。</string>
     <string name="settings_about_license">许可证</string>
-    <string name="settings_about_license_value">MIT</string>
+    <string name="settings_about_license_value">AGPL-3.0</string>
     <string name="settings_about_source">源代码</string>
     <string name="settings_about_privacy_group">隐私</string>
     <string name="settings_about_privacy_summary">你的数据保存在本机。只有在使用汇率、图标、价格查询、AI 识别或自建 WebDAV 备份等功能时，SubMark 才会联网。</string>

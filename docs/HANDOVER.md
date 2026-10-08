@@ -35,7 +35,6 @@ feature: subscriptions money overview calendar analytics share notifications bac
 9. 文案宽度约定：`SegmentedTabs` 各段等宽、单行省略。在 411dp 宽屏幕上，3 等分时每段约可容纳 12 个英文字符，4 等分约 8 个；底栏 5 个 tab 时每项约 8 个。超出时先缩短文案；一行放不下的 chip 改为可横向滚动。
 10. 布局约定：`SettingsSwitchRow`/`SettingsValueRow` 放进已有内边距的容器（如 `SectionCard`）时传 `horizontalPadding = 0.dp`；横向滚动行需要贴到屏幕边缘时用 `Modifier.bleedHorizontally`。状态值较长时改为"短值 + subtitle 说明"。
 11. 待确认/未处理：
-    - 「关于」页源码地址 `https://github.com/submark/submark` 疑似占位
     - 付款历史页的 "Add payment" 悬浮按钮在 uiautomator 无障碍树中读不到，可能影响读屏，未深查
     - 详情页 "Reminders" 同时出现在操作按钮和 ⋮ 菜单中（功能重复）
     - 储值统计页的筛选行改动与其他页相同，但因无储值订阅未上机查看

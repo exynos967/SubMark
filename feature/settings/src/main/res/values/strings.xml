@@ -263,7 +263,7 @@
     <string name="settings_about_open_source_group">Open source</string>
     <string name="settings_about_open_source_note">SubMark is free software. There are no ads, accounts or paid tiers.</string>
     <string name="settings_about_license">License</string>
-    <string name="settings_about_license_value">MIT</string>
+    <string name="settings_about_license_value">AGPL-3.0</string>
     <string name="settings_about_source">Source code</string>
     <string name="settings_about_privacy_group">Privacy</string>
     <string name="settings_about_privacy_summary">Your data stays on this device. SubMark only goes online for features you use, such as exchange rates, icons, price checks, AI recognition or your own WebDAV backup.</string>

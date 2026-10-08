@@ -46,7 +46,7 @@ import io.github.submark.feature.settings.R
 import io.github.submark.feature.settings.data.DocumentType
 import io.github.submark.feature.settings.ui.common.SettingsPage
 
-internal const val SOURCE_URL = "https://github.com/submark/submark"
+internal const val SOURCE_URL = "https://github.com/exynos967/SubMark"
 
 @Composable
 internal fun AboutScreenRoute(onBack: () -> Unit, onNavigate: (Any) -> Unit, viewModel: AboutViewModel = hiltViewModel()) {
