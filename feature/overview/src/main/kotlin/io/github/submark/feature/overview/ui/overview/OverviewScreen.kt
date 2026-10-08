@@ -500,9 +500,14 @@ private fun ModernBody(
     modifier: Modifier = Modifier,
 ) {
     val mode = uiState.spendingMode
-    val components = uiState.modernComponents.filter { it.visible }.sortedBy { uiState.modernComponents.indexOf(it) }
+    val components = uiState.modernComponents.filter { it.visible }
 
     LazyColumn(modifier = modifier) {
+        item {
+            Spacer(Modifier.height(4.dp))
+            SpendingModeSelector(selected = mode, onSelect = onSpendingModeSelect, modifier = Modifier.padding(horizontal = 16.dp))
+        }
+
         // Welcome / empty
         if (uiState.subscriptionCount == 0 && mode == SpendingMode.SUBSCRIPTIONS) {
             item {
@@ -510,46 +515,26 @@ private fun ModernBody(
             }
         }
 
-        // Spending hero
-        if (components.any { it.id == ModernOverviewComponent.SPENDING_HERO }) {
-            item { HeroSection(uiState, onPeriodSelect, onFinancialDetail) }
-        }
-
-        // Coming up
-        if (components.any { it.id == ModernOverviewComponent.COMING_UP }) {
-            item { ComingUpSection(uiState, onMarkPaid, onPause) }
-        }
-
-        // Payment schedule strip
-        if (components.any { it.id == ModernOverviewComponent.PAYMENT_SCHEDULE }) {
-            item { PaymentScheduleSection(uiState, onSelectStripDate) }
-        }
-
-        // Recent payments
-        if (components.any { it.id == ModernOverviewComponent.RECENT_PAYMENTS }) {
-            item { RecentPaymentsSection(uiState) }
-        }
-
-        // Wallet balances
-        if (components.any { it.id == ModernOverviewComponent.WALLET_BALANCES }) {
-            item { WalletSection(uiState, onWalletManagement, onWalletTopUp, onWalletExpense) }
-        }
-
-        // Wishlist prices
-        if (components.any { it.id == ModernOverviewComponent.WISHLIST_PRICES }) {
-            item { WishlistPricesSection(uiState, onPriceMonitor) }
-        }
-
-        // My subscriptions & purchases
-        if (components.any { it.id == ModernOverviewComponent.MY_SUBSCRIPTIONS }) {
-            item {
-                MySubscriptionsSection(uiState, mode, onSubscriptions)
+        // Rendered in the user's order from Overview customization.
+        components.forEach { comp ->
+            when (comp.id) {
+                ModernOverviewComponent.SPENDING_HERO ->
+                    item { HeroSection(uiState, onPeriodSelect, onFinancialDetail) }
+                ModernOverviewComponent.COMING_UP ->
+                    item { ComingUpSection(uiState, onMarkPaid, onPause) }
+                ModernOverviewComponent.PAYMENT_SCHEDULE ->
+                    item { PaymentScheduleSection(uiState, onSelectStripDate) }
+                ModernOverviewComponent.RECENT_PAYMENTS ->
+                    item { RecentPaymentsSection(uiState) }
+                ModernOverviewComponent.WALLET_BALANCES ->
+                    item { WalletSection(uiState, onWalletManagement, onWalletTopUp, onWalletExpense) }
+                ModernOverviewComponent.WISHLIST_PRICES ->
+                    item { WishlistPricesSection(uiState, onPriceMonitor) }
+                ModernOverviewComponent.MY_SUBSCRIPTIONS ->
+                    item { MySubscriptionsSection(uiState, mode, onSubscriptions) }
+                ModernOverviewComponent.SPENDING_INSIGHTS ->
+                    item { SpendingInsightsSection(onAnalytics) }
             }
-        }
-
-        // Spending insights
-        if (components.any { it.id == ModernOverviewComponent.SPENDING_INSIGHTS }) {
-            item { SpendingInsightsSection(onAnalytics) }
         }
 
         item { Spacer(Modifier.height(24.dp)) }
