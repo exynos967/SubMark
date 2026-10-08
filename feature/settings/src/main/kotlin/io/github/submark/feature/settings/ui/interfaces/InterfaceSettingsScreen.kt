@@ -7,9 +7,7 @@ import androidx.compose.material.icons.rounded.CalendarViewWeek
 import androidx.compose.material.icons.rounded.Dashboard
 import androidx.compose.material.icons.rounded.GridView
 import androidx.compose.material.icons.rounded.Home
-import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SpaceDashboard
-import androidx.compose.material.icons.rounded.WidthNormal
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,7 +19,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.submark.core.data.settings.AppSettings
 import io.github.submark.core.data.settings.CalendarMode
 import io.github.submark.core.data.settings.DefaultListStyle
-import io.github.submark.core.data.settings.FloatingTabWidth
 import io.github.submark.core.data.settings.StartupTab
 import io.github.submark.core.ui.component.SettingsGroup
 import io.github.submark.core.ui.component.SettingsSwitchRow
@@ -38,7 +35,7 @@ internal fun InterfaceSettingsScreenRoute(onBack: () -> Unit, viewModel: AppSett
     InterfaceSettingsScreen(settings, onBack, viewModel::update)
 }
 
-private enum class InterfaceDialog { STARTUP, WIDTH, LIST_STYLE, CALENDAR }
+private enum class InterfaceDialog { STARTUP, LIST_STYLE, CALENDAR }
 
 @Composable
 internal fun InterfaceSettingsScreen(
@@ -83,21 +80,6 @@ internal fun InterfaceSettingsScreen(
                 )
             }
         }
-        SettingsGroup(title = stringResource(R.string.settings_interface_tab_bar_group)) {
-            SettingsValueRow(
-                title = stringResource(R.string.settings_tab_width),
-                value = stringResource(nav.floatingTabWidth.labelRes),
-                icon = Icons.Rounded.WidthNormal,
-                onClick = { dialog = InterfaceDialog.WIDTH },
-            )
-            SettingsSwitchRow(
-                title = stringResource(R.string.settings_global_search_button),
-                subtitle = stringResource(R.string.settings_global_search_button_desc),
-                icon = Icons.Rounded.Search,
-                checked = nav.globalSearchButton,
-                onCheckedChange = { on -> onUpdate { it.copy(navigation = it.navigation.copy(globalSearchButton = on)) } },
-            )
-        }
 
         when (dialog) {
             InterfaceDialog.STARTUP -> ChoiceDialog(
@@ -108,14 +90,6 @@ internal fun InterfaceSettingsScreen(
                 enabled = { TabRules.isStartupAvailable(nav, it) },
                 description = { if (TabRules.isStartupAvailable(nav, it)) null else stringResource(R.string.settings_startup_tab_hidden) },
                 onSelect = { tab -> onUpdate { it.copy(navigation = it.navigation.copy(startupTab = tab)) } },
-                onDismiss = { dialog = null },
-            )
-            InterfaceDialog.WIDTH -> ChoiceDialog(
-                title = stringResource(R.string.settings_tab_width),
-                options = FloatingTabWidth.entries,
-                selected = nav.floatingTabWidth,
-                label = { stringResource(it.labelRes) },
-                onSelect = { w -> onUpdate { it.copy(navigation = it.navigation.copy(floatingTabWidth = w)) } },
                 onDismiss = { dialog = null },
             )
             InterfaceDialog.LIST_STYLE -> ChoiceDialog(

@@ -117,15 +117,6 @@
     <string name="settings_default_calendar_mode">Calendar view</string>
     <string name="settings_interface_tabs_group">Visible tabs</string>
     <string name="settings_interface_tabs_footer">Subscriptions and Settings are always shown. If the start tab is hidden, the app opens on Subscriptions.</string>
-    <string name="settings_interface_tab_bar_group">Tab bar</string>
-    <string name="settings_tab_width">Tab bar width</string>
-    <string name="settings_tab_width_narrow">Narrow</string>
-    <string name="settings_tab_width_compact">Compact</string>
-    <string name="settings_tab_width_standard">Standard</string>
-    <string name="settings_tab_width_comfortable">Comfortable</string>
-    <string name="settings_tab_width_wide">Wide</string>
-    <string name="settings_global_search_button">Search button</string>
-    <string name="settings_global_search_button_desc">Show a search button next to the tab bar</string>
     <string name="settings_tab_overview">Overview</string>
     <string name="settings_tab_subscriptions">Subscriptions</string>
     <string name="settings_tab_calendar">Calendar</string>

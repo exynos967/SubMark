@@ -116,15 +116,6 @@
     <string name="settings_default_calendar_mode">日历视图</string>
     <string name="settings_interface_tabs_group">显示的标签页</string>
     <string name="settings_interface_tabs_footer">订阅和设置始终显示。若启动页被隐藏，将从订阅页启动。</string>
-    <string name="settings_interface_tab_bar_group">标签栏</string>
-    <string name="settings_tab_width">标签栏宽度</string>
-    <string name="settings_tab_width_narrow">窄</string>
-    <string name="settings_tab_width_compact">紧凑</string>
-    <string name="settings_tab_width_standard">标准</string>
-    <string name="settings_tab_width_comfortable">舒适</string>
-    <string name="settings_tab_width_wide">宽</string>
-    <string name="settings_global_search_button">搜索按钮</string>
-    <string name="settings_global_search_button_desc">在标签栏旁显示搜索按钮</string>
     <string name="settings_tab_overview">总览</string>
     <string name="settings_tab_subscriptions">订阅</string>
     <string name="settings_tab_calendar">日历</string>

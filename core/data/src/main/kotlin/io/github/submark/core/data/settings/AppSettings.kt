@@ -63,8 +63,6 @@ data class NavigationSettings(
     val showCalendarTab: Boolean = true,
     val showAnalyticsTab: Boolean = true,
     val showPanelTab: Boolean = false,
-    val floatingTabWidth: FloatingTabWidth = FloatingTabWidth.STANDARD,
-    val globalSearchButton: Boolean = true,
 )
 
 /** Subscription list display options. */

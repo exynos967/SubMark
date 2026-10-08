@@ -16,8 +16,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable enum class StartupTab { OVERVIEW, SUBSCRIPTIONS, CALENDAR, ANALYTICS }
 
-@Serializable enum class FloatingTabWidth { NARROW, COMPACT, STANDARD, COMFORTABLE, WIDE }
-
 @Serializable enum class ListStyle { LIST, GRID }
 
 /** Default list style preference; [LAST_USED] restores [ListSettings.lastStyle]. */

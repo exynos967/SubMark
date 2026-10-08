@@ -5,7 +5,6 @@ import io.github.submark.core.data.settings.AppIcon
 import io.github.submark.core.data.settings.AppLanguage
 import io.github.submark.core.data.settings.CalendarMode
 import io.github.submark.core.data.settings.DefaultListStyle
-import io.github.submark.core.data.settings.FloatingTabWidth
 import io.github.submark.core.data.settings.FontFamilyOption
 import io.github.submark.core.data.settings.FontSize
 import io.github.submark.core.data.settings.FontTheme
@@ -79,16 +78,6 @@ internal val StartupTab.labelRes: Int
         StartupTab.SUBSCRIPTIONS -> R.string.settings_tab_subscriptions
         StartupTab.CALENDAR -> R.string.settings_tab_calendar
         StartupTab.ANALYTICS -> R.string.settings_tab_analytics
-    }
-
-@get:StringRes
-internal val FloatingTabWidth.labelRes: Int
-    get() = when (this) {
-        FloatingTabWidth.NARROW -> R.string.settings_tab_width_narrow
-        FloatingTabWidth.COMPACT -> R.string.settings_tab_width_compact
-        FloatingTabWidth.STANDARD -> R.string.settings_tab_width_standard
-        FloatingTabWidth.COMFORTABLE -> R.string.settings_tab_width_comfortable
-        FloatingTabWidth.WIDE -> R.string.settings_tab_width_wide
     }
 
 @get:StringRes
