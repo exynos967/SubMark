@@ -34,6 +34,7 @@ import io.github.submark.core.ui.component.ReorderableItemsColumn
 import io.github.submark.core.ui.component.SegmentedTabs
 import io.github.submark.core.ui.component.SettingsGroup
 import io.github.submark.core.ui.component.SubMarkTopAppBar
+import io.github.submark.core.ui.util.bleedHorizontally
 import io.github.submark.feature.analytics.R
 
 @Composable
@@ -122,7 +123,11 @@ fun AnalyticsCustomizationScreen(
             }
 
             item {
-                SettingsGroup(title = stringResource(R.string.analytics_custom_default_period)) {
+                // The list already pads 16dp; cancel SettingsGroup's own side padding so it lines up with the rows above.
+                SettingsGroup(
+                    modifier = Modifier.bleedHorizontally(16.dp),
+                    title = stringResource(R.string.analytics_custom_default_period),
+                ) {
                     SegmentedTabs(
                         items = listOf(SummaryPeriod.MONTH, SummaryPeriod.QUARTER, SummaryPeriod.YEAR),
                         selected = uiState.defaultPeriod,
