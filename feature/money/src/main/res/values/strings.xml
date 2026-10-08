@@ -496,9 +496,9 @@
     <string name="money_budget_saved">Budget saved</string>
     <!-- Financial detail -->
     <string name="money_fin_title">Financial detail</string>
-    <string name="money_fin_this_month">This month</string>
-    <string name="money_fin_this_quarter">This quarter</string>
-    <string name="money_fin_this_year">This year</string>
+    <string name="money_fin_this_month">Month</string>
+    <string name="money_fin_this_quarter">Quarter</string>
+    <string name="money_fin_this_year">Year</string>
     <string name="money_fin_custom">Custom</string>
     <string name="money_fin_from">From</string>
     <string name="money_fin_to">To</string>

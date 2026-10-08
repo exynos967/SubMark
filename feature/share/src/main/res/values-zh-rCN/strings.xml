@@ -11,10 +11,10 @@
     <string name="share_privacy_include">包含网站与备注</string>
     <string name="share_privacy_exclude">不包含</string>
     <string name="share_poster_style">海报样式</string>
-    <string name="share_style_minimal">极简白</string>
-    <string name="share_style_modern">现代简约</string>
-    <string name="share_style_gradient">渐变时尚</string>
-    <string name="share_style_colorful">多彩动感</string>
+    <string name="share_style_minimal">极简</string>
+    <string name="share_style_modern">现代</string>
+    <string name="share_style_gradient">渐变</string>
+    <string name="share_style_colorful">多彩</string>
     <string name="share_preview_title">分享预览</string>
     <string name="share_generate">生成海报</string>
     <string name="share_type_regular">普通订阅</string>
@@ -60,9 +60,9 @@
     <string name="report_show_date">显示生成日期</string>
     <string name="report_show_stats">显示统计数据</string>
     <string name="report_total_expenses">总支出</string>
-    <string name="report_expense_months">支出月份数</string>
+    <string name="report_expense_months">支出月数</string>
     <string name="report_payment_count">付款笔数</string>
-    <string name="report_average_payment">平均单笔金额</string>
+    <string name="report_average_payment">平均单笔</string>
     <string name="report_month_details">支出明细</string>
     <plurals name="report_more_months">
         <item quantity="other">以及另外 %1$d 个月</item>
