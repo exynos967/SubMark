@@ -73,4 +73,18 @@ class CalendarScenarioTest {
         assertThat(sc.anchorDate).isEqualTo(today.withDayOfMonth(1))
         assertThat(sc.selectedDate).isEqualTo(today)
     }
+
+    @Test
+    fun `goToday in week mode anchors on the current week`() {
+        val sc = scenario(mode = CalendarMode.WEEK, anchor = LocalDate.of(2026, 9, 28)).goToday()
+        assertThat(sc.anchorDate).isEqualTo(LocalDate.of(2026, 10, 5))
+        assertThat(sc.range().first).isAtMost(today)
+        assertThat(sc.range().second).isAtLeast(today)
+    }
+
+    @Test
+    fun `jumpTo in week mode anchors on that date's week`() {
+        val sc = scenario(mode = CalendarMode.WEEK).jumpTo(LocalDate.of(2026, 12, 25))
+        assertThat(sc.anchorDate).isEqualTo(LocalDate.of(2026, 12, 21))
+    }
 }

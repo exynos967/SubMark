@@ -23,6 +23,7 @@ import io.github.submark.core.ui.format.UiText
 import io.github.submark.core.ui.util.SnackbarMessage
 import io.github.submark.feature.calendar.R
 import io.github.submark.feature.calendar.data.CalendarScenario
+import io.github.submark.feature.calendar.data.anchorFor
 import io.github.submark.feature.calendar.data.Occurrence
 import io.github.submark.feature.calendar.data.OccurrenceProjector
 import io.github.submark.feature.calendar.data.TimelineBucket
@@ -124,7 +125,7 @@ class CalendarViewModel @Inject constructor(
         return CalendarScenario(
             mode = s.calendar.defaultMode,
             timelinePeriod = s.calendar.timelinePeriod,
-            anchorDate = today.withDayOfMonth(1),
+            anchorDate = s.calendar.defaultMode.anchorFor(today),
             selectedDate = today,
             today = today,
         )
