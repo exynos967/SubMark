@@ -17,7 +17,7 @@
 
     <!-- Period -->
     <string name="analytics_period_month">月</string>
-    <string name="analytics_period_quarter">季</string>
+    <string name="analytics_period_quarter">季度</string>
     <string name="analytics_period_year">年</string>
 
     <!-- Financial overview -->
@@ -66,6 +66,7 @@
 
     <!-- Multi-dimension radar -->
     <string name="analytics_radar_title">多维分析</string>
+    <string name="analytics_radar_not_enough_data">至少有三个分类的支出时，才能在这里对比。</string>
     <string name="analytics_radar_amount">金额</string>
     <string name="analytics_radar_count">数量</string>
     <string name="analytics_radar_average">平均值</string>

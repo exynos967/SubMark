@@ -16,9 +16,9 @@
     <string name="analytics_mode_lifetime">Lifetime</string>
 
     <!-- Period -->
-    <string name="analytics_period_month">Mo.</string>
-    <string name="analytics_period_quarter">Quar.</string>
-    <string name="analytics_period_year">Y.</string>
+    <string name="analytics_period_month">Month</string>
+    <string name="analytics_period_quarter">Quarter</string>
+    <string name="analytics_period_year">Year</string>
 
     <!-- Financial overview -->
     <string name="analytics_overview_title">Overview</string>
@@ -68,6 +68,7 @@
 
     <!-- Multi-dimension radar -->
     <string name="analytics_radar_title">Multi-dimension</string>
+    <string name="analytics_radar_not_enough_data">Spend in at least three categories to compare them here.</string>
     <string name="analytics_radar_amount">Amount</string>
     <string name="analytics_radar_count">Count</string>
     <string name="analytics_radar_average">Average</string>

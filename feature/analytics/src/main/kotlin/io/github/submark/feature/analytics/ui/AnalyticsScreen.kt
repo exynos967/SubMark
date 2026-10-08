@@ -443,6 +443,15 @@ private fun RadarSection(uiState: AnalyticsUiState) {
     val metrics = uiState.radar ?: return
     if (uiState.radarAxes.isEmpty()) return
     SectionCard(title = stringResource(R.string.analytics_radar_title)) {
+        // A radar needs at least three axes (categories) to draw a shape.
+        if (uiState.radarAxes.size < 3) {
+            Text(
+                stringResource(R.string.analytics_radar_not_enough_data),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            return@SectionCard
+        }
         RadarChart(
             axes = uiState.radarAxes,
             series = listOf(
