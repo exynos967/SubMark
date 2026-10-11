@@ -36,12 +36,11 @@ class OccurrenceProjectorTest {
         parentId: String? = null,
         isSingleCycle: Boolean = false,
         endDate: LocalDate? = null,
-        fixedDay: Int? = null,
     ) = Subscription(
         id = id, name = name, price = price, currencyCode = "USD",
         billingCycle = cycle, cycleAnchorDate = anchor, nextPaymentDate = next,
         lastPaymentDate = anchor, status = status, kind = kind, parentId = parentId,
-        isSingleCycle = isSingleCycle, endDate = endDate, fixedPaymentDay = fixedDay,
+        isSingleCycle = isSingleCycle, endDate = endDate,
         categoryId = "c1", startDate = anchor, createdAt = Instant.EPOCH, updatedAt = Instant.EPOCH,
     )
 

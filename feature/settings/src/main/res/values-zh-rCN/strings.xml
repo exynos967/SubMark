@@ -127,9 +127,6 @@
     <string name="settings_calendar_mode_month">月</string>
     <string name="settings_calendar_mode_timeline">时间线</string>
     <string name="settings_customization_title">自定义</string>
-    <string name="settings_customization_interface_group">页面</string>
-    <string name="settings_customize_overview">总览布局</string>
-    <string name="settings_customize_analytics">分析布局</string>
     <string name="settings_customization_form_group">添加订阅表单</string>
     <string name="settings_form_preset_full">完整</string>
     <string name="settings_form_preset_minimal">精简</string>
@@ -150,8 +147,6 @@
     <string name="settings_customization_modules_group">功能模块</string>
     <string name="settings_module_wishlist">心愿单</string>
     <string name="settings_module_wishlist_desc">记录你可能会开通的订阅</string>
-    <string name="settings_module_fixed_day">固定扣款日</string>
-    <string name="settings_module_fixed_day_desc">按月或按年的订阅在每月固定日期扣款</string>
     <string name="settings_module_child_subs">显示组合子项</string>
     <string name="settings_module_child_subs_desc">将组合订阅内的项目单独列出</string>
     <string name="settings_module_archive">归档已暂停订阅</string>

@@ -3,11 +3,8 @@ package io.github.submark.feature.settings.ui.customization
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Category
-import androidx.compose.material.icons.rounded.Dashboard
-import androidx.compose.material.icons.rounded.Insights
 import androidx.compose.material.icons.rounded.Label
 import androidx.compose.material.icons.rounded.Tune
-import androidx.compose.material.icons.rounded.ViewAgenda
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -21,11 +18,8 @@ import io.github.submark.core.ui.component.SegmentedTabs
 import io.github.submark.core.ui.component.SettingsGroup
 import io.github.submark.core.ui.component.SettingsNavRow
 import io.github.submark.core.ui.component.SettingsSwitchRow
-import io.github.submark.core.ui.navigation.AnalyticsCustomizationRoute
 import io.github.submark.core.ui.navigation.CategoryManagementRoute
 import io.github.submark.core.ui.navigation.CustomFieldManagementRoute
-import io.github.submark.core.ui.navigation.InterfaceSettingsRoute
-import io.github.submark.core.ui.navigation.OverviewCustomizationRoute
 import io.github.submark.core.ui.navigation.TagManagementRoute
 import io.github.submark.feature.settings.R
 import io.github.submark.feature.settings.ui.common.AppSettingsViewModel
@@ -50,12 +44,6 @@ internal fun CustomizationScreen(
 ) {
     SettingsPage(title = stringResource(R.string.settings_customization_title), onBack = onBack, loading = settings == null) {
         val s = settings ?: return@SettingsPage
-        SettingsGroup(title = stringResource(R.string.settings_customization_interface_group)) {
-            SettingsNavRow(stringResource(R.string.settings_customize_overview), { onNavigate(OverviewCustomizationRoute) }, icon = Icons.Rounded.Dashboard)
-            SettingsNavRow(stringResource(R.string.settings_customize_analytics), { onNavigate(AnalyticsCustomizationRoute) }, icon = Icons.Rounded.Insights)
-            SettingsNavRow(stringResource(R.string.settings_interface_title), { onNavigate(InterfaceSettingsRoute) }, icon = Icons.Rounded.ViewAgenda)
-        }
-
         val preset = CustomizationSpecs.presetOf(s.addForm)
         SettingsGroup(
             title = stringResource(R.string.settings_customization_form_group),

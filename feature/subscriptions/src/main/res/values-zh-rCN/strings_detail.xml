@@ -48,7 +48,6 @@
     <string name="subscriptions_detail_extend_fee">延长费用（可选）</string>
     <string name="subscriptions_detail_extend_free_notice">付款历史中会添加一条免费延长记录，价格和周期保持不变。</string>
     <string name="subscriptions_detail_extend_paid_notice">费用会记入付款历史，但不会从钱包扣款；价格和周期保持不变。</string>
-    <string name="subscriptions_detail_fixed_day_value">每期第 %1$d 日</string>
     <string name="subscriptions_detail_free">免费</string>
     <string name="subscriptions_detail_manage">管理</string>
     <string name="subscriptions_detail_metric_annual">每年</string>
@@ -104,7 +103,6 @@
     <string name="subscriptions_detail_row_created">添加时间</string>
     <string name="subscriptions_detail_row_currency">货币</string>
     <string name="subscriptions_detail_row_end">结束日期</string>
-    <string name="subscriptions_detail_row_fixed_day">固定扣款日</string>
     <string name="subscriptions_detail_row_payment_method">支付方式</string>
     <string name="subscriptions_detail_row_purchased">购买日期</string>
     <string name="subscriptions_detail_row_renewal">续订方式</string>

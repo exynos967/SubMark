@@ -23,7 +23,6 @@
     <string name="money_invalid_custom_cycle_required">Enter the custom cycle length.</string>
     <string name="money_invalid_single_cycle_end">A single-cycle subscription needs an end date.</string>
     <string name="money_invalid_trial_fields">Fill in the trial start and length.</string>
-    <string name="money_invalid_fixed_day">A fixed payment day only works with monthly or yearly cycles.</string>
     <string name="money_invalid_bundle_child">A bundle needs at least one included subscription.</string>
     <string name="money_invalid_start_locked">The start date can\'t change once payments exist.</string>
     <string name="money_invalid_not_markable">This subscription can\'t take this kind of payment.</string>

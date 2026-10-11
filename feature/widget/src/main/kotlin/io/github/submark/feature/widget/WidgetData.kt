@@ -147,7 +147,7 @@ object WidgetData {
         if (cycle == null || anchor == null) return listOf(next)
         val list = mutableListOf<LocalDate>()
         if (next < today) list += next // overdue still falls inside this month
-        list += BillingCalculator.occurrencesBetween(anchor, cycle, from, monthEnd, sub.fixedPaymentDay)
+        list += BillingCalculator.occurrencesBetween(anchor, cycle, from, monthEnd)
         return list.filter { sub.endDate == null || it <= sub.endDate }.distinct().sorted()
     }
 }

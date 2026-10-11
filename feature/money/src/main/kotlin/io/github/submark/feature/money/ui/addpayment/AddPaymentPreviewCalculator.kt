@@ -97,7 +97,7 @@ object AddPaymentPreviewCalculator {
                 if (cycle == null) {
                     DateEffect.NO_CYCLE
                 } else {
-                    val candidate = BillingCalculator.occurrence(input.paymentDate, cycle, 1, sub.fixedPaymentDay)
+                    val candidate = BillingCalculator.occurrence(input.paymentDate, cycle, 1)
                     next = candidate.takeIf { sub.endDate == null || it <= sub.endDate }
                     DateEffect.REGULAR
                 }

@@ -429,7 +429,6 @@ internal fun DetailsSection(
         }
         if (DetailLogic.isRecurring(sub)) {
             DetailRow(stringResource(R.string.subscriptions_detail_row_renewal), stringResource(sub.renewalType.labelRes))
-            sub.fixedPaymentDay?.let { DetailRow(stringResource(R.string.subscriptions_detail_row_fixed_day), stringResource(R.string.subscriptions_detail_fixed_day_value, it)) }
         }
         DetailRow(
             stringResource(R.string.subscriptions_detail_row_currency),

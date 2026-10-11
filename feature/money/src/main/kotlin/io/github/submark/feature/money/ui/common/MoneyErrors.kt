@@ -36,7 +36,6 @@ val InvalidReason.messageRes: Int
         InvalidReason.CUSTOM_CYCLE_REQUIRED -> R.string.money_invalid_custom_cycle_required
         InvalidReason.SINGLE_CYCLE_REQUIRES_END -> R.string.money_invalid_single_cycle_end
         InvalidReason.TRIAL_FIELDS_REQUIRED -> R.string.money_invalid_trial_fields
-        InvalidReason.FIXED_DAY_UNSUPPORTED -> R.string.money_invalid_fixed_day
         InvalidReason.BUNDLE_NEEDS_CHILD -> R.string.money_invalid_bundle_child
         InvalidReason.START_DATE_LOCKED -> R.string.money_invalid_start_locked
         InvalidReason.NOT_MARKABLE -> R.string.money_invalid_not_markable

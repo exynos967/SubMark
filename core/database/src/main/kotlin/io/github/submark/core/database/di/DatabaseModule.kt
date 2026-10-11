@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.github.submark.core.database.MIGRATION_2_3
 import io.github.submark.core.database.SubMarkDatabase
 import javax.inject.Singleton
 
@@ -16,7 +17,7 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun database(@ApplicationContext context: Context): SubMarkDatabase =
-        Room.databaseBuilder(context, SubMarkDatabase::class.java, "submark.db").build()
+        Room.databaseBuilder(context, SubMarkDatabase::class.java, "submark.db").addMigrations(MIGRATION_2_3).build()
 
     @Provides fun subscriptionDao(db: SubMarkDatabase) = db.subscriptionDao()
     @Provides fun categoryDao(db: SubMarkDatabase) = db.categoryDao()

@@ -51,7 +51,6 @@ data class SubscriptionForm(
     val billingCycle: BillingCycle = BillingCycle.MONTHLY,
     val customCountText: String = "1",
     val customUnit: CycleUnit = CycleUnit.MONTH,
-    val fixedPaymentDay: Int? = null,
     val renewalType: RenewalType = RenewalType.AUTO,
     val trialStartDate: LocalDate? = null,
     val trialDaysText: String = "7",
@@ -93,16 +92,9 @@ sealed interface FormProblem {
 /** Pure rules behind the add/edit form: validation, draft building, prefill and loading. */
 object SubscriptionFormLogic {
 
-    val MONTH_BASED = setOf(BillingCycle.MONTHLY, BillingCycle.QUARTERLY, BillingCycle.SEMIANNUALLY, BillingCycle.ANNUALLY)
     val TRIAL_PRESETS = listOf(3, 7, 14, 30)
     const val MAX_TRIAL_DAYS = 3650
     const val MAX_CUSTOM_COUNT = 1000
-
-    fun fixedDayEligible(form: SubscriptionForm): Boolean =
-        form.isRecurring && !form.isSingleCycle && form.billingCycle in MONTH_BASED
-
-    /** Fixed day > 28 is clamped to the month end in short months. */
-    fun fixedDayOverflows(day: Int?): Boolean = day != null && day > 28
 
     /** Start moved onto/past the end: keep the plan length (at least one day). Returns the new form and whether the end moved. */
     fun withStartDate(form: SubscriptionForm, start: LocalDate): Pair<SubscriptionForm, Boolean> {
@@ -204,7 +196,6 @@ object SubscriptionFormLogic {
             customCycleCount = if (custom) parseCount(form.customCountText) else null,
             customCycleUnit = if (custom) form.customUnit else null,
             isSingleCycle = recurring && form.isSingleCycle,
-            fixedPaymentDay = form.fixedPaymentDay.takeIf { fixedDayEligible(form) },
             renewalType = when {
                 trial -> RenewalType.TRIAL
                 form.renewalType == RenewalType.TRIAL -> RenewalType.AUTO
@@ -294,7 +285,6 @@ object SubscriptionFormLogic {
         billingCycle = sub.billingCycle ?: BillingCycle.MONTHLY,
         customCountText = (sub.customCycleCount ?: 1).toString(),
         customUnit = sub.customCycleUnit ?: CycleUnit.MONTH,
-        fixedPaymentDay = sub.fixedPaymentDay,
         renewalType = sub.renewalType,
         trialStartDate = sub.trialStartDate,
         trialDaysText = (sub.trialDays ?: 7).toString(),

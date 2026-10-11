@@ -122,7 +122,7 @@ object ReminderTriggers {
             return if (next <= windowEnd) listOf(next) else emptyList()
         }
         val anchor = requireNotNull(sub.cycleAnchorDate)
-        val all = BillingCalculator.occurrencesBetween(anchor, cycle, today, windowEnd, sub.fixedPaymentDay)
+        val all = BillingCalculator.occurrencesBetween(anchor, cycle, today, windowEnd)
         val folded = if (next in today..windowEnd && next !in all) listOf(next) else emptyList()
         return (folded + all).filter { sub.endDate == null || it <= sub.endDate }.distinct().sorted()
     }

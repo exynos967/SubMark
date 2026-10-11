@@ -77,9 +77,9 @@ object DetailLogic {
         val next = sub.nextPaymentDate ?: return null
         val cycle = BillingCalculator.cycleLength(sub) ?: return null
         val anchor = sub.cycleAnchorDate ?: BillingCalculator.firstBillingDate(sub)
-        val k = BillingCalculator.firstOccurrenceIndex(anchor, cycle, next, inclusive = true, fixedDay = sub.fixedPaymentDay)
-        val previous = if (k > 0 && BillingCalculator.occurrence(anchor, cycle, k, sub.fixedPaymentDay) == next) {
-            BillingCalculator.occurrence(anchor, cycle, k - 1, sub.fixedPaymentDay)
+        val k = BillingCalculator.firstOccurrenceIndex(anchor, cycle, next, inclusive = true)
+        val previous = if (k > 0 && BillingCalculator.occurrence(anchor, cycle, k) == next) {
+            BillingCalculator.occurrence(anchor, cycle, k - 1)
         } else {
             BillingCalculator.add(next, cycle, -1)
         }
@@ -126,7 +126,7 @@ object DetailLogic {
         val cycle = BillingCalculator.cycleLength(sub) ?: return next
         val anchor = sub.cycleAnchorDate ?: return next
         if (next >= today || sub.isSingleCycle) return next
-        val moved = BillingCalculator.firstOccurrenceAfter(anchor, cycle, today, inclusive = true, fixedDay = sub.fixedPaymentDay)
+        val moved = BillingCalculator.firstOccurrenceAfter(anchor, cycle, today, inclusive = true)
         return moved.takeIf { sub.endDate == null || it <= sub.endDate }
     }
 

@@ -48,7 +48,6 @@
     <string name="subscriptions_detail_extend_fee">Extension fee (optional)</string>
     <string name="subscriptions_detail_extend_free_notice">A free extension entry will be added to the payment history. Price and cycle stay the same.</string>
     <string name="subscriptions_detail_extend_paid_notice">The fee is recorded in the payment history; no wallet is charged. Price and cycle stay the same.</string>
-    <string name="subscriptions_detail_fixed_day_value">Day %1$d</string>
     <string name="subscriptions_detail_free">Free</string>
     <string name="subscriptions_detail_manage">Manage</string>
     <string name="subscriptions_detail_metric_annual">Per year</string>
@@ -104,7 +103,6 @@
     <string name="subscriptions_detail_row_created">Added</string>
     <string name="subscriptions_detail_row_currency">Currency</string>
     <string name="subscriptions_detail_row_end">End date</string>
-    <string name="subscriptions_detail_row_fixed_day">Fixed payment day</string>
     <string name="subscriptions_detail_row_payment_method">Payment method</string>
     <string name="subscriptions_detail_row_purchased">Purchase date</string>
     <string name="subscriptions_detail_row_renewal">Renewal</string>

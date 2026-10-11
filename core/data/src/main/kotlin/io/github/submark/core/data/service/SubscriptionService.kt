@@ -156,7 +156,7 @@ class SubscriptionService @Inject internal constructor(
         val cycle = BillingCalculator.cycleLength(active)
         val anchor = active.cycleAnchorDate
         if (next != null && next < time.today() && cycle != null && anchor != null && !active.isSingleCycle) {
-            val moved = BillingCalculator.firstOccurrenceAfter(anchor, cycle, time.today(), inclusive = true, fixedDay = active.fixedPaymentDay)
+            val moved = BillingCalculator.firstOccurrenceAfter(anchor, cycle, time.today(), inclusive = true)
             active.copy(nextPaymentDate = capByEnd(moved, active.endDate))
         } else {
             active
@@ -267,7 +267,7 @@ class SubscriptionService @Inject internal constructor(
                 renewalType = if (sub.renewalType == RenewalType.TRIAL) RenewalType.AUTO else sub.renewalType,
                 endDate = sub.endDate?.takeIf { it > today },
             )
-            if (toLifetime) converted = converted.copy(fixedPaymentDay = null, isSingleCycle = false)
+            if (toLifetime) converted = converted.copy(isSingleCycle = false)
             validate(converted)
             converted = applyInitialSchedule(converted, today, generateHistory = false)
             subscriptionDao.upsert(converted)
@@ -456,12 +456,12 @@ class SubscriptionService @Inject internal constructor(
             val cycle = BillingCalculator.cycleLength(new) ?: return kept
             val last = old.lastPaymentDate
             return if (last != null) {
-                kept.copy(cycleAnchorDate = last, nextPaymentDate = capByEnd(BillingCalculator.occurrence(last, cycle, 1, new.fixedPaymentDay), new.endDate))
+                kept.copy(cycleAnchorDate = last, nextPaymentDate = capByEnd(BillingCalculator.occurrence(last, cycle, 1), new.endDate))
             } else {
                 val anchor = old.cycleAnchorDate ?: BillingCalculator.firstBillingDate(new)
                 kept.copy(
                     cycleAnchorDate = anchor,
-                    nextPaymentDate = capByEnd(BillingCalculator.firstOccurrenceAfter(anchor, cycle, today, inclusive = true, fixedDay = new.fixedPaymentDay), new.endDate),
+                    nextPaymentDate = capByEnd(BillingCalculator.firstOccurrenceAfter(anchor, cycle, today, inclusive = true), new.endDate),
                 )
             }
         }
@@ -471,7 +471,7 @@ class SubscriptionService @Inject internal constructor(
             // A previously capped (null) next date reappears when the end date moves out or is cleared.
             val next = old.nextPaymentDate ?: run {
                 val after = old.lastPaymentDate ?: anchor.minusDays(1)
-                BillingCalculator.firstOccurrenceAfter(anchor, cycle, after, inclusive = false, fixedDay = new.fixedPaymentDay)
+                BillingCalculator.firstOccurrenceAfter(anchor, cycle, after, inclusive = false)
             }
             return kept.copy(nextPaymentDate = capByEnd(next, new.endDate))
         }
@@ -485,7 +485,7 @@ class SubscriptionService @Inject internal constructor(
         if (s.kind == SubscriptionKind.WISHLIST && !wishlistEnabled) s = s.copy(kind = SubscriptionKind.REGULAR)
         when (s.kind) {
             SubscriptionKind.WISHLIST -> s = s.copy(status = SubscriptionStatus.PAUSED)
-            SubscriptionKind.LIFETIME -> s = s.copy(billingCycle = null, isSingleCycle = false, fixedPaymentDay = null)
+            SubscriptionKind.LIFETIME -> s = s.copy(billingCycle = null, isSingleCycle = false)
             else -> Unit
         }
         if (s.billingCycle != BillingCycle.CUSTOM) s = s.copy(customCycleCount = null, customCycleUnit = null)
@@ -504,10 +504,6 @@ class SubscriptionService @Inject internal constructor(
         }
         if (isRecurring(sub) && sub.billingCycle == null && !sub.isSingleCycle) abort(InvalidReason.BILLING_CYCLE_REQUIRED)
         if (sub.renewalType == RenewalType.TRIAL && (sub.trialStartDate == null || (sub.trialDays ?: 0) <= 0)) abort(InvalidReason.TRIAL_FIELDS_REQUIRED)
-        sub.fixedPaymentDay?.let { day ->
-            val monthBased = sub.billingCycle in MONTH_BASED_CYCLES && !sub.isSingleCycle
-            if (day !in 1..31 || !monthBased) abort(InvalidReason.FIXED_DAY_UNSUPPORTED)
-        }
     }
 
     private suspend fun checkDuplicate(sub: Subscription) {
@@ -541,6 +537,5 @@ class SubscriptionService @Inject internal constructor(
     private companion object {
         const val SMART_SYNC_DAYS = 3L
         const val MAX_BACKFILL = 1000
-        val MONTH_BASED_CYCLES = setOf(BillingCycle.MONTHLY, BillingCycle.QUARTERLY, BillingCycle.SEMIANNUALLY, BillingCycle.ANNUALLY)
     }
 }

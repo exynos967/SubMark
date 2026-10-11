@@ -231,7 +231,7 @@ class PaymentService @Inject internal constructor(
     private fun advanceFrom(sub: Subscription, paidOn: LocalDate): Subscription {
         if (sub.kind == SubscriptionKind.LIFETIME) return sub
         val cycle = BillingCalculator.cycleLength(sub) ?: return sub
-        val next = BillingCalculator.occurrence(paidOn, cycle, 1, sub.fixedPaymentDay)
+        val next = BillingCalculator.occurrence(paidOn, cycle, 1)
         return sub.copy(cycleAnchorDate = paidOn, nextPaymentDate = next.takeIf { sub.endDate == null || it <= sub.endDate })
     }
 

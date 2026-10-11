@@ -26,7 +26,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.AutoAwesome
-import androidx.compose.material.icons.rounded.CalendarMonth
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.Delete
@@ -75,7 +74,6 @@ import io.github.submark.core.ui.component.CategoryChip
 import io.github.submark.core.ui.component.ConfirmDialog
 import io.github.submark.core.ui.component.CurrencyPickerSheet
 import io.github.submark.core.ui.component.DatePickerField
-import io.github.submark.core.ui.component.PickerField
 import io.github.submark.core.ui.component.ErrorState
 import io.github.submark.core.ui.component.LoadingState
 import io.github.submark.core.ui.component.MoneyInputField
@@ -483,7 +481,7 @@ private fun DatesCard(state: SubscriptionEditUiState, form: SubscriptionForm, er
                         checked = form.isSingleCycle,
                         onCheckedChange = { on ->
                             actions.update { f ->
-                                if (on) f.copy(isSingleCycle = true, endDate = f.endDate ?: f.startDate.plusMonths(1), fixedPaymentDay = null) else f.copy(isSingleCycle = false)
+                                if (on) f.copy(isSingleCycle = true, endDate = f.endDate ?: f.startDate.plusMonths(1)) else f.copy(isSingleCycle = false)
                             }
                         },
                     )
@@ -526,7 +524,6 @@ private fun DatesCard(state: SubscriptionEditUiState, form: SubscriptionForm, er
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun PaymentCard(state: SubscriptionEditUiState, form: SubscriptionForm, errors: List<FormProblem>, actions: EditActions) {
-    var fixedDayDialog by rememberSaveable { mutableStateOf(false) }
     val settings = state.options.addForm
     val wishlist = form.kind == FormKind.WISHLIST
     SectionCard(title = stringResource(R.string.subscriptions_edit_section_payment)) {
@@ -537,7 +534,7 @@ private fun PaymentCard(state: SubscriptionEditUiState, form: SubscriptionForm, 
                     cycle = form.billingCycle,
                     countText = form.customCountText,
                     unit = form.customUnit,
-                    onCycle = { c -> actions.update { f -> f.copy(billingCycle = c, fixedPaymentDay = f.fixedPaymentDay.takeIf { c in SubscriptionFormLogic.MONTH_BASED }) } },
+                    onCycle = { c -> actions.update { f -> f.copy(billingCycle = c) } },
                     onCount = { v -> actions.update { it.copy(customCountText = v) } },
                     onUnit = { u -> actions.update { it.copy(customUnit = u) } },
                     countError = FormProblem.CustomCycle in errors,
@@ -548,30 +545,6 @@ private fun PaymentCard(state: SubscriptionEditUiState, form: SubscriptionForm, 
             if (wishlist) {
                 HintText(stringResource(R.string.subscriptions_edit_wishlist_cycle_hint))
                 return@Column
-            }
-            if (settings.showFixedPaymentDay && SubscriptionFormLogic.fixedDayEligible(form)) {
-                SettingsSwitchRow(
-                    horizontalPadding = 0.dp,
-                    title = stringResource(R.string.subscriptions_edit_fixed_day),
-                    subtitle = stringResource(R.string.subscriptions_edit_fixed_day_desc),
-                    checked = form.fixedPaymentDay != null,
-                    onCheckedChange = { on ->
-                        if (on) fixedDayDialog = true else actions.update { it.copy(fixedPaymentDay = null) }
-                    },
-                )
-                if (form.fixedPaymentDay != null) {
-                    PickerField(
-                        label = stringResource(R.string.subscriptions_edit_fixed_day),
-                        text = stringResource(R.string.subscriptions_edit_fixed_day_value, form.fixedPaymentDay),
-                        icon = { Icon(Icons.Rounded.CalendarMonth, contentDescription = null) },
-                        onClick = { fixedDayDialog = true },
-                        supportingText = stringResource(R.string.subscriptions_edit_fixed_day_next_cycle),
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                    if (SubscriptionFormLogic.fixedDayOverflows(form.fixedPaymentDay)) {
-                        HintText(stringResource(R.string.subscriptions_edit_fixed_day_overflow, form.fixedPaymentDay))
-                    }
-                }
             }
             Text(stringResource(R.string.subscriptions_edit_renewal), style = MaterialTheme.typography.labelLarge)
             val renewals = buildList {
@@ -624,16 +597,6 @@ private fun PaymentCard(state: SubscriptionEditUiState, form: SubscriptionForm, 
                 )
             }
         }
-    }
-    if (fixedDayDialog) {
-        FixedDayDialog(
-            initial = form.fixedPaymentDay ?: form.startDate.dayOfMonth,
-            onConfirm = { day ->
-                fixedDayDialog = false
-                actions.update { it.copy(fixedPaymentDay = day) }
-            },
-            onDismiss = { fixedDayDialog = false },
-        )
     }
 }
 

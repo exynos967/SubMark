@@ -64,9 +64,9 @@ object OccurrenceProjector {
         val lower = if (next != null && next > from) next else from
         if (lower > upper) return emptyList()
         val nextMatchesAnchor = next != null &&
-            BillingCalculator.occurrencesBetween(anchor, cycle, next, next, sub.fixedPaymentDay).isNotEmpty()
+            BillingCalculator.occurrencesBetween(anchor, cycle, next, next).isNotEmpty()
         val scheduleAnchor = if (next != null && next <= upper && !nextMatchesAnchor) next else anchor
-        return BillingCalculator.occurrencesBetween(scheduleAnchor, cycle, lower, upper, sub.fixedPaymentDay)
+        return BillingCalculator.occurrencesBetween(scheduleAnchor, cycle, lower, upper)
     }
 
     /**

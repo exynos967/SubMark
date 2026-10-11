@@ -128,9 +128,6 @@
     <string name="settings_calendar_mode_month">Month</string>
     <string name="settings_calendar_mode_timeline">Timeline</string>
     <string name="settings_customization_title">Customization</string>
-    <string name="settings_customization_interface_group">Screens</string>
-    <string name="settings_customize_overview">Overview layout</string>
-    <string name="settings_customize_analytics">Analytics layout</string>
     <string name="settings_customization_form_group">Add-subscription form</string>
     <string name="settings_form_preset_full">Full</string>
     <string name="settings_form_preset_minimal">Minimal</string>
@@ -151,8 +148,6 @@
     <string name="settings_customization_modules_group">Features</string>
     <string name="settings_module_wishlist">Wishlist</string>
     <string name="settings_module_wishlist_desc">Keep track of subscriptions you might start</string>
-    <string name="settings_module_fixed_day">Fixed payment day</string>
-    <string name="settings_module_fixed_day_desc">Bill monthly or yearly plans on a set day of the month</string>
     <string name="settings_module_child_subs">Show bundle items</string>
     <string name="settings_module_child_subs_desc">List items inside bundles as separate rows</string>
     <string name="settings_module_archive">Archive paused subscriptions</string>

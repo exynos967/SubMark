@@ -21,7 +21,6 @@
     <string name="subscriptions_error_custom_cycle_required">Enter a custom cycle length of at least 1.</string>
     <string name="subscriptions_error_single_cycle_requires_end">A single-cycle plan needs an end date.</string>
     <string name="subscriptions_error_trial_fields_required">Set the trial start date and the number of trial days.</string>
-    <string name="subscriptions_error_fixed_day_unsupported">A fixed payment day only works with monthly, quarterly, half-yearly or yearly cycles.</string>
     <string name="subscriptions_error_bundle_needs_child">A bundle needs at least one included subscription.</string>
     <string name="subscriptions_error_start_date_locked">The start date can\'t change once payments are recorded.</string>
     <string name="subscriptions_error_not_markable">This subscription has no payment due that can be marked.</string>

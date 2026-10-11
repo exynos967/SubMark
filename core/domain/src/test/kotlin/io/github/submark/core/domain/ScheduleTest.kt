@@ -74,15 +74,6 @@ class ScheduleTest {
     }
 
     @Test
-    fun initial_fixedDayWithHistory() {
-        val s = sub(d("2026-07-10")).copy(fixedPaymentDay = 1)
-        val r = BillingCalculator.initialSchedule(s, today, generateHistory = true)
-        assertThat(r.historicalDates).containsExactly(d("2026-07-10"), d("2026-08-01"), d("2026-09-01"), d("2026-10-01")).inOrder()
-        assertThat(r.nextPaymentDate).isEqualTo(d("2026-11-01"))
-        assertThat(BillingCalculator.initialSchedule(s, today, false).nextPaymentDate).isEqualTo(d("2026-11-01"))
-    }
-
-    @Test
     fun initial_trialInFuture() {
         val s = sub(d("2026-10-01")).copy(renewalType = RenewalType.TRIAL, trialStartDate = d("2026-10-01"), trialDays = 14)
         val r = BillingCalculator.initialSchedule(s, today, generateHistory = true)
@@ -264,25 +255,16 @@ class ScheduleTest {
             .isEqualTo(d("2026-10-09"))
     }
 
-    @Test
-    fun markPaid_fixedDayOriginalCycle() {
-        val s = sub(d("2026-01-15")).copy(cycleAnchorDate = d("2026-01-15"), fixedPaymentDay = 31)
-        assertThat(BillingCalculator.markPaid(s, d("2026-01-15"), d("2026-01-15"), MarkTiming.ON_TIME).nextPaymentDate)
-            .isEqualTo(d("2026-02-28"))
-        assertThat(BillingCalculator.markPaid(s, d("2026-02-28"), d("2026-02-28"), MarkTiming.ON_TIME).nextPaymentDate)
-            .isEqualTo(d("2026-03-31"))
-    }
-
-    /** After a re-base the returned next date must be occurrence 1 of the new schedule (fixed day included). */
+    /** After a re-base the returned next date must be occurrence 1 of the new schedule. */
     @Test
     fun markPaid_newCycleNextIsConsistentWithRebasedSchedule() {
-        val s = sub(d("2026-01-01")).copy(cycleAnchorDate = d("2026-01-01"), fixedPaymentDay = 1)
+        val s = sub(d("2026-01-01")).copy(cycleAnchorDate = d("2026-01-01"))
         val r = BillingCalculator.markPaid(s, d("2026-03-01"), d("2026-03-20"), MarkTiming.OVERDUE_NEW_CYCLE)
         assertThat(r.anchor).isEqualTo(d("2026-03-20"))
         val cycle = BillingCalculator.cycleLength(s)!!
         assertThat(r.nextPaymentDate)
-            .isEqualTo(BillingCalculator.firstOccurrenceAfter(r.anchor, cycle, r.anchor, fixedDay = s.fixedPaymentDay))
-        assertThat(r.nextPaymentDate).isEqualTo(d("2026-04-01"))
+            .isEqualTo(BillingCalculator.firstOccurrenceAfter(r.anchor, cycle, r.anchor))
+        assertThat(r.nextPaymentDate).isEqualTo(d("2026-04-20"))
     }
 
     @Test

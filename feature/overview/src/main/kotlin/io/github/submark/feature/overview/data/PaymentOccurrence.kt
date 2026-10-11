@@ -123,11 +123,11 @@ object PaymentProjection {
                 if (lower > rangeEnd) return@forEach
                 val nextMatchesAnchor = next != null &&
                     io.github.submark.core.domain.BillingCalculator.occurrencesBetween(
-                        anchor, cycle, next, next, sub.fixedPaymentDay,
+                        anchor, cycle, next, next,
                     ).isNotEmpty()
                 val scheduleAnchor = if (next != null && next <= rangeEnd && !nextMatchesAnchor) next else anchor
                 io.github.submark.core.domain.BillingCalculator.occurrencesBetween(
-                    anchor = scheduleAnchor, cycle = cycle, from = lower, to = rangeEnd, fixedDay = sub.fixedPaymentDay,
+                    anchor = scheduleAnchor, cycle = cycle, from = lower, to = rangeEnd,
                 ).forEach { date ->
                     val list = byDate.getOrPut(date) { mutableListOf() }
                     val existing = list.firstOrNull { it.subscription.id == sub.id }

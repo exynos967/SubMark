@@ -196,9 +196,8 @@ fun TimePickerField(
     }
 }
 
-/** Read-only outlined field that opens a picker on tap; matches [DatePickerField] for custom pickers. */
 @Composable
-fun PickerField(
+private fun PickerField(
     label: String,
     text: String,
     icon: @Composable () -> Unit,

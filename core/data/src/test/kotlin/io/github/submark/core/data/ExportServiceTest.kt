@@ -92,7 +92,7 @@ class ExportServiceTest {
         assertThat(h.export.decode(text).isSuccess).isFalse()
     }
 
-    /** Backups from before the stored-value kind was removed still restore, converted like the database migration. */
+    /** Backups from before stored value and the fixed payment day were removed still restore, converted like the migrations. */
     @Test fun decode_upgradesStoredValueFromOlderVersions() = runTest {
         populate()
         val root = Json.parseToJsonElement(h.export.encode(h.export.export())).jsonObject
@@ -100,7 +100,7 @@ class ExportServiceTest {
             JsonArray(jsonArray.map { JsonObject(it.jsonObject + ("kind" to JsonPrimitive(kind)) + extra) })
         val legacy = JsonObject(
             root + mapOf(
-                "subscriptions" to root.getValue("subscriptions").withKind("STORED_VALUE", "storedValueBalance" to JsonPrimitive("30")),
+                "subscriptions" to root.getValue("subscriptions").withKind("STORED_VALUE", "storedValueBalance" to JsonPrimitive("30"), "fixedPaymentDay" to JsonPrimitive(1)),
                 "paymentRecords" to root.getValue("paymentRecords").withKind("STORED_VALUE_DEPOSIT"),
                 "storedValueRecords" to JsonArray(listOf(JsonObject(mapOf("id" to JsonPrimitive("r"))))),
             ),
@@ -112,5 +112,8 @@ class ExportServiceTest {
         assertThat(bundle.subscriptions.map { it.kind }.toSet()).containsExactly(SubscriptionKind.REGULAR)
         assertThat(bundle.paymentRecords).isNotEmpty()
         assertThat(bundle.paymentRecords.map { it.kind }.toSet()).containsExactly(PaymentKind.IN_APP_PURCHASE)
+        val scheduled = bundle.subscriptions.filter { it.nextPaymentDate != null }
+        assertThat(scheduled).isNotEmpty()
+        assertThat(scheduled.all { it.cycleAnchorDate == it.nextPaymentDate }).isTrue()
     }
 }

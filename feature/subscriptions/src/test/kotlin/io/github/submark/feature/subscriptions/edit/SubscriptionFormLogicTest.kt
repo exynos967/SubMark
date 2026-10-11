@@ -104,7 +104,6 @@ class SubscriptionFormLogicTest {
     fun `regular draft maps form fields and history only for past start`() {
         val form = valid.copy(
             startDate = today.minusMonths(3),
-            fixedPaymentDay = 15,
             tagIds = listOf("t1", "t1", "t2"),
             website = " example.com ",
             note = "",
@@ -115,7 +114,6 @@ class SubscriptionFormLogicTest {
         val sub = draft.subscription
         assertThat(sub.kind).isEqualTo(SubscriptionKind.REGULAR)
         assertThat(sub.price).isEqualTo(BigDecimal("9.99"))
-        assertThat(sub.fixedPaymentDay).isEqualTo(15)
         assertThat(sub.renewalType).isEqualTo(RenewalType.MANUAL)
         assertThat(sub.trialStartDate).isNull()
         assertThat(sub.website).isEqualTo("example.com")
@@ -142,11 +140,10 @@ class SubscriptionFormLogicTest {
 
     @Test
     fun `lifetime draft has no cycle and charges the purchase wallet`() {
-        val form = valid.copy(kind = FormKind.LIFETIME, walletId = "w1", fixedPaymentDay = 3, isSingleCycle = true)
+        val form = valid.copy(kind = FormKind.LIFETIME, walletId = "w1", isSingleCycle = true)
         val draft = SubscriptionFormLogic.buildDraft(form, null, emptyList(), today, now)
         assertThat(draft.subscription.kind).isEqualTo(SubscriptionKind.LIFETIME)
         assertThat(draft.subscription.billingCycle).isNull()
-        assertThat(draft.subscription.fixedPaymentDay).isNull()
         assertThat(draft.subscription.isSingleCycle).isFalse()
         assertThat(draft.purchaseWalletId).isEqualTo("w1")
         assertThat(draft.generateHistory).isFalse()
@@ -207,19 +204,6 @@ class SubscriptionFormLogicTest {
         val form = valid.copy(customFieldValues = mapOf("g" to "  ", "c" to "x"))
         val draft = SubscriptionFormLogic.buildDraft(form, null, fields, today, now)
         assertThat(draft.customFieldValues).containsExactly("g", null)
-    }
-
-    @Test
-    fun `fixed day eligibility`() {
-        assertThat(SubscriptionFormLogic.fixedDayEligible(valid)).isTrue()
-        assertThat(SubscriptionFormLogic.fixedDayEligible(valid.copy(billingCycle = BillingCycle.WEEKLY))).isFalse()
-        assertThat(SubscriptionFormLogic.fixedDayEligible(valid.copy(billingCycle = BillingCycle.CUSTOM))).isFalse()
-        assertThat(SubscriptionFormLogic.fixedDayEligible(valid.copy(isSingleCycle = true))).isFalse()
-        assertThat(SubscriptionFormLogic.fixedDayEligible(valid.copy(kind = FormKind.LIFETIME))).isFalse()
-        val draft = SubscriptionFormLogic.buildDraft(valid.copy(billingCycle = BillingCycle.WEEKLY, fixedPaymentDay = 5), null, emptyList(), today, now)
-        assertThat(draft.subscription.fixedPaymentDay).isNull()
-        assertThat(SubscriptionFormLogic.fixedDayOverflows(29)).isTrue()
-        assertThat(SubscriptionFormLogic.fixedDayOverflows(28)).isFalse()
     }
 
     @Test

@@ -29,7 +29,6 @@ fun InvalidReason.toUiText(): UiText = UiText.res(
         InvalidReason.CUSTOM_CYCLE_REQUIRED -> R.string.subscriptions_error_custom_cycle_required
         InvalidReason.SINGLE_CYCLE_REQUIRES_END -> R.string.subscriptions_error_single_cycle_requires_end
         InvalidReason.TRIAL_FIELDS_REQUIRED -> R.string.subscriptions_error_trial_fields_required
-        InvalidReason.FIXED_DAY_UNSUPPORTED -> R.string.subscriptions_error_fixed_day_unsupported
         InvalidReason.BUNDLE_NEEDS_CHILD -> R.string.subscriptions_error_bundle_needs_child
         InvalidReason.START_DATE_LOCKED -> R.string.subscriptions_error_start_date_locked
         InvalidReason.NOT_MARKABLE -> R.string.subscriptions_error_not_markable

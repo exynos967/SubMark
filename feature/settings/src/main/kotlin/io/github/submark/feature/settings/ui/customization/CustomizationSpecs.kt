@@ -49,11 +49,6 @@ internal object CustomizationSpecs {
             { s, v -> s.copy(subscriptions = s.subscriptions.copy(wishlistEnabled = v)) },
         ),
         ToggleSpec(
-            R.string.settings_module_fixed_day, R.string.settings_module_fixed_day_desc,
-            { it.addForm.showFixedPaymentDay },
-            { s, v -> s.copy(addForm = s.addForm.copy(showFixedPaymentDay = v)) },
-        ),
-        ToggleSpec(
             R.string.settings_module_child_subs, R.string.settings_module_child_subs_desc,
             { it.subscriptions.showChildSubscriptions },
             { s, v -> s.copy(subscriptions = s.subscriptions.copy(showChildSubscriptions = v)) },

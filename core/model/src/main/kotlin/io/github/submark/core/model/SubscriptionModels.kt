@@ -33,7 +33,6 @@ data class Subscription(
     /** start..end is the one and only cycle; requires [endDate]. */
     val isSingleCycle: Boolean = false,
     /** 1..31, month-based cycles only; clamps to month end. */
-    val fixedPaymentDay: Int? = null,
     val renewalType: RenewalType = RenewalType.AUTO,
     val trialStartDate: Day? = null,
     val trialDays: Int? = null,

@@ -49,7 +49,7 @@ import io.github.submark.core.model.Wallet
 import io.github.submark.core.model.WalletTransaction
 
 @Database(
-    version = 2,
+    version = 3,
     exportSchema = true,
     autoMigrations = [AutoMigration(from = 1, to = 2, spec = RemoveStoredValueMigration::class)],
     entities = [

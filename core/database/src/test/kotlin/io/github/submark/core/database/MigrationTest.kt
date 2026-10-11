@@ -56,7 +56,43 @@ class MigrationTest {
         db.query("SELECT name FROM sqlite_master WHERE name = 'stored_value_records'").use { c -> assertThat(c.count).isEqualTo(0) }
     }
 
+    @Test fun v2ToV3_fixedPaymentDayIsFoldedIntoTheAnchor() {
+        helper.createDatabase(DB, 2).apply {
+            execSQL("INSERT INTO categories (id, iconType, iconValue, colorHex, isHidden, sortOrder) VALUES ('c', 'SYMBOL', 'x', '#000000', 0, 0)")
+            // fixed: started on the 15th, paid on the 1st -> next payment 2026-11-01. plain: no fixed day, anchor untouched.
+            for ((id, fixedDay, anchor) in listOf(Triple("fixed", "1", START), Triple("plain", "NULL", START))) {
+                execSQL(
+                    """INSERT INTO subscriptions (id, name, kind, bundleRole, price, currencyCode, billingCycle, isSingleCycle, fixedPaymentDay,
+                       renewalType, startDate, cycleAnchorDate, nextPaymentDate, status, categoryId, isShared, customReminderEnabled,
+                       calendarSyncEnabled, createdAt, updatedAt)
+                       VALUES ('$id', '$id', 'REGULAR', 'NONE', '10', 'USD', 'MONTHLY', 0, $fixedDay, 'AUTO', $START, $anchor, $NEXT,
+                       'ACTIVE', 'c', 0, 0, 0, 0, 0)""",
+                )
+            }
+            execSQL(
+                """INSERT INTO payment_records (id, subscriptionId, amount, currencyCode, paymentDate, status, kind, source, markTiming,
+                   dateAdjustmentMode, createdAt, updatedAt)
+                   VALUES ('p', 'fixed', '10', 'USD', $START, 'SUCCESS', 'REGULAR', 'USER_MANUAL', 'ON_TIME', 'NONE', 0, 0)""",
+            )
+            close()
+        }
+
+        val db = helper.runMigrationsAndValidate(DB, 3, true, MIGRATION_2_3)
+
+        db.query("SELECT id, cycleAnchorDate, nextPaymentDate FROM subscriptions ORDER BY id").use { c ->
+            val rows = buildList { while (c.moveToNext()) add(Triple(c.getString(0), c.getLong(1), c.getLong(2))) }
+            assertThat(rows).containsExactly(Triple("fixed", NEXT, NEXT), Triple("plain", START, NEXT)).inOrder()
+        }
+        // Rebuilding the parent table must not cascade into its children.
+        db.query("SELECT count(*) FROM payment_records WHERE subscriptionId = 'fixed'").use { c ->
+            c.moveToFirst()
+            assertThat(c.getInt(0)).isEqualTo(1)
+        }
+    }
+
     private companion object {
         const val DB = "migration-test"
+        val START = java.time.LocalDate.of(2026, 9, 15).toEpochDay()
+        val NEXT = java.time.LocalDate.of(2026, 11, 1).toEpochDay()
     }
 }

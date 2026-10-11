@@ -19,7 +19,6 @@
     <string name="subscriptions_error_custom_cycle_required">自定义周期长度至少为 1。</string>
     <string name="subscriptions_error_single_cycle_requires_end">单周期方案需要设置结束日期。</string>
     <string name="subscriptions_error_trial_fields_required">请设置试用开始日期和试用天数。</string>
-    <string name="subscriptions_error_fixed_day_unsupported">固定扣款日仅适用于按月、季度、半年或年计费的周期。</string>
     <string name="subscriptions_error_bundle_needs_child">组合订阅至少需要一个子订阅。</string>
     <string name="subscriptions_error_start_date_locked">已有付款记录，开始日期不能再修改。</string>
     <string name="subscriptions_error_not_markable">该订阅目前没有可标记的待付款项。</string>

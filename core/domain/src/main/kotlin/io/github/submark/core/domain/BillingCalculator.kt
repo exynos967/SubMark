@@ -8,7 +8,6 @@ import io.github.submark.core.model.Subscription
 import io.github.submark.core.model.SubscriptionKind
 import io.github.submark.core.model.SubscriptionStatus
 import java.time.LocalDate
-import java.time.YearMonth
 import java.time.temporal.ChronoUnit
 
 /** A cycle length expressed in calendar units, so month arithmetic clamps instead of drifting. */
@@ -54,20 +53,8 @@ object BillingCalculator {
         CycleUnit.YEAR -> date.plusYears(cycle.count * times)
     }
 
-    fun isMonthBased(cycle: CycleLength): Boolean = cycle.unit == CycleUnit.MONTH || cycle.unit == CycleUnit.YEAR
-
-    /** Applies a fixed payment day (1..31) to a month-based occurrence, clamped to month end. */
-    fun applyFixedDay(date: LocalDate, fixedDay: Int?): LocalDate {
-        if (fixedDay == null) return date
-        val ym = YearMonth.from(date)
-        return ym.atDay(minOf(fixedDay, ym.lengthOfMonth()))
-    }
-
     /** Occurrence k (k >= 0) of the schedule anchored at [anchor]. */
-    fun occurrence(anchor: LocalDate, cycle: CycleLength, k: Long, fixedDay: Int? = null): LocalDate {
-        val raw = add(anchor, cycle, k)
-        return if (fixedDay != null && isMonthBased(cycle) && k > 0) applyFixedDay(raw, fixedDay) else raw
-    }
+    fun occurrence(anchor: LocalDate, cycle: CycleLength, k: Long): LocalDate = add(anchor, cycle, k)
 
     /** Index k of the first occurrence strictly after [after] (or on/after when [inclusive]). */
     fun firstOccurrenceIndex(
@@ -75,7 +62,6 @@ object BillingCalculator {
         cycle: CycleLength,
         after: LocalDate,
         inclusive: Boolean = false,
-        fixedDay: Int? = null,
     ): Long {
         fun passes(d: LocalDate) = d > after || (inclusive && d == after)
         if (passes(anchor)) return 0
@@ -87,8 +73,8 @@ object BillingCalculator {
             CycleUnit.YEAR -> cycle.count * 365.2425
         }
         var k = maxOf(1L, (ChronoUnit.DAYS.between(anchor, after) / approxDays).toLong() - 1)
-        while (k > 1 && passes(occurrence(anchor, cycle, k - 1, fixedDay))) k--
-        while (!passes(occurrence(anchor, cycle, k, fixedDay))) k++
+        while (k > 1 && passes(occurrence(anchor, cycle, k - 1))) k--
+        while (!passes(occurrence(anchor, cycle, k))) k++
         return k
     }
 
@@ -97,8 +83,7 @@ object BillingCalculator {
         cycle: CycleLength,
         after: LocalDate,
         inclusive: Boolean = false,
-        fixedDay: Int? = null,
-    ): LocalDate = occurrence(anchor, cycle, firstOccurrenceIndex(anchor, cycle, after, inclusive, fixedDay), fixedDay)
+    ): LocalDate = occurrence(anchor, cycle, firstOccurrenceIndex(anchor, cycle, after, inclusive))
 
     /** All occurrences within [from]..[to] inclusive. */
     fun occurrencesBetween(
@@ -106,11 +91,10 @@ object BillingCalculator {
         cycle: CycleLength,
         from: LocalDate,
         to: LocalDate,
-        fixedDay: Int? = null,
     ): List<LocalDate> {
         if (to < from) return emptyList()
-        var k = firstOccurrenceIndex(anchor, cycle, from, inclusive = true, fixedDay = fixedDay)
-        return generateSequence { occurrence(anchor, cycle, k++, fixedDay) }.takeWhile { it <= to }.toList()
+        var k = firstOccurrenceIndex(anchor, cycle, from, inclusive = true)
+        return generateSequence { occurrence(anchor, cycle, k++) }.takeWhile { it <= to }.toList()
     }
 
     /** First billing date: start date, or the end of the trial for TRIAL subscriptions. */
@@ -149,11 +133,11 @@ object BillingCalculator {
         return if (generateHistory) {
             // No history beyond the end of validity.
             val historyEnd = sub.endDate?.let { minOf(it, today) } ?: today
-            val past = occurrencesBetween(anchor, cycle, anchor, historyEnd, sub.fixedPaymentDay)
-            val next = firstOccurrenceAfter(anchor, cycle, today, inclusive = false, fixedDay = sub.fixedPaymentDay)
+            val past = occurrencesBetween(anchor, cycle, anchor, historyEnd)
+            val next = firstOccurrenceAfter(anchor, cycle, today, inclusive = false)
             InitialSchedule(anchor, capByEnd(next, sub.endDate), past.lastOrNull(), past)
         } else {
-            val next = firstOccurrenceAfter(anchor, cycle, today, inclusive = true, fixedDay = sub.fixedPaymentDay)
+            val next = firstOccurrenceAfter(anchor, cycle, today, inclusive = true)
             InitialSchedule(anchor, capByEnd(next, sub.endDate), null, emptyList())
         }
     }
@@ -179,10 +163,9 @@ object BillingCalculator {
         val rebase = timing == MarkTiming.EARLY_NEW_CYCLE || timing == MarkTiming.OVERDUE_NEW_CYCLE
         val newAnchor = if (rebase) paidOn else anchor
         val next = if (rebase) {
-            // Occurrence 1 of the re-based schedule, so the fixed payment day applies like on every later occurrence.
-            occurrence(paidOn, cycle, 1, sub.fixedPaymentDay)
+            occurrence(paidOn, cycle, 1)
         } else {
-            firstOccurrenceAfter(anchor, cycle, due, inclusive = false, fixedDay = sub.fixedPaymentDay)
+            firstOccurrenceAfter(anchor, cycle, due, inclusive = false)
         }
         return MarkOutcome(newAnchor, capByEnd(next, sub.endDate), paidOn)
     }

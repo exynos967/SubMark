@@ -22,7 +22,6 @@
     <string name="money_invalid_custom_cycle_required">请填写自定义周期长度。</string>
     <string name="money_invalid_single_cycle_end">单周期订阅需要结束日期。</string>
     <string name="money_invalid_trial_fields">请填写试用开始日期和时长。</string>
-    <string name="money_invalid_fixed_day">固定扣款日仅适用于按月或按年的周期。</string>
     <string name="money_invalid_bundle_child">组合订阅至少需要包含一个子订阅。</string>
     <string name="money_invalid_start_locked">已有付款记录，开始日期无法再修改。</string>
     <string name="money_invalid_not_markable">该订阅不支持这类付款。</string>

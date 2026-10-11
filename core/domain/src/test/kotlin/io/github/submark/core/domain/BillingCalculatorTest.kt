@@ -115,55 +115,6 @@ class BillingCalculatorTest {
             .containsExactly(d("2025-02-28"), d("2026-02-28"), d("2027-02-28"), d("2028-02-29")).inOrder()
     }
 
-    // ---- fixed payment day ----
-
-    @Test
-    fun fixedDay_31_inShortMonths() {
-        val anchor = d("2024-01-15")
-        assertThat((0L..4L).map { BillingCalculator.occurrence(anchor, monthly, it, fixedDay = 31) }).containsExactly(
-            d("2024-01-15"), // the anchor itself is never moved
-            d("2024-02-29"),
-            d("2024-03-31"),
-            d("2024-04-30"),
-            d("2024-05-31"),
-        ).inOrder()
-        assertThat(BillingCalculator.occurrence(d("2023-01-15"), monthly, 1, fixedDay = 30)).isEqualTo(d("2023-02-28"))
-    }
-
-    @Test
-    fun fixedDay_quarterly() {
-        val anchor = d("2025-01-10")
-        assertThat((1L..4L).map { BillingCalculator.occurrence(anchor, quarterly, it, fixedDay = 31) })
-            .containsExactly(d("2025-04-30"), d("2025-07-31"), d("2025-10-31"), d("2026-01-31")).inOrder()
-        // month-end anchor with a small fixed day stays in the anchor's month sequence
-        assertThat(BillingCalculator.occurrence(d("2025-01-31"), quarterly, 1, fixedDay = 5)).isEqualTo(d("2025-04-05"))
-    }
-
-    @Test
-    fun fixedDay_annualAndCustomMonths() {
-        assertThat(BillingCalculator.occurrence(d("2023-02-10"), annual, 1, fixedDay = 29)).isEqualTo(d("2024-02-29"))
-        assertThat(BillingCalculator.occurrence(d("2023-02-10"), annual, 2, fixedDay = 29)).isEqualTo(d("2025-02-28"))
-        assertThat(BillingCalculator.occurrence(d("2026-01-20"), CycleLength(2, CycleUnit.MONTH), 1, fixedDay = 31))
-            .isEqualTo(d("2026-03-31"))
-    }
-
-    @Test
-    fun fixedDay_ignoredForDayAndWeekCycles() {
-        assertThat(BillingCalculator.occurrence(d("2025-01-01"), weekly, 1, fixedDay = 31)).isEqualTo(d("2025-01-08"))
-        assertThat(BillingCalculator.occurrence(d("2025-01-01"), threeDays, 2, fixedDay = 31)).isEqualTo(d("2025-01-07"))
-    }
-
-    @Test
-    fun applyFixedDay() {
-        assertThat(BillingCalculator.applyFixedDay(d("2026-02-10"), null)).isEqualTo(d("2026-02-10"))
-        assertThat(BillingCalculator.applyFixedDay(d("2026-02-10"), 31)).isEqualTo(d("2026-02-28"))
-        assertThat(BillingCalculator.applyFixedDay(d("2026-02-10"), 1)).isEqualTo(d("2026-02-01"))
-        assertThat(BillingCalculator.isMonthBased(monthly)).isTrue()
-        assertThat(BillingCalculator.isMonthBased(annual)).isTrue()
-        assertThat(BillingCalculator.isMonthBased(weekly)).isFalse()
-        assertThat(BillingCalculator.isMonthBased(threeDays)).isFalse()
-    }
-
     // ---- firstOccurrenceIndex / After ----
 
     @Test
@@ -183,7 +134,7 @@ class BillingCalculatorTest {
         val anchor = d("2027-01-01")
         assertThat(BillingCalculator.firstOccurrenceIndex(anchor, monthly, d("2026-10-07"))).isEqualTo(0)
         assertThat(BillingCalculator.firstOccurrenceAfter(anchor, weekly, d("2026-10-07"), inclusive = true)).isEqualTo(anchor)
-        assertThat(BillingCalculator.firstOccurrenceAfter(anchor, monthly, d("2016-10-07"), fixedDay = 15)).isEqualTo(anchor)
+        assertThat(BillingCalculator.firstOccurrenceAfter(anchor, monthly, d("2016-10-07"))).isEqualTo(anchor)
     }
 
     @Test
@@ -211,28 +162,25 @@ class BillingCalculatorTest {
     @Test
     fun firstOccurrence_matchesBruteForce() {
         val cases = listOf(
-            Triple(d("2016-10-07"), weekly, null),
-            Triple(d("2016-10-07"), threeDays, null),
-            Triple(d("2016-01-31"), monthly, null),
-            Triple(d("2016-01-31"), monthly, 31),
-            Triple(d("2016-01-31"), monthly, 1),
-            Triple(d("2016-02-29"), annual, null),
-            Triple(d("2016-02-29"), annual, 29),
-            Triple(d("2016-08-31"), quarterly, null),
-            Triple(d("2016-03-10"), quarterly, 31),
-            Triple(d("2016-05-31"), CycleLength(6, CycleUnit.MONTH), 30),
-            Triple(d("2016-05-17"), CycleLength(13, CycleUnit.DAY), null),
-            Triple(d("2016-12-31"), CycleLength(2, CycleUnit.WEEK), null),
-            Triple(d("2016-12-31"), CycleLength(2, CycleUnit.YEAR), 31),
-            Triple(d("2016-12-31"), CycleLength(1, CycleUnit.DAY), null),
+            d("2016-10-07") to weekly,
+            d("2016-10-07") to threeDays,
+            d("2016-01-31") to monthly,
+            d("2016-02-29") to annual,
+            d("2016-08-31") to quarterly,
+            d("2016-03-10") to quarterly,
+            d("2016-05-31") to CycleLength(6, CycleUnit.MONTH),
+            d("2016-05-17") to CycleLength(13, CycleUnit.DAY),
+            d("2016-12-31") to CycleLength(2, CycleUnit.WEEK),
+            d("2016-12-31") to CycleLength(2, CycleUnit.YEAR),
+            d("2016-12-31") to CycleLength(1, CycleUnit.DAY),
         )
-        for ((anchor, cycle, fixed) in cases) {
+        for ((anchor, cycle) in cases) {
             var ref = anchor.minusDays(40)
             val end = anchor.plusYears(10).plusDays(400)
             while (ref <= end) {
                 for (inclusive in listOf(false, true)) {
-                    val expected = bruteIndex(anchor, cycle, ref, inclusive, fixed)
-                    val actual = BillingCalculator.firstOccurrenceIndex(anchor, cycle, ref, inclusive, fixed)
+                    val expected = bruteIndex(anchor, cycle, ref, inclusive)
+                    val actual = BillingCalculator.firstOccurrenceIndex(anchor, cycle, ref, inclusive)
                     assertThat(actual).isEqualTo(expected)
                 }
                 ref = ref.plusDays(if (ref < anchor.plusYears(9)) 11 else 1)
@@ -240,10 +188,10 @@ class BillingCalculatorTest {
         }
     }
 
-    private fun bruteIndex(anchor: LocalDate, cycle: CycleLength, after: LocalDate, inclusive: Boolean, fixed: Int?): Long {
+    private fun bruteIndex(anchor: LocalDate, cycle: CycleLength, after: LocalDate, inclusive: Boolean): Long {
         var k = 0L
         while (true) {
-            val occ = BillingCalculator.occurrence(anchor, cycle, k, fixed)
+            val occ = BillingCalculator.occurrence(anchor, cycle, k)
             if (occ > after || (inclusive && occ == after)) return k
             k++
         }
@@ -253,8 +201,8 @@ class BillingCalculatorTest {
     fun occurrences_strictlyIncreasing() {
         val anchors = listOf(d("2024-01-31"), d("2024-02-29"), d("2023-12-31"), d("2024-01-01"))
         val cycles = listOf(monthly, quarterly, annual, CycleLength(2, CycleUnit.MONTH))
-        for (a in anchors) for (c in cycles) for (fixed in listOf(null, 1, 15, 28, 29, 30, 31)) {
-            val occ = (0L..60L).map { BillingCalculator.occurrence(a, c, it, fixed) }
+        for (a in anchors) for (c in cycles) {
+            val occ = (0L..60L).map { BillingCalculator.occurrence(a, c, it) }
             occ.zipWithNext().forEach { (x, y) -> assertThat(y).isGreaterThan(x) }
         }
     }
@@ -282,9 +230,9 @@ class BillingCalculatorTest {
     }
 
     @Test
-    fun occurrencesBetween_withFixedDayAndLongHistory() {
-        assertThat(BillingCalculator.occurrencesBetween(d("2016-01-15"), monthly, d("2026-01-01"), d("2026-04-30"), fixedDay = 31))
-            .containsExactly(d("2026-01-31"), d("2026-02-28"), d("2026-03-31"), d("2026-04-30")).inOrder()
+    fun occurrencesBetween_longHistory() {
+        assertThat(BillingCalculator.occurrencesBetween(d("2016-01-15"), monthly, d("2026-01-01"), d("2026-04-30")))
+            .containsExactly(d("2026-01-15"), d("2026-02-15"), d("2026-03-15"), d("2026-04-15")).inOrder()
         val weeks = BillingCalculator.occurrencesBetween(d("2016-10-06"), weekly, d("2026-09-01"), d("2026-09-30"))
         assertThat(weeks).containsExactly(d("2026-09-03"), d("2026-09-10"), d("2026-09-17"), d("2026-09-24")).inOrder()
     }

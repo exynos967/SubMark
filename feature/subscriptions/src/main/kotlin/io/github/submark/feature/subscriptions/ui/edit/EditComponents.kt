@@ -114,39 +114,6 @@ fun HintText(text: String, modifier: Modifier = Modifier, color: Color = Materia
     Text(text, style = MaterialTheme.typography.bodySmall, color = color, modifier = modifier)
 }
 
-/** Day-of-month grid (1..31) for the fixed payment day. */
-@Composable
-fun FixedDayDialog(initial: Int?, onConfirm: (Int) -> Unit, onDismiss: () -> Unit) {
-    var selected by rememberSaveable { mutableStateOf(initial ?: 1) }
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text(stringResource(R.string.subscriptions_edit_fixed_day_title)) },
-        text = {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                LazyVerticalGrid(columns = GridCells.Fixed(7), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    items((1..31).toList()) { day ->
-                        val isSelected = day == selected
-                        Surface(
-                            onClick = { selected = day },
-                            shape = CircleShape,
-                            color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
-                            contentColor = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
-                            modifier = Modifier.size(36.dp),
-                        ) {
-                            Box(contentAlignment = Alignment.Center) { Text(day.toString(), style = MaterialTheme.typography.bodyMedium) }
-                        }
-                    }
-                }
-                if (SubscriptionFormLogic.fixedDayOverflows(selected)) {
-                    HintText(stringResource(R.string.subscriptions_edit_fixed_day_overflow, selected))
-                }
-            }
-        },
-        confirmButton = { TextButton(onClick = { onConfirm(selected) }) { Text(stringResource(UiR.string.ui_action_ok)) } },
-        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(UiR.string.ui_action_cancel)) } },
-    )
-}
-
 /** "Set by duration": N days or N months after the start date. */
 @Composable
 fun DurationDialog(onConfirm: (amount: Int, months: Boolean) -> Unit, onDismiss: () -> Unit) {
