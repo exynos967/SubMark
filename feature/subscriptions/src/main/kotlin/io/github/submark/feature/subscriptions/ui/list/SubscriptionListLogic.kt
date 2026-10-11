@@ -24,7 +24,7 @@ data class ListFilter(
 }
 
 /**
- * Totals in [currencyCode]. [monthly]/[annual]/[average] cover recurring active items; [total] is the sum of
+ * Totals in [currencyCode]. [monthly]/[annual] convert recurring active items to a month/year at current prices; [total] is the sum of
  * one-time (lifetime) or planned (wishlist) prices. Amounts whose currency has no rate are skipped and listed
  * in [missingRateCodes].
  */
@@ -33,7 +33,6 @@ data class ListSummary(
     val currencyCode: String,
     val monthly: BigDecimal = BigDecimal.ZERO,
     val annual: BigDecimal = BigDecimal.ZERO,
-    val average: BigDecimal? = null,
     val total: BigDecimal = BigDecimal.ZERO,
     val missingRateCodes: Set<String> = emptySet(),
 )
@@ -111,7 +110,6 @@ object SubscriptionListLogic {
     fun summary(items: List<SubscriptionItem>, converter: CurrencyConverter, currencyCode: String): ListSummary {
         var monthly = BigDecimal.ZERO
         var total = BigDecimal.ZERO
-        var recurringCount = 0
         val missing = mutableSetOf<String>()
         for (item in items) {
             val sub = item.subscription
@@ -123,7 +121,6 @@ object SubscriptionListLogic {
                         missing += sub.currencyCode
                     } else {
                         monthly = monthly.add(converted, MC)
-                        recurringCount++
                     }
                 }
                 SubscriptionKind.LIFETIME, SubscriptionKind.WISHLIST -> {
@@ -137,7 +134,6 @@ object SubscriptionListLogic {
             currencyCode = currencyCode,
             monthly = monthly,
             annual = monthly.multiply(BigDecimal(12), MC),
-            average = if (recurringCount > 0) monthly.divide(BigDecimal(recurringCount), MC) else null,
             total = total,
             missingRateCodes = missing,
         )

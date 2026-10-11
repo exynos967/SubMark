@@ -174,7 +174,6 @@ class SubscriptionListLogicTest {
         assertThat(s.count).isEqualTo(3)
         assertThat(s.monthly.compareTo(BigDecimal("20"))).isEqualTo(0)
         assertThat(s.annual.compareTo(BigDecimal("240"))).isEqualTo(0)
-        assertThat(s.average!!.compareTo(BigDecimal("10"))).isEqualTo(0)
         assertThat(s.missingRateCodes).isEmpty()
     }
 
@@ -189,7 +188,6 @@ class SubscriptionListLogicTest {
         val s = SubscriptionListLogic.summary(items, converter, "USD")
         assertThat(s.total.compareTo(BigDecimal("70"))).isEqualTo(0)
         assertThat(s.monthly.signum()).isEqualTo(0)
-        assertThat(s.average).isNull()
         assertThat(s.missingRateCodes).containsExactly("XYZ")
     }
 

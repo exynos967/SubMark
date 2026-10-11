@@ -22,7 +22,7 @@
 
     <!-- Financial overview -->
     <string name="analytics_overview_title">Overview</string>
-    <string name="analytics_overview_total_spending">Total spending</string>
+    <string name="analytics_overview_total_spending">Paid</string>
     <string name="analytics_overview_active_count">Active subscriptions</string>
     <string name="analytics_overview_lifetime_count">Lifetime purchases</string>
     <string name="analytics_overview_daily_avg">Daily average</string>

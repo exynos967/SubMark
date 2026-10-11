@@ -18,9 +18,8 @@
     <string name="subscriptions_list_manage_tags">管理标签</string>
     <string name="subscriptions_list_manage_fields">自定义字段</string>
     <string name="subscriptions_list_summary_count">数量</string>
-    <string name="subscriptions_list_summary_monthly">每月</string>
-    <string name="subscriptions_list_summary_annual">每年</string>
-    <string name="subscriptions_list_summary_average">平均每项</string>
+    <string name="subscriptions_list_summary_monthly">折合每月</string>
+    <string name="subscriptions_list_summary_annual">折合每年</string>
     <string name="subscriptions_list_summary_total">累计花费</string>
     <string name="subscriptions_list_summary_planned">计划总额</string>
     <string name="subscriptions_list_summary_none">—</string>

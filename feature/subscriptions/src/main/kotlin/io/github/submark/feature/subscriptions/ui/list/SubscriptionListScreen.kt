@@ -375,18 +375,13 @@ private fun SummaryStrip(state: SubscriptionListUiState) {
                 if (state.segment == ListSegment.SUBSCRIPTIONS) {
                     SummaryCell(stringResource(R.string.subscriptions_list_summary_monthly), amountOrNone(s.monthly, s.currencyCode, state), Modifier.weight(1f))
                     SummaryCell(stringResource(R.string.subscriptions_list_summary_annual), amountOrNone(s.annual, s.currencyCode, state), Modifier.weight(1f))
-                    SummaryCell(
-                        stringResource(R.string.subscriptions_list_summary_average),
-                        s.average?.let { amountOrNone(it, s.currencyCode, state) } ?: stringResource(R.string.subscriptions_list_summary_none),
-                        Modifier.weight(1f),
-                    )
                 } else {
                     SummaryCell(
                         stringResource(
                             if (state.segment == ListSegment.LIFETIME) R.string.subscriptions_list_summary_total else R.string.subscriptions_list_summary_planned,
                         ),
                         amountOrNone(s.total, s.currencyCode, state),
-                        Modifier.weight(2f),
+                        Modifier.weight(1f),
                     )
                 }
             }

@@ -22,7 +22,7 @@
 
     <!-- Financial overview -->
     <string name="analytics_overview_title">总览</string>
-    <string name="analytics_overview_total_spending">总支出</string>
+    <string name="analytics_overview_total_spending">已支付</string>
     <string name="analytics_overview_active_count">活跃订阅</string>
     <string name="analytics_overview_lifetime_count">买断数量</string>
     <string name="analytics_overview_daily_avg">日均支出</string>
