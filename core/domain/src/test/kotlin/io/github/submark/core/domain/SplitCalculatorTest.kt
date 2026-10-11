@@ -30,19 +30,17 @@ class SplitCalculatorTest {
     }
 
     @Test
-    fun equal_inactiveAndPendingExcluded() {
+    fun equal_inactiveExcluded() {
         val members = listOf(
             member("me", creator = true),
             member("a"),
             member("i", status = MemberStatus.INACTIVE),
-            member("p", status = MemberStatus.PENDING),
         )
         val s = SplitCalculator.shares(bd("9"), SplitMode.EQUAL, members)
-        assertThat(s.keys).containsExactly("me", "a", "i", "p")
+        assertThat(s.keys).containsExactly("me", "a", "i")
         assertThat(s["me"]).isEqualToIgnoringScale(bd("4.5"))
         assertThat(s["a"]).isEqualToIgnoringScale(bd("4.5"))
         assertThat(s["i"]).isEqualToIgnoringScale(BigDecimal.ZERO)
-        assertThat(s["p"]).isEqualToIgnoringScale(BigDecimal.ZERO)
     }
 
     @Test
@@ -139,7 +137,7 @@ class SplitCalculatorTest {
 
     @Test
     fun noActiveMembers_allZero() {
-        val members = listOf(member("me", creator = true, status = MemberStatus.INACTIVE), member("p", status = MemberStatus.PENDING))
+        val members = listOf(member("me", creator = true, status = MemberStatus.INACTIVE), member("p", status = MemberStatus.INACTIVE))
         SplitMode.entries.forEach { mode ->
             val s = SplitCalculator.shares(bd("10"), mode, members)
             assertThat(s.keys).containsExactly("me", "p")
@@ -162,7 +160,7 @@ class SplitCalculatorTest {
         val withInactive = SplitCalculator.equalRatios(listOf(member("a"), member("x", status = MemberStatus.INACTIVE), member("b")))
         assertThat(withInactive.keys).containsExactly("a", "b")
         assertThat(withInactive["a"]).isEqualToIgnoringScale(bd("50"))
-        assertThat(SplitCalculator.equalRatios(listOf(member("x", status = MemberStatus.PENDING)))).isEmpty()
+        assertThat(SplitCalculator.equalRatios(listOf(member("x", status = MemberStatus.INACTIVE)))).isEmpty()
     }
 
     @Test

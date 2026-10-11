@@ -126,7 +126,6 @@
     <string name="ui_split_creator_pays_desc">列出成员，但全部费用由你承担。</string>
     <string name="ui_member_active">活跃</string>
     <string name="ui_member_inactive">停用</string>
-    <string name="ui_member_pending">已邀请</string>
     <string name="ui_wallet_kind_balance">余额账户</string>
     <string name="ui_wallet_kind_balance_desc">记录真实余额，计入资产，不能低于零。</string>
     <string name="ui_wallet_kind_credit">信用账户</string>

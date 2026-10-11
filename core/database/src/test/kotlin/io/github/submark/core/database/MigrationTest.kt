@@ -15,7 +15,7 @@ class MigrationTest {
     val helper = MigrationTestHelper(
         InstrumentationRegistry.getInstrumentation(),
         SubMarkDatabase::class.java,
-        listOf(RemoveStoredValueMigration()),
+        listOf(RemoveStoredValueMigration(), RemovePendingMemberMigration()),
         FrameworkSQLiteOpenHelperFactory(),
     )
 
@@ -87,6 +87,31 @@ class MigrationTest {
         db.query("SELECT count(*) FROM payment_records WHERE subscriptionId = 'fixed'").use { c ->
             c.moveToFirst()
             assertThat(c.getInt(0)).isEqualTo(1)
+        }
+    }
+
+    @Test fun v3ToV4_invitedMembersBecomeInactive() {
+        helper.createDatabase(DB, 3).apply {
+            execSQL("INSERT INTO categories (id, iconType, iconValue, colorHex, isHidden, sortOrder) VALUES ('c', 'SYMBOL', 'x', '#000000', 0, 0)")
+            execSQL(
+                """INSERT INTO subscriptions (id, name, kind, bundleRole, price, currencyCode, billingCycle, isSingleCycle, renewalType,
+                   startDate, status, categoryId, isShared, customReminderEnabled, calendarSyncEnabled, createdAt, updatedAt)
+                   VALUES ('s', 's', 'REGULAR', 'NONE', '10', 'USD', 'MONTHLY', 0, 'AUTO', $START, 'ACTIVE', 'c', 1, 0, 0, 0, 0)""",
+            )
+            listOf("a" to "ACTIVE", "i" to "INACTIVE", "p" to "PENDING").forEachIndexed { order, (id, status) ->
+                execSQL(
+                    """INSERT INTO shared_members (id, subscriptionId, name, status, isCreator, joinedAt, sortOrder, createdAt, updatedAt)
+                       VALUES ('$id', 's', '$id', '$status', 0, $START, $order, 0, 0)""",
+                )
+            }
+            close()
+        }
+
+        val db = helper.runMigrationsAndValidate(DB, 4, true)
+
+        db.query("SELECT id, status FROM shared_members ORDER BY id").use { c ->
+            val rows = buildList { while (c.moveToNext()) add(c.getString(0) to c.getString(1)) }
+            assertThat(rows).containsExactly("a" to "ACTIVE", "i" to "INACTIVE", "p" to "INACTIVE").inOrder()
         }
     }
 

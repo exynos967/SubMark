@@ -14,7 +14,7 @@ object SplitCalculator {
     private val RATIO_TOLERANCE = BigDecimal("0.5")
 
     /**
-     * Shares keyed by member id. Inactive/pending members get zero. EQUAL and RATIO round to [scale]
+     * Shares keyed by member id. Inactive members get zero. EQUAL and RATIO round to [scale]
      * and put the rounding remainder on the creator (or first active member) so shares sum to [total].
      * FIXED_AMOUNT values are taken as-is (already in subscription currency).
      */

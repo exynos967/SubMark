@@ -133,7 +133,6 @@ val MemberStatus.labelRes: Int
     get() = when (this) {
         MemberStatus.ACTIVE -> R.string.ui_member_active
         MemberStatus.INACTIVE -> R.string.ui_member_inactive
-        MemberStatus.PENDING -> R.string.ui_member_pending
     }
 
 @get:StringRes

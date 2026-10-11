@@ -20,6 +20,13 @@ class RemoveStoredValueMigration : AutoMigrationSpec {
     }
 }
 
+/** v3 -> v4: the "invited" member status is gone; such members never had a share, exactly like inactive ones. */
+class RemovePendingMemberMigration : AutoMigrationSpec {
+    override fun onPostMigrate(db: SupportSQLiteDatabase) {
+        db.execSQL("UPDATE shared_members SET status = 'INACTIVE' WHERE status = 'PENDING'")
+    }
+}
+
 /**
  * v2 -> v3: the fixed payment day is gone. Its occurrences were "anchor + n cycles, moved to that day", and the
  * stored next payment date already sits on it, so re-anchoring there keeps every later date on the same day.

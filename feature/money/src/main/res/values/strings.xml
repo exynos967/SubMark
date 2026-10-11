@@ -261,7 +261,6 @@
     <string name="money_shared_member_status">Status</string>
     <string name="money_shared_status_active_desc">Takes part in the split.</string>
     <string name="money_shared_status_inactive_desc">Temporarily not paying; share is zero.</string>
-    <string name="money_shared_status_pending_desc">Not confirmed yet; share is zero until active.</string>
     <string name="money_shared_ratio_label">Share: %1$d%%</string>
     <string name="money_shared_fixed_amount">Fixed amount per cycle</string>
     <string name="money_shared_equal_auto">In equal split, every active member pays the same; percentages are set automatically.</string>

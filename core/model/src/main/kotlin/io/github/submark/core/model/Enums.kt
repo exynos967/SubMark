@@ -95,7 +95,7 @@ enum class WalletTxnStatus { COMMITTED, REVERSED }
 enum class SplitMode { EQUAL, RATIO, FIXED_AMOUNT, CREATOR_PAYS }
 
 @Serializable
-enum class MemberStatus { ACTIVE, INACTIVE, PENDING }
+enum class MemberStatus { ACTIVE, INACTIVE }
 
 @Serializable
 enum class BundlePaymentSyncMode { ALWAYS, SMART, NEVER }

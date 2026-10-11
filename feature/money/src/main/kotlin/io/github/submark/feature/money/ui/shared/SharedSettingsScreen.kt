@@ -278,7 +278,7 @@ private fun MemberRow(
                 Text(member.name, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Medium)
                 if (member.isCreator) StatusBadge(stringResource(R.string.money_shared_creator_badge), tone = BadgeTone.PRIMARY)
                 if (member.status != MemberStatus.ACTIVE) {
-                    StatusBadge(stringResource(member.status.labelRes), tone = if (member.status == MemberStatus.PENDING) BadgeTone.WARNING else BadgeTone.NEUTRAL)
+                    StatusBadge(stringResource(member.status.labelRes), tone = BadgeTone.NEUTRAL)
                 }
             }
             val detail = when (mode) {
@@ -370,7 +370,6 @@ private fun MemberEditorSheet(
                     when (draft.status) {
                         MemberStatus.ACTIVE -> R.string.money_shared_status_active_desc
                         MemberStatus.INACTIVE -> R.string.money_shared_status_inactive_desc
-                        MemberStatus.PENDING -> R.string.money_shared_status_pending_desc
                     },
                 ),
                 style = MaterialTheme.typography.bodySmall,

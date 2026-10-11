@@ -256,7 +256,6 @@
     <string name="money_shared_member_status">状态</string>
     <string name="money_shared_status_active_desc">参与分摊。</string>
     <string name="money_shared_status_inactive_desc">暂时不付款，分摊为 0。</string>
-    <string name="money_shared_status_pending_desc">尚未确认，参与前分摊为 0。</string>
     <string name="money_shared_ratio_label">分摊比例：%1$d%%</string>
     <string name="money_shared_fixed_amount">每周期固定金额</string>
     <string name="money_shared_equal_auto">平均分摊时每位参与成员金额相同，比例会自动设置。</string>

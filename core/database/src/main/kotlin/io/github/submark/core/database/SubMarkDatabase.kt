@@ -49,9 +49,12 @@ import io.github.submark.core.model.Wallet
 import io.github.submark.core.model.WalletTransaction
 
 @Database(
-    version = 3,
+    version = 4,
     exportSchema = true,
-    autoMigrations = [AutoMigration(from = 1, to = 2, spec = RemoveStoredValueMigration::class)],
+    autoMigrations = [
+        AutoMigration(from = 1, to = 2, spec = RemoveStoredValueMigration::class),
+        AutoMigration(from = 3, to = 4, spec = RemovePendingMemberMigration::class),
+    ],
     entities = [
         Subscription::class, Category::class, Tag::class, SubscriptionTag::class, TagFolder::class, TagFolderTag::class,
         CustomFieldDefinition::class, CustomFieldOption::class, CustomFieldValue::class, SubscriptionPhoto::class,

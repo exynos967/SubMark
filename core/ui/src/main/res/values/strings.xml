@@ -141,7 +141,6 @@
     <string name="ui_split_creator_pays_desc">Members are listed but you cover the whole price.</string>
     <string name="ui_member_active">Active</string>
     <string name="ui_member_inactive">Inactive</string>
-    <string name="ui_member_pending">Invited</string>
     <string name="ui_wallet_kind_balance">Balance account</string>
     <string name="ui_wallet_kind_balance_desc">Tracks real money, counts toward assets and cannot go below zero.</string>
     <string name="ui_wallet_kind_credit">Credit account</string>
