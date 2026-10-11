@@ -10,29 +10,25 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
@@ -40,10 +36,13 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.submark.core.ui.R
 import io.github.submark.core.ui.theme.SubMarkTheme
+import io.github.submark.core.ui.util.colorFromHex
 import io.github.submark.core.ui.util.contentColorFor
 import io.github.submark.core.ui.util.toHex
 
@@ -55,7 +54,7 @@ val DefaultColorPresets: List<Color> = listOf(
 ).map { Color(it.toInt()) }
 
 /**
- * Preset + custom HSV color picker.
+ * Preset swatches + hex input color picker.
  * [onConfirm] receives the chosen color, or null for "use default" (only offered when [allowDefault]).
  */
 @OptIn(ExperimentalLayoutApi::class)
@@ -69,17 +68,13 @@ fun ColorPickerDialog(
     allowDefault: Boolean = true,
 ) {
     val start = initial ?: presets.firstOrNull() ?: Color.Blue
-    val hsv = remember { FloatArray(3).also { android.graphics.Color.colorToHSV(start.toArgb(), it) } }
-    var hue by remember { mutableFloatStateOf(hsv[0]) }
-    var saturation by remember { mutableFloatStateOf(hsv[1]) }
-    var brightness by remember { mutableFloatStateOf(hsv[2]) }
+    var hex by remember { mutableStateOf(start.toHex().removePrefix("#")) }
     var tab by remember { mutableIntStateOf(if (initial == null || initial in presets) 0 else 1) }
-    val current = Color.hsv(hue, saturation, brightness)
+    val parsed = colorFromHex(hex)
+    val current = parsed ?: start
 
     fun select(color: Color) {
-        val out = FloatArray(3)
-        android.graphics.Color.colorToHSV(color.toArgb(), out)
-        hue = out[0]; saturation = out[1]; brightness = out[2]
+        hex = color.toHex().removePrefix("#")
     }
 
     AlertDialog(
@@ -121,29 +116,26 @@ fun ColorPickerDialog(
                         }
                     }
                 } else {
-                    HsvSlider(
-                        label = stringResource(R.string.ui_color_hue),
-                        value = hue / 360f,
-                        onChange = { hue = it * 360f },
-                        brush = Brush.horizontalGradient((0..6).map { Color.hsv(it * 60f % 360f, 1f, 1f) }),
-                    )
-                    HsvSlider(
-                        label = stringResource(R.string.ui_color_saturation),
-                        value = saturation,
-                        onChange = { saturation = it },
-                        brush = Brush.horizontalGradient(listOf(Color.hsv(hue, 0f, brightness), Color.hsv(hue, 1f, brightness))),
-                    )
-                    HsvSlider(
-                        label = stringResource(R.string.ui_color_brightness),
-                        value = brightness,
-                        onChange = { brightness = it },
-                        brush = Brush.horizontalGradient(listOf(Color.Black, Color.hsv(hue, saturation, 1f))),
+                    OutlinedTextField(
+                        value = hex,
+                        onValueChange = { text -> hex = text.removePrefix("#").filter { it.isHexDigit() }.take(8).uppercase() },
+                        label = { Text(stringResource(R.string.ui_color_hex)) },
+                        prefix = { Text("#") },
+                        singleLine = true,
+                        isError = parsed == null,
+                        supportingText = { Text(stringResource(R.string.ui_color_hex_hint)) },
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.Characters,
+                            autoCorrectEnabled = false,
+                            keyboardType = KeyboardType.Ascii,
+                        ),
+                        modifier = Modifier.fillMaxWidth(),
                     )
                 }
             }
         },
         confirmButton = {
-            TextButton(onClick = { onConfirm(current) }) { Text(stringResource(R.string.ui_action_done)) }
+            TextButton(onClick = { onConfirm(current) }, enabled = parsed != null) { Text(stringResource(R.string.ui_action_done)) }
         },
         dismissButton = {
             Row {
@@ -156,27 +148,10 @@ fun ColorPickerDialog(
     )
 }
 
-@Composable
-private fun HsvSlider(label: String, value: Float, onChange: (Float) -> Unit, brush: Brush) {
-    Column {
-        Text(label, style = MaterialTheme.typography.labelMedium)
-        Box(contentAlignment = Alignment.Center) {
-            Box(Modifier.fillMaxWidth().height(10.dp).padding(horizontal = 10.dp).background(brush, RoundedCornerShape(5.dp)))
-            Slider(
-                value = value.coerceIn(0f, 1f),
-                onValueChange = onChange,
-                colors = SliderDefaults.colors(
-                    activeTrackColor = Color.Transparent,
-                    inactiveTrackColor = Color.Transparent,
-                    thumbColor = MaterialTheme.colorScheme.surface,
-                ),
-            )
-        }
-    }
-}
-
 @Preview
 @Composable
 private fun ColorPickerPreview() {
     SubMarkTheme { ColorPickerDialog(initial = Color(0xFF3E63DD), onConfirm = {}, onDismiss = {}) }
 }
+
+private fun Char.isHexDigit(): Boolean = this in '0'..'9' || this in 'a'..'f' || this in 'A'..'F'

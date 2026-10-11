@@ -182,9 +182,8 @@
     <string name="ui_color_picker_title">Pick a color</string>
     <string name="ui_color_presets">Presets</string>
     <string name="ui_color_custom">Custom</string>
-    <string name="ui_color_hue">Hue</string>
-    <string name="ui_color_saturation">Saturation</string>
-    <string name="ui_color_brightness">Brightness</string>
+    <string name="ui_color_hex">Hex color</string>
+    <string name="ui_color_hex_hint">6 digits, e.g. 3E63DD</string>
     <string name="ui_color_use_default">Use default</string>
 
     <!-- Money input -->

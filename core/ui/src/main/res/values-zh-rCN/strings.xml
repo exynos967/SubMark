@@ -165,9 +165,8 @@
     <string name="ui_color_picker_title">选择颜色</string>
     <string name="ui_color_presets">预设</string>
     <string name="ui_color_custom">自定义</string>
-    <string name="ui_color_hue">色相</string>
-    <string name="ui_color_saturation">饱和度</string>
-    <string name="ui_color_brightness">亮度</string>
+    <string name="ui_color_hex">16 进制颜色</string>
+    <string name="ui_color_hex_hint">6 位，例如 3E63DD</string>
     <string name="ui_color_use_default">使用默认</string>
 
     <string name="ui_money_error_empty">请输入金额</string>
