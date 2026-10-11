@@ -43,6 +43,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.submark.core.ui.R
 import io.github.submark.core.ui.theme.SubMarkTheme
@@ -179,9 +180,10 @@ fun SectionHeader(
     modifier: Modifier = Modifier,
     actionLabel: String? = null,
     onAction: (() -> Unit)? = null,
+    horizontalPadding: Dp = 4.dp,
 ) {
     Row(
-        modifier = modifier.fillMaxWidth().padding(horizontal = 4.dp),
+        modifier = modifier.fillMaxWidth().padding(horizontal = horizontalPadding),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
@@ -213,7 +215,8 @@ fun SectionCard(
     ) {
         Column(Modifier.padding(contentPadding)) {
             if (title != null) {
-                SectionHeader(title, actionLabel = actionLabel, onAction = onAction, modifier = Modifier.padding(bottom = 8.dp))
+                // Inside a card the title lines up with the content edge.
+                SectionHeader(title, actionLabel = actionLabel, onAction = onAction, horizontalPadding = 0.dp, modifier = Modifier.padding(bottom = 8.dp))
             }
             content()
         }

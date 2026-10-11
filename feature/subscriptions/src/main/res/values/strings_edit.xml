@@ -92,11 +92,12 @@
     <string name="subscriptions_edit_not_set">Not set</string>
     <string name="subscriptions_edit_note">Note</string>
     <string name="subscriptions_edit_payment_method">Payment method</string>
-    <string name="subscriptions_edit_photo">Photo</string>
-    <string name="subscriptions_edit_photo_add">Add photo</string>
-    <string name="subscriptions_edit_photo_failed">The photo couldn\'t be imported.</string>
-    <string name="subscriptions_edit_photo_remove">Remove photo</string>
-    <string name="subscriptions_edit_photos">Photos</string>
+    <string name="subscriptions_edit_photo">Image</string>
+    <string name="subscriptions_edit_photo_add">Add image</string>
+    <string name="subscriptions_edit_photo_failed">The image couldn\'t be imported.</string>
+    <string name="subscriptions_edit_photo_remove">Remove image</string>
+    <string name="subscriptions_edit_photos">Image attachments</string>
+    <string name="subscriptions_edit_photos_hint">Receipts, order screenshots and the like. Shown only on the detail page.</string>
     <string name="subscriptions_edit_popular">Popular subscriptions</string>
     <string name="subscriptions_edit_prefill_failed">The suggested details couldn\'t be read. Fill in the form manually.</string>
     <string name="subscriptions_edit_price">Price per cycle</string>

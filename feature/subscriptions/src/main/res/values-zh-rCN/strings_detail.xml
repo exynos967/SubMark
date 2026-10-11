@@ -28,7 +28,7 @@
     <string name="subscriptions_detail_copy_note">复制备注</string>
     <string name="subscriptions_detail_custom_fields">自定义字段</string>
     <string name="subscriptions_detail_delete_title">删除“%1$s”？</string>
-    <string name="subscriptions_detail_delete_message">付款记录、照片和提醒也会一并删除，且无法恢复。</string>
+    <string name="subscriptions_detail_delete_message">付款记录、图片附件和提醒也会一并删除，且无法恢复。</string>
     <string name="subscriptions_detail_delete_wallet_message">部分付款已从钱包扣款。要保留这些钱包流水作为历史，还是退回到钱包？</string>
     <string name="subscriptions_detail_delete_keep_wallet">删除，保留钱包流水</string>
     <string name="subscriptions_detail_delete_reverse_wallet">删除并退回钱包扣款</string>
@@ -93,10 +93,10 @@
     <string name="subscriptions_detail_payment_extension_range">延长 %1$s → %2$s</string>
     <string name="subscriptions_detail_payment_history">付款历史</string>
     <string name="subscriptions_detail_purchase_history">购买记录</string>
-    <string name="subscriptions_detail_photo_close">关闭照片</string>
-    <string name="subscriptions_detail_photo_delete">删除照片</string>
-    <string name="subscriptions_detail_photo_delete_title">删除这张照片？</string>
-    <string name="subscriptions_detail_photo_open">查看照片</string>
+    <string name="subscriptions_detail_photo_close">关闭图片</string>
+    <string name="subscriptions_detail_photo_delete">删除图片</string>
+    <string name="subscriptions_detail_photo_delete_title">删除这张图片？</string>
+    <string name="subscriptions_detail_photo_open">查看图片</string>
     <string name="subscriptions_detail_pm_none">无</string>
     <string name="subscriptions_detail_pm_alipay">支付宝</string>
     <string name="subscriptions_detail_pm_apple_pay">Apple Pay</string>
@@ -163,7 +163,7 @@
         <item quantity="other">%d 位活跃成员</item>
     </plurals>
     <plurals name="subscriptions_detail_photos">
-        <item quantity="other">照片（%d）</item>
+        <item quantity="other">图片附件（%d）</item>
     </plurals>
     <plurals name="subscriptions_detail_trial_days_left">
         <item quantity="other">试用剩余 %d 天</item>

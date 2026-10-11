@@ -253,7 +253,6 @@ private fun EditForm(state: SubscriptionEditUiState, form: SubscriptionForm, act
         if (form.kind != FormKind.LIFETIME) PaymentCard(state, form, errors, actions)
         if (form.kind == FormKind.LIFETIME && state.options.wallets.isNotEmpty()) LifetimeWalletCard(state, form, actions)
         if (form.kind == FormKind.BUNDLE && !state.isEdit) BundleCard(state, form, errors, actions)
-        if (settings.showTagManagement) TagsCard(state, form, actions)
         AdditionalCard(state, form, errors, actions)
         if (state.showErrors && errors.isNotEmpty()) {
             Surface(color = MaterialTheme.colorScheme.errorContainer, shape = RoundedCornerShape(12.dp)) {
@@ -814,9 +813,10 @@ private fun ChildCard(index: Int, child: ChildForm, currencySymbol: String?, tod
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun TagsCard(state: SubscriptionEditUiState, form: SubscriptionForm, actions: EditActions) {
+private fun TagsField(state: SubscriptionEditUiState, form: SubscriptionForm, actions: EditActions) {
     var picker by rememberSaveable { mutableStateOf(false) }
-    SectionCard(title = stringResource(R.string.subscriptions_edit_section_tags)) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text(stringResource(R.string.subscriptions_edit_section_tags), style = MaterialTheme.typography.titleSmall)
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             state.options.tags.filter { it.id in form.tagIds }.forEach { tag ->
                 TagChip(tag.name, tag.color, onRemove = { actions.update { f -> f.copy(tagIds = f.tagIds - tag.id) } })
@@ -846,7 +846,7 @@ private fun TagsCard(state: SubscriptionEditUiState, form: SubscriptionForm, act
 private fun AdditionalCard(state: SubscriptionEditUiState, form: SubscriptionForm, errors: List<FormProblem>, actions: EditActions) {
     val settings = state.options.addForm
     val showExtras = settings.showAdditionalOptionsCard
-    if (!settings.showWebsiteField && !settings.showNotesField && !showExtras) return
+    if (!settings.showWebsiteField && !settings.showNotesField && !settings.showTagManagement && !showExtras) return
     SectionCard(title = stringResource(R.string.subscriptions_edit_section_additional)) {
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             if (settings.showWebsiteField) {
@@ -870,6 +870,7 @@ private fun AdditionalCard(state: SubscriptionEditUiState, form: SubscriptionFor
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
+            if (settings.showTagManagement) TagsField(state, form, actions)
             if (showExtras) {
                 val wishlist = form.kind == FormKind.WISHLIST
                 SettingsSwitchRow(
@@ -911,6 +912,7 @@ private fun PhotosSection(photos: List<FormPhoto>, actions: EditActions) {
     val context = androidx.compose.ui.platform.LocalContext.current
     val dir = remember(context) { File(context.filesDir, PhotoStorage.PHOTO_DIR) }
     Text(stringResource(R.string.subscriptions_edit_photos), style = MaterialTheme.typography.titleSmall)
+    HintText(stringResource(R.string.subscriptions_edit_photos_hint))
     LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         items(photos, key = { it.fileName }) { photo ->
             Box(Modifier.size(88.dp)) {

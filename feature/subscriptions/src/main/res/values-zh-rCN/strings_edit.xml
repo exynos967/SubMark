@@ -92,11 +92,12 @@
     <string name="subscriptions_edit_not_set">未设置</string>
     <string name="subscriptions_edit_note">备注</string>
     <string name="subscriptions_edit_payment_method">支付方式</string>
-    <string name="subscriptions_edit_photo">照片</string>
-    <string name="subscriptions_edit_photo_add">添加照片</string>
-    <string name="subscriptions_edit_photo_failed">无法导入这张照片。</string>
-    <string name="subscriptions_edit_photo_remove">移除照片</string>
-    <string name="subscriptions_edit_photos">照片</string>
+    <string name="subscriptions_edit_photo">图片</string>
+    <string name="subscriptions_edit_photo_add">添加图片</string>
+    <string name="subscriptions_edit_photo_failed">无法导入这张图片。</string>
+    <string name="subscriptions_edit_photo_remove">移除图片</string>
+    <string name="subscriptions_edit_photos">图片附件</string>
+    <string name="subscriptions_edit_photos_hint">保存收据、订单截图等，只在详情页显示。</string>
     <string name="subscriptions_edit_popular">热门订阅</string>
     <string name="subscriptions_edit_prefill_failed">无法读取推荐的信息，请手动填写。</string>
     <string name="subscriptions_edit_price">每期价格</string>

@@ -28,7 +28,7 @@
     <string name="subscriptions_detail_copy_note">Copy note</string>
     <string name="subscriptions_detail_custom_fields">Custom fields</string>
     <string name="subscriptions_detail_delete_title">Delete “%1$s”?</string>
-    <string name="subscriptions_detail_delete_message">Its payment history, photos and reminders are removed as well. This can\'t be undone.</string>
+    <string name="subscriptions_detail_delete_message">Its payment history, image attachments and reminders are removed as well. This can\'t be undone.</string>
     <string name="subscriptions_detail_delete_wallet_message">Some payments were charged to wallets. Keep those wallet transactions as history, or refund them to the wallets?</string>
     <string name="subscriptions_detail_delete_keep_wallet">Delete, keep wallet transactions</string>
     <string name="subscriptions_detail_delete_reverse_wallet">Delete and refund wallet charges</string>
@@ -93,10 +93,10 @@
     <string name="subscriptions_detail_payment_extension_range">Extension %1$s → %2$s</string>
     <string name="subscriptions_detail_payment_history">Payment history</string>
     <string name="subscriptions_detail_purchase_history">Purchase history</string>
-    <string name="subscriptions_detail_photo_close">Close photo</string>
-    <string name="subscriptions_detail_photo_delete">Delete photo</string>
-    <string name="subscriptions_detail_photo_delete_title">Delete this photo?</string>
-    <string name="subscriptions_detail_photo_open">Open photo</string>
+    <string name="subscriptions_detail_photo_close">Close image</string>
+    <string name="subscriptions_detail_photo_delete">Delete image</string>
+    <string name="subscriptions_detail_photo_delete_title">Delete this image?</string>
+    <string name="subscriptions_detail_photo_open">Open image</string>
     <string name="subscriptions_detail_pm_none">None</string>
     <string name="subscriptions_detail_pm_alipay">Alipay</string>
     <string name="subscriptions_detail_pm_apple_pay">Apple Pay</string>
@@ -166,8 +166,8 @@
         <item quantity="other">%d active members</item>
     </plurals>
     <plurals name="subscriptions_detail_photos">
-        <item quantity="one">Photo (%d)</item>
-        <item quantity="other">Photos (%d)</item>
+        <item quantity="one">Image attachment (%d)</item>
+        <item quantity="other">Image attachments (%d)</item>
     </plurals>
     <plurals name="subscriptions_detail_trial_days_left">
         <item quantity="one">Trial: %d day left</item>
