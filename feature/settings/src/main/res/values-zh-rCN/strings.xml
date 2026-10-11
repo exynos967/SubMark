@@ -164,8 +164,6 @@
     <string name="settings_list_iap_total">内购累计金额</string>
     <string name="settings_list_iap_total_desc">在显示价格中计入内购</string>
     <string name="settings_list_lifetime_label">终身标签</string>
-    <string name="settings_list_stored_value_balance">预付费显示余额</string>
-    <string name="settings_list_stored_value_balance_desc">预付费订阅显示剩余余额</string>
     <string name="settings_list_copy_notes">复制备注按钮</string>
     <string name="settings_list_copy_notes_desc">一键复制订阅备注</string>
     <string name="settings_customization_manage_group">管理</string>

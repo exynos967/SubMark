@@ -24,7 +24,6 @@ enum class BadgeTone { NEUTRAL, PRIMARY, SECONDARY, TERTIARY, SUCCESS, WARNING, 
 val SubscriptionKind.labelRes: Int
     get() = when (this) {
         SubscriptionKind.REGULAR -> R.string.ui_kind_regular
-        SubscriptionKind.STORED_VALUE -> R.string.ui_kind_stored_value
         SubscriptionKind.LIFETIME -> R.string.ui_kind_lifetime
         SubscriptionKind.WISHLIST -> R.string.ui_kind_wishlist
     }
@@ -86,7 +85,6 @@ val PaymentKind.labelRes: Int
         PaymentKind.IN_APP_PURCHASE -> R.string.ui_payment_kind_iap
         PaymentKind.EXTENSION -> R.string.ui_payment_kind_extension
         PaymentKind.LIFETIME_PURCHASE -> R.string.ui_payment_kind_lifetime
-        PaymentKind.STORED_VALUE_DEPOSIT -> R.string.ui_payment_kind_deposit
     }
 
 @get:StringRes

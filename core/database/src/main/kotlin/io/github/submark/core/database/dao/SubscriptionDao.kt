@@ -28,7 +28,7 @@ interface SubscriptionDao : BaseDao<Subscription> {
 
     /** Active recurring subscriptions with a due date on or before [date]; drives auto-mark and expiry. */
     @Query(
-        """SELECT * FROM subscriptions WHERE status = 'ACTIVE' AND kind IN ('REGULAR','STORED_VALUE')
+        """SELECT * FROM subscriptions WHERE status = 'ACTIVE' AND kind = 'REGULAR'
            AND nextPaymentDate IS NOT NULL AND nextPaymentDate <= :date""",
     )
     suspend fun getActiveDueOnOrBefore(date: LocalDate): List<Subscription>

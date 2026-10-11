@@ -62,7 +62,6 @@ import java.math.RoundingMode
 fun AnalyticsRoute(
     onCustomize: () -> Unit,
     onFinancialDetail: () -> Unit,
-    onStoredValueStats: () -> Unit,
     viewModel: AnalyticsViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -71,7 +70,6 @@ fun AnalyticsRoute(
         uiState = uiState,
         onCustomize = onCustomize,
         onFinancialDetail = onFinancialDetail,
-        onStoredValueStats = onStoredValueStats,
         onModeChange = viewModel::setMode,
         onPeriodChange = viewModel::setPeriod,
         onTrendPeriodChange = viewModel::setTrendPeriod,
@@ -84,7 +82,6 @@ fun AnalyticsScreen(
     uiState: AnalyticsUiState,
     onCustomize: () -> Unit,
     onFinancialDetail: () -> Unit,
-    onStoredValueStats: () -> Unit,
     onModeChange: (SpendingMode) -> Unit,
     onPeriodChange: (SummaryPeriod) -> Unit,
     onTrendPeriodChange: (TrendPeriod) -> Unit,
@@ -176,7 +173,6 @@ fun AnalyticsScreen(
                                     onExpandedChange = onCategoryExpandedChange,
                                 )
                                 AnalyticsComponent.MULTI_DIMENSION -> RadarSection(uiState)
-                                AnalyticsComponent.STORED_VALUE -> StoredValueSection(onStoredValueStats)
                             }
                         }
                     }
@@ -460,22 +456,6 @@ private fun RadarSection(uiState: AnalyticsUiState) {
                 RadarSeries(stringResource(R.string.analytics_radar_count), metrics.count),
                 RadarSeries(stringResource(R.string.analytics_radar_average), metrics.average),
             ),
-        )
-    }
-}
-
-@Composable
-private fun StoredValueSection(onOpen: () -> Unit) {
-    SectionCard(
-        title = stringResource(R.string.analytics_stored_value_title),
-        actionLabel = stringResource(R.string.analytics_stored_value_open),
-        onAction = onOpen,
-        onClick = onOpen,
-    ) {
-        Text(
-            stringResource(R.string.analytics_stored_value_message),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
 }

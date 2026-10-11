@@ -97,19 +97,17 @@ class FinancialAggregatorTest {
     }
 
     @Test
-    fun `type classification tags IAP, shared and stored value`() {
+    fun `type classification tags IAP and shared`() {
         val subs = mapOf(
             "iap1" to sub("iap1"),
             "sh1" to sub("sh1", shared = true),
-            "sv1" to sub("sv1", kind = SubscriptionKind.STORED_VALUE, billing = BillingCycle.MONTHLY),
         )
         val records = listOf(
             record("iap1", LocalDate.of(2026, 9, 1), kind = PaymentKind.IN_APP_PURCHASE),
             record("sh1", LocalDate.of(2026, 9, 2), amount = BigDecimal("5.00")),
-            record("sv1", LocalDate.of(2026, 9, 3), kind = PaymentKind.STORED_VALUE_DEPOSIT, amount = BigDecimal("100.00")),
         )
         val result = FinancialAggregator.aggregate(records, subs, FinancialDetailFilter.INCLUDE_LIFETIME, "USD", converters)
-        assertThat(result.byType.map { it.first }).containsExactly(SpendingType.IAP, SpendingType.SHARED, SpendingType.STORED_VALUE_DEPOSIT)
+        assertThat(result.byType.map { it.first }).containsExactly(SpendingType.IAP, SpendingType.SHARED)
     }
 
     @Test

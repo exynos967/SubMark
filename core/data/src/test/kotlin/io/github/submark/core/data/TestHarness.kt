@@ -16,7 +16,6 @@ import io.github.submark.core.data.seed.DataSeeder
 import io.github.submark.core.data.seed.SystemCategories
 import io.github.submark.core.data.service.PaymentService
 import io.github.submark.core.data.service.SharedService
-import io.github.submark.core.data.service.StoredValueService
 import io.github.submark.core.data.service.SubscriptionDraft
 import io.github.submark.core.data.service.SubscriptionService
 import io.github.submark.core.data.service.WalletLedger
@@ -79,16 +78,15 @@ class TestHarness(start: LocalDate = LocalDate.of(2026, 3, 15)) {
     val customFields = CustomFieldRepository(db.customFieldDao(), tx, time)
     val wallets = WalletService(db.walletDao(), db.subscriptionDao(), ledger, currencies, tx, notifier, time)
     val shared = SharedService(db.sharedDao(), db.subscriptionDao(), tx, notifier, time)
-    val storedValue = StoredValueService(db.storedValueDao(), db.subscriptionDao(), db.paymentDao(), ledger, currencies, tx, notifier, time)
-    val payments = PaymentService(db.paymentDao(), db.subscriptionDao(), db.walletDao(), db.storedValueDao(), storedValue, ledger, tx, notifier, time)
+    val payments = PaymentService(db.paymentDao(), db.subscriptionDao(), db.walletDao(), ledger, tx, notifier, time)
     val subscriptions = SubscriptionService(
         db.subscriptionDao(), db.paymentDao(), db.walletDao(), db.subscriptionExtrasDao(), tags, customFields,
-        payments, storedValue, shared, settings, tx, notifier, time,
+        payments, shared, settings, tx, notifier, time,
     )
     val seeder = DataSeeder(db.categoryDao(), db.paymentMethodDao(), db.currencyDao(), settings)
     val export = ExportService(
         db.categoryDao(), db.tagDao(), db.customFieldDao(), db.paymentMethodDao(), db.currencyDao(), db.walletDao(),
-        db.subscriptionDao(), db.subscriptionExtrasDao(), db.paymentDao(), db.storedValueDao(), db.sharedDao(),
+        db.subscriptionDao(), db.subscriptionExtrasDao(), db.paymentDao(), db.sharedDao(),
         db.priceMonitorDao(), db.popularRepositoryDao(), db.iconRepositoryDao(), db.apiBudgetDao(), db.serviceConnectionDao(),
         seeder, AppInfo(context), Json { ignoreUnknownKeys = true; encodeDefaults = true }, tx, notifier, time,
     )

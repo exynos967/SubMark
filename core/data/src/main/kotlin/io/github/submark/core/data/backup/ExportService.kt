@@ -19,7 +19,6 @@ import io.github.submark.core.database.dao.PopularRepositoryDao
 import io.github.submark.core.database.dao.PriceMonitorDao
 import io.github.submark.core.database.dao.ServiceConnectionDao
 import io.github.submark.core.database.dao.SharedDao
-import io.github.submark.core.database.dao.StoredValueDao
 import io.github.submark.core.database.dao.SubscriptionDao
 import io.github.submark.core.database.dao.SubscriptionExtrasDao
 import io.github.submark.core.database.dao.TagDao
@@ -47,7 +46,6 @@ class ExportService @Inject internal constructor(
     private val subscriptionDao: SubscriptionDao,
     private val extrasDao: SubscriptionExtrasDao,
     private val paymentDao: PaymentDao,
-    private val storedValueDao: StoredValueDao,
     private val sharedDao: SharedDao,
     private val priceMonitorDao: PriceMonitorDao,
     private val popularRepositoryDao: PopularRepositoryDao,
@@ -68,7 +66,7 @@ class ExportService @Inject internal constructor(
 
     fun decode(text: String): DataResult<ExportBundle> {
         val bundle = try {
-            json.decodeFromString(ExportBundle.serializer(), text)
+            json.decodeFromJsonElement(ExportBundle.serializer(), LegacyExport.upgrade(json.parseToJsonElement(text)))
         } catch (e: SerializationException) {
             return DataResult.Failure(DataError.Invalid(InvalidReason.MALFORMED_EXPORT, e.message))
         } catch (e: IllegalArgumentException) {
@@ -118,7 +116,6 @@ class ExportService @Inject internal constructor(
         customReminders = extrasDao.getAllReminders(),
         paymentRecords = paymentDao.getAll(),
         walletTransactions = walletDao.getAllTransactions(),
-        storedValueRecords = storedValueDao.getAll(),
         sharedConfigs = sharedDao.getAllConfigs(),
         sharedMembers = sharedDao.getAllMembers(),
         priceMonitors = priceMonitorDao.getAll(),
@@ -138,7 +135,6 @@ class ExportService @Inject internal constructor(
         extrasDao.deleteAllPhotos()
         extrasDao.deleteAllReminders()
         paymentDao.deleteAll()
-        storedValueDao.deleteAll()
         sharedDao.deleteAllMembers()
         sharedDao.deleteAllConfigs()
         priceMonitorDao.clearRecords()
@@ -189,7 +185,6 @@ class ExportService @Inject internal constructor(
         put("customReminders", b.customReminders, extrasDao::insertIgnoreReminders, extrasDao::upsertReminders)
         put("paymentRecords", b.paymentRecords, paymentDao::insertIgnoreAll, paymentDao::upsertAll)
         put("walletTransactions", b.walletTransactions, walletDao::insertIgnoreTransactions, walletDao::upsertTransactions)
-        put("storedValueRecords", b.storedValueRecords, storedValueDao::insertIgnoreAll, storedValueDao::upsertAll)
         put("sharedConfigs", b.sharedConfigs, sharedDao::insertIgnoreConfigs, sharedDao::upsertConfigs)
         put("sharedMembers", b.sharedMembers, sharedDao::insertIgnoreMembers, sharedDao::upsertMembers)
         put("priceMonitors", b.priceMonitors, priceMonitorDao::insertIgnoreAll, priceMonitorDao::upsertAll)

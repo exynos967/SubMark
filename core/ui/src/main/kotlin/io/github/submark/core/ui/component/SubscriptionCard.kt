@@ -55,7 +55,6 @@ enum class SubscriptionBadge(@StringRes val labelRes: Int, val tone: BadgeTone) 
     TRIAL(R.string.ui_badge_trial, BadgeTone.TERTIARY),
     SHARED(R.string.ui_badge_shared, BadgeTone.SECONDARY),
     SINGLE_CYCLE(R.string.ui_badge_single_cycle, BadgeTone.NEUTRAL),
-    STORED_VALUE(R.string.ui_badge_stored_value, BadgeTone.PRIMARY),
     CHILD(R.string.ui_badge_child, BadgeTone.SECONDARY),
     LIFETIME(R.string.ui_badge_lifetime, BadgeTone.SUCCESS),
     WISHLIST(R.string.ui_badge_wishlist, BadgeTone.TERTIARY),
@@ -71,7 +70,6 @@ enum class SubscriptionBadge(@StringRes val labelRes: Int, val tone: BadgeTone) 
             if (sub.renewalType == RenewalType.TRIAL) add(TRIAL)
             if (sub.isShared) add(SHARED)
             if (sub.isSingleCycle) add(SINGLE_CYCLE)
-            if (sub.kind == SubscriptionKind.STORED_VALUE) add(STORED_VALUE)
             if (sub.bundleRole == BundleRole.CHILD) add(CHILD)
             if (sub.kind == SubscriptionKind.LIFETIME) add(LIFETIME)
             if (sub.kind == SubscriptionKind.WISHLIST) add(WISHLIST)

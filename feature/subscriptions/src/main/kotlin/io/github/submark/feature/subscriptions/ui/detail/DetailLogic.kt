@@ -42,7 +42,7 @@ object DetailLogic {
     const val MAX_EXTEND_DAYS = 1000
     const val MAX_EXTEND_MONTHS = 120
 
-    fun isRecurring(sub: Subscription) = sub.kind == SubscriptionKind.REGULAR || sub.kind == SubscriptionKind.STORED_VALUE
+    fun isRecurring(sub: Subscription) = sub.kind == SubscriptionKind.REGULAR
 
     /** Same conditions as `SubscriptionService.markPaid` (plus not in trial). */
     fun isMarkable(sub: Subscription): Boolean =

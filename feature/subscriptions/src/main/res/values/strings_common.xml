@@ -32,7 +32,6 @@
     <string name="subscriptions_error_invalid_renewal_type">Choose automatic or manual renewal.</string>
     <string name="subscriptions_error_not_wishlist">This item is not on the wishlist.</string>
     <string name="subscriptions_error_wishlist_not_allowed">Wishlist items can\'t be activated this way.</string>
-    <string name="subscriptions_error_read_only">This record can\'t be changed here.</string>
     <string name="subscriptions_error_wallet_deleted">The selected wallet was deleted.</string>
     <string name="subscriptions_error_wallet_inactive">The selected wallet is inactive.</string>
     <string name="subscriptions_error_wallet_unsupported">This wallet can\'t pay for that.</string>

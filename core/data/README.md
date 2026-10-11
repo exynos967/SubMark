@@ -18,7 +18,7 @@ Package root: `io.github.submark.core.data`. Everything is a Hilt `@Singleton`; 
 - **App start.** Contribute `change.AppStartListener` (`suspend fun onAppStart()`) with `@Binds @IntoSet` for work needed at every launch; the app calls all of them after seeding and `processDue()`.
 - **Time.** Inject `TimeProvider` (`today(): LocalDate`, `now(): Instant`, `zone(): ZoneId`); never call `LocalDate.now()`.
 - **System notes.** Notes the data layer writes start with `@` (`SystemNotes.PAYMENT_DELETED`, `PAYMENT_EDITED`,
-  `SUBSCRIPTION_DELETED`, `STORED_VALUE_RECORD_DELETED`, `INITIAL_BALANCE`); localize them, check with `SystemNotes.isSystem(note)`.
+  `SUBSCRIPTION_DELETED`, legacy `STORED_VALUE_RECORD_DELETED`, `INITIAL_BALANCE`); localize them, check with `SystemNotes.isSystem(note)`.
   Payment records carry no generated note text: derive labels from `kind`/`source`/`markTiming`/`extensionFrom..To`.
 
 ## App wiring (owned by `app`)
@@ -139,30 +139,29 @@ Photo files are managed by the caller.
 | Method | Description |
 |---|---|
 | `suspend findDuplicateAppStoreId(appStoreId, excludeId = ""): Subscription?` | For the "Add anyway" dialog. |
-| `suspend create(draft: SubscriptionDraft): DataResult<String>` | Validates, schedules (history, LIFETIME purchase + optional wallet charge, STORED_VALUE initial deposit), bundle MAIN + children, tags, custom fields. Returns main id. |
+| `suspend create(draft: SubscriptionDraft): DataResult<String>` | Validates, schedules (history, LIFETIME purchase + optional wallet charge), bundle MAIN + children, tags, custom fields. Returns main id. |
 | `suspend update(draft): DataResult<Unit>` | Start date locked once payments exist; schedule recomputed when cycle/trial/start/single-cycle end change. Children are edited individually. |
 | `suspend hasWalletCharges(id): Boolean` | Whether to show the keep/reverse wallet dialog. |
 | `suspend delete(id, reverseWalletCharges = false): DataResult<DeleteOutcome>` | Deletes (MAIN: + children); returns photo file names to remove. |
 | `suspend pause(id)` / `activate(id)` | Activate moves a past next date to the first occurrence from today (no backfill). |
 | `suspend restoreFromArchive(id)` | ACTIVE, anchor = next = today, expired end date cleared. |
-| `suspend markPaid(id, newCycle: Boolean, source = USER_MANUAL): DataResult<MarkPaidOutcome>` | Current due occurrence paid today (early always allowed). Shared → user's share; wallet-linked → charged (failure saves nothing); stored value → deduction; bundle MAIN → payment sync. |
+| `suspend markPaid(id, newCycle: Boolean, source = USER_MANUAL): DataResult<MarkPaidOutcome>` | Current due occurrence paid today (early always allowed). Shared → user's share; wallet-linked → charged (failure saves nothing); bundle MAIN → payment sync. |
 | `suspend extend(id, by: ExtendBy, fee: BigDecimal?, expectedUpdatedAt: Instant): DataResult<LocalDate>` | Single-cycle only; EXTENSION record; `Stale` when changed. |
 | `suspend resolveTrial(id, renewal: AUTO\|MANUAL): DataResult<MarkPaidOutcome>` | TRIAL_EXPIRED payment dated trial end. |
 | `suspend activateWishlist(id, toLifetime: Boolean, walletId: String? = null): DataResult<Unit>` | Start = today. |
-| `suspend processDue(): ProcessDueSummary` | AUTO backfill (SYSTEM_OVERDUE past / SYSTEM_AUTO today), stored-value auto deduction, auto-pause expired, report trial ends and wallet failures. |
+| `suspend processDue(): ProcessDueSummary` | AUTO backfill (SYSTEM_OVERDUE past / SYSTEM_AUTO today), auto-pause expired, report trial ends and wallet failures. |
 
-`SubscriptionDraft(subscription, tagIds, customFieldValues, generateHistory, purchaseWalletId, initialDeposit,
-initialDepositWalletId, children, allowDuplicateAppStoreId)` — `subscription` carries form fields; timestamps and
+`SubscriptionDraft(subscription, tagIds, customFieldValues, generateHistory, purchaseWalletId,
+children, allowDuplicateAppStoreId)` — `subscription` carries form fields; timestamps and
 schedule fields are assigned by the service. `ExtendBy.Days(1..1000)`, `Months(1..120)`, `Until(date)`.
 
 ### `service.PaymentService`
 | Method | Description |
 |---|---|
 | `observeAll()`, `observeForSubscription(id)`, `observeBetween(from, to)`, `observe(id)`, `suspend get(id)` | Reads. |
-| `isReadOnly(record)` | STORED_VALUE_DEPOSIT records are edited via `StoredValueService`. |
 | `suspend add(NewPayment): DataResult<AddPaymentOutcome>` | SUCCESS-only date effects: regular latest payment → next = date + cycle; END_DATE (target ≥ payment date and ≥ current end); NEXT_BILLING (clears end date); IAP never moves dates; sync price; wallet charge; reactivates a paused subscription whose new coverage is after today. Stores prev* dates. |
 | `suspend edit(PaymentEdit): DataResult<PaymentRecord>` | Amount/currency/date/status/IAP/note; wallet re-charged with compensating transactions; optional stale check. |
-| `suspend delete(id): DataResult<Unit>` | Wallet reversal in the same transaction; restores prev* dates if it is the latest date-moving record and nothing changed since; deposits delegate to stored value rules. |
+| `suspend delete(id): DataResult<Unit>` | Wallet reversal in the same transaction; restores prev* dates if it is the latest date-moving record and nothing changed since. |
 
 ### `service.WalletService`
 | Method | Description |
@@ -178,12 +177,6 @@ schedule fields are assigned by the service. `ExtendBy.Days(1..1000)`, `Months(1
 | `WalletService.coverage(subscription, wallet, converter, linkedCount): WalletCoverage` | Payable cycles / covers-until (null = unlimited). |
 
 Kind rules: BALANCE_TRACKED never negative; CREDIT down to `-creditLimit` (null = unlimited); SETTLEMENT_ONLY unlimited.
-
-### `service.StoredValueService`
-`observeRecords(subscriptionId)`, `observeAllRecords()`,
-`topUp(subscriptionId, amount, currencyCode, description?, walletId?): DataResult<StoredValueRecord>` (DEPOSIT + STORED_VALUE_DEPOSIT payment),
-`deleteRecord(recordId)` (deposit: refused if balance would go negative; deletes its payment, reverses its wallet charge),
-`recomputeBalance(subscriptionId): DataResult<BigDecimal>`.
 
 ### `service.SharedService`
 `observeConfig(id)`, `observeMembers(id)`, `observeAllConfigs()`, `observeAllMembers()`,

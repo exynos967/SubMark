@@ -208,7 +208,6 @@ private fun PosterTag(text: String, color: Color) {
 private fun typeLabel(sub: Subscription): String = stringResource(
     when {
         sub.kind == SubscriptionKind.LIFETIME -> R.string.share_type_lifetime
-        sub.kind == SubscriptionKind.STORED_VALUE -> R.string.share_type_stored_value
         sub.bundleRole == BundleRole.MAIN -> R.string.share_type_bundle
         sub.bundleRole == BundleRole.CHILD -> R.string.share_type_child
         sub.isShared -> R.string.share_type_shared

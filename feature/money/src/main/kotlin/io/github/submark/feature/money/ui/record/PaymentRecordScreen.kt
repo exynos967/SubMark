@@ -13,7 +13,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
-import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FilledTonalButton
@@ -62,7 +61,6 @@ import io.github.submark.core.ui.R as CoreR
 fun PaymentRecordRoute(
     onBack: () -> Unit,
     onEdit: (subscriptionId: String, paymentId: String) -> Unit,
-    onOpenStoredValue: (subscriptionId: String) -> Unit,
     onOpenWalletActivity: (walletId: String) -> Unit,
     viewModel: PaymentRecordViewModel = hiltViewModel(),
 ) {
@@ -75,7 +73,6 @@ fun PaymentRecordRoute(
         onEdit = { state.record?.let { onEdit(it.subscriptionId, it.id) } },
         onDelete = viewModel::delete,
         onDismissError = viewModel::dismissError,
-        onOpenStoredValue = { state.record?.let { onOpenStoredValue(it.subscriptionId) } },
         onOpenWalletActivity = { state.wallet?.let { onOpenWalletActivity(it.id) } },
     )
 }
@@ -88,7 +85,6 @@ fun PaymentRecordScreen(
     onEdit: () -> Unit,
     onDelete: () -> Unit,
     onDismissError: () -> Unit,
-    onOpenStoredValue: () -> Unit,
     onOpenWalletActivity: () -> Unit,
 ) {
     var confirmDelete by rememberSaveable { mutableStateOf(false) }
@@ -196,19 +192,8 @@ fun PaymentRecordScreen(
                     }
                 }
 
-                if (state.readOnly) {
-                    SectionCard {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(Icons.Rounded.Lock, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
-                            Spacer(Modifier.padding(4.dp))
-                            Text(stringResource(R.string.money_record_read_only_deposit), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
-                        }
-                        TextButton(onClick = onOpenStoredValue) { Text(stringResource(R.string.money_record_open_stored_value)) }
-                    }
-                }
-
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
-                    FilledTonalButton(onClick = onEdit, enabled = !state.readOnly, modifier = Modifier.weight(1f)) {
+                    FilledTonalButton(onClick = onEdit, modifier = Modifier.weight(1f)) {
                         Icon(Icons.Rounded.Edit, contentDescription = null)
                         Spacer(Modifier.padding(4.dp))
                         Text(stringResource(R.string.money_record_edit))
@@ -236,7 +221,6 @@ fun PaymentRecordScreen(
             if (record.kind == PaymentKind.EXTENSION || record.dateAdjustmentMode != DateAdjustmentMode.NONE) {
                 add(stringResource(R.string.money_record_delete_extension_note))
             }
-            if (record.kind == PaymentKind.STORED_VALUE_DEPOSIT) add(stringResource(R.string.money_record_delete_deposit_note))
         }
         ConfirmDialog(
             title = stringResource(R.string.money_record_delete_title),

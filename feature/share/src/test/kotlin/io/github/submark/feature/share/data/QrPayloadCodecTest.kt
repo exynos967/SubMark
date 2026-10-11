@@ -166,14 +166,14 @@ class QrPayloadCodecTest {
     @Test
     fun `toPrefill maps fields and sanitizes kinds`() {
         val payload = QrPayloadCodec.fromSubscription(
-            sub = subscription(kind = SubscriptionKind.STORED_VALUE),
+            sub = subscription(kind = SubscriptionKind.WISHLIST),
             category = category,
             sharerName = "Alice",
             description = "",
             includePrivate = true,
         )
         val prefill = QrPayloadCodec.toPrefill(payload)
-        assertThat(prefill.kind).isEqualTo(SubscriptionKind.REGULAR) // stored value imported as regular
+        assertThat(prefill.kind).isEqualTo(SubscriptionKind.REGULAR) // wishlist imported as regular
         assertThat(prefill.name).isEqualTo("Netflix")
         assertThat(prefill.price).isEqualTo(BigDecimal("15.49"))
         assertThat(prefill.currencyCode).isEqualTo("USD")

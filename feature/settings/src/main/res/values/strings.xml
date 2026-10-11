@@ -165,8 +165,6 @@
     <string name="settings_list_iap_total">In-app purchase totals</string>
     <string name="settings_list_iap_total_desc">Add in-app purchases to the shown price</string>
     <string name="settings_list_lifetime_label">Lifetime label</string>
-    <string name="settings_list_stored_value_balance">Prepaid balance instead of price</string>
-    <string name="settings_list_stored_value_balance_desc">Prepaid subscriptions show their remaining balance</string>
     <string name="settings_list_copy_notes">Copy notes button</string>
     <string name="settings_list_copy_notes_desc">Copy a subscription note with one tap</string>
     <string name="settings_customization_manage_group">Manage</string>

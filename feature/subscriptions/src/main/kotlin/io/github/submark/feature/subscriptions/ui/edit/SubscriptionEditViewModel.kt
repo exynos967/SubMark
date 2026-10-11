@@ -100,7 +100,6 @@ data class SubscriptionEditUiState(
     val photos: List<FormPhoto> = emptyList(),
     val startDateLocked: Boolean = false,
     val walletProblem: DataError? = null,
-    val depositWalletProblem: DataError? = null,
     val problems: List<FormProblem> = emptyList(),
     val showErrors: Boolean = false,
     val saving: Boolean = false,
@@ -168,41 +167,24 @@ class SubscriptionEditViewModel @Inject constructor(
     private val startLocked: Flow<Boolean> =
         if (editId != null) payments.observeForSubscription(editId).map { it.isNotEmpty() }.distinctUntilChanged() else flowOf(false)
 
-    private val walletProblems: Flow<Pair<DataError?, DataError?>> = session
+    private val walletProblem: Flow<DataError?> = session
         .map { s ->
             val f = s.form
-            if (f == null) {
-                WalletCheck(null, null, null)
-            } else {
-                val price = MoneyInput.parse(f.priceText)
-                val deposit = MoneyInput.parse(f.initialDepositText)
-                WalletCheck(
-                    f.walletId?.takeIf { f.kind != FormKind.WISHLIST && price != null && price.signum() > 0 }?.let { it to price!! },
-                    f.depositWalletId?.takeIf { !isEdit && f.kind == FormKind.STORED_VALUE && deposit != null && deposit.signum() > 0 }?.let { it to deposit!! },
-                    f.currencyCode,
-                )
-            }
+            val price = f?.let { MoneyInput.parse(it.priceText) }
+            f?.walletId?.takeIf { f.kind != FormKind.WISHLIST && price != null && price.signum() > 0 }
+                ?.let { WalletCheck(it, price!!, f.currencyCode) }
         }
         .distinctUntilChanged()
-        .mapLatest { check ->
-            val code = check.currencyCode ?: return@mapLatest null to null
-            val main = check.main?.let { (id, amount) -> wallets.chargeProblem(id, amount, code) }
-            val deposit = check.deposit?.let { (id, amount) -> wallets.chargeProblem(id, amount, code) }
-            main to deposit
-        }
+        .mapLatest { check -> check?.let { wallets.chargeProblem(it.walletId, it.amount, it.currencyCode) } }
 
-    private data class WalletCheck(
-        val main: Pair<String, java.math.BigDecimal>?,
-        val deposit: Pair<String, java.math.BigDecimal>?,
-        val currencyCode: String?,
-    )
+    private data class WalletCheck(val walletId: String, val amount: java.math.BigDecimal, val currencyCode: String)
 
     val uiState: StateFlow<SubscriptionEditUiState> = combine(
         session,
         options,
         combine(storedPhotos, startLocked, ::Pair),
-        walletProblems,
-    ) { s, opts, (stored, locked), (walletProblem, depositProblem) ->
+        walletProblem,
+    ) { s, opts, (stored, locked), walletProblem ->
         val form = s.form
         val fields = form?.let { SubscriptionFormLogic.applicableFields(opts.allFields, it.categoryId) }.orEmpty()
         SubscriptionEditUiState(
@@ -217,7 +199,6 @@ class SubscriptionEditViewModel @Inject constructor(
             photos = stored + s.pendingPhotos.map { FormPhoto(null, it) },
             startDateLocked = locked,
             walletProblem = walletProblem,
-            depositWalletProblem = depositProblem,
             problems = form?.let { SubscriptionFormLogic.validate(it, opts.allFields, isEdit) }.orEmpty(),
             showErrors = s.showErrors,
             saving = s.saving,

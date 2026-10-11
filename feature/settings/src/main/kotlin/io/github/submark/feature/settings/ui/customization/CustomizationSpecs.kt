@@ -83,10 +83,6 @@ internal object CustomizationSpecs {
             { it.list.showLifetimeLabel }, { s, v -> s.copy(list = s.list.copy(showLifetimeLabel = v)) },
         ),
         ToggleSpec(
-            R.string.settings_list_stored_value_balance, R.string.settings_list_stored_value_balance_desc,
-            { it.list.storedValueBalanceMode }, { s, v -> s.copy(list = s.list.copy(storedValueBalanceMode = v)) },
-        ),
-        ToggleSpec(
             R.string.settings_list_copy_notes, R.string.settings_list_copy_notes_desc,
             { it.list.showCopyNotesButton }, { s, v -> s.copy(list = s.list.copy(showCopyNotesButton = v)) },
         ),

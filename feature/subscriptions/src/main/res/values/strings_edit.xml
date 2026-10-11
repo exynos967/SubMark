@@ -26,10 +26,6 @@
     <string name="subscriptions_edit_cycle">Billing cycle</string>
     <string name="subscriptions_edit_cycle_every">Every</string>
     <string name="subscriptions_edit_cycle_unit">Unit</string>
-    <string name="subscriptions_edit_deposit_amount">Initial balance</string>
-    <string name="subscriptions_edit_deposit_hint">Optional. Recorded as a top-up and counted as spending.</string>
-    <string name="subscriptions_edit_deposit_section">Stored value</string>
-    <string name="subscriptions_edit_deposit_wallet">Pay the initial balance from</string>
     <string name="subscriptions_edit_discard_confirm">Discard</string>
     <string name="subscriptions_edit_discard_keep">Keep editing</string>
     <string name="subscriptions_edit_discard_message">Your changes haven\'t been saved.</string>
@@ -55,7 +51,6 @@
     <string name="subscriptions_edit_error_child_name">Included subscription %1$d needs a name.</string>
     <string name="subscriptions_edit_error_child_price">Included subscription %1$d needs a valid price.</string>
     <string name="subscriptions_edit_error_custom_cycle">Enter a whole number from 1 to 1000.</string>
-    <string name="subscriptions_edit_error_deposit">Enter a valid initial balance.</string>
     <string name="subscriptions_edit_error_end_after_start">The end date must be at least one day after the start date.</string>
     <string name="subscriptions_edit_error_field_invalid">“%1$s” has an invalid value.</string>
     <string name="subscriptions_edit_error_field_required">“%1$s” is required.</string>
@@ -91,7 +86,6 @@
     <string name="subscriptions_edit_kind_bundle_desc">One main subscription that includes several others, each with its own schedule.</string>
     <string name="subscriptions_edit_kind_lifetime_desc">Paid once, yours to keep. Recorded as a single purchase.</string>
     <string name="subscriptions_edit_kind_regular_desc">Paid once every cycle; each payment counts as spending.</string>
-    <string name="subscriptions_edit_kind_stored_value_desc">Top up first, then the fee is taken from the balance each cycle. Top-ups count as spending; deductions only lower the balance. Good for phone credit or cloud balances.</string>
     <string name="subscriptions_edit_kind_wishlist_desc">Something you\'re considering. Not counted in any totals.</string>
     <string name="subscriptions_edit_name">Name</string>
     <string name="subscriptions_edit_name_hint">e.g. Music streaming</string>
@@ -109,7 +103,6 @@
     <string name="subscriptions_edit_price">Price per cycle</string>
     <string name="subscriptions_edit_price_free">A price of 0 is shown as free.</string>
     <string name="subscriptions_edit_price_lifetime">Purchase price</string>
-    <string name="subscriptions_edit_price_stored_value">Fee per cycle</string>
     <string name="subscriptions_edit_price_wishlist">Expected price (optional)</string>
     <string name="subscriptions_edit_purchase_date">Purchase date</string>
     <string name="subscriptions_edit_purchase_wallet">Pay from wallet</string>

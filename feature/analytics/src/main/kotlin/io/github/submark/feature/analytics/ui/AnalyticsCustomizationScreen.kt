@@ -181,6 +181,5 @@ private fun componentLabel(id: AnalyticsComponent): String = stringResource(
         AnalyticsComponent.HEATMAP -> R.string.analytics_component_heatmap
         AnalyticsComponent.CATEGORY -> R.string.analytics_component_category
         AnalyticsComponent.MULTI_DIMENSION -> R.string.analytics_component_multi_dimension
-        AnalyticsComponent.STORED_VALUE -> R.string.analytics_component_stored_value
     },
 )

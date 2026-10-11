@@ -12,8 +12,6 @@ import io.github.submark.core.ui.navigation.PaymentHistoryRoute as PaymentHistor
 import io.github.submark.core.ui.navigation.PaymentMethodManagementRoute as PaymentMethodDest
 import io.github.submark.core.ui.navigation.PaymentRecordRoute as PaymentRecordDest
 import io.github.submark.core.ui.navigation.SharedSettingsRoute as SharedSettingsDest
-import io.github.submark.core.ui.navigation.StoredValueRecordsRoute as StoredValueDest
-import io.github.submark.core.ui.navigation.StoredValueStatsRoute as StoredValueStatsDest
 import io.github.submark.core.ui.navigation.WalletActivityRoute as WalletActivityDest
 import io.github.submark.core.ui.navigation.WalletManagementRoute as WalletManagementDest
 import io.github.submark.feature.money.ui.addpayment.AddPaymentRoute
@@ -25,8 +23,6 @@ import io.github.submark.feature.money.ui.history.PaymentHistoryRoute
 import io.github.submark.feature.money.ui.paymentmethod.PaymentMethodManagementRoute
 import io.github.submark.feature.money.ui.record.PaymentRecordRoute
 import io.github.submark.feature.money.ui.shared.SharedSettingsRoute
-import io.github.submark.feature.money.ui.storedvalue.StoredValueRecordsRoute
-import io.github.submark.feature.money.ui.storedvalue.StoredValueStatsRoute
 import io.github.submark.feature.money.ui.wallet.WalletActivityRoute
 import io.github.submark.feature.money.ui.wallet.WalletManagementRoute
 
@@ -45,19 +41,10 @@ fun NavGraphBuilder.moneyGraph(navController: NavController) {
         PaymentRecordRoute(
             onBack = back,
             onEdit = { subscriptionId, paymentId -> navController.navigate(AddPaymentDest(subscriptionId, paymentId)) },
-            onOpenStoredValue = { navController.navigate(StoredValueDest(it)) },
             onOpenWalletActivity = { navController.navigate(WalletActivityDest(it)) },
         )
     }
     composable<AddPaymentDest> { AddPaymentRoute(onBack = back) }
-
-    composable<StoredValueDest> { StoredValueRecordsRoute(onBack = back) }
-    composable<StoredValueStatsDest> {
-        StoredValueStatsRoute(
-            onBack = back,
-            onOpenRecords = { navController.navigate(StoredValueDest(it)) },
-        )
-    }
 
     composable<SharedSettingsDest> { SharedSettingsRoute(onBack = back) }
 

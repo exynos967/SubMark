@@ -122,34 +122,9 @@ data class WalletTransaction(
     val sourceCurrencyCode: String? = null,
     val subscriptionId: String? = null,
     val paymentRecordId: String? = null,
-    val storedValueRecordId: String? = null,
     /** Set on the compensating transaction. */
     val reversesTransactionId: String? = null,
     val note: String? = null,
-    val occurredAt: Timestamp,
-    val createdAt: Timestamp,
-)
-
-@Serializable
-@Entity(
-    tableName = "stored_value_records",
-    indices = [Index("subscriptionId")],
-    foreignKeys = [ForeignKey(entity = Subscription::class, parentColumns = ["id"], childColumns = ["subscriptionId"], onDelete = ForeignKey.CASCADE)],
-)
-data class StoredValueRecord(
-    @PrimaryKey val id: String = newId(),
-    val subscriptionId: String,
-    val type: StoredValueRecordType,
-    /** > 0, in [currencyCode]. */
-    val amount: Money,
-    val currencyCode: String,
-    val amountInSubscriptionCurrency: Money,
-    val balanceAfter: Money,
-    val description: String? = null,
-    val isInitial: Boolean = false,
-    /** DEPOSIT -> its STORED_VALUE_DEPOSIT payment record. */
-    val paymentRecordId: String? = null,
-    val walletTransactionId: String? = null,
     val occurredAt: Timestamp,
     val createdAt: Timestamp,
 )

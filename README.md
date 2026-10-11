@@ -38,7 +38,7 @@
 
 | | |
 |---|---|
-| **四种类型** | 周期订阅、储值（充值卡 / 余额类）、买断、愿望单 |
+| **四种类型** | 周期订阅、买断、组合订阅、愿望单 |
 | **灵活周期** | 周 / 月 / 季 / 半年 / 年，以及任意天数、周数、月数、年数的自定义周期 |
 | **续费方式** | 自动续费、手动续费、免费试用（试用结束时提醒你转为续费或取消） |
 | **整理** | 分类、标签、文件夹、自定义字段，支持归档已停用的订阅 |
@@ -57,7 +57,7 @@
 
 - **概览**：本期支出、即将到来、未来 7 天付款计划、最近付款、钱包余额，模块可自由排序和开关；订阅与买断分开统计
 - **日历**：月视图与时间线两种模式，左右滑动翻月，彩色圆点标记付款日
-- **统计**：支出趋势、付款热力图、分类占比、多维度雷达图、储值卡统计
+- **统计**：支出趋势、付款热力图、分类占比、多维度雷达图
 - **全局搜索**：按名称、备注、标签查找任何订阅
 
 ### 🔔 提醒与小组件
@@ -152,7 +152,7 @@ core/
   ui                主题、通用组件、图表
 feature/
   subscriptions     订阅列表、详情、编辑、分类/标签/字段管理
-  money             付款、钱包、货币、预算、储值
+  money             付款、钱包、货币、预算
   overview          概览与全局搜索
   calendar          日历
   analytics         统计
@@ -174,6 +174,6 @@ SubMark 以 [GNU Affero General Public License v3.0](LICENSE) 发布。
 
 ## English
 
-**SubMark** is an open-source, offline-first subscription and expense tracker for Android. Track recurring subscriptions, stored-value plans, lifetime purchases and wishlist items; see what you really spend per month and year; get reminders before each payment; and view everything in an overview, calendar and analytics dashboard. Data stays on your device, with optional local and WebDAV backups.
+**SubMark** is an open-source, offline-first subscription and expense tracker for Android. Track recurring subscriptions, bundles, lifetime purchases and wishlist items; see what you really spend per month and year; get reminders before each payment; and view everything in an overview, calendar and analytics dashboard. Data stays on your device, with optional local and WebDAV backups.
 
 Download the APK for your device's architecture from [Releases](https://github.com/exynos967/SubMark/releases) (most phones: `arm64-v8a`). Requires Android 10+. Licensed under [AGPL-3.0](LICENSE).

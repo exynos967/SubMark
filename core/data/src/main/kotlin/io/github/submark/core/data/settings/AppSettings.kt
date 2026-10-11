@@ -9,7 +9,8 @@ import java.time.LocalTime
 
 /*
  * Every field has a default so settings written by older versions keep decoding when fields are added.
- * Enum values must only ever be appended; removing one would drop the whole file back to defaults.
+ * A removed enum value falls back to the field default (coerceInputValues); inside component lists the
+ * entry is dropped instead (LenientListSerializer).
  */
 
 @Serializable
@@ -74,7 +75,6 @@ data class ListSettings(
     val showEndDateForFixedCycle: Boolean = false,
     val showIapTotalPrice: Boolean = false,
     val showLifetimeLabel: Boolean = true,
-    val storedValueBalanceMode: Boolean = false,
     val showCopyNotesButton: Boolean = false,
 )
 
@@ -92,14 +92,17 @@ data class ComponentSetting<T>(val id: T, val visible: Boolean = true)
 data class OverviewSettings(
     val period: SummaryPeriod = SummaryPeriod.MONTH,
     val mode: SpendingMode = SpendingMode.SUBSCRIPTIONS,
+    @Serializable(with = LenientListSerializer::class)
     val modernComponents: List<ComponentSetting<ModernOverviewComponent>> =
         ModernOverviewComponent.entries.map { ComponentSetting(it) },
 )
 
 @Serializable
 data class AnalyticsSettings(
+    @Serializable(with = LenientListSerializer::class)
     val subscriptionComponents: List<ComponentSetting<AnalyticsComponent>> =
         AnalyticsComponent.entries.map { ComponentSetting(it) },
+    @Serializable(with = LenientListSerializer::class)
     val lifetimeComponents: List<ComponentSetting<AnalyticsComponent>> =
         listOf(AnalyticsComponent.FINANCIAL_OVERVIEW, AnalyticsComponent.TREND, AnalyticsComponent.HEATMAP, AnalyticsComponent.CATEGORY)
             .map { ComponentSetting(it) },

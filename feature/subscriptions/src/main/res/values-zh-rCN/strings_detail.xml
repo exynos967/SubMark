@@ -130,14 +130,6 @@
     <string name="subscriptions_detail_status_active">使用中</string>
     <string name="subscriptions_detail_status_expired">已过期</string>
     <string name="subscriptions_detail_status_inactive">已暂停</string>
-    <string name="subscriptions_detail_stored_value_fee">每期扣除 %1$s</string>
-    <string name="subscriptions_detail_stored_value_title">储值余额</string>
-    <string name="subscriptions_detail_stored_value_unlimited">每期无扣费，余额可一直使用</string>
-    <string name="subscriptions_detail_sv_debt">欠费</string>
-    <string name="subscriptions_detail_sv_empty">余额不足</string>
-    <string name="subscriptions_detail_sv_low">余额偏低</string>
-    <string name="subscriptions_detail_sv_sufficient">充足</string>
-    <string name="subscriptions_detail_sv_zero">已用完</string>
     <string name="subscriptions_detail_trial_title">试用期已结束</string>
     <string name="subscriptions_detail_trial_message">“%1$s”的试用已于 %2$s 结束。记录首次付款，并选择之后的续订方式。</string>
     <string name="subscriptions_detail_trial_auto">记录付款，自动续订</string>
@@ -172,12 +164,6 @@
     </plurals>
     <plurals name="subscriptions_detail_photos">
         <item quantity="other">照片（%d）</item>
-    </plurals>
-    <plurals name="subscriptions_detail_stored_value_cycles">
-        <item quantity="other">还够支付 %d 期</item>
-    </plurals>
-    <plurals name="subscriptions_detail_stored_value_debt_cycles">
-        <item quantity="other">约欠 %d 期费用</item>
     </plurals>
     <plurals name="subscriptions_detail_trial_days_left">
         <item quantity="other">试用剩余 %d 天</item>

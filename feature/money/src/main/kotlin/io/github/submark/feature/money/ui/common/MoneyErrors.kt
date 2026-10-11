@@ -48,7 +48,6 @@ val InvalidReason.messageRes: Int
         InvalidReason.NOT_WISHLIST -> R.string.money_invalid_not_wishlist
         InvalidReason.WISHLIST_NOT_ALLOWED -> R.string.money_invalid_wishlist
         InvalidReason.ADJUSTMENT_TARGET_INVALID -> R.string.money_invalid_adjustment_target
-        InvalidReason.READ_ONLY_RECORD -> R.string.money_invalid_read_only
         InvalidReason.CURRENCY_LOCKED -> R.string.money_invalid_currency_locked
         InvalidReason.WALLET_DELETED -> R.string.money_invalid_wallet_deleted
         InvalidReason.WALLET_INACTIVE -> R.string.money_invalid_wallet_inactive

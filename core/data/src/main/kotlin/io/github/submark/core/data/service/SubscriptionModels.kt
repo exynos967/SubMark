@@ -3,7 +3,6 @@ package io.github.submark.core.data.service
 import io.github.submark.core.data.result.DataError
 import io.github.submark.core.model.MarkTiming
 import io.github.submark.core.model.Subscription
-import java.math.BigDecimal
 import java.time.LocalDate
 
 /**
@@ -19,9 +18,6 @@ data class SubscriptionDraft(
     val generateHistory: Boolean = false,
     /** LIFETIME: charge the purchase to this wallet. */
     val purchaseWalletId: String? = null,
-    /** STORED_VALUE: initial deposit in the subscription currency, optionally funded by a wallet. */
-    val initialDeposit: BigDecimal? = null,
-    val initialDepositWalletId: String? = null,
     /** Non-empty = create a bundle: this draft becomes MAIN, these become CHILD subscriptions (create only). */
     val children: List<SubscriptionDraft> = emptyList(),
     /** Skip the duplicate App Store id check ("Add anyway"). */

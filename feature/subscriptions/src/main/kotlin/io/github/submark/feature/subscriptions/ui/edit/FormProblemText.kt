@@ -11,7 +11,6 @@ fun FormProblem.toUiText(): UiText = when (this) {
     FormProblem.TrialDays -> UiText.res(R.string.subscriptions_edit_error_trial_days)
     FormProblem.EndNotAfterStart -> UiText.res(R.string.subscriptions_edit_error_end_after_start)
     FormProblem.SingleCycleNeedsEnd -> UiText.res(R.string.subscriptions_edit_error_single_cycle_end)
-    FormProblem.Deposit -> UiText.res(R.string.subscriptions_edit_error_deposit)
     FormProblem.BundleNeedsChild -> UiText.res(R.string.subscriptions_edit_error_bundle_child)
     is FormProblem.ChildBlankName -> UiText.res(R.string.subscriptions_edit_error_child_name, index + 1)
     is FormProblem.ChildPrice -> UiText.res(R.string.subscriptions_edit_error_child_price, index + 1)

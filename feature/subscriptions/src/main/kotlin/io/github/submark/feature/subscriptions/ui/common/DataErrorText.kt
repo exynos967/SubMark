@@ -41,7 +41,6 @@ fun InvalidReason.toUiText(): UiText = UiText.res(
         InvalidReason.NOT_WISHLIST -> R.string.subscriptions_error_not_wishlist
         InvalidReason.WISHLIST_NOT_ALLOWED -> R.string.subscriptions_error_wishlist_not_allowed
         InvalidReason.ADJUSTMENT_TARGET_INVALID -> R.string.subscriptions_error_generic_invalid
-        InvalidReason.READ_ONLY_RECORD -> R.string.subscriptions_error_read_only
         InvalidReason.CURRENCY_LOCKED -> R.string.subscriptions_error_generic_invalid
         InvalidReason.WALLET_DELETED -> R.string.subscriptions_error_wallet_deleted
         InvalidReason.WALLET_INACTIVE -> R.string.subscriptions_error_wallet_inactive

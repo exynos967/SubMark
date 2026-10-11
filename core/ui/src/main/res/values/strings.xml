@@ -104,7 +104,6 @@
 
     <!-- Enums -->
     <string name="ui_kind_regular">Recurring</string>
-    <string name="ui_kind_stored_value">Prepaid balance</string>
     <string name="ui_kind_lifetime">Lifetime purchase</string>
     <string name="ui_kind_wishlist">Wishlist</string>
     <string name="ui_status_active">Active</string>
@@ -119,7 +118,6 @@
     <string name="ui_payment_kind_iap">In-app purchase</string>
     <string name="ui_payment_kind_extension">Extension</string>
     <string name="ui_payment_kind_lifetime">One-time purchase</string>
-    <string name="ui_payment_kind_deposit">Top-up</string>
     <string name="ui_payment_source_manual">Marked by you</string>
     <string name="ui_payment_source_auto">Auto-recorded</string>
     <string name="ui_payment_source_overdue">Back-filled</string>
@@ -209,7 +207,6 @@
     <string name="ui_badge_trial">Trial</string>
     <string name="ui_badge_shared">Shared</string>
     <string name="ui_badge_single_cycle">One period</string>
-    <string name="ui_badge_stored_value">Prepaid</string>
     <string name="ui_badge_child">In bundle</string>
     <string name="ui_badge_lifetime">Paid off</string>
     <string name="ui_badge_wishlist">Wishlist</string>

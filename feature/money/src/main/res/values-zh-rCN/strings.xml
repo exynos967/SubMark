@@ -34,7 +34,6 @@
     <string name="money_invalid_not_wishlist">该项目不在心愿单中。</string>
     <string name="money_invalid_wishlist">心愿单项目不能记录付款，请先激活。</string>
     <string name="money_invalid_adjustment_target">目标日期无效：不能早于付款日期或当前结束日期。</string>
-    <string name="money_invalid_read_only">这条记录是只读的。</string>
     <string name="money_invalid_currency_locked">钱包已有交易，币种已锁定。</string>
     <string name="money_invalid_wallet_deleted">该钱包已删除。</string>
     <string name="money_invalid_wallet_inactive">该钱包已停用。</string>
@@ -127,21 +126,17 @@
     <string name="money_record_wallet">钱包</string>
     <string name="money_record_wallet_txn_missing">这台设备上找不到这笔付款对应的钱包交易。</string>
     <string name="money_record_wallet_charged">扣款</string>
-    <string name="money_record_read_only_deposit">储值充值不能在这里编辑，请到储值记录中管理。</string>
-    <string name="money_record_open_stored_value">打开储值记录</string>
     <string name="money_record_edit">编辑</string>
     <string name="money_record_delete">删除</string>
     <string name="money_record_delete_title">删除这条付款？</string>
     <string name="money_record_delete_message">记录会从历史和所有统计中移除。</string>
     <string name="money_record_delete_wallet_note">钱包扣款会同时退回；如果退回失败，记录不会被删除。</string>
     <string name="money_record_delete_extension_note">如果这是最近一条改动订阅日期的记录，会恢复之前的日期；否则保持当前日期不变。</string>
-    <string name="money_record_delete_deposit_note">这笔充值会从储值余额中扣除；如果余额会变成负数，则无法删除。</string>
     <string name="money_record_delete_failed">无法删除</string>
     <string name="money_record_delete_wallet_failed">钱包扣款无法退回，记录已保留。%1$s</string>
     <!-- Add / edit payment -->
     <string name="money_add_title">添加付款</string>
     <string name="money_add_title_edit">编辑付款</string>
-    <string name="money_add_read_only">这条记录是只读的，无法编辑。</string>
     <string name="money_add_edit_wallet_note">修改金额、币种或状态时，会退回原钱包扣款并按新金额重新扣款。</string>
     <string name="money_add_linked_subscription">关联订阅</string>
     <string name="money_add_shared_badge">共享</string>
@@ -213,61 +208,8 @@
     <string name="money_add_result_reactivated">订阅已恢复启用。</string>
     <string name="money_add_result_wallet">已从钱包扣款。</string>
     <!-- Stored value -->
-    <string name="money_sv_title">储值</string>
-    <string name="money_sv_top_up">充值</string>
-    <string name="money_sv_top_up_title">储值充值</string>
-    <string name="money_sv_not_stored_value">该订阅不是储值类型，无法充值。</string>
-    <string name="money_sv_balance">余额</string>
-    <string name="money_sv_current_balance">当前余额</string>
-    <string name="money_sv_fee">每周期费用</string>
-    <string name="money_sv_payable_cycles">可支付周期</string>
-    <string name="money_sv_debt_cycles">欠费周期</string>
-    <string name="money_sv_filter_all">全部</string>
-    <string name="money_sv_filter_deposit">充值</string>
-    <string name="money_sv_filter_deduction">扣费</string>
-    <string name="money_sv_search_hint">搜索说明、金额或日期</string>
-    <string name="money_sv_empty">暂无储值记录</string>
-    <string name="money_sv_empty_message">充值后即可开始记录余额。</string>
-    <string name="money_sv_default_initial">初始存入</string>
-    <string name="money_sv_default_top_up">充值</string>
-    <string name="money_sv_default_deduction">自动扣费</string>
-    <string name="money_sv_balance_after">变动后余额：%1$s</string>
-    <string name="money_sv_balance_after_label">充值后余额</string>
-    <string name="money_sv_converted">计入余额</string>
-    <string name="money_sv_delete_cd">删除记录</string>
-    <string name="money_sv_delete_title">删除这条记录？</string>
-    <string name="money_sv_delete_deposit_message">这笔充值及其付款记录、钱包扣款都会被移除，余额相应减少；如果余额会变成负数则无法删除。</string>
-    <string name="money_sv_delete_deduction_message">这笔扣费会被移除，金额退回余额。</string>
-    <string name="money_sv_deleted">记录已删除</string>
-    <string name="money_sv_topup_done">充值已保存</string>
-    <string name="money_sv_fund_wallet">从钱包支付</string>
-    <string name="money_sv_fund_wallet_desc">从你的某个钱包中扣除这笔充值。</string>
-    <string name="money_sv_preview_enter_amount">输入金额即可查看充值后的余额。</string>
-    <plurals name="money_sv_cycles">
-        <item quantity="other">%d 个周期</item>
-    </plurals>
-    <string name="money_sv_status_sufficient">余额充足</string>
-    <string name="money_sv_status_low">余额偏低</string>
-    <string name="money_sv_status_empty">不足一个周期</string>
-    <string name="money_sv_status_zero">余额为零</string>
-    <string name="money_sv_status_debt">已欠费</string>
 
     <!-- Stored value stats -->
-    <string name="money_svs_title">储值统计</string>
-    <string name="money_svs_overview">概览</string>
-    <string name="money_svs_total_balance">总余额</string>
-    <string name="money_svs_count">储值订阅数</string>
-    <string name="money_svs_this_month">本月充值</string>
-    <string name="money_svs_this_year">今年充值</string>
-    <string name="money_svs_top_ups">充值情况</string>
-    <string name="money_svs_period_total">合计</string>
-    <string name="money_svs_period_count">充值次数</string>
-    <string name="money_svs_avg_daily">日均充值</string>
-    <string name="money_svs_avg_monthly">月均充值</string>
-    <string name="money_svs_note">金额按今天的汇率换算为默认货币。</string>
-    <string name="money_svs_subscriptions">订阅</string>
-    <string name="money_svs_empty">暂无储值订阅</string>
-    <string name="money_svs_empty_message">创建储值类型的订阅后，余额会显示在这里。</string>
     <string name="money_period_all_time">全部时间</string>
     <string name="money_period_this_month">本月</string>
     <string name="money_period_last_month">上月</string>
@@ -525,7 +467,6 @@
     <string name="money_fin_type_lifetime">买断</string>
     <string name="money_fin_type_shared">共享订阅</string>
     <string name="money_fin_type_iap">应用内购买</string>
-    <string name="money_fin_type_stored">储值充值</string>
     <string name="money_fin_type_bundle">组合子订阅</string>
     <!-- Payment methods -->
     <string name="money_pm_title">支付方式</string>

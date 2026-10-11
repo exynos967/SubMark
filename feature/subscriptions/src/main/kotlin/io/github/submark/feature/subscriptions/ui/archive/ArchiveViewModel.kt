@@ -53,7 +53,7 @@ object ArchiveLogic {
         items.filter { item ->
             val sub = item.subscription
             sub.status == SubscriptionStatus.PAUSED &&
-                if (lifetime) sub.kind == SubscriptionKind.LIFETIME else sub.kind == SubscriptionKind.REGULAR || sub.kind == SubscriptionKind.STORED_VALUE
+                if (lifetime) sub.kind == SubscriptionKind.LIFETIME else sub.kind == SubscriptionKind.REGULAR
         }
             .filter { SubscriptionListLogic.matches(it, ListFilter(query = query)) }
             .sortedWith(compareByDescending<SubscriptionItem> { it.subscription.pausedAt ?: Instant.EPOCH }.thenBy { it.subscription.name.lowercase() })

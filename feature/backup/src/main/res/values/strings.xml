@@ -71,7 +71,6 @@
     <string name="backup_count_customReminders">Reminders</string>
     <string name="backup_count_paymentRecords">Payment records</string>
     <string name="backup_count_walletTransactions">Wallet transactions</string>
-    <string name="backup_count_storedValueRecords">Stored-value records</string>
     <string name="backup_count_sharedConfigs">Shared configs</string>
     <string name="backup_count_sharedMembers">Shared members</string>
 

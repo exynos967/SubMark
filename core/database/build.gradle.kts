@@ -6,6 +6,8 @@ plugins {
 
 android {
     namespace = "io.github.submark.core.database"
+    // MigrationTestHelper reads the exported schemas as assets.
+    sourceSets.getByName("test").assets.srcDir("$projectDir/schemas")
 }
 
 room {
@@ -19,4 +21,6 @@ dependencies {
     ksp(libs.room.compiler)
     implementation(libs.kotlinx.serialization.json)
     testImplementation(libs.room.testing)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core)
 }

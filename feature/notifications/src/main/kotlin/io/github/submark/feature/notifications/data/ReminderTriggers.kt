@@ -42,7 +42,7 @@ object ReminderTriggers {
     /** A subscription gets payment reminders only when it is active and recurring with a due date. */
     fun isReminderEligible(sub: Subscription): Boolean =
         sub.status == SubscriptionStatus.ACTIVE &&
-            (sub.kind == SubscriptionKind.REGULAR || sub.kind == SubscriptionKind.STORED_VALUE) &&
+            sub.kind == SubscriptionKind.REGULAR &&
             sub.renewalType != RenewalType.TRIAL &&
             sub.nextPaymentDate != null
 

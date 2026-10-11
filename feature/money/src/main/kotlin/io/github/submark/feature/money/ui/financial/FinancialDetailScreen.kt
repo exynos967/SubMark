@@ -243,7 +243,6 @@ private fun spendingTypeRes(t: SpendingType): Int = when (t) {
     SpendingType.LIFETIME -> R.string.money_fin_type_lifetime
     SpendingType.SHARED -> R.string.money_fin_type_shared
     SpendingType.IAP -> R.string.money_fin_type_iap
-    SpendingType.STORED_VALUE_DEPOSIT -> R.string.money_fin_type_stored
     SpendingType.BUNDLE_CHILD -> R.string.money_fin_type_bundle
 }
 

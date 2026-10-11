@@ -27,7 +27,6 @@ data class ExportBundle(
     val customReminders: List<CustomReminder> = emptyList(),
     val paymentRecords: List<PaymentRecord> = emptyList(),
     val walletTransactions: List<WalletTransaction> = emptyList(),
-    val storedValueRecords: List<StoredValueRecord> = emptyList(),
     val sharedConfigs: List<SharedConfig> = emptyList(),
     val sharedMembers: List<SharedMember> = emptyList(),
     val priceMonitors: List<PriceMonitor> = emptyList(),

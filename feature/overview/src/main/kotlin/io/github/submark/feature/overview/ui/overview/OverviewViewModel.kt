@@ -237,11 +237,11 @@ class OverviewViewModel @Inject constructor(
         }
 
         // Counts
-        val subCount = visible.count { it.kind == SubscriptionKind.REGULAR || it.kind == SubscriptionKind.STORED_VALUE }
+        val subCount = visible.count { it.kind == SubscriptionKind.REGULAR }
         val purchaseCount = visible.count { it.kind == SubscriptionKind.LIFETIME }
         val activeCount = visible.count {
             it.status == SubscriptionStatus.ACTIVE &&
-                (it.kind == SubscriptionKind.REGULAR || it.kind == SubscriptionKind.STORED_VALUE)
+                it.kind == SubscriptionKind.REGULAR
         }
         val firstCreated = visible.minByOrNull { it.createdAt }?.createdAt
         val addedDays = if (firstCreated != null) {

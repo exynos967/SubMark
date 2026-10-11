@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 /** What kind of spending a subscription row represents. A bundle is not a kind: see [BundleRole]. */
 @Serializable
-enum class SubscriptionKind { REGULAR, STORED_VALUE, LIFETIME, WISHLIST }
+enum class SubscriptionKind { REGULAR, LIFETIME, WISHLIST }
 
 @Serializable
 enum class BundleRole { NONE, MAIN, CHILD }
@@ -58,8 +58,6 @@ enum class PaymentKind {
     /** End-date extension; never moves the billing schedule, never charges a wallet. */
     EXTENSION,
     LIFETIME_PURCHASE,
-    /** Money put into a stored-value subscription. Counted as spending; deductions are not. */
-    STORED_VALUE_DEPOSIT,
 }
 
 @Serializable
@@ -92,9 +90,6 @@ enum class WalletTxnType { TOP_UP, EXPENSE, REFUND, ADJUSTMENT }
 
 @Serializable
 enum class WalletTxnStatus { COMMITTED, REVERSED }
-
-@Serializable
-enum class StoredValueRecordType { DEPOSIT, DEDUCTION }
 
 @Serializable
 enum class SplitMode { EQUAL, RATIO, FIXED_AMOUNT, CREATOR_PAYS }

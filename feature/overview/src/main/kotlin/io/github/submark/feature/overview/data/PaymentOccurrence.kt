@@ -38,7 +38,7 @@ object PaymentProjection {
 
     /** Not every subscription contributes to the payment calendar / overview math. */
     fun counts(sub: Subscription): Boolean =
-        (sub.kind == SubscriptionKind.REGULAR || sub.kind == SubscriptionKind.STORED_VALUE) &&
+        sub.kind == SubscriptionKind.REGULAR &&
             sub.status == SubscriptionStatus.ACTIVE
 
     data class Report(

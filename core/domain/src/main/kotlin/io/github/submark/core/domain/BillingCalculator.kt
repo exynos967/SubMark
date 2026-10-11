@@ -194,7 +194,7 @@ object BillingCalculator {
     fun isOverdue(sub: Subscription, today: LocalDate): Boolean {
         val next = sub.nextPaymentDate ?: return false
         return sub.status == SubscriptionStatus.ACTIVE &&
-            (sub.kind == SubscriptionKind.REGULAR || sub.kind == SubscriptionKind.STORED_VALUE) &&
+            sub.kind == SubscriptionKind.REGULAR &&
             next < today
     }
 

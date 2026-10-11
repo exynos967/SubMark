@@ -40,7 +40,7 @@ enum class ModernOverviewComponent {
 
 /** FINANCIAL_OVERVIEW is always shown; its visibility flag is ignored by the UI. */
 @Serializable
-enum class AnalyticsComponent { FINANCIAL_OVERVIEW, TREND, HEATMAP, CATEGORY, MULTI_DIMENSION, STORED_VALUE }
+enum class AnalyticsComponent { FINANCIAL_OVERVIEW, TREND, HEATMAP, CATEGORY, MULTI_DIMENSION }
 
 @Serializable enum class PosterStyle { MINIMAL, MODERN, GRADIENT, COLORFUL }
 

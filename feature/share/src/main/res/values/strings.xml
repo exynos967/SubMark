@@ -21,7 +21,6 @@
     <string name="share_type_bundle">Bundle</string>
     <string name="share_type_child">Bundle item</string>
     <string name="share_type_shared">Shared</string>
-    <string name="share_type_stored_value">Stored-value</string>
     <string name="share_type_lifetime">Lifetime</string>
     <string name="share_badge_auto_renew">Auto Renew</string>
     <string name="share_badge_lifetime">Lifetime</string>

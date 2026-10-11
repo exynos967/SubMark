@@ -36,7 +36,7 @@ object OccurrenceProjector {
     /** Recurring subscriptions that produce due occurrences; paused and wishlist are excluded. */
     fun isProjectable(sub: Subscription): Boolean =
         sub.status == SubscriptionStatus.ACTIVE &&
-            (sub.kind == SubscriptionKind.REGULAR || sub.kind == SubscriptionKind.STORED_VALUE) &&
+            sub.kind == SubscriptionKind.REGULAR &&
             BillingCalculator.cycleLength(sub) != null
 
     /**

@@ -323,7 +323,6 @@ private fun BasicInfoCard(state: SubscriptionEditUiState, form: SubscriptionForm
                     label = stringResource(
                         when (form.kind) {
                             FormKind.LIFETIME -> R.string.subscriptions_edit_price_lifetime
-                            FormKind.STORED_VALUE -> R.string.subscriptions_edit_price_stored_value
                             FormKind.WISHLIST -> R.string.subscriptions_edit_price_wishlist
                             else -> R.string.subscriptions_edit_price
                         },
@@ -396,7 +395,6 @@ private fun BasicInfoCard(state: SubscriptionEditUiState, form: SubscriptionForm
 
 private fun availableKinds(state: SubscriptionEditUiState): List<FormKind> = buildList {
     add(FormKind.REGULAR)
-    add(FormKind.STORED_VALUE)
     add(FormKind.LIFETIME)
     if (!state.isEdit && (state.options.addForm.showLocalBundleOption || state.form?.kind == FormKind.BUNDLE)) add(FormKind.BUNDLE)
     if (state.options.wishlistEnabled || state.form?.kind == FormKind.WISHLIST) add(FormKind.WISHLIST)
@@ -405,7 +403,6 @@ private fun availableKinds(state: SubscriptionEditUiState): List<FormKind> = bui
 @Composable
 private fun kindLabel(kind: FormKind): String = when (kind) {
     FormKind.REGULAR -> stringResource(SubscriptionKind.REGULAR.labelRes)
-    FormKind.STORED_VALUE -> stringResource(SubscriptionKind.STORED_VALUE.labelRes)
     FormKind.LIFETIME -> stringResource(SubscriptionKind.LIFETIME.labelRes)
     FormKind.WISHLIST -> stringResource(SubscriptionKind.WISHLIST.labelRes)
     FormKind.BUNDLE -> stringResource(R.string.subscriptions_edit_kind_bundle)
@@ -415,7 +412,6 @@ private fun kindLabel(kind: FormKind): String = when (kind) {
 private fun kindDescription(kind: FormKind): String = stringResource(
     when (kind) {
         FormKind.REGULAR -> R.string.subscriptions_edit_kind_regular_desc
-        FormKind.STORED_VALUE -> R.string.subscriptions_edit_kind_stored_value_desc
         FormKind.LIFETIME -> R.string.subscriptions_edit_kind_lifetime_desc
         FormKind.WISHLIST -> R.string.subscriptions_edit_kind_wishlist_desc
         FormKind.BUNDLE -> R.string.subscriptions_edit_kind_bundle_desc
@@ -617,28 +613,6 @@ private fun PaymentCard(state: SubscriptionEditUiState, form: SubscriptionForm, 
                     checked = form.generateHistory,
                     onCheckedChange = { on -> actions.update { it.copy(generateHistory = on) } },
                 )
-            }
-            if (!state.isEdit && form.kind == FormKind.STORED_VALUE) {
-                Text(stringResource(R.string.subscriptions_edit_deposit_section), style = MaterialTheme.typography.titleSmall)
-                MoneyInputField(
-                    value = form.initialDepositText,
-                    onValueChange = { v -> actions.update { it.copy(initialDepositText = v) } },
-                    label = stringResource(R.string.subscriptions_edit_deposit_amount),
-                    currencySymbol = state.options.currencies.firstOrNull { it.code == form.currencyCode }?.symbol,
-                    allowZero = true,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-                HintText(stringResource(R.string.subscriptions_edit_deposit_hint))
-                if (state.options.wallets.isNotEmpty()) {
-                    WalletSelect(
-                        label = stringResource(R.string.subscriptions_edit_deposit_wallet),
-                        state = state,
-                        selectedId = form.depositWalletId,
-                        onSelect = { id -> actions.update { it.copy(depositWalletId = id) } },
-                        problem = state.depositWalletProblem?.toUiText()?.asString(),
-                        hint = null,
-                    )
-                }
             }
         }
     }

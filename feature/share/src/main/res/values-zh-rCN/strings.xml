@@ -21,7 +21,6 @@
     <string name="share_type_bundle">套餐</string>
     <string name="share_type_child">套餐子项</string>
     <string name="share_type_shared">共享订阅</string>
-    <string name="share_type_stored_value">储值订阅</string>
     <string name="share_type_lifetime">买断</string>
     <string name="share_badge_auto_renew">自动续费</string>
     <string name="share_badge_lifetime">买断</string>

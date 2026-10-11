@@ -169,7 +169,7 @@ class AnalyticsViewModel @Inject constructor(
             sub == null -> false
             sub.parentId != null -> modeOf(subsById[sub.parentId]) // bundle children follow their parent
             isLifetimeMode -> sub.kind == SubscriptionKind.LIFETIME
-            else -> sub.kind == SubscriptionKind.REGULAR || sub.kind == SubscriptionKind.STORED_VALUE
+            else -> sub.kind == SubscriptionKind.REGULAR
         }
 
         val modePays = loaded.pays.filter { it.status == PaymentStatus.SUCCESS && modeOf(subsById[it.subscriptionId]) }
@@ -199,7 +199,7 @@ class AnalyticsViewModel @Inject constructor(
 
         val activeCount = loaded.subs.count {
             it.parentId == null && it.status == SubscriptionStatus.ACTIVE &&
-                (it.kind == SubscriptionKind.REGULAR || it.kind == SubscriptionKind.STORED_VALUE)
+                it.kind == SubscriptionKind.REGULAR
         }
         val lifetimeCount = loaded.subs.count { it.parentId == null && it.kind == SubscriptionKind.LIFETIME }
         val yearStart = LocalDate.of(today.year, 1, 1)

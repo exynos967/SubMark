@@ -74,9 +74,6 @@
     <string name="analytics_radar_average">Average</string>
 
     <!-- Stored value -->
-    <string name="analytics_stored_value_title">Stored Value Statistics</string>
-    <string name="analytics_stored_value_message">Top-ups, balances and deductions across stored-value subscriptions.</string>
-    <string name="analytics_stored_value_open">Open statistics</string>
 
     <!-- Customization -->
     <string name="analytics_custom_title">Customize Analytics</string>
@@ -92,7 +89,6 @@
     <string name="analytics_component_heatmap">Activity heatmap</string>
     <string name="analytics_component_category">Category analysis</string>
     <string name="analytics_component_multi_dimension">Multi-dimension</string>
-    <string name="analytics_component_stored_value">Stored value stats</string>
 
     <!-- Per-subscription analysis -->
     <string name="analytics_detail_title">Analysis</string>

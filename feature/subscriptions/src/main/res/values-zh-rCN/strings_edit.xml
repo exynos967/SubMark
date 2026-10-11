@@ -26,10 +26,6 @@
     <string name="subscriptions_edit_cycle">计费周期</string>
     <string name="subscriptions_edit_cycle_every">每</string>
     <string name="subscriptions_edit_cycle_unit">单位</string>
-    <string name="subscriptions_edit_deposit_amount">初始余额</string>
-    <string name="subscriptions_edit_deposit_hint">可选。会记录为一次充值并计入支出。</string>
-    <string name="subscriptions_edit_deposit_section">储值</string>
-    <string name="subscriptions_edit_deposit_wallet">初始余额的扣款钱包</string>
     <string name="subscriptions_edit_discard_confirm">放弃</string>
     <string name="subscriptions_edit_discard_keep">继续编辑</string>
     <string name="subscriptions_edit_discard_message">你的修改还没有保存。</string>
@@ -55,7 +51,6 @@
     <string name="subscriptions_edit_error_child_name">子订阅 %1$d 需要名称。</string>
     <string name="subscriptions_edit_error_child_price">子订阅 %1$d 需要有效的价格。</string>
     <string name="subscriptions_edit_error_custom_cycle">请输入 1 到 1000 之间的整数。</string>
-    <string name="subscriptions_edit_error_deposit">请输入有效的初始余额。</string>
     <string name="subscriptions_edit_error_end_after_start">结束日期必须比开始日期至少晚一天。</string>
     <string name="subscriptions_edit_error_field_invalid">“%1$s”的值无效。</string>
     <string name="subscriptions_edit_error_field_required">“%1$s”为必填项。</string>
@@ -91,7 +86,6 @@
     <string name="subscriptions_edit_kind_bundle_desc">一个主订阅包含多个子订阅，各自有独立的计费安排。</string>
     <string name="subscriptions_edit_kind_lifetime_desc">一次付清、长期使用，只记录一次购买。</string>
     <string name="subscriptions_edit_kind_regular_desc">每个周期付一次款，每次付款都计入支出。</string>
-    <string name="subscriptions_edit_kind_stored_value_desc">先充值再按周期从余额扣费。充值时计入支出，扣费只减少余额，适合话费、云服务余额等。</string>
     <string name="subscriptions_edit_kind_wishlist_desc">正在考虑的项目，不计入任何统计。</string>
     <string name="subscriptions_edit_name">名称</string>
     <string name="subscriptions_edit_name_hint">例如：音乐会员</string>
@@ -109,7 +103,6 @@
     <string name="subscriptions_edit_price">每期价格</string>
     <string name="subscriptions_edit_price_free">价格为 0 将显示为免费。</string>
     <string name="subscriptions_edit_price_lifetime">购买价格</string>
-    <string name="subscriptions_edit_price_stored_value">每期扣费</string>
     <string name="subscriptions_edit_price_wishlist">预期价格（可选）</string>
     <string name="subscriptions_edit_purchase_date">购买日期</string>
     <string name="subscriptions_edit_purchase_wallet">从钱包付款</string>

@@ -16,7 +16,7 @@ app ──► feature:* ──► core:ui ─┐
 | Module | Contents | May depend on |
 |---|---|---|
 | `core:model` | Domain models (also Room entities via `room-common`), enums, serializers, `ExportBundle`, `SubscriptionPrefill` | nothing Android |
-| `core:domain` | Pure calculation: `BillingCalculator`, `CostCalculator`, `CurrencyConverter`, `SplitCalculator`, `StoredValueCalculator` | model |
+| `core:domain` | Pure calculation: `BillingCalculator`, `CostCalculator`, `CurrencyConverter`, `SplitCalculator` | model |
 | `core:database` | Room DB, converters, DAOs (one file per domain) | model |
 | `core:data` | Repositories/services (transactions that span tables), settings (DataStore), `SecretStore`, HTTP client, rate providers, seeding, change-event bus | model, domain, database |
 | `core:ui` | Theme, formatting, shared composables, `navigation/Routes.kt` (the navigation contract) | model, domain |
@@ -55,7 +55,7 @@ Features talk to each other only through:
 | Fixed payment day | Month/year cycles only; applies to occurrences after the anchor. |
 | Mark paid | ORIGINAL_CYCLE keeps the anchor; NEW_CYCLE re-bases the anchor to the payment date. Early marking always allowed with that choice. |
 | Archive | Not stored. PAUSED + archive-mode pref = archived. Restore: ACTIVE, anchor = next = today, expired end date cleared. |
-| Stored value | Top-ups create a `STORED_VALUE_DEPOSIT` payment (counted as spending). Auto deductions only change the balance + create a `StoredValueRecord`, so money is never counted twice. |
+| Stored value (removed in DB v2) | The balance lives with the provider, so SubMark only records spending: top-ups are logged as in-app purchases. `RemoveStoredValueMigration` / `LegacyExport` convert old databases and backups the same way. |
 | Wallets | One DB transaction for payment + wallet transaction + balance. Deletes/edits create compensating transactions. Soft-deleted wallets are never touched. |
 | Price monitoring | App price only (iTunes lookup API). In-app purchase prices have no public API → out of scope. |
 | Calendar sync | Events in an app-owned local calendar via `CalendarContract`. No "Reminders" equivalent on Android. |

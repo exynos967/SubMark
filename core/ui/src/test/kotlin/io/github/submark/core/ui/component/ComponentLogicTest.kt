@@ -33,11 +33,10 @@ class ComponentLogicTest {
             renewalType = RenewalType.TRIAL,
             isShared = true,
             bundleRole = BundleRole.CHILD,
-            kind = SubscriptionKind.STORED_VALUE,
         )
         assertThat(SubscriptionBadge.of(busy, today)).containsExactly(
             SubscriptionBadge.OVERDUE, SubscriptionBadge.TRIAL, SubscriptionBadge.SHARED,
-            SubscriptionBadge.STORED_VALUE, SubscriptionBadge.CHILD,
+            SubscriptionBadge.CHILD,
         ).inOrder()
         assertThat(SubscriptionBadge.of(sub.copy(status = SubscriptionStatus.PAUSED, nextPaymentDate = today.minusDays(1)), today))
             .containsExactly(SubscriptionBadge.PAUSED)

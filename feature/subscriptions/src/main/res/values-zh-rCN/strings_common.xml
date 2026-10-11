@@ -30,7 +30,6 @@
     <string name="subscriptions_error_invalid_renewal_type">请选择自动续订或手动续订。</string>
     <string name="subscriptions_error_not_wishlist">该项目不在心愿单中。</string>
     <string name="subscriptions_error_wishlist_not_allowed">心愿单项目不能这样启用。</string>
-    <string name="subscriptions_error_read_only">此记录不能在这里修改。</string>
     <string name="subscriptions_error_wallet_deleted">所选钱包已被删除。</string>
     <string name="subscriptions_error_wallet_inactive">所选钱包已停用。</string>
     <string name="subscriptions_error_wallet_unsupported">该钱包无法支付此项。</string>

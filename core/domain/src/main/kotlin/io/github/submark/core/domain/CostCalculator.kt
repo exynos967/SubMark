@@ -37,7 +37,7 @@ object CostCalculator {
     /** Recurring subscriptions that count toward projected spending. */
     fun countsTowardRecurringCost(sub: Subscription): Boolean =
         sub.status == SubscriptionStatus.ACTIVE &&
-            (sub.kind == SubscriptionKind.REGULAR || sub.kind == SubscriptionKind.STORED_VALUE)
+            sub.kind == SubscriptionKind.REGULAR
 
     /** Monthly equivalent in the subscription's own currency, or null if it has no recurring cost. */
     fun monthlyOf(sub: Subscription): BigDecimal? {

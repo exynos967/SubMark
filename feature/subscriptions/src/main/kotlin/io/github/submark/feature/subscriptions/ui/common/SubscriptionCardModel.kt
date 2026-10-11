@@ -21,7 +21,6 @@ import io.github.submark.core.ui.format.asString
 import io.github.submark.core.ui.format.displayName
 import io.github.submark.core.ui.util.colorFromHex
 import io.github.submark.feature.subscriptions.R
-import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.format.FormatStyle
 
@@ -42,23 +41,19 @@ object SubscriptionCardModel {
         return end?.let { CardDate(CardDateKind.END, it) }
     }
 
-    /** Stored-value balance instead of the price when balance mode is on. */
-    fun amount(sub: Subscription, list: ListSettings): BigDecimal =
-        if (list.storedValueBalanceMode && sub.kind == SubscriptionKind.STORED_VALUE) sub.storedValueBalance else sub.price
-
     fun badges(sub: Subscription, today: LocalDate, list: ListSettings): List<SubscriptionBadge> =
         SubscriptionBadge.of(sub, today).filter { it != SubscriptionBadge.LIFETIME || list.showLifetimeLabel }
 
     /** Countdown only for active recurring items with a next date. */
     fun dueDate(sub: Subscription): LocalDate? =
         sub.nextPaymentDate?.takeIf {
-            sub.status == SubscriptionStatus.ACTIVE && (sub.kind == SubscriptionKind.REGULAR || sub.kind == SubscriptionKind.STORED_VALUE)
+            sub.status == SubscriptionStatus.ACTIVE && sub.kind == SubscriptionKind.REGULAR
         }
 
     /** Whether "Mark paid" is offered: active recurring, has a due date and is not in a trial. */
     fun isMarkable(sub: Subscription): Boolean =
         sub.status == SubscriptionStatus.ACTIVE &&
-            (sub.kind == SubscriptionKind.REGULAR || sub.kind == SubscriptionKind.STORED_VALUE) &&
+            sub.kind == SubscriptionKind.REGULAR &&
             sub.nextPaymentDate != null && sub.renewalType != RenewalType.TRIAL &&
             (sub.billingCycle != null || sub.isSingleCycle)
 }
@@ -84,11 +79,10 @@ fun SubscriptionItemCard(
     onLongClick: (() -> Unit)? = null,
 ) {
     val sub = item.subscription
-    val amount = SubscriptionCardModel.amount(sub, list)
-    val priceText = if (amount.signum() == 0 && sub.kind != SubscriptionKind.STORED_VALUE) {
+    val priceText = if (sub.price.signum() == 0) {
         stringResource(R.string.subscriptions_list_free)
     } else {
-        formatMoney(amount, sub.currencyCode, symbols[sub.currencyCode])
+        formatMoney(sub.price, sub.currencyCode, symbols[sub.currencyCode])
     }
     val cycleText = when {
         sub.kind == SubscriptionKind.LIFETIME || sub.kind == SubscriptionKind.WISHLIST && sub.billingCycle == null -> null

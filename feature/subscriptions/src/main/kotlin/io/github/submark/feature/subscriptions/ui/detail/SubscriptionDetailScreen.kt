@@ -219,7 +219,6 @@ fun SubscriptionDetailScreen(
                     )
                 }
                 item(key = "metrics") { MetricsSection(state, content) }
-                if (sub.kind == SubscriptionKind.STORED_VALUE) item(key = "stored") { StoredValueSection(state, sub, onNavigate) }
                 item(key = "bundle") { BundleSection(state, content, onNavigate) }
                 if (sub.kind != SubscriptionKind.WISHLIST) item(key = "shared") { SharedSection(state, content, onNavigate) }
                 content.wallet?.let { wallet -> item(key = "wallet") { WalletSection(state, wallet, onNavigate) } }

@@ -5,7 +5,6 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
-import java.math.BigDecimal
 import java.util.UUID
 
 fun newId(): String = UUID.randomUUID().toString()
@@ -56,8 +55,6 @@ data class Subscription(
     val paymentMethodId: String? = null,
     /** Wallet charged by payments of this subscription. */
     val walletId: String? = null,
-    /** Cached; only changed through stored-value records. May be negative (debt). */
-    val storedValueBalance: Money = BigDecimal.ZERO,
     val isShared: Boolean = false,
     val customReminderEnabled: Boolean = false,
     val calendarSyncEnabled: Boolean = false,

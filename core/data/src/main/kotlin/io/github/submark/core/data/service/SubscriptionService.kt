@@ -49,7 +49,6 @@ class SubscriptionService @Inject internal constructor(
     private val tags: TagRepository,
     private val customFields: CustomFieldRepository,
     private val payments: PaymentService,
-    private val storedValue: StoredValueService,
     private val shared: SharedService,
     private val settings: SettingsRepository,
     private val tx: TransactionRunner,
@@ -93,7 +92,7 @@ class SubscriptionService @Inject internal constructor(
             if (hasPayments && new.startDate != old.startDate) abort(InvalidReason.START_DATE_LOCKED)
             val now = time.now()
             new = new.copy(
-                createdAt = old.createdAt, updatedAt = now, storedValueBalance = old.storedValueBalance, isShared = old.isShared,
+                createdAt = old.createdAt, updatedAt = now, isShared = old.isShared,
                 bundleRole = old.bundleRole, parentId = old.parentId, calendarEventId = old.calendarEventId,
                 pausedAt = when {
                     new.status == SubscriptionStatus.ACTIVE -> null
@@ -334,7 +333,7 @@ class SubscriptionService @Inject internal constructor(
 
     private fun isMarkable(sub: Subscription) =
         sub.status == SubscriptionStatus.ACTIVE &&
-            (sub.kind == SubscriptionKind.REGULAR || sub.kind == SubscriptionKind.STORED_VALUE) &&
+            sub.kind == SubscriptionKind.REGULAR &&
             sub.nextPaymentDate != null && BillingCalculator.cycleLength(sub) != null
 
     /** Records one occurrence as paid (or deducted) and advances the schedule. Must run inside a transaction. */
@@ -349,20 +348,14 @@ class SubscriptionService @Inject internal constructor(
     ): Marked {
         val outcome = BillingCalculator.markPaid(sub, due, paidOn, timing)
         val now = time.now()
-        var paymentId: String? = null
-        var base = sub
-        if (sub.kind == SubscriptionKind.STORED_VALUE) {
-            base = storedValue.deductInTx(sub, due).second
-        } else {
-            val record = PaymentRecord(
-                subscriptionId = sub.id, amount = shared.userShareOf(sub), currencyCode = sub.currencyCode, paymentDate = paidOn,
-                source = source, markTiming = timing, originalDueDate = due.takeIf { timing != MarkTiming.ON_TIME },
-                prevEndDate = sub.endDate, prevNextPaymentDate = sub.nextPaymentDate, prevLastPaymentDate = sub.lastPaymentDate,
-                bundleParentPaymentId = bundleParentPaymentId, createdAt = now, updatedAt = now,
-            )
-            paymentId = payments.insertWithWallet(record, sub.walletId.takeIf { chargeWallet }).id
-        }
-        val updated = base.copy(
+        val record = PaymentRecord(
+            subscriptionId = sub.id, amount = shared.userShareOf(sub), currencyCode = sub.currencyCode, paymentDate = paidOn,
+            source = source, markTiming = timing, originalDueDate = due.takeIf { timing != MarkTiming.ON_TIME },
+            prevEndDate = sub.endDate, prevNextPaymentDate = sub.nextPaymentDate, prevLastPaymentDate = sub.lastPaymentDate,
+            bundleParentPaymentId = bundleParentPaymentId, createdAt = now, updatedAt = now,
+        )
+        val paymentId = payments.insertWithWallet(record, sub.walletId.takeIf { chargeWallet }).id
+        val updated = sub.copy(
             cycleAnchorDate = outcome.anchor, nextPaymentDate = outcome.nextPaymentDate,
             lastPaymentDate = outcome.lastPaymentDate, updatedAt = now,
         )
@@ -401,7 +394,7 @@ class SubscriptionService @Inject internal constructor(
         }
         var sub = normalize(draft.subscription, wishlistEnabled).copy(
             bundleRole = role, parentId = parent?.id, createdAt = now, updatedAt = now,
-            storedValueBalance = BigDecimal.ZERO, isShared = false, calendarEventId = null,
+            isShared = false, calendarEventId = null,
         )
         if (sub.status == SubscriptionStatus.PAUSED) sub = sub.copy(pausedAt = now)
         validate(sub)
@@ -422,10 +415,6 @@ class SubscriptionService @Inject internal constructor(
             )
         }
         if (sub.kind == SubscriptionKind.LIFETIME) recordLifetimePurchase(sub, draft.purchaseWalletId)
-        val deposit = draft.initialDeposit
-        if (sub.kind == SubscriptionKind.STORED_VALUE && deposit != null && deposit.signum() > 0) {
-            storedValue.depositInTx(sub, deposit, sub.currencyCode, null, draft.initialDepositWalletId, isInitial = true, date = minOf(sub.startDate, today))
-        }
         tags.replaceLinks(sub.id, draft.tagIds)
         customFields.writeValues(sub.id, sub.categoryId, draft.customFieldValues)
         return sub
@@ -489,7 +478,7 @@ class SubscriptionService @Inject internal constructor(
         return kept
     }
 
-    private fun isRecurring(sub: Subscription) = sub.kind == SubscriptionKind.REGULAR || sub.kind == SubscriptionKind.STORED_VALUE
+    private fun isRecurring(sub: Subscription) = sub.kind == SubscriptionKind.REGULAR
 
     private fun normalize(sub: Subscription, wishlistEnabled: Boolean): Subscription {
         var s = sub.copy(name = sub.name.trim())

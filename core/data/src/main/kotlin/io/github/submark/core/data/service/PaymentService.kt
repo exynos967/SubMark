@@ -8,7 +8,6 @@ import io.github.submark.core.data.result.TransactionRunner
 import io.github.submark.core.data.result.abort
 import io.github.submark.core.data.time.TimeProvider
 import io.github.submark.core.database.dao.PaymentDao
-import io.github.submark.core.database.dao.StoredValueDao
 import io.github.submark.core.database.dao.SubscriptionDao
 import io.github.submark.core.database.dao.WalletDao
 import io.github.submark.core.domain.BillingCalculator
@@ -76,8 +75,6 @@ class PaymentService @Inject internal constructor(
     private val paymentDao: PaymentDao,
     private val subscriptionDao: SubscriptionDao,
     private val walletDao: WalletDao,
-    private val storedValueDao: StoredValueDao,
-    private val storedValue: StoredValueService,
     private val ledger: WalletLedger,
     private val tx: TransactionRunner,
     private val notifier: ChangeNotifier,
@@ -93,9 +90,6 @@ class PaymentService @Inject internal constructor(
 
     suspend fun get(id: String): PaymentRecord? = paymentDao.get(id)
 
-    /** Deposits are managed through StoredValueService. */
-    fun isReadOnly(record: PaymentRecord): Boolean = record.kind == PaymentKind.STORED_VALUE_DEPOSIT
-
     suspend fun add(input: NewPayment): DataResult<AddPaymentOutcome> {
         val result = tx.run { addInTx(input) }
         if (result.isSuccess) notifier.notifyChanged(input.subscriptionId)
@@ -108,7 +102,6 @@ class PaymentService @Inject internal constructor(
             val record = paymentDao.get(edit.id) ?: abort(DataError.NotFound)
             subscriptionId = record.subscriptionId
             if (edit.expectedUpdatedAt != null && edit.expectedUpdatedAt != record.updatedAt) abort(DataError.Stale)
-            if (isReadOnly(record)) abort(InvalidReason.READ_ONLY_RECORD)
             if (edit.amount.signum() < 0) abort(InvalidReason.NEGATIVE_AMOUNT)
             val kind = when {
                 record.kind == PaymentKind.REGULAR && edit.inAppPurchase -> PaymentKind.IN_APP_PURCHASE
@@ -162,9 +155,6 @@ class PaymentService @Inject internal constructor(
     }
 
     internal suspend fun deleteInTx(record: PaymentRecord) {
-        if (record.kind == PaymentKind.STORED_VALUE_DEPOSIT) {
-            storedValueDao.getByPaymentRecord(record.id)?.let { return storedValue.deleteRecordInTx(it) }
-        }
         record.walletTransactionId?.let { ledger.reverse(it, SystemNotes.PAYMENT_DELETED) }
         paymentDao.deleteById(record.id)
         val sub = subscriptionDao.get(record.subscriptionId) ?: return

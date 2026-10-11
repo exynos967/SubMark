@@ -130,14 +130,6 @@
     <string name="subscriptions_detail_status_active">Active</string>
     <string name="subscriptions_detail_status_expired">Expired</string>
     <string name="subscriptions_detail_status_inactive">Paused</string>
-    <string name="subscriptions_detail_stored_value_fee">%1$s deducted per cycle</string>
-    <string name="subscriptions_detail_stored_value_title">Stored value balance</string>
-    <string name="subscriptions_detail_stored_value_unlimited">No fee per cycle, the balance lasts indefinitely</string>
-    <string name="subscriptions_detail_sv_debt">In debt</string>
-    <string name="subscriptions_detail_sv_empty">Not enough</string>
-    <string name="subscriptions_detail_sv_low">Running low</string>
-    <string name="subscriptions_detail_sv_sufficient">Enough</string>
-    <string name="subscriptions_detail_sv_zero">Empty</string>
     <string name="subscriptions_detail_trial_title">Trial over</string>
     <string name="subscriptions_detail_trial_message">The trial of “%1$s” ended on %2$s. Record the first payment and choose how it renews from now on.</string>
     <string name="subscriptions_detail_trial_auto">Record payment, renew automatically</string>
@@ -176,14 +168,6 @@
     <plurals name="subscriptions_detail_photos">
         <item quantity="one">Photo (%d)</item>
         <item quantity="other">Photos (%d)</item>
-    </plurals>
-    <plurals name="subscriptions_detail_stored_value_cycles">
-        <item quantity="one">Enough for %d more cycle</item>
-        <item quantity="other">Enough for %d more cycles</item>
-    </plurals>
-    <plurals name="subscriptions_detail_stored_value_debt_cycles">
-        <item quantity="one">About %d cycle in debt</item>
-        <item quantity="other">About %d cycles in debt</item>
     </plurals>
     <plurals name="subscriptions_detail_trial_days_left">
         <item quantity="one">Trial: %d day left</item>

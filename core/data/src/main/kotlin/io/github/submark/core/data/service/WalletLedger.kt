@@ -28,7 +28,7 @@ internal class WalletLedger @Inject constructor(
     private val currencies: CurrencyRepository,
     private val time: TimeProvider,
 ) {
-    data class Link(val subscriptionId: String? = null, val paymentRecordId: String? = null, val storedValueRecordId: String? = null)
+    data class Link(val subscriptionId: String? = null, val paymentRecordId: String? = null)
 
     /** Charges [amount] in [currencyCode] to the wallet (converted to the wallet currency) as an EXPENSE. */
     suspend fun charge(walletId: String, amount: BigDecimal, currencyCode: String, link: Link, note: String? = null, occurredAt: Instant = time.now()): WalletTransaction {
@@ -66,7 +66,7 @@ internal class WalletLedger @Inject constructor(
         if (wallet.deletedAt != null) return null
         walletDao.upsertTransaction(original.copy(status = WalletTxnStatus.REVERSED))
         val type = if (original.type == WalletTxnType.EXPENSE) WalletTxnType.REFUND else WalletTxnType.ADJUSTMENT
-        val link = Link(original.subscriptionId, original.paymentRecordId, original.storedValueRecordId)
+        val link = Link(original.subscriptionId, original.paymentRecordId)
         return post(wallet, type, original.amount, original.signedDelta.negate(), link, note, time.now(), reverses = original.id)
     }
 
@@ -124,7 +124,7 @@ internal class WalletLedger @Inject constructor(
         val txn = WalletTransaction(
             walletId = wallet.id, type = type, amount = amount, signedDelta = delta, balanceAfter = balance,
             sourceAmount = sourceAmount, sourceCurrencyCode = sourceCurrencyCode,
-            subscriptionId = link.subscriptionId, paymentRecordId = link.paymentRecordId, storedValueRecordId = link.storedValueRecordId,
+            subscriptionId = link.subscriptionId, paymentRecordId = link.paymentRecordId,
             reversesTransactionId = reverses, note = note, occurredAt = occurredAt, createdAt = now,
         )
         walletDao.upsertTransaction(txn)

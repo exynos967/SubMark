@@ -76,7 +76,7 @@ object WidgetData {
         val eligible = subs
             .filter {
                 it.status == SubscriptionStatus.ACTIVE &&
-                    (it.kind == SubscriptionKind.REGULAR || it.kind == SubscriptionKind.STORED_VALUE) &&
+                    it.kind == SubscriptionKind.REGULAR &&
                     it.nextPaymentDate != null
             }
             .sortedWith(
@@ -114,7 +114,7 @@ object WidgetData {
         val monthEnd = today.withDayOfMonth(today.lengthOfMonth())
         val active = subs.filter { sub ->
             sub.status == SubscriptionStatus.ACTIVE &&
-                (sub.kind == SubscriptionKind.REGULAR || sub.kind == SubscriptionKind.STORED_VALUE)
+                sub.kind == SubscriptionKind.REGULAR
         }
         var projected: BigDecimal? = null
         for (sub in active) {

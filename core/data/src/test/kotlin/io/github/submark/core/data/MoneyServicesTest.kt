@@ -9,7 +9,6 @@ import io.github.submark.core.model.DateAdjustmentMode
 import io.github.submark.core.model.PaymentKind
 import io.github.submark.core.model.RenewalType
 import io.github.submark.core.model.SplitMode
-import io.github.submark.core.model.StoredValueRecordType
 import io.github.submark.core.model.SubscriptionKind
 import io.github.submark.core.model.SubscriptionStatus
 import io.github.submark.core.model.WalletKind
@@ -102,49 +101,6 @@ class MoneyServicesTest {
         ).orFail()
         assertThat(edited.walletTransactionId).isNotEqualTo(added.walletTransactionId)
         assertThat(h.wallets.get(wallet.id)!!.balance).isEqualTo(BigDecimal("-4"))
-    }
-
-    @Test fun storedValue_depositDeductAndGuardedDelete() = runTest {
-        val id = h.create(
-            SubscriptionDraft(
-                h.subscription(kind = SubscriptionKind.STORED_VALUE, start = LocalDate.of(2026, 3, 15), renewal = RenewalType.AUTO),
-                initialDeposit = BigDecimal("30"),
-            ),
-        )
-        assertThat(h.get(id).storedValueBalance).isEqualTo(BigDecimal("30"))
-        val deposit = h.db.storedValueDao().getForSubscription(id).single()
-        assertThat(deposit.isInitial).isTrue()
-        val depositPayment = h.db.paymentDao().get(deposit.paymentRecordId!!)!!
-        assertThat(depositPayment.kind).isEqualTo(PaymentKind.STORED_VALUE_DEPOSIT)
-
-        // Auto deduction: balance only, no new payment record.
-        val summary = h.subscriptions.processDue()
-        assertThat(summary.autoMarkedCount).isEqualTo(1)
-        assertThat(h.get(id).storedValueBalance).isEqualTo(BigDecimal("20"))
-        assertThat(h.get(id).nextPaymentDate).isEqualTo(LocalDate.of(2026, 4, 15))
-        assertThat(h.db.paymentDao().getForSubscription(id)).hasSize(1)
-        assertThat(h.db.storedValueDao().getForSubscription(id).count { it.type == StoredValueRecordType.DEDUCTION }).isEqualTo(1)
-
-        // Removing the 30 deposit would leave -10.
-        val blocked = h.storedValue.deleteRecord(deposit.id)
-        assertThat(blocked.errorOrNull()).isEqualTo(DataError.Invalid(InvalidReason.BALANCE_WOULD_BE_NEGATIVE))
-
-        val topUp = h.storedValue.topUp(id, BigDecimal("5"), "USD").orFail()
-        assertThat(h.get(id).storedValueBalance).isEqualTo(BigDecimal("25"))
-        h.storedValue.deleteRecord(topUp.id).orFail()
-        assertThat(h.get(id).storedValueBalance).isEqualTo(BigDecimal("20"))
-        assertThat(h.db.paymentDao().get(topUp.paymentRecordId!!)).isNull()
-        assertThat(h.storedValue.recomputeBalance(id).orFail()).isEqualTo(BigDecimal("20"))
-    }
-
-    @Test fun storedValueTopUp_walletFailureSavesNothing() = runTest {
-        val wallet = h.wallets.create("Cash", WalletKind.BALANCE_TRACKED, "USD", BigDecimal("1")).orFail()
-        val id = h.create(SubscriptionDraft(h.subscription(kind = SubscriptionKind.STORED_VALUE)))
-        val result = h.storedValue.topUp(id, BigDecimal("5"), "USD", walletId = wallet.id)
-        assertThat(result.errorOrNull()).isInstanceOf(DataError.InsufficientFunds::class.java)
-        assertThat(h.db.storedValueDao().getForSubscription(id)).isEmpty()
-        assertThat(h.db.paymentDao().getForSubscription(id)).isEmpty()
-        assertThat(h.get(id).storedValueBalance).isEqualTo(BigDecimal.ZERO)
     }
 
     @Test fun walletKinds_creditLimitAndDeactivationUnlinks() = runTest {

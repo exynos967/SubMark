@@ -99,7 +99,6 @@ fun paymentBadges(record: PaymentRecord): List<RecordBadge> = buildList {
         PaymentKind.IN_APP_PURCHASE -> add(RecordBadge(record.kind.labelRes, BadgeTone.TERTIARY))
         PaymentKind.EXTENSION -> add(RecordBadge(record.kind.labelRes, BadgeTone.SECONDARY))
         PaymentKind.LIFETIME_PURCHASE -> add(RecordBadge(record.kind.labelRes, BadgeTone.PRIMARY))
-        PaymentKind.STORED_VALUE_DEPOSIT -> add(RecordBadge(record.kind.labelRes, BadgeTone.SECONDARY))
     }
     if (record.source != PaymentSource.USER_MANUAL) add(RecordBadge(record.source.labelRes, BadgeTone.NEUTRAL))
     if (record.markTiming != MarkTiming.ON_TIME) add(RecordBadge(record.markTiming.labelRes, BadgeTone.NEUTRAL))

@@ -14,7 +14,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
-import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -124,15 +123,6 @@ fun AddPaymentScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 LinkedSubscriptionCard(state, sub)
-                if (state.readOnly) {
-                    SectionCard {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(Icons.Rounded.Lock, contentDescription = null)
-                            Spacer(Modifier.width(8.dp))
-                            Text(stringResource(R.string.money_add_read_only), style = MaterialTheme.typography.bodyMedium)
-                        }
-                    }
-                }
                 PaymentInfoSection(state, onUpdate)
                 if (!state.isEdit) {
                     DateAdjustmentSection(state, sub, onUpdate, onAdjustmentMode)
@@ -208,7 +198,6 @@ private fun LinkedSubscriptionCard(state: AddPaymentUiState, sub: Subscription) 
 @Composable
 private fun PaymentInfoSection(state: AddPaymentUiState, onUpdate: ((PaymentForm) -> PaymentForm) -> Unit) {
     val f = state.form
-    val enabled = !state.readOnly
     var pickCurrency by rememberSaveable { mutableStateOf(false) }
     SectionCard(title = stringResource(R.string.money_add_section_payment)) {
         MoneyInputField(
@@ -218,7 +207,6 @@ private fun PaymentInfoSection(state: AddPaymentUiState, onUpdate: ((PaymentForm
             currencySymbol = state.env.symbol(f.currencyCode),
             allowZero = true,
             showErrorWhenEmpty = true,
-            enabled = enabled,
             modifier = Modifier.fillMaxWidth(),
         )
         Spacer(Modifier.height(8.dp))
@@ -226,7 +214,6 @@ private fun PaymentInfoSection(state: AddPaymentUiState, onUpdate: ((PaymentForm
             label = stringResource(R.string.money_add_currency),
             text = state.env.currencies[f.currencyCode]?.let { "${it.code} · ${it.name}" } ?: f.currencyCode,
             onClick = { pickCurrency = true },
-            enabled = enabled,
             modifier = Modifier.fillMaxWidth(),
         )
         Spacer(Modifier.height(8.dp))
@@ -236,7 +223,6 @@ private fun PaymentInfoSection(state: AddPaymentUiState, onUpdate: ((PaymentForm
             onDateChange = { d -> onUpdate { it.copy(paymentDate = d) } },
             today = state.today,
             showRelative = true,
-            enabled = enabled,
             modifier = Modifier.fillMaxWidth(),
         )
         Spacer(Modifier.height(8.dp))
@@ -245,14 +231,14 @@ private fun PaymentInfoSection(state: AddPaymentUiState, onUpdate: ((PaymentForm
         SegmentedTabs(
             items = PaymentStatus.entries,
             selected = f.status,
-            onSelect = { s -> if (enabled) onUpdate { it.copy(status = s) } },
+            onSelect = { s -> onUpdate { it.copy(status = s) } },
         ) { stringResource(it.labelRes) }
         Spacer(Modifier.height(8.dp))
         OutlinedTextField(
             value = f.note,
             onValueChange = { v -> onUpdate { it.copy(note = v) } },
             label = { Text(stringResource(R.string.money_add_note)) },
-            enabled = enabled && !state.noteLocked,
+            enabled = !state.noteLocked,
             supportingText = if (state.noteLocked) {
                 { Text(stringResource(R.string.money_add_note_locked)) }
             } else {
@@ -269,7 +255,6 @@ private fun PaymentInfoSection(state: AddPaymentUiState, onUpdate: ((PaymentForm
                 subtitle = stringResource(R.string.money_add_iap_desc),
                 checked = f.inAppPurchase,
                 onCheckedChange = { c -> onUpdate { it.copy(inAppPurchase = c) } },
-                enabled = enabled,
             )
             if (f.inAppPurchase) {
                 OutlinedTextField(
@@ -277,7 +262,6 @@ private fun PaymentInfoSection(state: AddPaymentUiState, onUpdate: ((PaymentForm
                     onValueChange = { v -> onUpdate { it.copy(iapItemName = v) } },
                     label = { Text(stringResource(R.string.money_add_iap_item)) },
                     singleLine = true,
-                    enabled = enabled,
                     modifier = Modifier.fillMaxWidth(),
                 )
             }

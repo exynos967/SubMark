@@ -269,10 +269,6 @@ class SubscriptionListLogicTest {
         assertThat(SubscriptionCardModel.badges(life, today, list)).contains(SubscriptionBadge.LIFETIME)
         assertThat(SubscriptionCardModel.badges(life, today, list.copy(showLifetimeLabel = false))).doesNotContain(SubscriptionBadge.LIFETIME)
 
-        val stored = regular.copy(kind = SubscriptionKind.STORED_VALUE, storedValueBalance = BigDecimal("42"))
-        assertThat(SubscriptionCardModel.amount(stored, list)).isEqualTo(BigDecimal("10"))
-        assertThat(SubscriptionCardModel.amount(stored, list.copy(storedValueBalanceMode = true))).isEqualTo(BigDecimal("42"))
-
         assertThat(SubscriptionCardModel.isMarkable(regular)).isTrue()
         assertThat(SubscriptionCardModel.isMarkable(regular.copy(renewalType = RenewalType.TRIAL))).isFalse()
         assertThat(SubscriptionCardModel.isMarkable(regular.copy(status = SubscriptionStatus.PAUSED))).isFalse()

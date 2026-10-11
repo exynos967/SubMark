@@ -72,9 +72,6 @@
     <string name="analytics_radar_average">平均值</string>
 
     <!-- Stored value -->
-    <string name="analytics_stored_value_title">储值统计</string>
-    <string name="analytics_stored_value_message">查看储值订阅的充值、余额与扣款统计。</string>
-    <string name="analytics_stored_value_open">打开统计</string>
 
     <!-- Customization -->
     <string name="analytics_custom_title">自定义分析</string>
@@ -90,7 +87,6 @@
     <string name="analytics_component_heatmap">活动热力图</string>
     <string name="analytics_component_category">分类分析</string>
     <string name="analytics_component_multi_dimension">多维分析</string>
-    <string name="analytics_component_stored_value">储值统计</string>
 
     <!-- Per-subscription analysis -->
     <string name="analytics_detail_title">分析</string>

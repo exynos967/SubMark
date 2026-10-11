@@ -71,7 +71,6 @@
     <string name="backup_count_customReminders">提醒</string>
     <string name="backup_count_paymentRecords">账单记录</string>
     <string name="backup_count_walletTransactions">钱包交易</string>
-    <string name="backup_count_storedValueRecords">储值记录</string>
     <string name="backup_count_sharedConfigs">共享配置</string>
     <string name="backup_count_sharedMembers">共享成员</string>
 

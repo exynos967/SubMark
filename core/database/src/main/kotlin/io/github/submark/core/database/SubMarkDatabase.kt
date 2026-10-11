@@ -1,5 +1,6 @@
 package io.github.submark.core.database
 
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -15,7 +16,6 @@ import io.github.submark.core.database.dao.PopularRepositoryDao
 import io.github.submark.core.database.dao.PriceMonitorDao
 import io.github.submark.core.database.dao.ServiceConnectionDao
 import io.github.submark.core.database.dao.SharedDao
-import io.github.submark.core.database.dao.StoredValueDao
 import io.github.submark.core.database.dao.SubscriptionDao
 import io.github.submark.core.database.dao.SubscriptionExtrasDao
 import io.github.submark.core.database.dao.TagDao
@@ -39,7 +39,6 @@ import io.github.submark.core.model.PriceRecord
 import io.github.submark.core.model.ServiceConnection
 import io.github.submark.core.model.SharedConfig
 import io.github.submark.core.model.SharedMember
-import io.github.submark.core.model.StoredValueRecord
 import io.github.submark.core.model.Subscription
 import io.github.submark.core.model.SubscriptionPhoto
 import io.github.submark.core.model.SubscriptionTag
@@ -50,13 +49,14 @@ import io.github.submark.core.model.Wallet
 import io.github.submark.core.model.WalletTransaction
 
 @Database(
-    version = 1,
+    version = 2,
     exportSchema = true,
+    autoMigrations = [AutoMigration(from = 1, to = 2, spec = RemoveStoredValueMigration::class)],
     entities = [
         Subscription::class, Category::class, Tag::class, SubscriptionTag::class, TagFolder::class, TagFolderTag::class,
         CustomFieldDefinition::class, CustomFieldOption::class, CustomFieldValue::class, SubscriptionPhoto::class,
         CustomReminder::class, Currency::class, HistoricalRate::class, PaymentRecord::class, PaymentMethod::class,
-        Wallet::class, WalletTransaction::class, StoredValueRecord::class, SharedConfig::class, SharedMember::class,
+        Wallet::class, WalletTransaction::class, SharedConfig::class, SharedMember::class,
         PriceMonitor::class, PriceRecord::class, PopularRepository::class, IconRepository::class,
         ApiBudgetConfig::class, ServiceConnection::class, BackupProfile::class, BackupJob::class,
     ],
@@ -72,7 +72,6 @@ abstract class SubMarkDatabase : RoomDatabase() {
     abstract fun paymentDao(): PaymentDao
     abstract fun paymentMethodDao(): PaymentMethodDao
     abstract fun walletDao(): WalletDao
-    abstract fun storedValueDao(): StoredValueDao
     abstract fun sharedDao(): SharedDao
     abstract fun priceMonitorDao(): PriceMonitorDao
     abstract fun popularRepositoryDao(): PopularRepositoryDao

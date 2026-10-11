@@ -77,7 +77,6 @@ data class AddPaymentUiState(
     val userShare: BigDecimal? = null,
     val editingRecord: PaymentRecord? = null,
     /** Edit mode on a record the service refuses to edit. */
-    val readOnly: Boolean = false,
     /** The original note is a system note; it is kept and not editable. */
     val noteLocked: Boolean = false,
     val form: PaymentForm = PaymentForm(),
@@ -91,7 +90,7 @@ data class AddPaymentUiState(
     val today: LocalDate = LocalDate.MIN,
     val env: MoneyEnv = MoneyEnv.EMPTY,
 ) {
-    val canSave: Boolean get() = !loading && !missing && !readOnly && !saving && amountError == null && form.amount != null
+    val canSave: Boolean get() = !loading && !missing && !saving && amountError == null && form.amount != null
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -175,7 +174,6 @@ class AddPaymentViewModel @Inject constructor(
             subscription = sub,
             userShare = b.userShare,
             editingRecord = b.record,
-            readOnly = b.record?.let { payments.isReadOnly(it) } ?: false,
             noteLocked = b.noteLocked,
             form = f,
             preview = preview,

@@ -43,7 +43,6 @@ class CostCalculatorTest {
         val s = sub(price = "120").copy(billingCycle = BillingCycle.ANNUALLY)
         assertThat(CostCalculator.monthlyOf(s)).isEqualToIgnoringScale(bd("10"))
         assertThat(CostCalculator.annualOf(s)).isEqualToIgnoringScale(bd("120"))
-        assertThat(CostCalculator.monthlyOf(s.copy(kind = SubscriptionKind.STORED_VALUE))).isEqualToIgnoringScale(bd("10"))
         val custom = sub(price = "3").copy(billingCycle = BillingCycle.CUSTOM, customCycleCount = 3, customCycleUnit = CycleUnit.DAY)
         assertThat(CostCalculator.monthlyOf(custom)).isEqualToIgnoringScale(bd("30.436875"))
     }

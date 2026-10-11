@@ -153,19 +153,6 @@ class SubscriptionFormLogicTest {
     }
 
     @Test
-    fun `stored value draft carries the initial deposit only when adding`() {
-        val form = valid.copy(kind = FormKind.STORED_VALUE, initialDepositText = "50", depositWalletId = "w2")
-        val draft = SubscriptionFormLogic.buildDraft(form, null, emptyList(), today, now)
-        assertThat(draft.subscription.kind).isEqualTo(SubscriptionKind.STORED_VALUE)
-        assertThat(draft.initialDeposit).isEqualTo(BigDecimal("50"))
-        assertThat(draft.initialDepositWalletId).isEqualTo("w2")
-        val base = Subscription(name = "x", price = BigDecimal.ONE, currencyCode = "USD", startDate = today, categoryId = "c", createdAt = now, updatedAt = now)
-        val edit = SubscriptionFormLogic.buildDraft(form, base, emptyList(), today, now)
-        assertThat(edit.initialDeposit).isNull()
-        assertThat(edit.initialDepositWalletId).isNull()
-    }
-
-    @Test
     fun `wishlist draft is paused and has no wallet`() {
         val form = valid.copy(kind = FormKind.WISHLIST, priceText = "", isActive = true, walletId = "w")
         val sub = SubscriptionFormLogic.buildDraft(form, null, emptyList(), today, now).subscription
@@ -196,7 +183,7 @@ class SubscriptionFormLogicTest {
         val base = Subscription(
             id = "s1", name = "Old", price = BigDecimal.ONE, currencyCode = "USD", startDate = today.minusYears(1), categoryId = "c",
             appStoreId = "123", isShared = true, customReminderEnabled = true, calendarSyncEnabled = true, calendarEventId = 7,
-            storedValueBalance = BigDecimal("12"), bundleRole = BundleRole.MAIN, createdAt = created, updatedAt = created,
+            bundleRole = BundleRole.MAIN, createdAt = created, updatedAt = created,
         )
         val form = SubscriptionFormLogic.formFromSubscription(base, listOf("t"), mapOf("f" to "v")).copy(name = "New")
         val draft = SubscriptionFormLogic.buildDraft(form, base, emptyList(), today, now)
@@ -208,7 +195,6 @@ class SubscriptionFormLogicTest {
         assertThat(sub.customReminderEnabled).isTrue()
         assertThat(sub.calendarSyncEnabled).isTrue()
         assertThat(sub.calendarEventId).isEqualTo(7)
-        assertThat(sub.storedValueBalance).isEqualTo(BigDecimal("12"))
         assertThat(sub.bundleRole).isEqualTo(BundleRole.MAIN)
         assertThat(sub.createdAt).isEqualTo(created)
         assertThat(draft.generateHistory).isFalse()

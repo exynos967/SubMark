@@ -54,7 +54,7 @@ interface WalletDao : BaseDao<Wallet> {
     suspend fun insertIgnoreTransactions(items: List<WalletTransaction>): List<Long>
 
     /** Keeps a deleted subscription's wallet history while dropping the dangling links. */
-    @Query("UPDATE wallet_transactions SET subscriptionId = NULL, paymentRecordId = NULL, storedValueRecordId = NULL WHERE subscriptionId = :subscriptionId")
+    @Query("UPDATE wallet_transactions SET subscriptionId = NULL, paymentRecordId = NULL WHERE subscriptionId = :subscriptionId")
     suspend fun detachSubscription(subscriptionId: String)
 
     @Query("DELETE FROM wallet_transactions")

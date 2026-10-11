@@ -9,6 +9,7 @@ object SystemNotes {
     const val PAYMENT_DELETED = "@payment_deleted"
     const val PAYMENT_EDITED = "@payment_edited"
     const val SUBSCRIPTION_DELETED = "@subscription_deleted"
+    /** Legacy: written by the removed stored-value feature; still shown on old wallet reversals. */
     const val STORED_VALUE_RECORD_DELETED = "@stored_value_record_deleted"
     const val INITIAL_BALANCE = "@initial_balance"
 

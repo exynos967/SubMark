@@ -22,7 +22,7 @@ import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
 /** What the kind selector offers. BUNDLE creates a REGULAR main subscription with children. */
-enum class FormKind { REGULAR, STORED_VALUE, LIFETIME, WISHLIST, BUNDLE }
+enum class FormKind { REGULAR, LIFETIME, WISHLIST, BUNDLE }
 
 /** One bundle child being created alongside the main subscription. Currency and category follow the main. */
 data class ChildForm(
@@ -58,8 +58,6 @@ data class SubscriptionForm(
     val paymentMethodId: String? = null,
     val walletId: String? = null,
     val generateHistory: Boolean = true,
-    val initialDepositText: String = "",
-    val depositWalletId: String? = null,
     val tagIds: List<String> = emptyList(),
     val website: String = "",
     val note: String = "",
@@ -71,7 +69,7 @@ data class SubscriptionForm(
     val originalPrice: BigDecimal? = null,
     val children: List<ChildForm> = emptyList(),
 ) {
-    val isRecurring: Boolean get() = kind == FormKind.REGULAR || kind == FormKind.STORED_VALUE || kind == FormKind.BUNDLE
+    val isRecurring: Boolean get() = kind == FormKind.REGULAR || kind == FormKind.BUNDLE
 }
 
 /** A reason the form can't be saved yet. */
@@ -83,7 +81,6 @@ sealed interface FormProblem {
     data object TrialDays : FormProblem
     data object EndNotAfterStart : FormProblem
     data object SingleCycleNeedsEnd : FormProblem
-    data object Deposit : FormProblem
     data object BundleNeedsChild : FormProblem
     data class ChildBlankName(val index: Int) : FormProblem
     data class ChildPrice(val index: Int) : FormProblem
@@ -142,11 +139,6 @@ object SubscriptionFormLogic {
         val end = form.endDate
         if (end != null && end <= form.startDate) add(FormProblem.EndNotAfterStart)
         if (form.isRecurring && form.isSingleCycle && end == null) add(FormProblem.SingleCycleNeedsEnd)
-        if (!isEdit && form.kind == FormKind.STORED_VALUE && form.initialDepositText.isNotBlank() &&
-            MoneyInput.validate(form.initialDepositText, allowZero = true) != null
-        ) {
-            add(FormProblem.Deposit)
-        }
         if (!isEdit && form.kind == FormKind.BUNDLE) {
             if (form.children.isEmpty()) add(FormProblem.BundleNeedsChild)
             form.children.forEachIndexed { i, child ->
@@ -186,7 +178,6 @@ object SubscriptionFormLogic {
         val isEdit = base != null
         val kind = when (form.kind) {
             FormKind.REGULAR, FormKind.BUNDLE -> SubscriptionKind.REGULAR
-            FormKind.STORED_VALUE -> SubscriptionKind.STORED_VALUE
             FormKind.LIFETIME -> SubscriptionKind.LIFETIME
             FormKind.WISHLIST -> SubscriptionKind.WISHLIST
         }
@@ -248,12 +239,6 @@ object SubscriptionFormLogic {
             customFieldValues = values,
             generateHistory = !isEdit && kind == SubscriptionKind.REGULAR && form.generateHistory && form.startDate < today,
             purchaseWalletId = form.walletId.takeIf { !isEdit && kind == SubscriptionKind.LIFETIME },
-            initialDeposit = if (!isEdit && kind == SubscriptionKind.STORED_VALUE) {
-                MoneyInput.parse(form.initialDepositText)?.takeIf { it.signum() > 0 }
-            } else {
-                null
-            },
-            initialDepositWalletId = form.depositWalletId.takeIf { !isEdit && kind == SubscriptionKind.STORED_VALUE },
             children = children,
             allowDuplicateAppStoreId = allowDuplicate,
         )
@@ -295,7 +280,6 @@ object SubscriptionFormLogic {
         name = sub.name,
         kind = when (sub.kind) {
             SubscriptionKind.REGULAR -> FormKind.REGULAR
-            SubscriptionKind.STORED_VALUE -> FormKind.STORED_VALUE
             SubscriptionKind.LIFETIME -> FormKind.LIFETIME
             SubscriptionKind.WISHLIST -> FormKind.WISHLIST
         },
@@ -337,7 +321,6 @@ object SubscriptionFormLogic {
         val kind = when {
             prefill.children.isNotEmpty() -> FormKind.BUNDLE
             else -> when (prefill.kind) {
-                SubscriptionKind.STORED_VALUE -> FormKind.STORED_VALUE
                 SubscriptionKind.LIFETIME -> FormKind.LIFETIME
                 SubscriptionKind.WISHLIST -> FormKind.WISHLIST
                 SubscriptionKind.REGULAR, null -> FormKind.REGULAR

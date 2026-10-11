@@ -27,7 +27,6 @@ object DatabaseModule {
     @Provides fun paymentDao(db: SubMarkDatabase) = db.paymentDao()
     @Provides fun paymentMethodDao(db: SubMarkDatabase) = db.paymentMethodDao()
     @Provides fun walletDao(db: SubMarkDatabase) = db.walletDao()
-    @Provides fun storedValueDao(db: SubMarkDatabase) = db.storedValueDao()
     @Provides fun sharedDao(db: SubMarkDatabase) = db.sharedDao()
     @Provides fun priceMonitorDao(db: SubMarkDatabase) = db.priceMonitorDao()
     @Provides fun popularRepositoryDao(db: SubMarkDatabase) = db.popularRepositoryDao()

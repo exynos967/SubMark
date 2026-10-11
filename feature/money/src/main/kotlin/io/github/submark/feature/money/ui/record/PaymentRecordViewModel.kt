@@ -43,7 +43,6 @@ data class PaymentRecordUiState(
     val subscription: Subscription? = null,
     val wallet: Wallet? = null,
     val transaction: WalletTransaction? = null,
-    val readOnly: Boolean = false,
     val showConverted: Boolean = false,
     /** [PaymentRecord.amount] in the default currency, null when no rate. */
     val convertedAmount: BigDecimal? = null,
@@ -93,7 +92,6 @@ class PaymentRecordViewModel @Inject constructor(
             subscription = sub,
             wallet = record?.walletId?.let { wid -> allWallets.firstOrNull { it.id == wid } },
             transaction = txn,
-            readOnly = record != null && payments.isReadOnly(record),
             showConverted = l.showConverted,
             convertedAmount = record?.let { env.toDefault(it.amount, it.currencyCode) },
             deleting = l.deleting,

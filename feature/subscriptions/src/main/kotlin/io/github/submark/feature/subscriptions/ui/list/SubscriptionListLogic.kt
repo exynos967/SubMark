@@ -49,7 +49,7 @@ object SubscriptionListLogic {
     fun segmentOf(kind: SubscriptionKind): ListSegment = when (kind) {
         SubscriptionKind.WISHLIST -> ListSegment.WISHLIST
         SubscriptionKind.LIFETIME -> ListSegment.LIFETIME
-        SubscriptionKind.REGULAR, SubscriptionKind.STORED_VALUE -> ListSegment.SUBSCRIPTIONS
+        SubscriptionKind.REGULAR -> ListSegment.SUBSCRIPTIONS
     }
 
     /** Archived = paused while archive mode is on. Wishlist items are always paused and never archived. */
@@ -116,7 +116,7 @@ object SubscriptionListLogic {
         for (item in items) {
             val sub = item.subscription
             when (sub.kind) {
-                SubscriptionKind.REGULAR, SubscriptionKind.STORED_VALUE -> {
+                SubscriptionKind.REGULAR -> {
                     val m = CostCalculator.monthlyOf(sub) ?: continue
                     val converted = converter.convert(m, sub.currencyCode, currencyCode)
                     if (converted == null) {

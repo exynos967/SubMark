@@ -31,7 +31,6 @@ import kotlinx.serialization.Serializable
 @Serializable data class PaymentRecordRoute(val id: String)
 /** [paymentId] non-null = edit. */
 @Serializable data class AddPaymentRoute(val subscriptionId: String, val paymentId: String? = null)
-@Serializable data class StoredValueRecordsRoute(val subscriptionId: String)
 @Serializable data class SharedSettingsRoute(val subscriptionId: String)
 @Serializable data object CurrencyManagementRoute
 @Serializable data object HistoricalRatesRoute
@@ -41,7 +40,6 @@ import kotlinx.serialization.Serializable
 @Serializable data class WalletActivityRoute(val walletId: String? = null)
 @Serializable data object BudgetSettingsRoute
 @Serializable data object FinancialDetailRoute
-@Serializable data object StoredValueStatsRoute
 
 // ---- feature:overview ----
 @Serializable data object OverviewCustomizationRoute

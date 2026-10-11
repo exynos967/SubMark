@@ -38,8 +38,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import io.github.submark.core.domain.BillingCalculator
 import io.github.submark.core.domain.CostCalculator
-import io.github.submark.core.domain.StoredValueCalculator
-import io.github.submark.core.domain.StoredValueStatus
 import io.github.submark.core.model.BundleRole
 import io.github.submark.core.model.PaymentRecord
 import io.github.submark.core.model.PaymentStatus
@@ -67,7 +65,6 @@ import io.github.submark.core.ui.navigation.AddPaymentRoute
 import io.github.submark.core.ui.navigation.PaymentHistoryRoute
 import io.github.submark.core.ui.navigation.PaymentRecordRoute
 import io.github.submark.core.ui.navigation.SharedSettingsRoute
-import io.github.submark.core.ui.navigation.StoredValueRecordsRoute
 import io.github.submark.core.ui.navigation.SubscriptionDetailRoute
 import io.github.submark.core.ui.navigation.WalletActivityRoute
 import io.github.submark.core.ui.util.colorFromHex
@@ -123,7 +120,7 @@ internal fun HeaderSection(state: DetailUiState, content: DetailContent) {
     }
 }
 
-private val REDUNDANT_BADGES = setOf(SubscriptionBadge.PAUSED, SubscriptionBadge.LIFETIME, SubscriptionBadge.WISHLIST, SubscriptionBadge.STORED_VALUE)
+private val REDUNDANT_BADGES = setOf(SubscriptionBadge.PAUSED, SubscriptionBadge.LIFETIME, SubscriptionBadge.WISHLIST)
 
 @Composable
 internal fun MetricsSection(state: DetailUiState, content: DetailContent) {
@@ -225,51 +222,6 @@ private fun NextPaymentTile(sub: Subscription, state: DetailUiState, modifier: M
         sub.endDate != null -> MetricTile(stringResource(R.string.subscriptions_detail_metric_valid_until), formatDay(sub.endDate!!), modifier)
         else -> MetricTile(stringResource(R.string.subscriptions_detail_metric_next_payment), stringResource(R.string.subscriptions_detail_unknown), modifier)
     }
-}
-
-@Composable
-internal fun StoredValueSection(state: DetailUiState, sub: Subscription, onNavigate: (Any) -> Unit) {
-    val balance = sub.storedValueBalance
-    val status = StoredValueCalculator.status(balance, sub.price)
-    SectionCard(
-        title = stringResource(R.string.subscriptions_detail_stored_value_title),
-        actionLabel = stringResource(R.string.subscriptions_detail_records),
-        onAction = { onNavigate(StoredValueRecordsRoute(sub.id)) },
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(state.money(balance, sub.currencyCode), style = MaterialTheme.typography.headlineSmall, modifier = Modifier.weight(1f))
-            StatusBadge(
-                stringResource(status.labelRes()),
-                tone = when (status) {
-                    StoredValueStatus.SUFFICIENT -> BadgeTone.SUCCESS
-                    StoredValueStatus.LOW -> BadgeTone.WARNING
-                    else -> BadgeTone.ERROR
-                },
-            )
-        }
-        val text = if (balance.signum() < 0) {
-            val cycles = StoredValueCalculator.debtCycles(balance, sub.price).toInt()
-            pluralStringResource(R.plurals.subscriptions_detail_stored_value_debt_cycles, cycles, cycles)
-        } else {
-            StoredValueCalculator.payableCycles(balance, sub.price)?.toInt()?.let {
-                pluralStringResource(R.plurals.subscriptions_detail_stored_value_cycles, it, it)
-            } ?: stringResource(R.string.subscriptions_detail_stored_value_unlimited)
-        }
-        Text(text, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        Text(
-            stringResource(R.string.subscriptions_detail_stored_value_fee, state.money(sub.price, sub.currencyCode)),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-    }
-}
-
-private fun StoredValueStatus.labelRes(): Int = when (this) {
-    StoredValueStatus.SUFFICIENT -> R.string.subscriptions_detail_sv_sufficient
-    StoredValueStatus.LOW -> R.string.subscriptions_detail_sv_low
-    StoredValueStatus.EMPTY -> R.string.subscriptions_detail_sv_empty
-    StoredValueStatus.ZERO -> R.string.subscriptions_detail_sv_zero
-    StoredValueStatus.DEBT -> R.string.subscriptions_detail_sv_debt
 }
 
 @Composable

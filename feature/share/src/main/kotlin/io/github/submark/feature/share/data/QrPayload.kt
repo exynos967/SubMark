@@ -29,7 +29,8 @@ object QrPayloadCodec {
     private const val MAX_DECODED_BYTES = 64 * 1024
     private const val MAX_INFLATED_BYTES = 256 * 1024
 
-    private val json = Json { ignoreUnknownKeys = true; encodeDefaults = false }
+    /** coerceInputValues: kinds from older versions (stored value) fall back to a regular subscription. */
+    private val json = Json { ignoreUnknownKeys = true; encodeDefaults = false; coerceInputValues = true }
 
     @Serializable
     data class Payload(
@@ -172,8 +173,7 @@ object QrPayloadCodec {
     fun toPrefill(payload: Payload): SubscriptionPrefill = SubscriptionPrefill(
         name = payload.name,
         kind = when (payload.kind) {
-            // WISHLIST/stored value imports as regular subscriptions.
-            SubscriptionKind.WISHLIST, SubscriptionKind.STORED_VALUE -> SubscriptionKind.REGULAR
+            SubscriptionKind.WISHLIST -> SubscriptionKind.REGULAR
             else -> payload.kind
         },
         price = payload.price?.let { runCatching { BigDecimal(it) }.getOrNull() },

@@ -299,7 +299,6 @@ class ScheduleTest {
     fun isOverdue() {
         val s = sub(d("2026-01-01")).copy(nextPaymentDate = d("2026-10-06"))
         assertThat(BillingCalculator.isOverdue(s, today)).isTrue()
-        assertThat(BillingCalculator.isOverdue(s.copy(kind = SubscriptionKind.STORED_VALUE), today)).isTrue()
         assertThat(BillingCalculator.isOverdue(s.copy(nextPaymentDate = today), today)).isFalse()
         assertThat(BillingCalculator.isOverdue(s.copy(nextPaymentDate = d("2026-10-08")), today)).isFalse()
         assertThat(BillingCalculator.isOverdue(s.copy(nextPaymentDate = null), today)).isFalse()

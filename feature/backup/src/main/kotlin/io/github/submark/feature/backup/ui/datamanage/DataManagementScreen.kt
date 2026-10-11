@@ -289,7 +289,6 @@ private fun ImportResultDialog(result: ImportResult, onDismiss: () -> Unit) {
             "customReminders" -> R.string.backup_count_customReminders
             "paymentRecords" -> R.string.backup_count_paymentRecords
             "walletTransactions" -> R.string.backup_count_walletTransactions
-            "storedValueRecords" -> R.string.backup_count_storedValueRecords
             "sharedConfigs" -> R.string.backup_count_sharedConfigs
             "sharedMembers" -> R.string.backup_count_sharedMembers
             else -> null

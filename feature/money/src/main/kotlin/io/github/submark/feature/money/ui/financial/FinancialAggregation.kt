@@ -2,8 +2,6 @@ package io.github.submark.feature.money.ui.financial
 
 import io.github.submark.core.data.settings.FinancialDetailFilter
 import io.github.submark.core.domain.CurrencyConverter
-import io.github.submark.core.domain.StoredValueCalculator
-import io.github.submark.core.domain.StoredValueStatus
 import io.github.submark.core.model.BillingCycle
 import io.github.submark.core.model.PaymentKind
 import io.github.submark.core.model.PaymentRecord
@@ -17,7 +15,7 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 /** Cycle the payment belongs to based on its subscription. */
-enum class SpendingType { MONTHLY, QUARTERLY, YEARLY, OTHER_CYCLE, LIFETIME, SHARED, IAP, STORED_VALUE_DEPOSIT, BUNDLE_CHILD }
+enum class SpendingType { MONTHLY, QUARTERLY, YEARLY, OTHER_CYCLE, LIFETIME, SHARED, IAP, BUNDLE_CHILD }
 
 data class ConvertedPayment(
     val record: PaymentRecord,
@@ -62,12 +60,11 @@ object FinancialAggregator {
         return out.takeIf { out.isNotEmpty() || dates.isEmpty() }
     }
 
-    /** Type with exclusivity: IAP > shared > lifetime > stored-value > bundle child > cycle length. */
+    /** Type with exclusivity: IAP > shared > lifetime > bundle child > cycle length. */
     fun typeOf(record: PaymentRecord, subscription: Subscription?): SpendingType = when {
         record.kind == PaymentKind.IN_APP_PURCHASE -> SpendingType.IAP
         subscription?.isShared == true -> SpendingType.SHARED
         record.kind == PaymentKind.LIFETIME_PURCHASE || subscription?.kind == SubscriptionKind.LIFETIME -> SpendingType.LIFETIME
-        record.kind == PaymentKind.STORED_VALUE_DEPOSIT || subscription?.kind == SubscriptionKind.STORED_VALUE -> SpendingType.STORED_VALUE_DEPOSIT
         subscription?.parentId != null -> SpendingType.BUNDLE_CHILD
         subscription?.billingCycle == BillingCycle.MONTHLY -> SpendingType.MONTHLY
         subscription?.billingCycle == BillingCycle.QUARTERLY -> SpendingType.QUARTERLY
@@ -117,7 +114,7 @@ object FinancialAggregator {
             .map { (m, list) -> MonthGroup(m, list.fold(BigDecimal.ZERO) { a, p -> a + p.defaultAmount }, list.sortedByDescending { it.record.paymentDate }) }
         val order = listOf(
             SpendingType.MONTHLY, SpendingType.QUARTERLY, SpendingType.YEARLY, SpendingType.OTHER_CYCLE,
-            SpendingType.LIFETIME, SpendingType.SHARED, SpendingType.IAP, SpendingType.STORED_VALUE_DEPOSIT, SpendingType.BUNDLE_CHILD,
+            SpendingType.LIFETIME, SpendingType.SHARED, SpendingType.IAP, SpendingType.BUNDLE_CHILD,
         )
         val byType = converted.groupBy { it.type }
             .mapValues { (_, list) -> list.fold(BigDecimal.ZERO) { a, p -> a + p.defaultAmount } }

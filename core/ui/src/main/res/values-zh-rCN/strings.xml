@@ -89,7 +89,6 @@
     <string name="ui_unit_year">年</string>
 
     <string name="ui_kind_regular">周期订阅</string>
-    <string name="ui_kind_stored_value">预付余额</string>
     <string name="ui_kind_lifetime">买断</string>
     <string name="ui_kind_wishlist">心愿单</string>
     <string name="ui_status_active">使用中</string>
@@ -104,7 +103,6 @@
     <string name="ui_payment_kind_iap">应用内购买</string>
     <string name="ui_payment_kind_extension">延期</string>
     <string name="ui_payment_kind_lifetime">一次性购买</string>
-    <string name="ui_payment_kind_deposit">充值</string>
     <string name="ui_payment_source_manual">手动标记</string>
     <string name="ui_payment_source_auto">自动记录</string>
     <string name="ui_payment_source_overdue">逾期补记</string>
@@ -189,7 +187,6 @@
     <string name="ui_badge_trial">试用</string>
     <string name="ui_badge_shared">共享</string>
     <string name="ui_badge_single_cycle">单周期</string>
-    <string name="ui_badge_stored_value">预付</string>
     <string name="ui_badge_child">套餐内</string>
     <string name="ui_badge_lifetime">已买断</string>
     <string name="ui_badge_wishlist">心愿单</string>

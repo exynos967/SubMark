@@ -1,6 +1,7 @@
 package io.github.submark.core.data
 
 import com.google.common.truth.Truth.assertThat
+import io.github.submark.core.data.settings.AnalyticsComponent
 import io.github.submark.core.data.settings.AppSettings
 import io.github.submark.core.data.settings.AppSettingsSerializer
 import io.github.submark.core.data.settings.CalendarMode
@@ -52,5 +53,15 @@ class AppSettingsSerializerTest {
         val json = """{"calendar":{"defaultMode":"WEEK"}}"""
         val read = serializer.readFrom(ByteArrayInputStream(json.toByteArray()))
         assertThat(read.calendar.defaultMode).isEqualTo(CalendarMode.MONTH)
+    }
+
+    /** The stored-value analytics card was removed; saved layouts keep their other cards instead of resetting everything. */
+    @Test fun removedAnalyticsComponentIsDropped() = runTest {
+        val json = """{"display":{"theme":"DARK"},"analytics":{"subscriptionComponents":[""" +
+            """{"id":"STORED_VALUE","visible":true},{"id":"TREND","visible":false}]}}"""
+        val read = serializer.readFrom(ByteArrayInputStream(json.toByteArray()))
+        assertThat(read.display.theme).isEqualTo(ThemeMode.DARK)
+        assertThat(read.analytics.subscriptionComponents)
+            .containsExactly(ComponentSetting(AnalyticsComponent.TREND, visible = false))
     }
 }
