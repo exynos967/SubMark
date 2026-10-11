@@ -11,7 +11,7 @@ import java.time.temporal.ChronoUnit
 data class CalendarScenario(
     val mode: CalendarMode,
     val timelinePeriod: TimelinePeriod,
-    /** First day of the visible month (MONTH) or week (WEEK). TIMELINE always starts today. */
+    /** First day of the visible month (MONTH). TIMELINE always starts today. */
     val anchorDate: LocalDate,
     val selectedDate: LocalDate,
     val today: LocalDate,
@@ -19,37 +19,34 @@ data class CalendarScenario(
     /** Date range whose occurrences should be loaded. */
     fun range(): Pair<LocalDate, LocalDate> = when (mode) {
         CalendarMode.MONTH -> YearMonth.from(anchorDate).let { it.atDay(1) to it.atEndOfMonth() }
-        CalendarMode.WEEK -> anchorDate to anchorDate.plusDays(6)
         CalendarMode.TIMELINE -> today to today.plusMonths(timelinePeriod.months().toLong())
     }
 
     fun withMode(mode: CalendarMode): CalendarScenario = copy(
         mode = mode,
-        anchorDate = mode.anchorFor(selectedDate),
+        anchorDate = selectedDate.withDayOfMonth(1),
     )
 
     fun withTimelinePeriod(period: TimelinePeriod): CalendarScenario = copy(timelinePeriod = period)
 
     fun select(date: LocalDate): CalendarScenario =
-        copy(selectedDate = date, anchorDate = mode.anchorFor(date))
+        copy(selectedDate = date, anchorDate = date.withDayOfMonth(1))
 
     fun previous(): CalendarScenario = when (mode) {
         CalendarMode.MONTH -> copy(anchorDate = anchorDate.minusMonths(1))
-        CalendarMode.WEEK -> copy(anchorDate = anchorDate.minusWeeks(1))
         CalendarMode.TIMELINE -> this
     }
 
     fun next(): CalendarScenario = when (mode) {
         CalendarMode.MONTH -> copy(anchorDate = anchorDate.plusMonths(1))
-        CalendarMode.WEEK -> copy(anchorDate = anchorDate.plusWeeks(1))
         CalendarMode.TIMELINE -> this
     }
 
     fun goToday(): CalendarScenario =
-        copy(anchorDate = mode.anchorFor(today), selectedDate = today)
+        copy(anchorDate = today.withDayOfMonth(1), selectedDate = today)
 
     fun jumpTo(date: LocalDate): CalendarScenario =
-        copy(anchorDate = mode.anchorFor(date), selectedDate = date)
+        copy(anchorDate = date.withDayOfMonth(1), selectedDate = date)
 }
 
 fun TimelinePeriod.months(): Int = when (this) {
@@ -58,10 +55,6 @@ fun TimelinePeriod.months(): Int = when (this) {
     TimelinePeriod.SIX_MONTHS -> 6
     TimelinePeriod.ONE_YEAR -> 12
 }
-
-/** First day of the page containing [date]: its week in WEEK mode, otherwise its month. */
-fun CalendarMode.anchorFor(date: LocalDate): LocalDate =
-    if (this == CalendarMode.WEEK) date.startOfWeek() else date.withDayOfMonth(1)
 
 fun LocalDate.startOfWeek(): LocalDate = minusDays(((dayOfWeek.value - java.time.DayOfWeek.MONDAY.value + 7) % 7).toLong())
 

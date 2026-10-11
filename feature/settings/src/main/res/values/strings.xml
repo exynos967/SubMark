@@ -126,7 +126,6 @@
     <string name="settings_list_style_grid">Grid</string>
     <string name="settings_list_style_last_used">Last used</string>
     <string name="settings_calendar_mode_month">Month</string>
-    <string name="settings_calendar_mode_week">Week</string>
     <string name="settings_calendar_mode_timeline">Timeline</string>
     <string name="settings_customization_title">Customization</string>
     <string name="settings_customization_interface_group">Screens</string>

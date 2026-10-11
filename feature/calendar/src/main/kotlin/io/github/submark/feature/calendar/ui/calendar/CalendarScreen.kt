@@ -19,6 +19,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -188,37 +189,24 @@ private fun CalendarScreen(
                 label = { mode ->
                     when (mode) {
                         CalendarMode.MONTH -> stringResource(R.string.calendar_mode_month)
-                        CalendarMode.WEEK -> stringResource(R.string.calendar_mode_week)
                         CalendarMode.TIMELINE -> stringResource(R.string.calendar_mode_timeline)
                     }
                 },
             )
 
-            // Navigation row (prev/next/today) — shown for Month & Week
+            // Navigation row (prev/next/today) — month view only
             if (scenario.mode != CalendarMode.TIMELINE) {
                 PagerRow(
-                    anchorText = when (scenario.mode) {
-                        CalendarMode.MONTH -> DateLabels.formatYearMonth(scenario.anchorDate)
-                        CalendarMode.WEEK -> weekRangeLabel(scenario.anchorDate.startOfWeek())
-                        CalendarMode.TIMELINE -> ""
-                    },
+                    anchorText = DateLabels.formatYearMonth(scenario.anchorDate),
                     onPrevious = onPrevious,
                     onNext = onNext,
                     onToday = onToday,
                 )
             }
 
-            // Month grid and week strip keep their natural height; the selected day's agenda below takes the rest.
+            // The month grid keeps its natural height; the selected day's agenda below takes the rest.
             when (scenario.mode) {
                 CalendarMode.MONTH -> MonthGrid(
-                    scenario = scenario,
-                    byDate = nativeState.byDate,
-                    onSelectDate = onSelectDate,
-                    onPrevious = onPrevious,
-                    onNext = onNext,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-                CalendarMode.WEEK -> WeekStrip(
                     scenario = scenario,
                     byDate = nativeState.byDate,
                     onSelectDate = onSelectDate,
@@ -240,7 +228,7 @@ private fun CalendarScreen(
                 )
             }
 
-            // Agenda for the selected day (Month and Week modes)
+            // Agenda for the selected day (month view)
             if (scenario.mode != CalendarMode.TIMELINE && nativeState.agenda.isNotEmpty()) {
                 AgendaStrip(
                     agenda = nativeState.agenda,
@@ -318,7 +306,12 @@ private fun PagerRow(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
-        TextButton(onClick = onToday, modifier = Modifier.height(32.dp)) {
+        // Zero vertical padding: the default 8dp would squeeze the label off-centre in a 32dp-tall button.
+        TextButton(
+            onClick = onToday,
+            modifier = Modifier.height(32.dp),
+            contentPadding = PaddingValues(horizontal = 12.dp),
+        ) {
             Text(stringResource(R.string.calendar_today), style = MaterialTheme.typography.labelLarge)
         }
         IconButton(onClick = onNext, modifier = Modifier.size(32.dp)) {
@@ -369,39 +362,6 @@ private fun MonthGrid(
 }
 
 @Composable
-private fun WeekStrip(
-    scenario: CalendarScenario,
-    byDate: Map<LocalDate, List<Occurrence>>,
-    onSelectDate: (LocalDate) -> Unit,
-    onPrevious: () -> Unit,
-    onNext: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Column(modifier = modifier.padding(horizontal = 16.dp)) {
-        WeekdayHeader()
-        SwipePager(
-            page = scenario.anchorDate.startOfWeek(),
-            onPrevious = onPrevious,
-            onNext = onNext,
-        ) { weekStart ->
-            Row(Modifier.fillMaxWidth()) {
-                (0L..6L).map(weekStart::plusDays).forEach { date ->
-                    DayCell(
-                        date = date,
-                        occurrences = byDate[date].orEmpty(),
-                        isSelected = date == scenario.selectedDate,
-                        isToday = date == scenario.today,
-                        isOutside = false,
-                        onSelect = { onSelectDate(date) },
-                        modifier = Modifier.weight(1f),
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
 private fun WeekdayHeader() {
     Row(Modifier.fillMaxWidth().padding(bottom = 4.dp)) {
         listOf(
@@ -422,7 +382,7 @@ private fun WeekdayHeader() {
 }
 
 /**
- * Hosts one month / week page: a horizontal swipe pages back or forward, and a page change slides in
+ * Hosts one month page: a horizontal swipe pages back or forward, and a page change slides in
  * from the side it came from (shared axis X, same rhythm as screen navigation).
  */
 @Composable
@@ -464,7 +424,7 @@ private fun <T : Comparable<T>> SwipePager(
 }
 
 /**
- * One day in the month grid or week strip: the date sits in a circle (filled when selected, outlined
+ * One day in the month grid: the date sits in a circle (filled when selected, outlined
  * for today) and up to three dots below mark that day's payments. The whole cell is tappable while the
  * ripple stays inside the circle.
  */
@@ -828,9 +788,6 @@ private fun AgendaStrip(
         }
     }
 }
-
-private fun weekRangeLabel(weekStart: LocalDate): String =
-    "${DateLabels.formatMonthDay(weekStart)} – ${DateLabels.formatMonthDay(weekStart.plusDays(6))}"
 
 @Preview(showBackground = true)
 @Composable

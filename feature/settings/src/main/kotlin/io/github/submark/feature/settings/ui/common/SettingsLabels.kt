@@ -92,7 +92,6 @@ internal val DefaultListStyle.labelRes: Int
 internal val CalendarMode.labelRes: Int
     get() = when (this) {
         CalendarMode.MONTH -> R.string.settings_calendar_mode_month
-        CalendarMode.WEEK -> R.string.settings_calendar_mode_week
         CalendarMode.TIMELINE -> R.string.settings_calendar_mode_timeline
     }
 

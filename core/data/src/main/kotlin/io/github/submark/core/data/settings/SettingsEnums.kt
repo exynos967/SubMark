@@ -21,7 +21,7 @@ import kotlinx.serialization.Serializable
 /** Default list style preference; [LAST_USED] restores [ListSettings.lastStyle]. */
 @Serializable enum class DefaultListStyle { LIST, GRID, LAST_USED }
 
-@Serializable enum class CalendarMode { MONTH, WEEK, TIMELINE }
+@Serializable enum class CalendarMode { MONTH, TIMELINE }
 
 @Serializable enum class TimelinePeriod { ONE_MONTH, THREE_MONTHS, SIX_MONTHS, ONE_YEAR }
 

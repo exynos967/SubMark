@@ -125,7 +125,6 @@
     <string name="settings_list_style_grid">网格</string>
     <string name="settings_list_style_last_used">上次使用</string>
     <string name="settings_calendar_mode_month">月</string>
-    <string name="settings_calendar_mode_week">周</string>
     <string name="settings_calendar_mode_timeline">时间线</string>
     <string name="settings_customization_title">自定义</string>
     <string name="settings_customization_interface_group">页面</string>

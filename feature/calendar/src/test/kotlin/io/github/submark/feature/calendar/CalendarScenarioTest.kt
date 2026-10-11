@@ -31,14 +31,6 @@ class CalendarScenarioTest {
     }
 
     @Test
-    fun `week range covers Monday to Sunday of the anchor`() {
-        // Anchor on a Wednesday.
-        val (from, to) = scenario(mode = CalendarMode.WEEK, anchor = LocalDate.of(2026, 10, 7)).range()
-        assertThat(from).isEqualTo(LocalDate.of(2026, 10, 7))
-        assertThat(to).isEqualTo(LocalDate.of(2026, 10, 13))
-    }
-
-    @Test
     fun `timeline range starts today and spans the period`() {
         val (from, to) = scenario(mode = CalendarMode.TIMELINE).range()
         assertThat(from).isEqualTo(today)
@@ -51,13 +43,6 @@ class CalendarScenarioTest {
         val next = scenario().next()
         assertThat(prev.anchorDate).isEqualTo(LocalDate.of(2026, 9, 1))
         assertThat(next.anchorDate).isEqualTo(LocalDate.of(2026, 11, 1))
-    }
-
-    @Test
-    fun `previous and next move the week anchor by one week`() {
-        val sc = scenario(mode = CalendarMode.WEEK, anchor = LocalDate.of(2026, 10, 5))
-        assertThat(sc.previous().anchorDate).isEqualTo(LocalDate.of(2026, 9, 28))
-        assertThat(sc.next().anchorDate).isEqualTo(LocalDate.of(2026, 10, 12))
     }
 
     @Test
@@ -75,16 +60,9 @@ class CalendarScenarioTest {
     }
 
     @Test
-    fun `goToday in week mode anchors on the current week`() {
-        val sc = scenario(mode = CalendarMode.WEEK, anchor = LocalDate.of(2026, 9, 28)).goToday()
-        assertThat(sc.anchorDate).isEqualTo(LocalDate.of(2026, 10, 5))
-        assertThat(sc.range().first).isAtMost(today)
-        assertThat(sc.range().second).isAtLeast(today)
-    }
-
-    @Test
-    fun `jumpTo in week mode anchors on that date's week`() {
-        val sc = scenario(mode = CalendarMode.WEEK).jumpTo(LocalDate.of(2026, 12, 25))
-        assertThat(sc.anchorDate).isEqualTo(LocalDate.of(2026, 12, 21))
+    fun `jumpTo anchors on that date's month`() {
+        val sc = scenario().jumpTo(LocalDate.of(2026, 12, 25))
+        assertThat(sc.anchorDate).isEqualTo(LocalDate.of(2026, 12, 1))
+        assertThat(sc.selectedDate).isEqualTo(LocalDate.of(2026, 12, 25))
     }
 }

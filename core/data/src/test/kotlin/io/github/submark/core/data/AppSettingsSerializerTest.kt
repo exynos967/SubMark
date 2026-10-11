@@ -3,6 +3,7 @@ package io.github.submark.core.data
 import com.google.common.truth.Truth.assertThat
 import io.github.submark.core.data.settings.AppSettings
 import io.github.submark.core.data.settings.AppSettingsSerializer
+import io.github.submark.core.data.settings.CalendarMode
 import io.github.submark.core.data.settings.ComponentSetting
 import io.github.submark.core.data.settings.ModernOverviewComponent
 import io.github.submark.core.data.settings.SummaryPeriod
@@ -44,5 +45,12 @@ class AppSettingsSerializerTest {
         assertThat(read.overview.period).isEqualTo(SummaryPeriod.YEAR)
         assertThat(read.overview.modernComponents)
             .containsExactly(ComponentSetting(ModernOverviewComponent.COMING_UP, visible = false))
+    }
+
+    /** Week view was removed; a saved WEEK default falls back to the month view instead of failing to load. */
+    @Test fun removedWeekCalendarModeFallsBackToDefault() = runTest {
+        val json = """{"calendar":{"defaultMode":"WEEK"}}"""
+        val read = serializer.readFrom(ByteArrayInputStream(json.toByteArray()))
+        assertThat(read.calendar.defaultMode).isEqualTo(CalendarMode.MONTH)
     }
 }

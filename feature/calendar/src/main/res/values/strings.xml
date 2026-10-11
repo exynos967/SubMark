@@ -6,7 +6,6 @@
 
     <!-- Modes -->
     <string name="calendar_mode_month">Month</string>
-    <string name="calendar_mode_week">Week</string>
     <string name="calendar_mode_timeline">Timeline</string>
 
     <!-- Timeline periods -->

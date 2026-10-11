@@ -6,7 +6,6 @@
 
     <!-- Modes -->
     <string name="calendar_mode_month">月</string>
-    <string name="calendar_mode_week">周</string>
     <string name="calendar_mode_timeline">时间线</string>
 
     <!-- Timeline periods -->
