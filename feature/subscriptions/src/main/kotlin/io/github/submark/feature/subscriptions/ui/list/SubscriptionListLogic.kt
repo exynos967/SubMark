@@ -6,13 +6,16 @@ import io.github.submark.core.data.settings.ListSegment
 import io.github.submark.core.data.settings.SortDirection
 import io.github.submark.core.data.settings.SortField
 import io.github.submark.core.data.settings.SubscriptionPrefs
-import io.github.submark.core.domain.CostCalculator
 import io.github.submark.core.domain.CurrencyConverter
+import io.github.submark.core.domain.PaymentProjection
 import io.github.submark.core.model.BundleRole
+import io.github.submark.core.model.PaymentRecord
 import io.github.submark.core.model.SubscriptionKind
 import io.github.submark.core.model.SubscriptionStatus
 import java.math.BigDecimal
 import java.math.MathContext
+import java.time.LocalDate
+import java.time.YearMonth
 
 /** Search text, single category and tag filter (ANY of [tagIds]); all three are AND-ed. */
 data class ListFilter(
@@ -24,15 +27,15 @@ data class ListFilter(
 }
 
 /**
- * Totals in [currencyCode]. [monthly]/[annual] convert recurring active items to a month/year at current prices; [total] is the sum of
- * one-time (lifetime) or planned (wishlist) prices. Amounts whose currency has no rate are skipped and listed
- * in [missingRateCodes].
+ * Totals in [currencyCode]. [thisMonth]/[thisYear] are the recurring payments of the calendar month/year, paid
+ * plus still due, the same figure as the overview's projected total; [total] is the sum of one-time (lifetime)
+ * or planned (wishlist) prices. Amounts whose currency has no rate are skipped and listed in [missingRateCodes].
  */
 data class ListSummary(
     val count: Int,
     val currencyCode: String,
-    val monthly: BigDecimal = BigDecimal.ZERO,
-    val annual: BigDecimal = BigDecimal.ZERO,
+    val thisMonth: BigDecimal = BigDecimal.ZERO,
+    val thisYear: BigDecimal = BigDecimal.ZERO,
     val total: BigDecimal = BigDecimal.ZERO,
     val missingRateCodes: Set<String> = emptySet(),
 )
@@ -107,33 +110,42 @@ object SubscriptionListLogic {
         }
     }
 
-    fun summary(items: List<SubscriptionItem>, converter: CurrencyConverter, currencyCode: String): ListSummary {
-        var monthly = BigDecimal.ZERO
+    /** [payments] must cover the calendar year of [today]; records of other subscriptions are ignored. */
+    fun summary(
+        items: List<SubscriptionItem>,
+        payments: List<PaymentRecord>,
+        today: LocalDate,
+        converter: CurrencyConverter,
+        currencyCode: String,
+    ): ListSummary {
+        val recurring = items.map { it.subscription }.filter { it.kind == SubscriptionKind.REGULAR }
+        val ids = recurring.map { it.id }.toSet()
+        val ownPayments = payments.filter { it.subscriptionId in ids }
+        val year = PaymentProjection.project(
+            subs = recurring,
+            payments = ownPayments,
+            from = today.withDayOfYear(1),
+            to = today.withDayOfYear(today.lengthOfYear()),
+            today = today,
+            defaultCode = currencyCode,
+            converter = converter,
+            includeChildren = true,
+        )
+        val month = YearMonth.from(today)
         var total = BigDecimal.ZERO
         val missing = mutableSetOf<String>()
-        for (item in items) {
-            val sub = item.subscription
-            when (sub.kind) {
-                SubscriptionKind.REGULAR -> {
-                    val m = CostCalculator.monthlyOf(sub) ?: continue
-                    val converted = converter.convert(m, sub.currencyCode, currencyCode)
-                    if (converted == null) {
-                        missing += sub.currencyCode
-                    } else {
-                        monthly = monthly.add(converted, MC)
-                    }
-                }
-                SubscriptionKind.LIFETIME, SubscriptionKind.WISHLIST -> {
-                    val converted = converter.convert(sub.price, sub.currencyCode, currencyCode)
-                    if (converted == null) missing += sub.currencyCode else total = total.add(converted, MC)
-                }
-            }
+        recurring.filter { PaymentProjection.counts(it) }.map { it.currencyCode }
+            .plus(ownPayments.map { it.currencyCode })
+            .filterTo(missing) { converter.convert(BigDecimal.ONE, it, currencyCode) == null }
+        for (sub in items.map { it.subscription }.filter { it.kind != SubscriptionKind.REGULAR }) {
+            val converted = converter.convert(sub.price, sub.currencyCode, currencyCode)
+            if (converted == null) missing += sub.currencyCode else total = total.add(converted, MC)
         }
         return ListSummary(
             count = items.size,
             currencyCode = currencyCode,
-            monthly = monthly,
-            annual = monthly.multiply(BigDecimal(12), MC),
+            thisMonth = year.between(month.atDay(1), month.atEndOfMonth()).projectedTotal,
+            thisYear = year.projectedTotal,
             total = total,
             missingRateCodes = missing,
         )
@@ -146,6 +158,8 @@ object SubscriptionListLogic {
     fun partitionFolders(
         items: List<SubscriptionItem>,
         folders: List<TagFolderWithTags>,
+        payments: List<PaymentRecord>,
+        today: LocalDate,
         converter: CurrencyConverter,
         currencyCode: String,
     ): FolderPartition {
@@ -153,7 +167,7 @@ object SubscriptionListLogic {
             .sortedBy { it.folder.sortOrder }
             .mapNotNull { folder ->
                 val matched = items.filter { item -> folder.matches(item.tags.map { it.id }.toSet()) }
-                if (matched.isEmpty()) null else FolderEntry(folder, matched, summary(matched, converter, currencyCode))
+                if (matched.isEmpty()) null else FolderEntry(folder, matched, summary(matched, payments, today, converter, currencyCode))
             }
         val hidden = entries.filter { !it.folder.folder.showInMainList }.flatMap { e -> e.items.map { it.id } }.toSet()
         return FolderPartition(entries, items.filter { it.id !in hidden })

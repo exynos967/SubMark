@@ -26,8 +26,8 @@ import io.github.submark.core.model.SubscriptionStatus
 import io.github.submark.core.ui.util.SnackbarMessage
 import io.github.submark.feature.overview.R
 import io.github.submark.feature.overview.data.PriceMonitorReader
-import io.github.submark.feature.overview.data.PaymentOccurrence
-import io.github.submark.feature.overview.data.PaymentProjection
+import io.github.submark.core.domain.PaymentOccurrence
+import io.github.submark.core.domain.PaymentProjection
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -187,27 +187,30 @@ class OverviewViewModel @Inject constructor(
 
         val (periodStart, periodEnd) = periodRange(s.overview.period, today)
 
-        // Project occurrences over the visible span (today-3month .. periodEnd)
+        // Project occurrences over today-3month .. periodEnd. Hidden bundle children still cost money, so the
+        // projection covers them and only the lists below drop them.
         val projection = PaymentProjection.project(
-            subs = visible,
-            payments = payList.filter { p -> visible.any { v -> v.id == p.subscriptionId } },
+            subs = subs,
+            payments = payList,
             from = periodStart.minusMonths(3),
             to = periodEnd,
             today = today,
             defaultCode = defaultCode,
             converter = converterSafe,
-            includeChildren = includeChildren,
+            includeChildren = true,
         )
+        fun shown(occ: PaymentOccurrence) = includeChildren || occ.subscription.parentId == null
 
-        // The projection reaches back three months for recent history; totals cover the period only.
-        val periodTotals = projection.between(periodStart, periodEnd)
+        // The projection reaches back three months for recent history; totals cover the period's recurring
+        // payments only, the same scope as the subscriptions list and analytics.
+        val periodTotals = projection.between(periodStart, periodEnd) { it.subscription.kind == SubscriptionKind.REGULAR }
         val paidThisPeriod = periodTotals.paid
         val scheduledThisPeriod = periodTotals.scheduled
-        val comingUp = PaymentProjection.comingUp(projection, today)
+        val comingUp = PaymentProjection.comingUp(projection, today).filter(::shown)
         // Each spending mode lists only its own kind: recurring payments vs one-off lifetime purchases.
         val lifetimeMode = s.overview.mode == SpendingMode.LIFETIME
         val recentPayments = PaymentProjection.recentPaid(projection, today)
-            .filter { (it.subscription.kind == SubscriptionKind.LIFETIME) == lifetimeMode }
+            .filter { shown(it) && (it.subscription.kind == SubscriptionKind.LIFETIME) == lifetimeMode }
 
         val subById = visible.associateBy { it.id }
 

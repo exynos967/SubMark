@@ -373,8 +373,8 @@ private fun SummaryStrip(state: SubscriptionListUiState) {
             Row(Modifier.fillMaxWidth()) {
                 SummaryCell(stringResource(R.string.subscriptions_list_summary_count), s.count.toString(), Modifier.weight(1f))
                 if (state.segment == ListSegment.SUBSCRIPTIONS) {
-                    SummaryCell(stringResource(R.string.subscriptions_list_summary_monthly), amountOrNone(s.monthly, s.currencyCode, state), Modifier.weight(1f))
-                    SummaryCell(stringResource(R.string.subscriptions_list_summary_annual), amountOrNone(s.annual, s.currencyCode, state), Modifier.weight(1f))
+                    SummaryCell(stringResource(R.string.subscriptions_list_summary_monthly), amountOrNone(s.thisMonth, s.currencyCode, state), Modifier.weight(1f))
+                    SummaryCell(stringResource(R.string.subscriptions_list_summary_annual), amountOrNone(s.thisYear, s.currencyCode, state), Modifier.weight(1f))
                 } else {
                     SummaryCell(
                         stringResource(
@@ -495,7 +495,7 @@ private fun FolderCard(entry: FolderEntry, state: SubscriptionListUiState, onCli
                 )
             }
             val s = entry.summary
-            val total = if (state.segment == ListSegment.SUBSCRIPTIONS) s.monthly else s.total
+            val total = if (state.segment == ListSegment.SUBSCRIPTIONS) s.thisMonth else s.total
             if (total.signum() != 0) {
                 Column(horizontalAlignment = Alignment.End) {
                     Text(formatMoney(total, s.currencyCode, state.symbols[s.currencyCode]), style = MaterialTheme.typography.titleSmall)

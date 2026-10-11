@@ -11,6 +11,7 @@ import io.github.submark.core.data.settings.SubscriptionPrefs
 import io.github.submark.core.domain.CurrencyConverter
 import io.github.submark.core.model.BillingCycle
 import io.github.submark.core.model.BundleRole
+import io.github.submark.core.model.PaymentRecord
 import io.github.submark.core.model.RenewalType
 import io.github.submark.core.model.Subscription
 import io.github.submark.core.model.SubscriptionKind
@@ -163,17 +164,30 @@ class SubscriptionListLogicTest {
 
     // ---- summary ----
 
+    private fun paid(subId: String, date: LocalDate, amount: String, currency: String = "USD") = PaymentRecord(
+        subscriptionId = subId, amount = BigDecimal(amount), currencyCode = currency, paymentDate = date, createdAt = now, updatedAt = now,
+    )
+
+    /** Calendar month/year totals: payments made plus dues left, like the overview's projected total. */
     @Test
-    fun summary_convertsAndExcludesPausedAndNonRecurring() {
+    fun summary_calendarTotals_paidPlusDue() {
         val items = listOf(
-            item("m", price = "10"), // 10/mo
-            item("y", price = "840", currency = "CNY", cycle = BillingCycle.ANNUALLY), // 120 USD/yr = 10/mo
+            item("m", price = "10", next = LocalDate.of(2026, 3, 15)), // due Mar 15 .. Dec 15: 10 × 10
+            item("y", price = "840", currency = "CNY", cycle = BillingCycle.ANNUALLY, next = LocalDate.of(2026, 8, 1)), // 120 USD in Aug
             item("paused", price = "100", status = SubscriptionStatus.PAUSED),
+            item("life", kind = SubscriptionKind.LIFETIME, price = "30", cycle = null, next = null),
         )
-        val s = SubscriptionListLogic.summary(items, converter, "USD")
-        assertThat(s.count).isEqualTo(3)
-        assertThat(s.monthly.compareTo(BigDecimal("20"))).isEqualTo(0)
-        assertThat(s.annual.compareTo(BigDecimal("240"))).isEqualTo(0)
+        val payments = listOf(
+            paid("m", LocalDate.of(2026, 3, 1), "10"),
+            paid("m", LocalDate.of(2026, 1, 5), "8"),
+            paid("life", LocalDate.of(2026, 3, 2), "30"), // one-time purchases are not subscription spending
+            paid("other", LocalDate.of(2026, 3, 3), "99"), // not in the list
+        )
+        val s = SubscriptionListLogic.summary(items, payments, today, converter, "USD")
+        assertThat(s.count).isEqualTo(4)
+        assertThat(s.thisMonth.compareTo(BigDecimal("20"))).isEqualTo(0)
+        assertThat(s.thisYear.compareTo(BigDecimal("238"))).isEqualTo(0)
+        assertThat(s.total.compareTo(BigDecimal("30"))).isEqualTo(0)
         assertThat(s.missingRateCodes).isEmpty()
     }
 
@@ -185,16 +199,16 @@ class SubscriptionListLogicTest {
             item("l3", kind = SubscriptionKind.LIFETIME, price = "5", currency = "XYZ", cycle = null),
             item("r", price = "3", currency = "XYZ"),
         )
-        val s = SubscriptionListLogic.summary(items, converter, "USD")
+        val s = SubscriptionListLogic.summary(items, emptyList(), today, converter, "USD")
         assertThat(s.total.compareTo(BigDecimal("70"))).isEqualTo(0)
-        assertThat(s.monthly.signum()).isEqualTo(0)
+        assertThat(s.thisMonth.signum()).isEqualTo(0)
         assertThat(s.missingRateCodes).containsExactly("XYZ")
     }
 
     @Test
     fun summary_inOtherCurrency() {
-        val s = SubscriptionListLogic.summary(listOf(item("m", price = "2")), converter, "CNY")
-        assertThat(s.monthly.compareTo(BigDecimal("14"))).isEqualTo(0)
+        val s = SubscriptionListLogic.summary(listOf(item("m", price = "2")), emptyList(), today, converter, "CNY")
+        assertThat(s.thisMonth.compareTo(BigDecimal("14"))).isEqualTo(0)
         assertThat(s.currencyCode).isEqualTo("CNY")
     }
 
@@ -212,17 +226,17 @@ class SubscriptionListLogicTest {
             folder("disabled", setOf(work.id), show = false, enabled = false),
             folder("empty", setOf("t_unused")),
         )
-        val p = SubscriptionListLogic.partitionFolders(items, folders, converter, "USD")
+        val p = SubscriptionListLogic.partitionFolders(items, folders, emptyList(), today, converter, "USD")
         assertThat(p.folders.map { it.folder.folder.id }).containsExactly("familyFolder", "workFolder").inOrder()
         assertThat(ids(p.folders.first { it.folder.folder.id == "workFolder" }.items)).containsExactly("w", "both")
         assertThat(ids(p.main)).containsExactly("f", "none")
-        assertThat(p.folders.first().summary.monthly.compareTo(BigDecimal("20"))).isEqualTo(0)
+        assertThat(p.folders.first().summary.thisMonth.compareTo(BigDecimal("20"))).isEqualTo(0)
     }
 
     @Test
     fun partitionFolders_matchAll() {
         val items = listOf(item("w", tags = listOf(work)), item("both", tags = listOf(work, family)))
-        val p = SubscriptionListLogic.partitionFolders(items, listOf(folder("all", setOf(work.id, family.id), mode = TagMatchMode.ALL)), converter, "USD")
+        val p = SubscriptionListLogic.partitionFolders(items, listOf(folder("all", setOf(work.id, family.id), mode = TagMatchMode.ALL)), emptyList(), today, converter, "USD")
         assertThat(ids(p.folders.single().items)).containsExactly("both")
     }
 

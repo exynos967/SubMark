@@ -10,6 +10,7 @@ import io.github.submark.core.data.repository.SubscriptionItem
 import io.github.submark.core.data.repository.SubscriptionRepository
 import io.github.submark.core.data.repository.TagFolderWithTags
 import io.github.submark.core.data.repository.TagRepository
+import io.github.submark.core.data.service.PaymentService
 import io.github.submark.core.data.settings.ListSettings
 import io.github.submark.core.data.settings.SettingsRepository
 import io.github.submark.core.data.settings.SubscriptionPrefs
@@ -55,6 +56,7 @@ class TagFolderViewModel @Inject constructor(
     subscriptionRepository: SubscriptionRepository,
     tagRepository: TagRepository,
     currencyRepository: CurrencyRepository,
+    paymentService: PaymentService,
     settingsRepository: SettingsRepository,
     time: TimeProvider,
 ) : ViewModel() {
@@ -65,8 +67,14 @@ class TagFolderViewModel @Inject constructor(
         tagRepository.observeFolders(),
         tagRepository.observeTags(),
         settingsRepository.settings,
-        combine(currencyRepository.observeConverter(), currencyRepository.observeCurrencies()) { c, list -> c to list },
-    ) { items, folders, tags, settings, (converter, currencies) ->
+        time.today().let { today ->
+            combine(
+                currencyRepository.observeConverter(),
+                currencyRepository.observeCurrencies(),
+                paymentService.observeBetween(today.withDayOfYear(1), today.withDayOfYear(today.lengthOfYear())),
+            ) { c, list, payments -> Triple(c, list, payments) }
+        },
+    ) { items, folders, tags, settings, (converter, currencies, payments) ->
         val folder = folders.firstOrNull { it.folder.id == folderId }
         if (folder == null) {
             TagFolderUiState(loading = false, notFound = true)
@@ -77,7 +85,7 @@ class TagFolderViewModel @Inject constructor(
                 folder = folder,
                 folderTags = tags.filter { it.id in folder.tagIds }.sortedBy { it.name.lowercase() },
                 items = members,
-                summary = SubscriptionListLogic.summary(members, converter, settings.money.defaultCurrencyCode),
+                summary = SubscriptionListLogic.summary(members, payments, time.today(), converter, settings.money.defaultCurrencyCode),
                 today = time.today(),
                 listSettings = settings.list,
                 symbols = currencies.associate { it.code to it.symbol },

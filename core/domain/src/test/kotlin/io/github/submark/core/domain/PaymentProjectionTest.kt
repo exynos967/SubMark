@@ -1,14 +1,12 @@
-package io.github.submark.feature.overview
+package io.github.submark.core.domain
 
 import com.google.common.truth.Truth.assertThat
-import io.github.submark.core.domain.CurrencyConverter
 import io.github.submark.core.model.BillingCycle
 import io.github.submark.core.model.PaymentRecord
 import io.github.submark.core.model.PaymentStatus
 import io.github.submark.core.model.Subscription
 import io.github.submark.core.model.SubscriptionKind
 import io.github.submark.core.model.SubscriptionStatus
-import io.github.submark.feature.overview.data.PaymentProjection
 import org.junit.Test
 import java.math.BigDecimal
 import java.time.Instant
@@ -111,6 +109,22 @@ class PaymentProjectionTest {
         ).between(LocalDate.of(2026, 10, 1), LocalDate.of(2026, 10, 31))
         assertThat(report.paid.compareTo(BigDecimal.ZERO)).isEqualTo(0)
         assertThat(report.scheduled.compareTo(BigDecimal("9.99"))).isEqualTo(0)
+    }
+
+    @Test
+    fun `between can keep recurring payments only`() {
+        val s = sub(anchor = LocalDate.of(2026, 9, 15), next = LocalDate.of(2026, 10, 15))
+        val lifetime = sub(id = "life", kind = SubscriptionKind.LIFETIME, cycle = null, next = null)
+        val report = PaymentProjection.project(
+            subs = listOf(s, lifetime), payments = listOf(payment(lifetime.id, LocalDate.of(2026, 10, 2), BigDecimal("50"))),
+            from = LocalDate.of(2026, 10, 1), to = LocalDate.of(2026, 10, 31), today = today,
+            defaultCode = "USD", converter = identity,
+        )
+        val october = LocalDate.of(2026, 10, 1) to LocalDate.of(2026, 10, 31)
+        assertThat(report.between(october.first, october.second).paid.compareTo(BigDecimal("50"))).isEqualTo(0)
+        val recurring = report.between(october.first, october.second) { it.subscription.kind == SubscriptionKind.REGULAR }
+        assertThat(recurring.paid.signum()).isEqualTo(0)
+        assertThat(recurring.scheduled.compareTo(BigDecimal("9.99"))).isEqualTo(0)
     }
 
     @Test

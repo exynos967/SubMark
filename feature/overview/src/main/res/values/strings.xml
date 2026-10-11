@@ -18,12 +18,12 @@
 
     <!-- ── Hero (modern layout) ─────────────────────── -->
     <string name="overview_hero_paid">Paid</string>
-    <string name="overview_hero_scheduled">Scheduled</string>
+    <string name="overview_hero_scheduled">Due</string>
     <string name="overview_hero_projected">Projected total</string>
     <string name="overview_hero_added_days">Added %1$d days</string>
     <string name="overview_hero_no_projected">No projected spending this period</string>
-    <string name="overview_hero_split">Paid %1$s, unpaid %2$s, projected %3$s</string>
-    <string name="overview_hero_hint">Unpaid is estimated from current plans</string>
+    <string name="overview_hero_split">Paid %1$s, due %2$s, projected %3$s</string>
+    <string name="overview_hero_hint">Recurring subscriptions only; due amounts use current prices</string>
 
     <!-- ── Coming up ────────────────────────────────── -->
     <string name="overview_coming_up">Coming up</string>

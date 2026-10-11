@@ -115,10 +115,10 @@ private fun FolderHeader(state: TagFolderUiState) {
                 Stat(stringResource(R.string.subscriptions_folder_stat_count), pluralStringResource(R.plurals.subscriptions_folder_count, state.items.size, state.items.size), Modifier.weight(1f))
                 val s = state.summary
                 if (s != null) {
-                    if (s.monthly.signum() != 0) {
+                    if (s.thisMonth.signum() != 0) {
                         Stat(
                             stringResource(R.string.subscriptions_folder_stat_monthly),
-                            formatMoney(s.monthly, s.currencyCode, state.symbols[s.currencyCode]),
+                            formatMoney(s.thisMonth, s.currencyCode, state.symbols[s.currencyCode]),
                             Modifier.weight(1f),
                         )
                     }

@@ -77,7 +77,7 @@ import io.github.submark.core.ui.icon.SubscriptionIcon
 import io.github.submark.core.ui.theme.SubMarkTheme
 import io.github.submark.core.ui.util.SnackbarEffect
 import io.github.submark.feature.overview.R
-import io.github.submark.feature.overview.data.PaymentOccurrence
+import io.github.submark.core.domain.PaymentOccurrence
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.format.FormatStyle

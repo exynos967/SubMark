@@ -44,7 +44,7 @@ import io.github.submark.core.ui.format.DateLabels
 import io.github.submark.core.ui.icon.SubscriptionIcon
 import io.github.submark.core.ui.theme.SubMarkTheme
 import io.github.submark.feature.overview.R
-import io.github.submark.feature.overview.data.PaymentOccurrence
+import io.github.submark.core.domain.PaymentOccurrence
 import java.time.LocalDate
 import java.time.format.FormatStyle
 

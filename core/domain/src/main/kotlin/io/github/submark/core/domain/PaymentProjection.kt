@@ -1,6 +1,5 @@
-package io.github.submark.feature.overview.data
+package io.github.submark.core.domain
 
-import io.github.submark.core.domain.CurrencyConverter
 import io.github.submark.core.model.Category
 import io.github.submark.core.model.Money
 import io.github.submark.core.model.PaymentRecord
@@ -50,9 +49,9 @@ object PaymentProjection {
     ) {
         val projectedTotal: BigDecimal get() = paid + scheduled
 
-        /** Same occurrences, with [paid] / [scheduled] re-totalled over [from]..[to] only. */
-        fun between(from: LocalDate, to: LocalDate): Report =
-            byDate.filterKeys { it in from..to }.values.flatten().let { occ ->
+        /** Same occurrences, with [paid] / [scheduled] re-totalled over [from]..[to] and [which] only. */
+        fun between(from: LocalDate, to: LocalDate, which: (PaymentOccurrence) -> Boolean = { true }): Report =
+            byDate.filterKeys { it in from..to }.values.flatten().filter(which).let { occ ->
                 copy(paid = paidTotal(occ), scheduled = scheduledTotal(occ))
             }
     }
@@ -108,10 +107,10 @@ object PaymentProjection {
             .forEach { sub ->
                 val userShare = userShares[sub.id]
                 val basePrice = userShare ?: sub.price
-                val cycle = io.github.submark.core.domain.BillingCalculator.cycleLength(sub) ?: return@forEach
+                val cycle = BillingCalculator.cycleLength(sub) ?: return@forEach
                 val anchor = when {
                     sub.isSingleCycle -> sub.nextPaymentDate
-                    else -> sub.cycleAnchorDate ?: io.github.submark.core.domain.BillingCalculator.firstBillingDate(sub)
+                    else -> sub.cycleAnchorDate ?: BillingCalculator.firstBillingDate(sub)
                 } ?: return@forEach
 
                 val end = sub.endDate
@@ -122,11 +121,11 @@ object PaymentProjection {
                 val lower = if (next != null && next > from) next else from
                 if (lower > rangeEnd) return@forEach
                 val nextMatchesAnchor = next != null &&
-                    io.github.submark.core.domain.BillingCalculator.occurrencesBetween(
+                    BillingCalculator.occurrencesBetween(
                         anchor, cycle, next, next,
                     ).isNotEmpty()
                 val scheduleAnchor = if (next != null && next <= rangeEnd && !nextMatchesAnchor) next else anchor
-                io.github.submark.core.domain.BillingCalculator.occurrencesBetween(
+                BillingCalculator.occurrencesBetween(
                     anchor = scheduleAnchor, cycle = cycle, from = lower, to = rangeEnd,
                 ).forEach { date ->
                     val list = byDate.getOrPut(date) { mutableListOf() }

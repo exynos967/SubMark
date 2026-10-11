@@ -10,6 +10,7 @@ import io.github.submark.core.data.repository.SubscriptionRepository
 import io.github.submark.core.data.repository.TagRepository
 import io.github.submark.core.data.result.DataError
 import io.github.submark.core.data.result.DataResult
+import io.github.submark.core.data.service.PaymentService
 import io.github.submark.core.data.service.SubscriptionService
 import io.github.submark.core.data.settings.AppSettings
 import io.github.submark.core.data.settings.DefaultListStyle
@@ -24,6 +25,7 @@ import io.github.submark.core.domain.CurrencyConverter
 import io.github.submark.core.model.BundleRole
 import io.github.submark.core.model.Category
 import io.github.submark.core.model.MarkTiming
+import io.github.submark.core.model.PaymentRecord
 import io.github.submark.core.model.Tag
 import io.github.submark.core.ui.format.UiText
 import io.github.submark.core.ui.util.SnackbarMessage
@@ -82,6 +84,7 @@ class SubscriptionListViewModel @Inject constructor(
     categoryRepository: CategoryRepository,
     tagRepository: TagRepository,
     currencyRepository: CurrencyRepository,
+    paymentService: PaymentService,
     private val settingsRepository: SettingsRepository,
     private val subscriptionService: SubscriptionService,
     private val photoStorage: PhotoStorage,
@@ -110,20 +113,27 @@ class SubscriptionListViewModel @Inject constructor(
         settingsRepository.settings,
     ) { items, categories, tags, folders, settings -> Sources(items, categories, tags, folders, settings) }
 
-    private val money = combine(currencyRepository.observeConverter(), currencyRepository.observeCurrencies()) { converter, currencies ->
-        converter to currencies.associate { it.code to it.symbol }
+    private data class Money(val converter: CurrencyConverter, val symbols: Map<String, String>, val payments: List<PaymentRecord>)
+
+    private val money = time.today().let { today ->
+        combine(
+            currencyRepository.observeConverter(),
+            currencyRepository.observeCurrencies(),
+            paymentService.observeBetween(today.withDayOfYear(1), today.withDayOfYear(today.lengthOfYear())),
+        ) { converter, currencies, payments -> Money(converter, currencies.associate { it.code to it.symbol }, payments) }
     }
 
     private val local = combine(filter, styleOverride, dialog) { f, s, d -> Triple(f, s, d) }
 
-    val uiState: StateFlow<SubscriptionListUiState> = combine(sources, money, local) { src, (converter, symbols), (f, override, d) ->
-        build(src, converter, symbols, f, override, d)
+    val uiState: StateFlow<SubscriptionListUiState> = combine(sources, money, local) { src, m, (f, override, d) ->
+        build(src, m.converter, m.symbols, m.payments, f, override, d)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), SubscriptionListUiState())
 
     private fun build(
         src: Sources,
         converter: CurrencyConverter,
         symbols: Map<String, String>,
+        payments: List<PaymentRecord>,
         f: ListFilter,
         override: ListStyle?,
         d: ListDialog?,
@@ -144,8 +154,9 @@ class SubscriptionListViewModel @Inject constructor(
         )
         val filtered = SubscriptionListLogic.filter(inSegment, effective)
         val sorted = SubscriptionListLogic.sort(filtered, prefs.sortField, prefs.sortDirection, segment, converter, currency)
-        val partition = SubscriptionListLogic.partitionFolders(sorted, src.folders, converter, currency)
-        val summary = SubscriptionListLogic.summary(summaryItems(src.items, filtered, prefs.showChildSubscriptions), converter, currency)
+        val today = time.today()
+        val partition = SubscriptionListLogic.partitionFolders(sorted, src.folders, payments, today, converter, currency)
+        val summary = SubscriptionListLogic.summary(summaryItems(src.items, filtered, prefs.showChildSubscriptions), payments, today, converter, currency)
         val style = override ?: when (src.settings.list.defaultStyle) {
             DefaultListStyle.LIST -> ListStyle.LIST
             DefaultListStyle.GRID -> ListStyle.GRID
@@ -153,7 +164,7 @@ class SubscriptionListViewModel @Inject constructor(
         }
         return SubscriptionListUiState(
             loading = false,
-            today = time.today(),
+            today = today,
             segments = segments,
             segment = segment,
             filter = effective,

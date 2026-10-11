@@ -18,12 +18,12 @@
 
     <!-- ── Hero (modern layout) ─────────────────────── -->
     <string name="overview_hero_paid">已支付</string>
-    <string name="overview_hero_scheduled">已计划</string>
+    <string name="overview_hero_scheduled">待支付</string>
     <string name="overview_hero_projected">预计总计</string>
     <string name="overview_hero_added_days">已添加 %1$d 天</string>
     <string name="overview_hero_no_projected">本周期无预计支出</string>
-    <string name="overview_hero_split">已支付 %1$s，未支付 %2$s，预计 %3$s</string>
-    <string name="overview_hero_hint">未支付金额根据当前订阅计划估算</string>
+    <string name="overview_hero_split">已支付 %1$s，待支付 %2$s，预计 %3$s</string>
+    <string name="overview_hero_hint">只算周期订阅；待支付按当前价格估算</string>
 
     <!-- ── Coming up ────────────────────────────────── -->
     <string name="overview_coming_up">即将到来</string>

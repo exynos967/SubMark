@@ -18,8 +18,8 @@
     <string name="subscriptions_list_manage_tags">Manage tags</string>
     <string name="subscriptions_list_manage_fields">Custom fields</string>
     <string name="subscriptions_list_summary_count">Items</string>
-    <string name="subscriptions_list_summary_monthly">Per month</string>
-    <string name="subscriptions_list_summary_annual">Per year</string>
+    <string name="subscriptions_list_summary_monthly">This month</string>
+    <string name="subscriptions_list_summary_annual">This year</string>
     <string name="subscriptions_list_summary_total">Total spent</string>
     <string name="subscriptions_list_summary_planned">Planned total</string>
     <string name="subscriptions_list_summary_none">—</string>
@@ -91,12 +91,12 @@
         <item quantity="one">%d subscription</item>
         <item quantity="other">%d subscriptions</item>
     </plurals>
-    <string name="subscriptions_folder_per_month">per month</string>
+    <string name="subscriptions_folder_per_month">this month</string>
     <string name="subscriptions_folder_not_found">This folder no longer exists</string>
     <string name="subscriptions_folder_empty_title">No matching subscriptions</string>
     <string name="subscriptions_folder_empty_message">Subscriptions with this folder\'s tags will appear here.</string>
     <string name="subscriptions_folder_stat_count">Count</string>
-    <string name="subscriptions_folder_stat_monthly">Monthly</string>
+    <string name="subscriptions_folder_stat_monthly">This month</string>
     <string name="subscriptions_folder_stat_one_time">One-time</string>
     <string name="subscriptions_folder_match_any">matches any tag</string>
     <string name="subscriptions_folder_match_all">matches all tags</string>
