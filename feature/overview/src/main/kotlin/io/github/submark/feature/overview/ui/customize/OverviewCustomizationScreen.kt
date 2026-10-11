@@ -213,7 +213,6 @@ private fun ComponentRow(
 private fun componentName(id: ModernOverviewComponent): String = when (id) {
     ModernOverviewComponent.SPENDING_HERO -> stringResource(R.string.overview_component_spendingHero)
     ModernOverviewComponent.COMING_UP -> stringResource(R.string.overview_component_comingUp)
-    ModernOverviewComponent.PAYMENT_SCHEDULE -> stringResource(R.string.overview_component_paymentSchedule)
     ModernOverviewComponent.RECENT_PAYMENTS -> stringResource(R.string.overview_component_recentPayments)
     ModernOverviewComponent.WALLET_BALANCES -> stringResource(R.string.overview_component_walletBalances)
     ModernOverviewComponent.WISHLIST_PRICES -> stringResource(R.string.overview_component_wishlistPrices)

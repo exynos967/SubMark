@@ -89,7 +89,6 @@
     <!-- ── Modern component names (for customization) ── -->
     <string name="overview_component_spendingHero">支出总览</string>
     <string name="overview_component_comingUp">即将到来</string>
-    <string name="overview_component_paymentSchedule">付款计划</string>
     <string name="overview_component_recentPayments">最近付款</string>
     <string name="overview_component_walletBalances">钱包余额</string>
     <string name="overview_component_wishlistPrices">愿望清单价格</string>

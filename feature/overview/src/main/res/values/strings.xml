@@ -89,7 +89,6 @@
     <!-- ── Modern component names (for customization) ── -->
     <string name="overview_component_spendingHero">Spending hero</string>
     <string name="overview_component_comingUp">Coming up</string>
-    <string name="overview_component_paymentSchedule">Payment schedule</string>
     <string name="overview_component_recentPayments">Recent payments</string>
     <string name="overview_component_walletBalances">Wallet balances</string>
     <string name="overview_component_wishlistPrices">Wishlist prices</string>

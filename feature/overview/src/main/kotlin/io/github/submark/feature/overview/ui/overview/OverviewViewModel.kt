@@ -73,12 +73,6 @@ data class OverviewUiState(
     // ---- Coming up ----
     val comingUp: List<PaymentOccurrence> = emptyList(),
 
-    // ---- Payment calendar strip ----
-    val scheduleStrip: Map<LocalDate, List<PaymentOccurrence>> = emptyMap(),
-    /** Selected day for the mini-strip; defaults to null (= no strip selection). */
-    val stripSelectedDate: LocalDate? = null,
-    val stripAgenda: List<PaymentOccurrence> = emptyList(),
-
     // ---- Recent payments ----
     val recentPayments: List<PaymentOccurrence> = emptyList(),
 
@@ -134,7 +128,6 @@ class OverviewViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val markTargetFlow = MutableStateFlow<MarkTarget?>(null)
-    private val stripSelectedDateFlow = MutableStateFlow<LocalDate?>(null)
     private val snackbarChannel = Channel<SnackbarMessage>(Channel.BUFFERED)
     val snackbars: Flow<SnackbarMessage> = snackbarChannel.receiveAsFlow()
 
@@ -142,15 +135,13 @@ class OverviewViewModel @Inject constructor(
         val settings: io.github.submark.core.data.settings.AppSettings,
         val today: LocalDate,
         val mark: MarkTarget?,
-        val stripSelected: LocalDate?,
     )
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val uiState: StateFlow<OverviewUiState> = combine(
         settings.settings,
         markTargetFlow,
-        stripSelectedDateFlow,
-    ) { s, mark, strip -> Env(s, time.today(), mark, strip) }
+    ) { s, mark -> Env(s, time.today(), mark) }
         .flatMapLatest { env ->
             val (periodStart, periodEnd) = periodRange(env.settings.overview.period, env.today)
             combine(
@@ -208,7 +199,6 @@ class OverviewViewModel @Inject constructor(
             includeChildren = includeChildren,
         )
 
-        val byDate = projection.byDate
         // The projection reaches back three months for recent history; totals cover the period only.
         val periodTotals = projection.between(periodStart, periodEnd)
         val paidThisPeriod = periodTotals.paid
@@ -266,9 +256,6 @@ class OverviewViewModel @Inject constructor(
             subscriptionCount = subCount,
             purchaseCount = purchaseCount,
             comingUp = comingUp,
-            scheduleStrip = byDate.filterKeys { it >= today && it <= today.plusDays(6) },
-            stripSelectedDate = env.stripSelected,
-            stripAgenda = env.stripSelected?.let { byDate[it].orEmpty().filter { o -> !o.paid } }.orEmpty(),
             recentPayments = recentPayments,
             wallets = walletBalances,
             wishlistPriceStatus = when {
@@ -295,10 +282,6 @@ class OverviewViewModel @Inject constructor(
         viewModelScope.launch {
             settings.update { it.copy(overview = it.overview.copy(mode = mode)) }
         }
-    }
-
-    fun selectStripDate(date: LocalDate) {
-        stripSelectedDateFlow.value = date
     }
 
     fun requestMarkPaid(occurrence: PaymentOccurrence) {

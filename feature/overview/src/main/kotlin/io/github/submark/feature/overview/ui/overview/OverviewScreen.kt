@@ -119,7 +119,6 @@ fun OverviewRoute(
         onPriceMonitor = onPriceMonitor,
         onPeriodSelect = viewModel::setPeriod,
         onSpendingModeSelect = viewModel::setSpendingMode,
-        onSelectStripDate = viewModel::selectStripDate,
         onMarkPaid = viewModel::requestMarkPaid,
         onConfirmMarkPaid = viewModel::confirmMarkPaid,
         onDismissMarkPaid = viewModel::dismissMarkPaid,
@@ -145,7 +144,6 @@ private fun OverviewScreen(
     onPriceMonitor: () -> Unit,
     onPeriodSelect: (SummaryPeriod) -> Unit,
     onSpendingModeSelect: (SpendingMode) -> Unit,
-    onSelectStripDate: (LocalDate) -> Unit,
     onMarkPaid: (PaymentOccurrence) -> Unit,
     onConfirmMarkPaid: (MarkTiming) -> Unit,
     onDismissMarkPaid: () -> Unit,
@@ -182,7 +180,6 @@ private fun OverviewScreen(
                 onPeriodSelect = onPeriodSelect,
                 onSpendingModeSelect = onSpendingModeSelect,
                 onMarkPaid = onMarkPaid,
-                onSelectStripDate = onSelectStripDate,
                 onPause = onPause,
                 onFinancialDetail = onFinancialDetail,
                 onWalletManagement = onWalletManagement,
@@ -445,7 +442,6 @@ private fun ModernBody(
     onPeriodSelect: (SummaryPeriod) -> Unit,
     onSpendingModeSelect: (SpendingMode) -> Unit,
     onMarkPaid: (PaymentOccurrence) -> Unit,
-    onSelectStripDate: (LocalDate) -> Unit,
     onPause: (String) -> Unit,
     onFinancialDetail: () -> Unit,
     onWalletManagement: () -> Unit,
@@ -458,10 +454,9 @@ private fun ModernBody(
     modifier: Modifier = Modifier,
 ) {
     val mode = uiState.spendingMode
-    // Lifetime purchases are one-off, so the recurring-payment sections have nothing to show.
-    val recurringOnly = setOf(ModernOverviewComponent.COMING_UP, ModernOverviewComponent.PAYMENT_SCHEDULE)
+    // Lifetime purchases are one-off, so the coming-up section has nothing to show.
     val components = uiState.modernComponents.filter {
-        it.visible && !(mode == SpendingMode.LIFETIME && it.id in recurringOnly)
+        it.visible && !(mode == SpendingMode.LIFETIME && it.id == ModernOverviewComponent.COMING_UP)
     }
 
     LazyColumn(modifier = modifier) {
@@ -484,8 +479,6 @@ private fun ModernBody(
                     item { HeroSection(uiState, onPeriodSelect, onFinancialDetail) }
                 ModernOverviewComponent.COMING_UP ->
                     item { ComingUpSection(uiState, onMarkPaid, onPause) }
-                ModernOverviewComponent.PAYMENT_SCHEDULE ->
-                    item { PaymentScheduleSection(uiState, onSelectStripDate) }
                 ModernOverviewComponent.RECENT_PAYMENTS ->
                     item { RecentPaymentsSection(uiState) }
                 ModernOverviewComponent.WALLET_BALANCES ->

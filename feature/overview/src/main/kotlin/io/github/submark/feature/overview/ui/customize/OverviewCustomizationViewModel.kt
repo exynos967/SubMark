@@ -56,7 +56,6 @@ class OverviewCustomizationViewModel @Inject constructor(
                     OverviewPreset.ESSENTIAL -> it in setOf(
                         ModernOverviewComponent.SPENDING_HERO,
                         ModernOverviewComponent.COMING_UP,
-                        ModernOverviewComponent.PAYMENT_SCHEDULE,
                     )
                 },
             )

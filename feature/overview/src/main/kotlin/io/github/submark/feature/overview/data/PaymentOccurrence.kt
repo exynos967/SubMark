@@ -184,10 +184,6 @@ object PaymentProjection {
             .sortedBy { it.date }
     }
 
-    /** Unpaid occurrences due on [date] for the mini calendar-strip agenda. */
-    fun agendaForDate(report: Report, date: LocalDate): List<PaymentOccurrence> =
-        report.byDate[date].orEmpty().filter { !it.paid }
-
     /** Monthly paid totals for the trend chart. */
     fun monthlyPoints(report: Report): List<MonthlyPoint> {
         val grouped = mutableMapOf<YearMonth, MutableList<PaymentOccurrence>>()
