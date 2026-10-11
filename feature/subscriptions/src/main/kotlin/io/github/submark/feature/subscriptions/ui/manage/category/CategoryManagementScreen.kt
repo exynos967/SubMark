@@ -33,7 +33,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -41,7 +40,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -63,6 +61,7 @@ import io.github.submark.core.ui.component.LoadingState
 import io.github.submark.core.ui.component.ReorderableItemsColumn
 import io.github.submark.core.ui.component.SectionHeader
 import io.github.submark.core.ui.component.StatusBadge
+import io.github.submark.core.ui.component.SubMarkBottomSheet
 import io.github.submark.core.ui.component.SubMarkTopAppBar
 import io.github.submark.core.ui.format.asString
 import io.github.submark.core.ui.format.displayName
@@ -378,7 +377,7 @@ private fun CategoryEditorSheet(
     val presetName = editor.systemKey?.let { stringResource(it.labelRes) }
     val previewName = editor.name.trim().ifEmpty { presetName ?: stringResource(R.string.subscriptions_manage_category_no_name) }
     val accent = colorFromHex(editor.colorHex) ?: MaterialTheme.colorScheme.primary
-    ModalBottomSheet(onDismissRequest = onDismiss, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)) {
+    SubMarkBottomSheet(onDismissRequest = onDismiss) {
         Column(
             Modifier
                 .fillMaxWidth()

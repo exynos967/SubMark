@@ -33,7 +33,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -42,7 +41,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -74,6 +72,7 @@ import io.github.submark.core.ui.component.ReorderableItemsColumn
 import io.github.submark.core.ui.component.SearchField
 import io.github.submark.core.ui.component.SegmentedTabs
 import io.github.submark.core.ui.component.StatusBadge
+import io.github.submark.core.ui.component.SubMarkBottomSheet
 import io.github.submark.core.ui.component.SubMarkTopAppBar
 import io.github.submark.core.ui.component.TagChip
 import io.github.submark.core.ui.format.asString
@@ -409,7 +408,7 @@ private fun tagSummary(names: List<String>, mode: TagMatchMode): String {
 private fun TagEditorSheet(editor: TagEditorState, actions: TagManagementActions, onDelete: () -> Unit) {
     val accent = editor.color.themedColor()
     val previewName = editor.name.trim().ifEmpty { stringResource(R.string.subscriptions_manage_tag_name_placeholder) }
-    ModalBottomSheet(onDismissRequest = actions.onTagEditorDismiss, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)) {
+    SubMarkBottomSheet(onDismissRequest = actions.onTagEditorDismiss) {
         Column(
             Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(start = 24.dp, end = 24.dp, bottom = 32.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -485,7 +484,7 @@ private fun FolderEditorSheet(editor: FolderEditorState, allTags: List<Tag>, act
     var pickTags by rememberSaveable { mutableStateOf(false) }
     val accent = colorFromHex(editor.colorHex) ?: MaterialTheme.colorScheme.primary
     val previewName = editor.name.trim().ifEmpty { stringResource(R.string.subscriptions_manage_folder_name_placeholder) }
-    ModalBottomSheet(onDismissRequest = actions.onFolderEditorDismiss, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)) {
+    SubMarkBottomSheet(onDismissRequest = actions.onFolderEditorDismiss) {
         Column(
             Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(start = 24.dp, end = 24.dp, bottom = 32.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),

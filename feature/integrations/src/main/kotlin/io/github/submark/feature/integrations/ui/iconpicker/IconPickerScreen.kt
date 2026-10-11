@@ -32,7 +32,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScrollableTabRow
@@ -57,6 +56,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.submark.core.model.IconType
 import io.github.submark.core.ui.component.EmptyState
 import io.github.submark.core.ui.component.SearchField
+import io.github.submark.core.ui.component.SubMarkBottomSheet
 import io.github.submark.core.ui.component.SubMarkTopAppBar
 import io.github.submark.core.ui.format.asString
 import io.github.submark.core.ui.icon.IconCatalog
@@ -394,7 +394,7 @@ private fun RepositoryTab(state: IconPickerUiState, vm: IconPickerViewModel) {
 private fun RepoAddSheet(onAdd: (String, String) -> Unit, onDismiss: () -> Unit) {
     var name by remember { mutableStateOf("") }
     var url by remember { mutableStateOf("") }
-    ModalBottomSheet(onDismissRequest = onDismiss) {
+    SubMarkBottomSheet(onDismissRequest = onDismiss, skipPartiallyExpanded = false) {
         Column(Modifier.padding(horizontal = 20.dp, vertical = 8.dp)) {
             Text(stringResource(R.string.integrations_icon_repo_add), style = MaterialTheme.typography.titleMedium)
             Spacer(Modifier.height(12.dp))

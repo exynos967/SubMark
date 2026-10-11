@@ -27,7 +27,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
@@ -37,7 +36,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -66,6 +64,7 @@ import io.github.submark.core.ui.component.MoneyInputField
 import io.github.submark.core.ui.component.SectionCard
 import io.github.submark.core.ui.component.SegmentedTabs
 import io.github.submark.core.ui.component.StatusBadge
+import io.github.submark.core.ui.component.SubMarkBottomSheet
 import io.github.submark.core.ui.component.SubMarkTopAppBar
 import io.github.submark.core.ui.component.formatMoney
 import io.github.submark.core.ui.format.BadgeTone
@@ -331,7 +330,7 @@ private fun MemberEditorSheet(
 ) {
     val mode = state.config?.splitMode ?: SplitMode.EQUAL
     var pickCurrency by rememberSaveable { mutableStateOf(false) }
-    ModalBottomSheet(onDismissRequest = onDismiss, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)) {
+    SubMarkBottomSheet(onDismissRequest = onDismiss) {
         Column(
             Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp).imePadding().navigationBarsPadding(),
             verticalArrangement = Arrangement.spacedBy(10.dp),

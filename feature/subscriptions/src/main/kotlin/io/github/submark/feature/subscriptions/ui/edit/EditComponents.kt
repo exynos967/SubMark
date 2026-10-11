@@ -30,13 +30,11 @@ import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -55,6 +53,7 @@ import io.github.submark.core.ui.component.CategoryChip
 import io.github.submark.core.ui.component.ColorPickerDialog
 import io.github.submark.core.ui.component.DefaultColorPresets
 import io.github.submark.core.ui.component.SegmentedTabs
+import io.github.submark.core.ui.component.SubMarkBottomSheet
 import io.github.submark.core.ui.format.asString
 import io.github.submark.core.ui.format.displayName
 import io.github.submark.core.ui.util.colorFromHex
@@ -165,7 +164,7 @@ fun CategoryPickerSheet(
     onManage: () -> Unit,
     onDismiss: () -> Unit,
 ) {
-    ModalBottomSheet(onDismissRequest = onDismiss, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)) {
+    SubMarkBottomSheet(onDismissRequest = onDismiss) {
         Column(
             Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 24.dp).padding(bottom = 32.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),

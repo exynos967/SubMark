@@ -34,14 +34,12 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -63,6 +61,7 @@ import io.github.submark.core.ui.component.EmptyState
 import io.github.submark.core.ui.component.LoadingState
 import io.github.submark.core.ui.component.SectionCard
 import io.github.submark.core.ui.component.SectionHeader
+import io.github.submark.core.ui.component.SubMarkBottomSheet
 import io.github.submark.core.ui.component.SubMarkTopAppBar
 import io.github.submark.core.ui.icon.IconCatalog
 import io.github.submark.core.ui.util.SnackbarEffect
@@ -246,7 +245,7 @@ private fun PaymentMethodFormSheet(
     onDismiss: () -> Unit,
 ) {
     var pickIcon by rememberSaveable { mutableStateOf(false) }
-    ModalBottomSheet(onDismissRequest = onDismiss, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)) {
+    SubMarkBottomSheet(onDismissRequest = onDismiss) {
         Column(
             Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp).imePadding().navigationBarsPadding(),
             verticalArrangement = Arrangement.spacedBy(10.dp),

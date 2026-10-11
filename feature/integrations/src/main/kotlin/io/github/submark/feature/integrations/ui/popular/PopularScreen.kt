@@ -28,7 +28,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -54,6 +53,7 @@ import io.github.submark.core.ui.component.EmptyState
 import io.github.submark.core.ui.component.ErrorState
 import io.github.submark.core.ui.component.LoadingState
 import io.github.submark.core.ui.component.SearchField
+import io.github.submark.core.ui.component.SubMarkBottomSheet
 import io.github.submark.core.ui.component.SubMarkTopAppBar
 import io.github.submark.core.ui.component.TagChip
 import io.github.submark.core.ui.format.asString
@@ -366,7 +366,7 @@ private fun PopularDetailSheet(
     onChoose: (PricingOption, BundlePrefillMode) -> Unit,
 ) {
     var bundleChoice by remember(entry.id) { mutableStateOf<PricingOption?>(null) }
-    ModalBottomSheet(onDismissRequest = onDismiss) {
+    SubMarkBottomSheet(onDismissRequest = onDismiss, skipPartiallyExpanded = false) {
         Column(
             Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 8.dp),
         ) {

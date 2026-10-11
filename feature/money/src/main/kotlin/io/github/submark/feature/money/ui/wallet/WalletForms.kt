@@ -21,12 +21,10 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,6 +42,7 @@ import io.github.submark.core.ui.component.CurrencyPickerSheet
 import io.github.submark.core.ui.component.MoneyInputField
 import io.github.submark.core.ui.component.SectionCard
 import io.github.submark.core.ui.component.SettingsSwitchRow
+import io.github.submark.core.ui.component.SubMarkBottomSheet
 import io.github.submark.core.ui.component.formatMoney
 import io.github.submark.core.ui.format.asString
 import io.github.submark.core.ui.format.descriptionRes
@@ -72,7 +71,7 @@ fun WalletAmountSheet(
 ) {
     val wallet = sheet.wallet
     val isTopUp = sheet.type == WalletTxnType.TOP_UP
-    ModalBottomSheet(onDismissRequest = onDismiss, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)) {
+    SubMarkBottomSheet(onDismissRequest = onDismiss) {
         Column(
             Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp).imePadding().navigationBarsPadding(),
             verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -142,7 +141,7 @@ fun WalletFormSheet(
     var pickCurrency by rememberSaveable { mutableStateOf(false) }
     var pickIcon by rememberSaveable { mutableStateOf(false) }
     var pickColor by rememberSaveable { mutableStateOf(false) }
-    ModalBottomSheet(onDismissRequest = onDismiss, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)) {
+    SubMarkBottomSheet(onDismissRequest = onDismiss) {
         Column(
             Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp).imePadding().navigationBarsPadding(),
             verticalArrangement = Arrangement.spacedBy(10.dp),

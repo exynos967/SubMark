@@ -26,7 +26,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -48,6 +47,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.submark.core.model.PopularRepository
 import io.github.submark.core.ui.component.ConfirmDialog
 import io.github.submark.core.ui.component.EmptyState
+import io.github.submark.core.ui.component.SubMarkBottomSheet
 import io.github.submark.core.ui.component.SubMarkTopAppBar
 import io.github.submark.core.ui.format.asString
 import io.github.submark.core.ui.util.SnackbarEffect
@@ -238,7 +238,7 @@ private fun RepositoryFormSheet(
     onSave: () -> Unit,
     onDismiss: () -> Unit,
 ) {
-    ModalBottomSheet(onDismissRequest = onDismiss) {
+    SubMarkBottomSheet(onDismissRequest = onDismiss, skipPartiallyExpanded = false) {
         Column(Modifier.padding(horizontal = 20.dp, vertical = 8.dp)) {
             Text(
                 stringResource(

@@ -22,13 +22,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -57,6 +55,7 @@ import io.github.submark.core.ui.component.ConfirmDialog
 import io.github.submark.core.ui.component.DatePickerField
 import io.github.submark.core.ui.component.MoneyInputField
 import io.github.submark.core.ui.component.SegmentedTabs
+import io.github.submark.core.ui.component.SubMarkBottomSheet
 import io.github.submark.core.ui.format.MoneyInput
 import io.github.submark.core.ui.format.asString
 import io.github.submark.feature.subscriptions.R
@@ -82,7 +81,7 @@ internal fun ExtendSheet(
     val feeError = feeText.isNotBlank() && MoneyInput.validate(feeText, allowZero = true) != null
     val fee = MoneyInput.parse(feeText)?.takeIf { it.signum() > 0 }
 
-    ModalBottomSheet(onDismissRequest = onDismiss, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)) {
+    SubMarkBottomSheet(onDismissRequest = onDismiss) {
         Column(
             Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 24.dp).padding(bottom = 24.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),

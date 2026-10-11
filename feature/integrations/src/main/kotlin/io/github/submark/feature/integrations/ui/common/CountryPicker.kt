@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.github.submark.core.ui.component.SearchField
+import io.github.submark.core.ui.component.SubMarkBottomSheet
 import io.github.submark.feature.integrations.R
 import io.github.submark.feature.integrations.data.CountryCatalog
 
@@ -35,7 +35,7 @@ fun CountryPickerSheet(
     onDismiss: () -> Unit,
 ) {
     var query by rememberSaveable { mutableStateOf("") }
-    ModalBottomSheet(onDismissRequest = onDismiss) {
+    SubMarkBottomSheet(onDismissRequest = onDismiss, skipPartiallyExpanded = false) {
         Column(Modifier.padding(horizontal = 16.dp)) {
             Text(stringResource(R.string.integrations_region_picker_title), style = MaterialTheme.typography.titleMedium)
             SearchField(query = query, onQueryChange = { query = it }, modifier = Modifier.padding(vertical = 8.dp))
@@ -70,7 +70,7 @@ fun MultiCountryPickerSheet(
     onDismiss: () -> Unit,
 ) {
     var query by rememberSaveable { mutableStateOf("") }
-    ModalBottomSheet(onDismissRequest = onDismiss) {
+    SubMarkBottomSheet(onDismissRequest = onDismiss, skipPartiallyExpanded = false) {
         Column(Modifier.padding(horizontal = 16.dp)) {
             Text(stringResource(R.string.integrations_region_picker_title), style = MaterialTheme.typography.titleMedium)
             SearchField(query = query, onQueryChange = { query = it }, modifier = Modifier.padding(vertical = 8.dp))
