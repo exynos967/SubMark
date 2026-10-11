@@ -1,0 +1,19 @@
+<!-- Mirrors feature/settings/src/main/res/drawable/settings_icon_default_{bg,fg}.xml.
+     The viewBox shows the 72-unit area an adaptive icon exposes on its 108-unit canvas. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="18 18 72 72" width="256" height="256">
+  <defs>
+    <linearGradient id="bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="108" y2="108">
+      <stop offset="0" stop-color="#4F7DF3"/>
+      <stop offset="1" stop-color="#2A4BC4"/>
+    </linearGradient>
+    <clipPath id="shape">
+      <rect x="18" y="18" width="72" height="72" rx="19.6"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#shape)">
+    <rect width="108" height="108" fill="url(#bg)"/>
+    <path fill="#FFFFFF" d="M34,37h40a6,6 0 0 1 6,6v22a6,6 0 0 1 -6,6h-40a6,6 0 0 1 -6,-6v-22a6,6 0 0 1 6,-6z"/>
+    <path fill="#2A4BC4" d="M28,45h52v6h-52z"/>
+    <path fill="none" stroke="#2A4BC4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d="M58,60l5,5l9,-10"/>
+  </g>
+</svg>
