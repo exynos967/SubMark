@@ -2,7 +2,6 @@ package io.github.submark.feature.integrations.ui.price
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
@@ -28,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.submark.core.ui.component.ConfirmDialog
 import io.github.submark.core.ui.component.SettingsGroup
+import io.github.submark.core.ui.component.SegmentedTabs
 import io.github.submark.core.ui.component.SettingsSwitchRow
 import io.github.submark.core.ui.component.SettingsValueRow
 import io.github.submark.core.ui.component.SubMarkTopAppBar
@@ -96,16 +95,13 @@ fun PriceMonitorSettingsScreen(
                         stringResource(R.string.integrations_price_interval),
                         style = MaterialTheme.typography.bodyLarge,
                     )
-                    Row {
-                        PriceMonitorSettingsUiState.INTERVAL_OPTIONS.forEach { hours ->
-                            FilterChip(
-                                selected = state.intervalHours == hours,
-                                onClick = { onInterval(hours) },
-                                label = { Text(stringResource(R.string.integrations_price_interval_hours, hours)) },
-                                modifier = Modifier.padding(end = 8.dp, top = 4.dp),
-                            )
-                        }
-                    }
+                    SegmentedTabs(
+                        items = PriceMonitorSettingsUiState.INTERVAL_OPTIONS,
+                        selected = state.intervalHours,
+                        onSelect = onInterval,
+                        label = { stringResource(R.string.integrations_price_interval_hours, it) },
+                        modifier = Modifier.padding(top = 8.dp),
+                    )
                     Spacer(Modifier.height(16.dp))
                     Text(
                         stringResource(R.string.integrations_price_threshold, state.thresholdPercent),

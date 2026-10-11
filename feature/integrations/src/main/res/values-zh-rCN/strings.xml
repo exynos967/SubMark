@@ -106,7 +106,7 @@
     <string name="integrations_price_master_hint">定期检查受监控愿望单项目的 App Store 价格</string>
     <string name="integrations_price_group_schedule">检查计划</string>
     <string name="integrations_price_interval">检查间隔</string>
-    <string name="integrations_price_interval_hours">每 %1$d 小时</string>
+    <string name="integrations_price_interval_hours">%1$d 小时</string>
     <string name="integrations_price_threshold">价格下降 %1$d%% 时通知</string>
     <string name="integrations_price_store_region">App Store 地区</string>
     <string name="integrations_price_group_notifications">通知</string>

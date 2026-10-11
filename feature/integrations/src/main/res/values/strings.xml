@@ -106,7 +106,7 @@
     <string name="integrations_price_master_hint">Periodically checks App Store prices of monitored wishlist items</string>
     <string name="integrations_price_group_schedule">Schedule</string>
     <string name="integrations_price_interval">Check interval</string>
-    <string name="integrations_price_interval_hours">Every %1$d h</string>
+    <string name="integrations_price_interval_hours">%1$d h</string>
     <string name="integrations_price_threshold">Notify when the price drops by %1$d%%</string>
     <string name="integrations_price_store_region">App Store region</string>
     <string name="integrations_price_group_notifications">Notifications</string>
