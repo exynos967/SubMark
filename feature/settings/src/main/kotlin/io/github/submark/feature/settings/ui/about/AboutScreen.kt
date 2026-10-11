@@ -20,7 +20,6 @@ import androidx.compose.material.icons.rounded.Description
 import androidx.compose.material.icons.rounded.Gavel
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.PrivacyTip
-import androidx.compose.material.icons.automirrored.rounded.HelpOutline
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,6 +46,7 @@ import io.github.submark.feature.settings.data.DocumentType
 import io.github.submark.feature.settings.ui.common.SettingsPage
 
 internal const val SOURCE_URL = "https://github.com/exynos967/SubMark"
+internal const val ISSUES_URL = "$SOURCE_URL/issues"
 
 @Composable
 internal fun AboutScreenRoute(onBack: () -> Unit, onNavigate: (Any) -> Unit, viewModel: AboutViewModel = hiltViewModel()) {
@@ -125,7 +125,6 @@ internal fun AboutScreen(
         ) {
             SettingsNavRow(stringResource(R.string.settings_privacy), { onOpenDocument(DocumentType.PRIVACY) }, icon = Icons.Rounded.PrivacyTip)
             SettingsNavRow(stringResource(R.string.settings_terms), { onOpenDocument(DocumentType.TERMS) }, icon = Icons.Rounded.Description)
-            SettingsNavRow(stringResource(R.string.settings_faq), { onOpenDocument(DocumentType.FAQ) }, icon = Icons.AutoMirrored.Rounded.HelpOutline)
         }
     }
 }

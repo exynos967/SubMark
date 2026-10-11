@@ -32,7 +32,7 @@
     <string name="settings_privacy">隐私政策</string>
     <string name="settings_terms">使用条款</string>
     <string name="settings_document">文档</string>
-    <string name="settings_rate">给 SubMark 评分</string>
+    <string name="settings_feedback">反馈问题</string>
     <string name="settings_share_app">分享 SubMark</string>
     <string name="settings_share_text">SubMark 帮你在手机本地管理所有订阅，免费且开源：%1$s</string>
     <string name="settings_appearance_title">外观</string>

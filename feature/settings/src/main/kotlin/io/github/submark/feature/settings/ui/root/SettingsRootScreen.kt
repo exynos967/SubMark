@@ -1,9 +1,7 @@
 package io.github.submark.feature.settings.ui.root
 
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.HelpOutline
 import androidx.compose.material.icons.automirrored.rounded.Label
@@ -11,17 +9,15 @@ import androidx.compose.material.icons.rounded.AccountBalanceWallet
 import androidx.compose.material.icons.rounded.AutoAwesome
 import androidx.compose.material.icons.rounded.Category
 import androidx.compose.material.icons.rounded.CreditCard
-import androidx.compose.material.icons.rounded.Description
 import androidx.compose.material.icons.rounded.DeveloperMode
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.material.icons.rounded.Palette
-import androidx.compose.material.icons.rounded.PrivacyTip
 import androidx.compose.material.icons.rounded.Share
+import androidx.compose.material.icons.rounded.Feedback
 import androidx.compose.material.icons.rounded.SportsEsports
-import androidx.compose.material.icons.rounded.StarRate
 import androidx.compose.material.icons.rounded.Storage
 import androidx.compose.material.icons.rounded.Storefront
 import androidx.compose.material.icons.rounded.Tune
@@ -59,6 +55,7 @@ import io.github.submark.core.ui.navigation.WalletManagementRoute
 import io.github.submark.feature.settings.R
 import io.github.submark.feature.settings.data.AppLocales
 import io.github.submark.feature.settings.data.DocumentType
+import io.github.submark.feature.settings.ui.about.ISSUES_URL
 import io.github.submark.feature.settings.ui.about.SOURCE_URL
 import io.github.submark.feature.settings.ui.about.openUrl
 import io.github.submark.feature.settings.ui.common.SettingsPage
@@ -71,7 +68,7 @@ internal fun SettingsRootScreenRoute(onNavigate: (Any) -> Unit, viewModel: Setti
     SettingsRootScreen(
         state = state,
         onNavigate = onNavigate,
-        onRate = { rateApp(context) },
+        onFeedback = { openUrl(context, ISSUES_URL) },
         onShare = { shareApp(context) },
     )
 }
@@ -80,7 +77,7 @@ internal fun SettingsRootScreenRoute(onNavigate: (Any) -> Unit, viewModel: Setti
 internal fun SettingsRootScreen(
     state: SettingsRootUiState,
     onNavigate: (Any) -> Unit,
-    onRate: () -> Unit,
+    onFeedback: () -> Unit,
     onShare: () -> Unit,
 ) {
     val on = stringResource(R.string.settings_on)
@@ -154,10 +151,9 @@ internal fun SettingsRootScreen(
             SettingsNavRow(stringResource(R.string.settings_popular_repositories), { onNavigate(PopularRepositoriesRoute) }, icon = Icons.Rounded.Storefront)
         }
         SettingsGroup(title = stringResource(R.string.settings_group_support)) {
+            // Privacy policy and terms live on the About page; this group keeps the everyday entries.
             SettingsNavRow(stringResource(R.string.settings_faq), { onNavigate(DocumentRoute(DocumentType.FAQ.key)) }, icon = Icons.AutoMirrored.Rounded.HelpOutline)
-            SettingsNavRow(stringResource(R.string.settings_privacy), { onNavigate(DocumentRoute(DocumentType.PRIVACY.key)) }, icon = Icons.Rounded.PrivacyTip)
-            SettingsNavRow(stringResource(R.string.settings_terms), { onNavigate(DocumentRoute(DocumentType.TERMS.key)) }, icon = Icons.Rounded.Description)
-            SettingsNavRow(stringResource(R.string.settings_rate), onRate, icon = Icons.Rounded.StarRate)
+            SettingsNavRow(stringResource(R.string.settings_feedback), onFeedback, icon = Icons.Rounded.Feedback)
             SettingsNavRow(stringResource(R.string.settings_share_app), onShare, icon = Icons.Rounded.Share)
             SettingsNavRow(stringResource(R.string.settings_about_title), { onNavigate(AboutRoute) }, icon = Icons.Rounded.Info)
         }
@@ -166,15 +162,6 @@ internal fun SettingsRootScreen(
                 SettingsNavRow(stringResource(R.string.settings_dev_title), { onNavigate(DeveloperOptionsRoute) }, icon = Icons.Rounded.DeveloperMode)
             }
         }
-    }
-}
-
-private fun rateApp(context: Context) {
-    val pkg = context.packageName
-    try {
-        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$pkg")).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-    } catch (_: ActivityNotFoundException) {
-        openUrl(context, "https://play.google.com/store/apps/details?id=$pkg")
     }
 }
 

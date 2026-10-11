@@ -33,7 +33,7 @@
     <string name="settings_privacy">Privacy policy</string>
     <string name="settings_terms">Terms of use</string>
     <string name="settings_document">Document</string>
-    <string name="settings_rate">Rate SubMark</string>
+    <string name="settings_feedback">Report an issue</string>
     <string name="settings_share_app">Share SubMark</string>
     <string name="settings_share_text">SubMark keeps track of your subscriptions, privately on your phone. Free and open source: %1$s</string>
     <string name="settings_appearance_title">Appearance</string>
