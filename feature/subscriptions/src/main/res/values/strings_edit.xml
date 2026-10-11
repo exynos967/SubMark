@@ -89,7 +89,6 @@
     <string name="subscriptions_edit_name">Name</string>
     <string name="subscriptions_edit_name_hint">e.g. Music streaming</string>
     <string name="subscriptions_edit_not_found">This subscription no longer exists.</string>
-    <string name="subscriptions_edit_not_set">Not set</string>
     <string name="subscriptions_edit_note">Note</string>
     <string name="subscriptions_edit_payment_method">Payment method</string>
     <string name="subscriptions_edit_photo">Image</string>

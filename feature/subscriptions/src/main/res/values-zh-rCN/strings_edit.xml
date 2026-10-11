@@ -89,7 +89,6 @@
     <string name="subscriptions_edit_name">名称</string>
     <string name="subscriptions_edit_name_hint">例如：音乐会员</string>
     <string name="subscriptions_edit_not_found">该订阅已不存在。</string>
-    <string name="subscriptions_edit_not_set">未设置</string>
     <string name="subscriptions_edit_note">备注</string>
     <string name="subscriptions_edit_payment_method">支付方式</string>
     <string name="subscriptions_edit_photo">图片</string>

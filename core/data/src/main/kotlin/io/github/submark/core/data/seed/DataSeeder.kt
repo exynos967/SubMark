@@ -5,6 +5,7 @@ import io.github.submark.core.data.settings.SettingsRepository
 import io.github.submark.core.database.dao.CategoryDao
 import io.github.submark.core.database.dao.CurrencyDao
 import io.github.submark.core.database.dao.PaymentMethodDao
+import io.github.submark.core.model.SystemPaymentMethods
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton

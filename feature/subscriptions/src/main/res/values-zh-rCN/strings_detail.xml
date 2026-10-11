@@ -97,15 +97,6 @@
     <string name="subscriptions_detail_photo_delete">删除图片</string>
     <string name="subscriptions_detail_photo_delete_title">删除这张图片？</string>
     <string name="subscriptions_detail_photo_open">查看图片</string>
-    <string name="subscriptions_detail_pm_none">无</string>
-    <string name="subscriptions_detail_pm_alipay">支付宝</string>
-    <string name="subscriptions_detail_pm_apple_pay">Apple Pay</string>
-    <string name="subscriptions_detail_pm_bank_card">银行卡</string>
-    <string name="subscriptions_detail_pm_cash">现金</string>
-    <string name="subscriptions_detail_pm_credit_card">信用卡</string>
-    <string name="subscriptions_detail_pm_google_pay">Google Pay</string>
-    <string name="subscriptions_detail_pm_paypal">PayPal</string>
-    <string name="subscriptions_detail_pm_wechat_pay">微信支付</string>
     <string name="subscriptions_detail_range">%1$s – %2$s</string>
     <string name="subscriptions_detail_records">记录</string>
     <string name="subscriptions_detail_row_app_store">App Store</string>

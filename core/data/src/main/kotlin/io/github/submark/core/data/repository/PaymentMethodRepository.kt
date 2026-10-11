@@ -6,7 +6,7 @@ import io.github.submark.core.data.result.DataResult
 import io.github.submark.core.data.result.InvalidReason
 import io.github.submark.core.data.result.TransactionRunner
 import io.github.submark.core.data.result.abort
-import io.github.submark.core.data.seed.SystemPaymentMethods
+import io.github.submark.core.model.SystemPaymentMethods
 import io.github.submark.core.database.dao.PaymentMethodDao
 import io.github.submark.core.database.dao.SubscriptionDao
 import io.github.submark.core.model.PaymentMethod

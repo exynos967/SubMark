@@ -247,4 +247,13 @@
     <!-- Charts -->
     <string name="ui_chart_less">Less</string>
     <string name="ui_chart_more">More</string>
+    <string name="ui_pm_none">None</string>
+    <string name="ui_pm_alipay">Alipay</string>
+    <string name="ui_pm_apple_pay">Apple Pay</string>
+    <string name="ui_pm_bank_card">Bank card</string>
+    <string name="ui_pm_cash">Cash</string>
+    <string name="ui_pm_credit_card">Credit card</string>
+    <string name="ui_pm_google_pay">Google Pay</string>
+    <string name="ui_pm_paypal">PayPal</string>
+    <string name="ui_pm_wechat_pay">WeChat Pay</string>
 </resources>

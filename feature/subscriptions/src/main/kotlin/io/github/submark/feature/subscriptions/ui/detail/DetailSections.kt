@@ -59,6 +59,7 @@ import io.github.submark.core.ui.format.DateLabels
 import io.github.submark.core.ui.format.asString
 import io.github.submark.core.ui.format.displayName
 import io.github.submark.core.ui.format.labelRes
+import io.github.submark.core.ui.format.localizedName
 import io.github.submark.core.ui.format.tone
 import io.github.submark.core.ui.icon.SubscriptionIcon
 import io.github.submark.core.ui.navigation.AddPaymentRoute

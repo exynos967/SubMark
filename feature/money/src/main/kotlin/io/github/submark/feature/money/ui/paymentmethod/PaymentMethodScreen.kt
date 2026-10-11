@@ -57,6 +57,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.submark.core.model.PaymentMethod
+import io.github.submark.core.ui.format.localizedName
 import io.github.submark.core.ui.component.ConfirmDialog
 import io.github.submark.core.ui.component.EmptyState
 import io.github.submark.core.ui.component.LoadingState
@@ -93,7 +94,7 @@ fun PaymentMethodManagementRoute(onBack: () -> Unit, viewModel: PaymentMethodVie
     )
     pendingDelete?.let { m ->
         ConfirmDialog(
-            title = stringResource(R.string.money_pm_delete_title, m.name),
+            title = stringResource(R.string.money_pm_delete_title, m.localizedName()),
             message = stringResource(R.string.money_pm_delete_message),
             onConfirm = { pendingDelete = null; viewModel.delete(m) },
             onDismiss = { pendingDelete = null },
@@ -213,11 +214,11 @@ private fun MethodRow(
                 )
             }
             Spacer(Modifier.width(12.dp))
-            Text(method.name, Modifier.weight(1f))
+            Text(method.localizedName(), Modifier.weight(1f))
             if (isCustom) {
                 Box {
                     IconButton(onClick = { menu = true }) {
-                        Icon(Icons.Rounded.MoreVert, contentDescription = stringResource(R.string.money_more_actions_for, method.name))
+                        Icon(Icons.Rounded.MoreVert, contentDescription = stringResource(R.string.money_more_actions_for, method.localizedName()))
                     }
                     DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
                         onEdit?.let { action ->

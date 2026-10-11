@@ -26,10 +26,8 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import io.github.submark.core.data.seed.SystemPaymentMethods
 import io.github.submark.core.data.service.SystemNotes
 import io.github.submark.core.model.CustomFieldType
-import io.github.submark.core.model.PaymentMethod
 import io.github.submark.core.ui.component.currentLocale
 import io.github.submark.core.ui.format.DateLabels
 import io.github.submark.core.ui.format.labelRes
@@ -158,21 +156,6 @@ internal fun PaymentRowLabel.text(): String = when (this) {
         } else {
             stringResource(R.string.subscriptions_detail_payment_extension)
         }
-}
-
-/** Preset payment methods are stored with English names; show them localized. */
-@Composable
-internal fun PaymentMethod.localizedName(): String = when (id) {
-    SystemPaymentMethods.NONE -> stringResource(R.string.subscriptions_detail_pm_none)
-    SystemPaymentMethods.ALIPAY -> stringResource(R.string.subscriptions_detail_pm_alipay)
-    SystemPaymentMethods.APPLE_PAY -> stringResource(R.string.subscriptions_detail_pm_apple_pay)
-    SystemPaymentMethods.BANK_CARD -> stringResource(R.string.subscriptions_detail_pm_bank_card)
-    SystemPaymentMethods.CASH -> stringResource(R.string.subscriptions_detail_pm_cash)
-    SystemPaymentMethods.CREDIT_CARD -> stringResource(R.string.subscriptions_detail_pm_credit_card)
-    SystemPaymentMethods.GOOGLE_PAY -> stringResource(R.string.subscriptions_detail_pm_google_pay)
-    SystemPaymentMethods.PAYPAL -> stringResource(R.string.subscriptions_detail_pm_paypal)
-    SystemPaymentMethods.WECHAT_PAY -> stringResource(R.string.subscriptions_detail_pm_wechat_pay)
-    else -> name
 }
 
 /** Opens [url] in another app; false when nothing can handle it. */

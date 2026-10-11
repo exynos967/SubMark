@@ -70,6 +70,7 @@ import io.github.submark.core.model.BillingCycle
 import io.github.submark.core.model.CycleUnit
 import io.github.submark.core.model.RenewalType
 import io.github.submark.core.model.SubscriptionKind
+import io.github.submark.core.model.SystemPaymentMethods
 import io.github.submark.core.ui.component.CategoryChip
 import io.github.submark.core.ui.component.ConfirmDialog
 import io.github.submark.core.ui.component.CurrencyPickerSheet
@@ -87,6 +88,7 @@ import io.github.submark.core.ui.format.MoneyInput
 import io.github.submark.core.ui.format.asString
 import io.github.submark.core.ui.format.displayName
 import io.github.submark.core.ui.format.labelRes
+import io.github.submark.core.ui.format.localizedName
 import io.github.submark.core.ui.icon.SubscriptionIcon
 import io.github.submark.core.ui.navigation.AiRecognitionRoute
 import io.github.submark.core.ui.navigation.CategoryManagementRoute
@@ -590,12 +592,13 @@ private fun PaymentCard(state: SubscriptionEditUiState, form: SubscriptionForm, 
                 ),
             )
             if (settings.showPaymentMethodSelector) {
-                val none = stringResource(R.string.subscriptions_edit_not_set)
+                // "None" is the unset state: nothing selected shows it, and choosing it stores null.
+                val selectedId = form.paymentMethodId ?: SystemPaymentMethods.NONE
                 SelectField(
                     label = stringResource(R.string.subscriptions_edit_payment_method),
-                    value = state.options.paymentMethods.firstOrNull { it.id == form.paymentMethodId }?.name ?: none,
-                    options = listOf<Pair<String?, String>>(null to none) + state.options.paymentMethods.map { it.id to it.name },
-                    onSelect = { id -> actions.update { it.copy(paymentMethodId = id) } },
+                    value = state.options.paymentMethods.firstOrNull { it.id == selectedId }?.localizedName().orEmpty(),
+                    options = state.options.paymentMethods.map { it.id to it.localizedName() },
+                    onSelect = { id -> actions.update { it.copy(paymentMethodId = id.takeIf { it != SystemPaymentMethods.NONE }) } },
                     modifier = Modifier.fillMaxWidth(),
                 )
             }

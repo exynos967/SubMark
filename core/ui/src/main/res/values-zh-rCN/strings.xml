@@ -222,4 +222,13 @@
 
     <string name="ui_chart_less">少</string>
     <string name="ui_chart_more">多</string>
+    <string name="ui_pm_none">无</string>
+    <string name="ui_pm_alipay">支付宝</string>
+    <string name="ui_pm_apple_pay">Apple Pay</string>
+    <string name="ui_pm_bank_card">银行卡</string>
+    <string name="ui_pm_cash">现金</string>
+    <string name="ui_pm_credit_card">信用卡</string>
+    <string name="ui_pm_google_pay">Google Pay</string>
+    <string name="ui_pm_paypal">PayPal</string>
+    <string name="ui_pm_wechat_pay">微信支付</string>
 </resources>
