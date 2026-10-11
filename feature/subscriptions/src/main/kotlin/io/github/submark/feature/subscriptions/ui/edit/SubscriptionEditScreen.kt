@@ -26,6 +26,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.AutoAwesome
+import androidx.compose.material.icons.rounded.CalendarMonth
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.Delete
@@ -73,6 +74,7 @@ import io.github.submark.core.ui.component.CategoryChip
 import io.github.submark.core.ui.component.ConfirmDialog
 import io.github.submark.core.ui.component.CurrencyPickerSheet
 import io.github.submark.core.ui.component.DatePickerField
+import io.github.submark.core.ui.component.PickerField
 import io.github.submark.core.ui.component.ErrorState
 import io.github.submark.core.ui.component.LoadingState
 import io.github.submark.core.ui.component.MoneyInputField
@@ -550,16 +552,21 @@ private fun PaymentCard(state: SubscriptionEditUiState, form: SubscriptionForm, 
                 SettingsSwitchRow(
                     horizontalPadding = 0.dp,
                     title = stringResource(R.string.subscriptions_edit_fixed_day),
-                    subtitle = form.fixedPaymentDay?.let { stringResource(R.string.subscriptions_edit_fixed_day_value, it) }
-                        ?: stringResource(R.string.subscriptions_edit_fixed_day_desc),
+                    subtitle = stringResource(R.string.subscriptions_edit_fixed_day_desc),
                     checked = form.fixedPaymentDay != null,
                     onCheckedChange = { on ->
                         if (on) fixedDayDialog = true else actions.update { it.copy(fixedPaymentDay = null) }
                     },
                 )
                 if (form.fixedPaymentDay != null) {
-                    TextButton(onClick = { fixedDayDialog = true }) { Text(stringResource(R.string.subscriptions_edit_fixed_day_change)) }
-                    HintText(stringResource(R.string.subscriptions_edit_fixed_day_next_cycle))
+                    PickerField(
+                        label = stringResource(R.string.subscriptions_edit_fixed_day),
+                        text = stringResource(R.string.subscriptions_edit_fixed_day_value, form.fixedPaymentDay),
+                        icon = { Icon(Icons.Rounded.CalendarMonth, contentDescription = null) },
+                        onClick = { fixedDayDialog = true },
+                        supportingText = stringResource(R.string.subscriptions_edit_fixed_day_next_cycle),
+                        modifier = Modifier.fillMaxWidth(),
+                    )
                     if (SubscriptionFormLogic.fixedDayOverflows(form.fixedPaymentDay)) {
                         HintText(stringResource(R.string.subscriptions_edit_fixed_day_overflow, form.fixedPaymentDay))
                     }

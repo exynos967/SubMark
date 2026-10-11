@@ -71,7 +71,6 @@
     <string name="subscriptions_edit_field_required_label">%1$s *</string>
     <string name="subscriptions_edit_field_time">时间</string>
     <string name="subscriptions_edit_fixed_day">固定扣款日</string>
-    <string name="subscriptions_edit_fixed_day_change">更改日期</string>
     <string name="subscriptions_edit_fixed_day_desc">每次都在当月的同一天扣款。</string>
     <string name="subscriptions_edit_fixed_day_next_cycle">从下一个周期开始生效，即将到来的日期保持不变。</string>
     <string name="subscriptions_edit_fixed_day_overflow">没有 %1$d 日的月份会在当月最后一天扣款。</string>

@@ -81,7 +81,7 @@ fun DatePickerField(
     val locale = currentLocale()
     val text = date?.let { DateLabels.formatDate(it, FormatStyle.MEDIUM, locale) }.orEmpty()
     val support = supportingText ?: if (showRelative && date != null) DateLabels.relative(date, today).asString() else null
-    PickerFieldBox(
+    PickerField(
         label = label,
         text = text,
         icon = { Icon(Icons.Rounded.CalendarMonth, contentDescription = null) },
@@ -169,7 +169,7 @@ fun TimePickerField(
     var open by rememberSaveable { mutableStateOf(false) }
     val locale = currentLocale()
     val text = time?.let { DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).withLocale(locale).format(it) }.orEmpty()
-    PickerFieldBox(
+    PickerField(
         label = label,
         text = text,
         icon = { Icon(Icons.Rounded.Schedule, contentDescription = null) },
@@ -196,16 +196,17 @@ fun TimePickerField(
     }
 }
 
+/** Read-only outlined field that opens a picker on tap; matches [DatePickerField] for custom pickers. */
 @Composable
-private fun PickerFieldBox(
+fun PickerField(
     label: String,
     text: String,
     icon: @Composable () -> Unit,
-    supportingText: String?,
-    enabled: Boolean,
-    isError: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
+    supportingText: String? = null,
+    enabled: Boolean = true,
+    isError: Boolean = false,
 ) {
     Box(modifier) {
         OutlinedTextField(
