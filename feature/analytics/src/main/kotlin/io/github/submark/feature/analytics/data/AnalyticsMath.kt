@@ -4,9 +4,12 @@ import io.github.submark.core.model.PaymentStatus
 import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
+import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.Year
 import java.time.YearMonth
+import java.time.temporal.ChronoUnit
+import java.time.temporal.TemporalAdjusters
 
 /** One payment pre-converted to the reporting currency. */
 data class PaidAmount(val date: LocalDate, val amount: BigDecimal, val categoryKey: String? = null, val isLifetime: Boolean = false)
@@ -66,7 +69,11 @@ data class HeatmapCell(
     val level: HeatLevel,
 )
 
-/** 30 cells ending at [today]; value = number of payments that day. Levels relative to the max count. */
+/** Days of the yearly heatmap: the 52 weeks before [today] plus the current one, starting on a Monday. */
+fun yearHeatmapDays(today: LocalDate): Int =
+    ChronoUnit.DAYS.between(today.minusWeeks(52).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)), today).toInt() + 1
+
+/** [days] cells ending at [today]; value = number of payments that day. Levels relative to the max count. */
 fun heatmap(payments: List<PaidAmount>, today: LocalDate, days: Int = 30): List<HeatmapCell> {
     val start = today.minusDays(days.toLong() - 1)
     val byDate = payments.filter { it.date in start..today }.groupBy { it.date }

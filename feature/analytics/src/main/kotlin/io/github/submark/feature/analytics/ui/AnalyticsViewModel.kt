@@ -31,6 +31,7 @@ import io.github.submark.feature.analytics.data.categoryTotals
 import io.github.submark.feature.analytics.data.foldTail
 import io.github.submark.feature.analytics.data.heatmap
 import io.github.submark.feature.analytics.data.heatmapStats
+import io.github.submark.feature.analytics.data.yearHeatmapDays
 import io.github.submark.feature.analytics.data.monthlyTrend
 import io.github.submark.feature.analytics.data.radarMetrics
 import io.github.submark.feature.analytics.data.trendStats
@@ -210,7 +211,7 @@ class AnalyticsViewModel @Inject constructor(
         val tStats = trendStats(buckets)
 
         // Heatmap ----------------------------------------------------------------
-        val cells = heatmap(paid, today)
+        val cells = heatmap(paid, today, yearHeatmapDays(today))
         val hStats = heatmapStats(cells)
 
         // Category ----------------------------------------------------------------

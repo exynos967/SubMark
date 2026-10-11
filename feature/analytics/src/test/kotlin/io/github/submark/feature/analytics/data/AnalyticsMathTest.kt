@@ -209,4 +209,15 @@ class AnalyticsMathTest {
         assertThat(life.lastChange).isNull()
         assertThat(life.daysToNext).isNull()
     }
+
+    @Test
+    fun yearHeatmap_startsOnMondayAboutAYearBack() {
+        val today = LocalDate.of(2026, 10, 12) // Monday
+        val days = yearHeatmapDays(today)
+        val start = today.minusDays(days - 1L)
+        assertThat(start.dayOfWeek).isEqualTo(java.time.DayOfWeek.MONDAY)
+        assertThat(days).isEqualTo(52 * 7 + 1)
+        val sunday = LocalDate.of(2026, 10, 18)
+        assertThat(sunday.minusDays(yearHeatmapDays(sunday) - 1L)).isEqualTo(start)
+    }
 }
