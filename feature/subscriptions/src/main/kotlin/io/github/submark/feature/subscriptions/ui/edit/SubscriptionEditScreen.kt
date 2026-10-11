@@ -273,11 +273,10 @@ private fun BasicInfoCard(state: SubscriptionEditUiState, form: SubscriptionForm
     val opts = state.options
     SectionCard(title = stringResource(R.string.subscriptions_edit_section_basic)) {
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Box {
-                    Surface(onClick = { actions.pickIcon(form.name) }, shape = RoundedCornerShape(16.dp)) {
-                        SubscriptionIcon(form.iconType, form.iconValue, fallbackName = form.name, size = 64.dp)
-                    }
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                // OutlinedTextField reserves 8dp above its outline for the floating label; match the outline's 56dp box.
+                Surface(onClick = { actions.pickIcon(form.name) }, shape = RoundedCornerShape(14.dp), modifier = Modifier.padding(top = 8.dp)) {
+                    SubscriptionIcon(form.iconType, form.iconValue, fallbackName = form.name, size = 56.dp)
                 }
                 Column(Modifier.weight(1f)) {
                     OutlinedTextField(
@@ -399,8 +398,8 @@ private fun availableKinds(state: SubscriptionEditUiState): List<FormKind> = bui
     add(FormKind.REGULAR)
     add(FormKind.STORED_VALUE)
     add(FormKind.LIFETIME)
-    if (state.options.wishlistEnabled || state.form?.kind == FormKind.WISHLIST) add(FormKind.WISHLIST)
     if (!state.isEdit && (state.options.addForm.showLocalBundleOption || state.form?.kind == FormKind.BUNDLE)) add(FormKind.BUNDLE)
+    if (state.options.wishlistEnabled || state.form?.kind == FormKind.WISHLIST) add(FormKind.WISHLIST)
 }
 
 @Composable

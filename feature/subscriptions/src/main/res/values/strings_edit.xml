@@ -90,8 +90,8 @@
     <string name="subscriptions_edit_kind_bundle">Bundle</string>
     <string name="subscriptions_edit_kind_bundle_desc">One main subscription that includes several others, each with its own schedule.</string>
     <string name="subscriptions_edit_kind_lifetime_desc">Paid once, yours to keep. Recorded as a single purchase.</string>
-    <string name="subscriptions_edit_kind_regular_desc">Billed again every cycle.</string>
-    <string name="subscriptions_edit_kind_stored_value_desc">A prepaid balance that is reduced by the fee every cycle.</string>
+    <string name="subscriptions_edit_kind_regular_desc">Paid once every cycle; each payment counts as spending.</string>
+    <string name="subscriptions_edit_kind_stored_value_desc">Top up first, then the fee is taken from the balance each cycle. Top-ups count as spending; deductions only lower the balance. Good for phone credit or cloud balances.</string>
     <string name="subscriptions_edit_kind_wishlist_desc">Something you\'re considering. Not counted in any totals.</string>
     <string name="subscriptions_edit_name">Name</string>
     <string name="subscriptions_edit_name_hint">e.g. Music streaming</string>

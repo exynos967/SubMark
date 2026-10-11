@@ -90,8 +90,8 @@
     <string name="subscriptions_edit_kind_bundle">组合订阅</string>
     <string name="subscriptions_edit_kind_bundle_desc">一个主订阅包含多个子订阅，各自有独立的计费安排。</string>
     <string name="subscriptions_edit_kind_lifetime_desc">一次付清、长期使用，只记录一次购买。</string>
-    <string name="subscriptions_edit_kind_regular_desc">每个周期重复计费。</string>
-    <string name="subscriptions_edit_kind_stored_value_desc">预付余额，每个周期扣除费用。</string>
+    <string name="subscriptions_edit_kind_regular_desc">每个周期付一次款，每次付款都计入支出。</string>
+    <string name="subscriptions_edit_kind_stored_value_desc">先充值再按周期从余额扣费。充值时计入支出，扣费只减少余额，适合话费、云服务余额等。</string>
     <string name="subscriptions_edit_kind_wishlist_desc">正在考虑的项目，不计入任何统计。</string>
     <string name="subscriptions_edit_name">名称</string>
     <string name="subscriptions_edit_name_hint">例如：音乐会员</string>
