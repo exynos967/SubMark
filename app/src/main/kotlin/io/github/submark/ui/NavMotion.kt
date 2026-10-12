@@ -19,28 +19,38 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
+import io.github.submark.core.ui.navigation.BackMotion
+import io.github.submark.core.ui.navigation.NavPopState
 
 /**
  * Material 3 navigation motion:
  * - between top-level tabs (no spatial relationship): fade through
  * - into a sub-page (hierarchy): shared axis X; the bottom bar slides down / back up
- * - back out of it: the page shrinks away over the page below, which is visible from the start. The back gesture
- *   seeks this transition with the finger (predictive back), so the preview must show something from the first pixel.
+ * - back out of it: [BackMotion], modelled on the system's cross-activity back, which the back gesture scrubs
+ * [pop] records which kind is running so page frames dress up only back navigation.
  */
-internal class NavMotion(density: Density) {
+internal class NavMotion(density: Density, private val pop: NavPopState) {
     private val slideDistancePx = with(density) { 30.dp.roundToPx() }
 
-    fun enter(scope: AnimatedContentTransitionScope<NavBackStackEntry>): EnterTransition =
-        if (scope.isTabSwitch()) fadeThroughIn() else sharedAxisIn()
+    fun enter(scope: AnimatedContentTransitionScope<NavBackStackEntry>): EnterTransition {
+        pop.popping = false
+        return if (scope.isTabSwitch()) fadeThroughIn() else sharedAxisIn()
+    }
 
-    fun exit(scope: AnimatedContentTransitionScope<NavBackStackEntry>): ExitTransition =
-        if (scope.isTabSwitch()) fadeThroughOut() else sharedAxisOut()
+    fun exit(scope: AnimatedContentTransitionScope<NavBackStackEntry>): ExitTransition {
+        pop.popping = false
+        return if (scope.isTabSwitch()) fadeThroughOut() else sharedAxisOut()
+    }
 
-    fun popEnter(scope: AnimatedContentTransitionScope<NavBackStackEntry>): EnterTransition =
-        if (scope.isTabSwitch()) fadeThroughIn() else backIn()
+    fun popEnter(scope: AnimatedContentTransitionScope<NavBackStackEntry>): EnterTransition {
+        pop.popping = !scope.isTabSwitch()
+        return if (scope.isTabSwitch()) fadeThroughIn() else backIn()
+    }
 
-    fun popExit(scope: AnimatedContentTransitionScope<NavBackStackEntry>): ExitTransition =
-        if (scope.isTabSwitch()) fadeThroughOut() else backOut()
+    fun popExit(scope: AnimatedContentTransitionScope<NavBackStackEntry>): ExitTransition {
+        pop.popping = !scope.isTabSwitch()
+        return if (scope.isTabSwitch()) fadeThroughOut() else backOut()
+    }
 
     fun barEnter(): EnterTransition = slideInVertically(tween(DURATION, easing = EmphasizedDecelerate)) { it }
 
@@ -54,17 +64,14 @@ internal class NavMotion(density: Density) {
         slideOutHorizontally(tween(DURATION, easing = EmphasizedDecelerate)) { -slideDistancePx } +
             fadeOut(tween(FADE_OUT, easing = LinearEasing))
 
-    /**
-     * Linear, so the page tracks the finger. It stays opaque while the gesture previews it (a see-through page mixes
-     * both screens' content) and only fades in the last stretch, after the back is committed.
-     */
     private fun backOut(): ExitTransition =
-        scaleOut(tween(DURATION, easing = LinearEasing), targetScale = BACK_SCALE) +
-            slideOutHorizontally(tween(DURATION, easing = LinearEasing)) { slideDistancePx } +
-            fadeOut(tween(FADE_OUT, delayMillis = DURATION - FADE_OUT, easing = LinearEasing))
+        scaleOut(tween(BackMotion.DURATION_MS, easing = BackMotion.previewOnly), targetScale = BackMotion.LEAVING_SCALE) +
+            slideOutHorizontally(tween(BackMotion.DURATION_MS, easing = BackMotion.leavingSlide)) { it }
 
     private fun backIn(): EnterTransition =
-        slideInHorizontally(tween(DURATION, easing = LinearEasing)) { -slideDistancePx }
+        slideInHorizontally(tween(BackMotion.DURATION_MS, easing = BackMotion.enteringSlide)) {
+            -(it * BackMotion.ENTERING_SHIFT).toInt()
+        }
 
     private fun fadeThroughIn(): EnterTransition =
         fadeIn(tween(FADE_IN, delayMillis = FADE_OUT, easing = EmphasizedDecelerate)) +
@@ -83,7 +90,6 @@ internal class NavMotion(density: Density) {
         const val FADE_OUT = 90
         const val FADE_IN = DURATION - FADE_OUT
         const val BAR_EXIT = 200
-        const val BACK_SCALE = 0.9f
 
         /** M3 "emphasized decelerate" easing: fast start, long gentle settle. */
         val EmphasizedDecelerate = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
