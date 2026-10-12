@@ -40,8 +40,8 @@ import io.github.submark.feature.subscriptions.R
 fun TagPickerSheet(
     tags: List<Tag>,
     selectedIds: Set<String>,
+    /** Also called when the sheet is swiped away: a choice is never silently dropped. */
     onDone: (Set<String>) -> Unit,
-    onDismiss: () -> Unit,
     title: String = stringResource(R.string.subscriptions_tag_picker_title),
     onCreate: (suspend (String) -> String?)? = null,
     emptyMessage: String = stringResource(R.string.subscriptions_tag_picker_empty),
@@ -62,7 +62,7 @@ fun TagPickerSheet(
         }
     }
 
-    SubMarkBottomSheet(onDismissRequest = onDismiss) {
+    SubMarkBottomSheet(onDismissRequest = { onDone(selection.toSet()) }) {
         Row(Modifier.fillMaxWidth().padding(horizontal = 24.dp), verticalAlignment = Alignment.CenterVertically) {
             Text(title, style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
             if (selection.isNotEmpty()) {

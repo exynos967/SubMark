@@ -224,7 +224,6 @@ fun SubscriptionListScreen(
                 actions.onTags(it)
                 showTagSheet = false
             },
-            onDismiss = { showTagSheet = false },
             title = stringResource(R.string.subscriptions_list_tag_filter_title),
             emptyMessage = stringResource(R.string.subscriptions_list_tag_filter_empty),
         )

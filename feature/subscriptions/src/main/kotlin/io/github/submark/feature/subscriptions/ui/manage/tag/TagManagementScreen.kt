@@ -586,7 +586,6 @@ private fun FolderEditorSheet(editor: FolderEditorState, allTags: List<Tag>, act
                 pickTags = false
                 actions.onFolderEditorChange { it.copy(tagIds = ids) }
             },
-            onDismiss = { pickTags = false },
             onCreate = actions.onCreateTag,
         )
     }

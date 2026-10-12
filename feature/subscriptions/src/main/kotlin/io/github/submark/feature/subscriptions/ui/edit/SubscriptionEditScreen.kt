@@ -802,7 +802,6 @@ private fun TagsField(state: SubscriptionEditUiState, form: SubscriptionForm, ac
                 picker = false
                 actions.update { f -> f.copy(tagIds = f.tagIds.filter { it in ids } + ids.filter { it !in f.tagIds }) }
             },
-            onDismiss = { picker = false },
             onCreate = actions.createTag,
         )
     }
