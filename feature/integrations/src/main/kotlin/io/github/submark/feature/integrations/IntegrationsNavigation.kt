@@ -2,7 +2,6 @@ package io.github.submark.feature.integrations
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
 import io.github.submark.core.ui.icon.IconChoice
 import io.github.submark.core.ui.navigation.AiRecognitionRoute
@@ -14,6 +13,7 @@ import io.github.submark.core.ui.navigation.PopularSubscriptionsRoute
 import io.github.submark.core.ui.navigation.PriceMonitorRoute
 import io.github.submark.core.ui.navigation.PriceMonitorSettingsRoute
 import io.github.submark.core.ui.navigation.RawgSettingsRoute
+import io.github.submark.core.ui.navigation.screen
 import io.github.submark.feature.integrations.ui.ai.AiRecognitionRoute as AiRecognitionScreenRoute
 import io.github.submark.feature.integrations.ui.ai.AiSettingsRoute as AiSettingsScreenRoute
 import io.github.submark.feature.integrations.ui.iconpicker.IconPickerRoute as IconPickerScreenRoute
@@ -33,19 +33,19 @@ fun NavGraphBuilder.integrationsGraph(navController: NavController) {
     val navigate: (Any) -> Unit = { route -> navController.navigate(route) }
     val back: () -> Unit = { navController.popBackStack() }
 
-    composable<PopularSubscriptionsRoute> {
+    screen<PopularSubscriptionsRoute> {
         PopularScreenRoute(onBack = back, onNavigate = navigate)
     }
-    composable<PopularRepositoriesRoute> {
+    screen<PopularRepositoriesRoute> {
         PopularRepositoriesScreenRoute(onBack = back)
     }
-    composable<PriceMonitorRoute> {
+    screen<PriceMonitorRoute> {
         PriceMonitorScreenRoute(onBack = back)
     }
-    composable<PriceMonitorSettingsRoute> {
+    screen<PriceMonitorSettingsRoute> {
         PriceMonitorSettingsScreenRoute(onBack = back)
     }
-    composable<AiRecognitionRoute>(
+    screen<AiRecognitionRoute>(
         deepLinks = listOf(navDeepLink<AiRecognitionRoute>(basePath = "submark://ai-recognize")),
     ) {
         AiRecognitionScreenRoute(
@@ -54,13 +54,13 @@ fun NavGraphBuilder.integrationsGraph(navController: NavController) {
             onOpenSettings = { navigate(AiSettingsRoute) },
         )
     }
-    composable<AiSettingsRoute> {
+    screen<AiSettingsRoute> {
         AiSettingsScreenRoute(onBack = back)
     }
-    composable<RawgSettingsRoute> {
+    screen<RawgSettingsRoute> {
         RawgSettingsScreenRoute(onBack = back)
     }
-    composable<IconPickerRoute> {
+    screen<IconPickerRoute> {
         IconPickerScreenRoute(
             onBack = back,
             onResult = { choice: IconChoice ->

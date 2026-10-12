@@ -2,7 +2,6 @@ package io.github.submark.feature.money
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
 import io.github.submark.core.ui.navigation.AddPaymentRoute as AddPaymentDest
 import io.github.submark.core.ui.navigation.BudgetSettingsRoute as BudgetDest
 import io.github.submark.core.ui.navigation.CurrencyManagementRoute as CurrencyDest
@@ -14,6 +13,7 @@ import io.github.submark.core.ui.navigation.PaymentRecordRoute as PaymentRecordD
 import io.github.submark.core.ui.navigation.SharedSettingsRoute as SharedSettingsDest
 import io.github.submark.core.ui.navigation.WalletActivityRoute as WalletActivityDest
 import io.github.submark.core.ui.navigation.WalletManagementRoute as WalletManagementDest
+import io.github.submark.core.ui.navigation.screen
 import io.github.submark.feature.money.ui.addpayment.AddPaymentRoute
 import io.github.submark.feature.money.ui.budget.BudgetSettingsRoute
 import io.github.submark.feature.money.ui.currency.CurrencyManagementRoute
@@ -30,42 +30,42 @@ import io.github.submark.feature.money.ui.wallet.WalletManagementRoute
 fun NavGraphBuilder.moneyGraph(navController: NavController) {
     val back: () -> Unit = { navController.popBackStack() }
 
-    composable<PaymentHistoryDest> {
+    screen<PaymentHistoryDest> {
         PaymentHistoryRoute(
             onBack = back,
             onOpenRecord = { navController.navigate(PaymentRecordDest(it)) },
             onAddPayment = { navController.navigate(AddPaymentDest(it)) },
         )
     }
-    composable<PaymentRecordDest> {
+    screen<PaymentRecordDest> {
         PaymentRecordRoute(
             onBack = back,
             onEdit = { subscriptionId, paymentId -> navController.navigate(AddPaymentDest(subscriptionId, paymentId)) },
             onOpenWalletActivity = { navController.navigate(WalletActivityDest(it)) },
         )
     }
-    composable<AddPaymentDest> { AddPaymentRoute(onBack = back) }
+    screen<AddPaymentDest> { AddPaymentRoute(onBack = back) }
 
-    composable<SharedSettingsDest> { SharedSettingsRoute(onBack = back) }
+    screen<SharedSettingsDest> { SharedSettingsRoute(onBack = back) }
 
-    composable<CurrencyDest> {
+    screen<CurrencyDest> {
         CurrencyManagementRoute(
             onBack = back,
             onOpenHistoricalRates = { navController.navigate(HistoricalDest) },
         )
     }
-    composable<HistoricalDest> { HistoricalRatesRoute(onBack = back) }
+    screen<HistoricalDest> { HistoricalRatesRoute(onBack = back) }
 
-    composable<PaymentMethodDest> { PaymentMethodManagementRoute(onBack = back) }
+    screen<PaymentMethodDest> { PaymentMethodManagementRoute(onBack = back) }
 
-    composable<WalletManagementDest> {
+    screen<WalletManagementDest> {
         WalletManagementRoute(
             onBack = back,
             onOpenActivity = { id -> navController.navigate(WalletActivityDest(id)) },
         )
     }
-    composable<WalletActivityDest> { WalletActivityRoute(onBack = back) }
+    screen<WalletActivityDest> { WalletActivityRoute(onBack = back) }
 
-    composable<BudgetDest> { BudgetSettingsRoute(onBack = back) }
-    composable<FinancialDest> { FinancialDetailRoute(onBack = back) }
+    screen<BudgetDest> { BudgetSettingsRoute(onBack = back) }
+    screen<FinancialDest> { FinancialDetailRoute(onBack = back) }
 }
