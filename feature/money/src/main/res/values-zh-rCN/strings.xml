@@ -432,8 +432,6 @@
     <string name="money_fin_custom">自定义</string>
     <string name="money_fin_from">开始</string>
     <string name="money_fin_to">结束</string>
-    <string name="money_fin_mode_simple">简洁</string>
-    <string name="money_fin_mode_detailed">详细</string>
     <string name="money_fin_filter_include">含买断</string>
     <string name="money_fin_filter_subs">仅订阅</string>
     <string name="money_fin_filter_lifetime">仅买断</string>

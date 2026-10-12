@@ -7,7 +7,6 @@ import io.github.submark.core.data.currency.CurrencyRepository
 import io.github.submark.core.data.repository.SubscriptionRepository
 import io.github.submark.core.data.service.PaymentService
 import io.github.submark.core.data.settings.FinancialDetailFilter
-import io.github.submark.core.data.settings.FinancialDetailMode
 import io.github.submark.core.data.settings.SettingsRepository
 import io.github.submark.core.data.time.TimeProvider
 import io.github.submark.core.domain.CostCalculator
@@ -17,6 +16,7 @@ import io.github.submark.core.ui.format.UiText
 import io.github.submark.feature.money.data.MoneyEnv
 import io.github.submark.feature.money.data.MoneyEnvSource
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -37,7 +37,6 @@ data class FinancialDetailUiState(
     val loading: Boolean = true,
     val period: FinPeriod = FinPeriod.MONTH,
     val filter: FinancialDetailFilter = FinancialDetailFilter.INCLUDE_LIFETIME,
-    val mode: FinancialDetailMode = FinancialDetailMode.SIMPLE,
     val customFrom: LocalDate = LocalDate.MIN,
     val customTo: LocalDate = LocalDate.MIN,
     val progressDone: Int = 0,
@@ -64,6 +63,8 @@ class FinancialDetailViewModel @Inject constructor(
     private val customFrom = MutableStateFlow(time.today())
     private val customTo = MutableStateFlow(time.today())
     private val progress = MutableStateFlow(0 to 0)
+    /** Progress is only shown once a conversion turns out to be slow, so quick period switches do not flash it. */
+    private val progressShown = MutableStateFlow(false)
     private val result = MutableStateFlow<FinancialResult?>(null)
     private val range = MutableStateFlow<FinRange?>(null)
     private val theoretical = MutableStateFlow<BigDecimal?>(null)
@@ -72,7 +73,9 @@ class FinancialDetailViewModel @Inject constructor(
 
     val uiState: StateFlow<FinancialDetailUiState> = combine(
         combine(period, customFrom, customTo, ::Triple),
-        combine(progress, result, range, theoretical, error) { p, r, rng, th, err -> SnapshotInputs(p, r, rng, th, err) },
+        combine(combine(progress, progressShown) { p, shown -> if (shown) p else 0 to 0 }, result, range, theoretical, error) { p, r, rng, th, err ->
+            SnapshotInputs(p, r, rng, th, err)
+        },
         settings.settings,
         envSource.observe(),
     ) { (p, cf, ct), inputs, s, env ->
@@ -80,7 +83,6 @@ class FinancialDetailViewModel @Inject constructor(
             loading = false,
             period = p,
             filter = s.money.financialDetailFilter,
-            mode = s.money.financialDetailMode,
             customFrom = cf,
             customTo = ct,
             progressDone = inputs.progress.first,
@@ -131,15 +133,18 @@ class FinancialDetailViewModel @Inject constructor(
         }
     }
 
-    fun setMode(mode: FinancialDetailMode) {
-        viewModelScope.launch {
-            settings.update { it.copy(money = it.money.copy(financialDetailMode = mode)) }
-        }
-    }
-
     fun recompute() {
         job?.cancel()
-        job = viewModelScope.launch { doRecompute() }
+        progressShown.value = false
+        job = viewModelScope.launch {
+            val reveal = launch {
+                delay(PROGRESS_DELAY_MS)
+                progressShown.value = true
+            }
+            doRecompute()
+            reveal.cancel()
+            progressShown.value = false
+        }
     }
 
     private suspend fun doRecompute() {
@@ -147,7 +152,7 @@ class FinancialDetailViewModel @Inject constructor(
         val filter = settings.settings.first().money.financialDetailFilter
         val (from, to) = rangeFor(period.value, customFrom.value, customTo.value)
         range.value = FinRange(from, to)
-        result.value = null
+        // The previous result stays until the new one is ready: clearing it would flash the empty state.
         error.value = null
         progress.value = 0 to 0
 
@@ -192,3 +197,5 @@ class FinancialDetailViewModel @Inject constructor(
         FinPeriod.CUSTOM -> cf to ct
     }
 }
+
+private const val PROGRESS_DELAY_MS = 400L

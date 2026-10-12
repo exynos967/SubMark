@@ -52,7 +52,6 @@ enum class AnalyticsComponent { FINANCIAL_OVERVIEW, TREND, HEATMAP, CATEGORY, MU
 
 @Serializable enum class ListSegment { SUBSCRIPTIONS, LIFETIME, WISHLIST }
 
-@Serializable enum class FinancialDetailMode { SIMPLE, DETAILED }
 
 @Serializable enum class FinancialDetailFilter { INCLUDE_LIFETIME, SUBSCRIPTIONS_ONLY, LIFETIME_ONLY }
 

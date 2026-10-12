@@ -198,7 +198,6 @@ data class MoneySettings(
     /** In the default currency; null = no budget. */
     val annualBudget: Money? = null,
     val hideDecimalPlaces: Boolean = false,
-    val financialDetailMode: FinancialDetailMode = FinancialDetailMode.SIMPLE,
     val financialDetailFilter: FinancialDetailFilter = FinancialDetailFilter.INCLUDE_LIFETIME,
 )
 

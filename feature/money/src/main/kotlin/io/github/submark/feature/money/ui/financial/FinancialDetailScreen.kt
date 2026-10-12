@@ -23,6 +23,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -31,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.submark.core.data.settings.FinancialDetailFilter
-import io.github.submark.core.data.settings.FinancialDetailMode
 import io.github.submark.core.model.PaymentKind
 import io.github.submark.core.model.PaymentStatus
 import io.github.submark.core.ui.component.DatePickerField
@@ -68,7 +68,6 @@ fun FinancialDetailRoute(onBack: () -> Unit, viewModel: FinancialDetailViewModel
         onCustomFrom = viewModel::setCustomFrom,
         onCustomTo = viewModel::setCustomTo,
         onFilter = viewModel::setFilter,
-        onMode = viewModel::setMode,
     )
 }
 
@@ -80,7 +79,6 @@ fun FinancialDetailScreen(
     onCustomFrom: (java.time.LocalDate) -> Unit,
     onCustomTo: (java.time.LocalDate) -> Unit,
     onFilter: (FinancialDetailFilter) -> Unit,
-    onMode: (FinancialDetailMode) -> Unit,
 ) {
     Scaffold(topBar = { SubMarkTopAppBar(title = stringResource(R.string.money_fin_title), onBack = onBack) }) { padding ->
         if (state.loading) {
@@ -135,11 +133,6 @@ fun FinancialDetailScreen(
                     FinancialDetailFilter.entries.forEach { f ->
                         FilterChip(selected = state.filter == f, onClick = { onFilter(f) }, label = { Text(stringResource(filterLabelRes(f))) })
                     }
-                }
-            }
-            item(key = "mode") {
-                SegmentedTabs(FinancialDetailMode.entries, state.mode, onMode) {
-                    stringResource(if (it == FinancialDetailMode.SIMPLE) R.string.money_fin_mode_simple else R.string.money_fin_mode_detailed)
                 }
             }
             item(key = "progress") {
@@ -220,7 +213,7 @@ fun FinancialDetailScreen(
                     }
                     result.months.forEach { group ->
                         item(key = "m_${group.month}") {
-                            MonthGroupCard(group, state.mode, def, sym)
+                            MonthGroupCard(group, def, sym)
                         }
                     }
                 }
@@ -247,7 +240,7 @@ private fun spendingTypeRes(t: SpendingType): Int = when (t) {
 }
 
 @Composable
-private fun MonthGroupCard(group: MonthGroup, mode: FinancialDetailMode, def: String, sym: String?) {
+private fun MonthGroupCard(group: MonthGroup, def: String, sym: String?) {
     SectionCard(title = formatMonth(group.month)) {
         Row(Modifier.fillMaxWidth().padding(bottom = 8.dp)) {
             StatCell(stringResource(R.string.money_fin_month_total), formatMoney(group.total, def, sym), Modifier.weight(1f))
@@ -266,11 +259,9 @@ private fun MonthGroupCard(group: MonthGroup, mode: FinancialDetailMode, def: St
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
-                    if (mode == FinancialDetailMode.DETAILED) {
-                        BadgeRow(paymentBadges(p.record))
-                    }
+                    BadgeRow(paymentBadges(p.record))
                 }
-                Column {
+                Column(horizontalAlignment = Alignment.End) {
                     MoneyText(p.defaultAmount, def, symbol = sym)
                     Text(
                         formatMoney(p.record.amount, p.record.currencyCode, null),
@@ -283,8 +274,9 @@ private fun MonthGroupCard(group: MonthGroup, mode: FinancialDetailMode, def: St
     }
 }
 
+/** "October 2026" / "2026年10月", following the locale's own year-month pattern. */
 private fun formatMonth(yearMonth: YearMonth): String {
-    val formatter = java.text.SimpleDateFormat("MMMM yyyy", java.util.Locale.getDefault())
-    val calendar = java.util.GregorianCalendar(yearMonth.year, yearMonth.monthValue - 1, 1)
-    return formatter.format(calendar.time).replaceFirstChar { it.uppercase() }
+    val locale = java.util.Locale.getDefault()
+    val pattern = android.text.format.DateFormat.getBestDateTimePattern(locale, "yMMMM")
+    return yearMonth.format(DateTimeFormatter.ofPattern(pattern, locale)).replaceFirstChar { it.uppercase() }
 }

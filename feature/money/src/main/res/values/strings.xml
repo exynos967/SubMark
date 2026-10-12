@@ -441,8 +441,6 @@
     <string name="money_fin_custom">Custom</string>
     <string name="money_fin_from">From</string>
     <string name="money_fin_to">To</string>
-    <string name="money_fin_mode_simple">Simple</string>
-    <string name="money_fin_mode_detailed">Detailed</string>
     <string name="money_fin_filter_include">Include lifetime</string>
     <string name="money_fin_filter_subs">Subscriptions only</string>
     <string name="money_fin_filter_lifetime">Lifetime only</string>
