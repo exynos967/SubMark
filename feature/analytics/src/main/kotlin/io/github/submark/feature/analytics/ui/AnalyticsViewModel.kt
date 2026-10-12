@@ -17,6 +17,9 @@ import io.github.submark.core.data.settings.TrendPeriod
 import io.github.submark.core.data.time.TimeProvider
 import io.github.submark.core.domain.CurrencyConverter
 import io.github.submark.core.model.Category
+import io.github.submark.core.ui.format.UiText
+import io.github.submark.core.ui.format.displayName
+import io.github.submark.feature.analytics.R
 import io.github.submark.core.model.PaymentRecord
 import io.github.submark.core.model.PaymentStatus
 import io.github.submark.core.model.Subscription
@@ -87,12 +90,12 @@ data class AnalyticsUiState(
 
     // Category
     val categoryTotals: List<CategoryTotal> = emptyList(),
-    val categoryNames: Map<String, String> = emptyMap(),
+    val categoryNames: Map<String, UiText> = emptyMap(),
     /** Total number of distinct categories before top-7 folding. */
     val categoryShownCount: Int = 0,
 
     // Radar
-    val radarAxes: List<String> = emptyList(),
+    val radarAxes: List<UiText> = emptyList(),
     val radar: RadarMetrics? = null,
 )
 
@@ -216,11 +219,12 @@ class AnalyticsViewModel @Inject constructor(
 
         // Category ----------------------------------------------------------------
         val totals = categoryTotals(paid.filter { it.date in periodStart..periodEnd })
-        val names: Map<String, String> = buildMap {
-            loaded.cats.forEach { c -> this[c.id] = categoryName(c) }
-            this["lifetime"] = "Lifetime"  // replaced by composable with localized label
-            this["other"] = "Other"
-            this["@other"] = "Other"
+        val other = UiText.res(R.string.analytics_category_other)
+        val names: Map<String, UiText> = buildMap {
+            loaded.cats.forEach { c -> this[c.id] = c.displayName() }
+            this["lifetime"] = UiText.res(R.string.analytics_mode_lifetime)
+            this["other"] = other
+            this["@other"] = other
         }
         val shown = if (loaded.categoryExpanded) totals else foldTail(totals, 7)
 
@@ -256,7 +260,7 @@ class AnalyticsViewModel @Inject constructor(
             categoryTotals = shown,
             categoryNames = names,
             categoryShownCount = totals.size,
-            radarAxes = radarTotals.map { names[it.categoryKey] ?: it.categoryKey },
+            radarAxes = radarTotals.map { names[it.categoryKey] ?: UiText.raw(it.categoryKey) },
             radar = metrics,
         )
     }
@@ -267,8 +271,6 @@ class AnalyticsViewModel @Inject constructor(
         else -> sub.categoryId
     }
 
-    private fun categoryName(c: Category): String =
-        c.name ?: c.systemKey?.name?.lowercase()?.replaceFirstChar { it.titlecase() } ?: "Other"
 
     fun setMode(mode: SpendingMode) {
         modeFlow.value = mode

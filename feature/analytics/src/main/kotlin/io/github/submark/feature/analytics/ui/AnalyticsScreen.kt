@@ -38,6 +38,7 @@ import io.github.submark.core.data.settings.SpendingMode
 import io.github.submark.core.data.settings.SummaryPeriod
 import io.github.submark.core.data.settings.TrendPeriod
 import io.github.submark.core.ui.chart.ChartEntry
+import io.github.submark.core.ui.format.asString
 import io.github.submark.core.ui.chart.DonutChart
 import io.github.submark.core.ui.chart.HeatmapDay
 import io.github.submark.core.ui.chart.HeatmapGrid
@@ -387,7 +388,7 @@ private fun CategorySection(
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             val entries = uiState.categoryTotals.map { total ->
                 ChartEntry(
-                    label = uiState.categoryNames[total.categoryKey] ?: total.categoryKey,
+                    label = uiState.categoryNames[total.categoryKey]?.asString() ?: total.categoryKey,
                     value = total.amount.toDouble(),
                 )
             }
@@ -450,7 +451,7 @@ private fun RadarSection(uiState: AnalyticsUiState) {
             return@SectionCard
         }
         RadarChart(
-            axes = uiState.radarAxes,
+            axes = uiState.radarAxes.map { it.asString() },
             series = listOf(
                 RadarSeries(stringResource(R.string.analytics_radar_amount), metrics.amount),
                 RadarSeries(stringResource(R.string.analytics_radar_count), metrics.count),
