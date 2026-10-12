@@ -10,7 +10,9 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
@@ -20,7 +22,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 /**
  * Material 3 navigation motion:
  * - between top-level tabs (no spatial relationship): fade through
- * - into / out of a sub-page (hierarchy): shared axis X, mirrored on back
+ * - into / out of a sub-page (hierarchy): shared axis X, mirrored on back; the bottom bar slides down / back up
  * The same pop transitions drive the predictive back gesture, so the preview follows the finger.
  */
 internal class NavMotion(density: Density) {
@@ -37,6 +39,10 @@ internal class NavMotion(density: Density) {
 
     fun popExit(scope: AnimatedContentTransitionScope<NavBackStackEntry>): ExitTransition =
         if (scope.isTabSwitch()) fadeThroughOut() else sharedAxisOut(forward = false)
+
+    fun barEnter(): EnterTransition = slideInVertically(tween(DURATION, easing = EmphasizedDecelerate)) { it }
+
+    fun barExit(): ExitTransition = slideOutVertically(tween(BAR_EXIT, easing = EmphasizedAccelerate)) { it }
 
     private fun sharedAxisIn(forward: Boolean): EnterTransition =
         slideInHorizontally(tween(DURATION, easing = EmphasizedDecelerate)) { if (forward) slideDistancePx else -slideDistancePx } +
@@ -62,8 +68,12 @@ internal class NavMotion(density: Density) {
         const val DURATION = 300
         const val FADE_OUT = 90
         const val FADE_IN = DURATION - FADE_OUT
+        const val BAR_EXIT = 200
 
         /** M3 "emphasized decelerate" easing: fast start, long gentle settle. */
         val EmphasizedDecelerate = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
+
+        /** M3 "emphasized accelerate" easing, for elements leaving the screen. */
+        val EmphasizedAccelerate = CubicBezierEasing(0.3f, 0f, 0.8f, 0.15f)
     }
 }

@@ -15,6 +15,7 @@ import io.github.submark.core.ui.navigation.OnboardingRoute
 import io.github.submark.core.ui.navigation.RegionCurrencySettingsRoute
 import io.github.submark.core.ui.navigation.SecuritySettingsRoute
 import io.github.submark.core.ui.navigation.SettingsRoute
+import io.github.submark.core.ui.navigation.TabDestination
 import io.github.submark.feature.settings.ui.about.AboutScreenRoute
 import io.github.submark.feature.settings.ui.appearance.AppearanceScreenRoute
 import io.github.submark.feature.settings.ui.appicon.AppIconScreenRoute
@@ -37,7 +38,7 @@ fun NavGraphBuilder.settingsGraph(navController: NavController) {
     val navigate: (Any) -> Unit = { route -> navController.navigate(route) }
     val back: () -> Unit = { navController.popBackStack() }
 
-    composable<SettingsRoute> { SettingsRootScreenRoute(onNavigate = navigate) }
+    composable<SettingsRoute> { TabDestination { SettingsRootScreenRoute(onNavigate = navigate) } }
     composable<AppearanceSettingsRoute> { AppearanceScreenRoute(onBack = back, onNavigate = navigate) }
     composable<FontSettingsRoute> { FontSettingsScreenRoute(onBack = back) }
     composable<AppIconRoute> { AppIconScreenRoute(onBack = back) }

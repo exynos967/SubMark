@@ -13,6 +13,7 @@ import io.github.submark.core.ui.navigation.PaymentRecordRoute
 import io.github.submark.core.ui.navigation.SubscriptionDetailRoute
 import io.github.submark.core.ui.navigation.SubscriptionEditRoute
 import io.github.submark.core.ui.navigation.SubscriptionsRoute
+import io.github.submark.core.ui.navigation.TabDestination
 import io.github.submark.core.ui.navigation.WalletActivityRoute
 import io.github.submark.core.ui.navigation.WalletManagementRoute
 import io.github.submark.core.ui.navigation.navigateToTab
@@ -25,20 +26,22 @@ fun NavGraphBuilder.overviewGraph(navController: NavController) {
     val back: () -> Unit = { navController.popBackStack() }
 
     composable<OverviewDest> {
-        OverviewRoute(
-            onBack = back,
-            onSearch = { navController.navigate(GlobalSearchDest) },
-            onCustomize = { navController.navigate(OverviewCustomizeDest) },
-            onAddSubscription = { navController.navigate(SubscriptionEditRoute()) },
-            onSubscriptions = { navController.navigateToTab(SubscriptionsRoute) },
-            onAnalytics = { navController.navigateToTab(AnalyticsRoute) },
-            onWalletManagement = { navController.navigate(WalletManagementRoute) },
-            onWalletTopUp = { navController.navigate(WalletActivityRoute(it)) },
-            onWalletExpense = { navController.navigate(WalletActivityRoute(it)) },
-            onFinancialDetail = { navController.navigate(FinancialDetailRoute) },
-            onFinancialReport = { navController.navigate(FinancialReportPosterRoute) },
-            onPriceMonitor = { navController.navigate(io.github.submark.core.ui.navigation.PriceMonitorSettingsRoute) },
-        )
+        TabDestination {
+            OverviewRoute(
+                onBack = back,
+                onSearch = { navController.navigate(GlobalSearchDest) },
+                onCustomize = { navController.navigate(OverviewCustomizeDest) },
+                onAddSubscription = { navController.navigate(SubscriptionEditRoute()) },
+                onSubscriptions = { navController.navigateToTab(SubscriptionsRoute) },
+                onAnalytics = { navController.navigateToTab(AnalyticsRoute) },
+                onWalletManagement = { navController.navigate(WalletManagementRoute) },
+                onWalletTopUp = { navController.navigate(WalletActivityRoute(it)) },
+                onWalletExpense = { navController.navigate(WalletActivityRoute(it)) },
+                onFinancialDetail = { navController.navigate(FinancialDetailRoute) },
+                onFinancialReport = { navController.navigate(FinancialReportPosterRoute) },
+                onPriceMonitor = { navController.navigate(io.github.submark.core.ui.navigation.PriceMonitorSettingsRoute) },
+            )
+        }
     }
     composable<OverviewCustomizeDest> {
         OverviewCustomizationRoute(onBack = back)

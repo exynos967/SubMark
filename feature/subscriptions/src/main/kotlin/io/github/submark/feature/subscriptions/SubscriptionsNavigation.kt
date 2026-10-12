@@ -9,6 +9,7 @@ import io.github.submark.core.ui.navigation.CustomFieldManagementRoute
 import io.github.submark.core.ui.navigation.SubscriptionDetailRoute
 import io.github.submark.core.ui.navigation.SubscriptionEditRoute
 import io.github.submark.core.ui.navigation.SubscriptionsRoute
+import io.github.submark.core.ui.navigation.TabDestination
 import io.github.submark.core.ui.navigation.TagFolderRoute
 import io.github.submark.core.ui.navigation.TagManagementRoute
 import io.github.submark.feature.subscriptions.ui.archive.ArchiveScreenRoute
@@ -26,7 +27,9 @@ fun NavGraphBuilder.subscriptionsGraph(navController: NavController) {
     val back: () -> Unit = { navController.popBackStack() }
 
     composable<SubscriptionsRoute> {
-        SubscriptionListScreenRoute(onNavigate = navigate)
+        TabDestination {
+            SubscriptionListScreenRoute(onNavigate = navigate)
+        }
     }
     composable<SubscriptionDetailRoute> {
         SubscriptionDetailScreenRoute(onBack = back, onNavigate = navigate)
