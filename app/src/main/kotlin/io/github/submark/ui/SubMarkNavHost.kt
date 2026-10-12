@@ -11,9 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.layout.onSizeChanged
-import io.github.submark.core.ui.navigation.LocalNavPopState
 import io.github.submark.core.ui.navigation.LocalTabBarHeight
-import io.github.submark.core.ui.navigation.NavPopState
 import androidx.annotation.StringRes
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
@@ -108,8 +106,7 @@ fun SubMarkNavHost(navController: NavHostController, settings: AppSettings, star
     LaunchedEffect(currentTab) { currentTab?.let { lastTab = it } }
 
     val density = LocalDensity.current
-    val pop = remember { NavPopState() }
-    val motion = remember(density) { NavMotion(density, pop) }
+    val motion = remember(density) { NavMotion(density) }
     val animate = settings.display.animatedBackground
     // Until the bar has been measured, its standard height keeps the first frame of a tab screen in place.
     val navigationBarInset = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
@@ -119,7 +116,7 @@ fun SubMarkNavHost(navController: NavHostController, settings: AppSettings, star
     // with the transition, and no screen is resized mid-animation. Tab screens keep clear of it via TabDestination.
     // Same backdrop the shell Scaffold used to paint: screens fading in and out must not reveal the window behind.
     Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
-        CompositionLocalProvider(LocalTabBarHeight provides barHeight, LocalNavPopState provides pop) {
+        CompositionLocalProvider(LocalTabBarHeight provides barHeight) {
             NavHost(
                 navController = navController,
                 startDestination = startTab.route,

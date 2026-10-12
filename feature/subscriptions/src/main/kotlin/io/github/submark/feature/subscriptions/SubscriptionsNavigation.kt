@@ -2,6 +2,7 @@ package io.github.submark.feature.subscriptions
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
 import io.github.submark.core.ui.navigation.ArchiveRoute
 import io.github.submark.core.ui.navigation.CategoryManagementRoute
 import io.github.submark.core.ui.navigation.CustomFieldManagementRoute
@@ -11,7 +12,6 @@ import io.github.submark.core.ui.navigation.SubscriptionsRoute
 import io.github.submark.core.ui.navigation.TabDestination
 import io.github.submark.core.ui.navigation.TagFolderRoute
 import io.github.submark.core.ui.navigation.TagManagementRoute
-import io.github.submark.core.ui.navigation.screen
 import io.github.submark.feature.subscriptions.ui.archive.ArchiveScreenRoute
 import io.github.submark.feature.subscriptions.ui.detail.SubscriptionDetailScreenRoute
 import io.github.submark.feature.subscriptions.ui.edit.SubscriptionEditScreenRoute
@@ -26,30 +26,30 @@ fun NavGraphBuilder.subscriptionsGraph(navController: NavController) {
     val navigate: (Any) -> Unit = { route -> navController.navigate(route) }
     val back: () -> Unit = { navController.popBackStack() }
 
-    screen<SubscriptionsRoute> {
+    composable<SubscriptionsRoute> {
         TabDestination {
             SubscriptionListScreenRoute(onNavigate = navigate)
         }
     }
-    screen<SubscriptionDetailRoute> {
+    composable<SubscriptionDetailRoute> {
         SubscriptionDetailScreenRoute(onBack = back, onNavigate = navigate)
     }
-    screen<SubscriptionEditRoute> { entry ->
+    composable<SubscriptionEditRoute> { entry ->
         SubscriptionEditScreenRoute(backStackEntry = entry, onBack = back, onNavigate = navigate)
     }
-    screen<ArchiveRoute> {
+    composable<ArchiveRoute> {
         ArchiveScreenRoute(onBack = back, onNavigate = navigate)
     }
-    screen<TagFolderRoute> {
+    composable<TagFolderRoute> {
         TagFolderScreenRoute(onBack = back, onNavigate = navigate)
     }
-    screen<CategoryManagementRoute> { entry ->
+    composable<CategoryManagementRoute> { entry ->
         CategoryManagementScreenRoute(backStackEntry = entry, onBack = back, onNavigate = navigate)
     }
-    screen<TagManagementRoute> { entry ->
+    composable<TagManagementRoute> { entry ->
         TagManagementScreenRoute(backStackEntry = entry, onBack = back, onNavigate = navigate)
     }
-    screen<CustomFieldManagementRoute> {
+    composable<CustomFieldManagementRoute> {
         CustomFieldManagementScreenRoute(onBack = back)
     }
 }

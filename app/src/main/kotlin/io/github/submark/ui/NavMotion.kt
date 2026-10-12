@@ -9,7 +9,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
@@ -19,59 +18,39 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
-import io.github.submark.core.ui.navigation.BackMotion
-import io.github.submark.core.ui.navigation.NavPopState
 
 /**
  * Material 3 navigation motion:
  * - between top-level tabs (no spatial relationship): fade through
- * - into a sub-page (hierarchy): shared axis X; the bottom bar slides down / back up
- * - back out of it: [BackMotion], modelled on the system's cross-activity back, which the back gesture scrubs
- * [pop] records which kind is running so page frames dress up only back navigation.
+ * - into / out of a sub-page (hierarchy): shared axis X, mirrored on back; the bottom bar slides down / back up
+ * Predictive back is off (see the manifest), so pop transitions play after the back gesture completes.
  */
-internal class NavMotion(density: Density, private val pop: NavPopState) {
+internal class NavMotion(density: Density) {
     private val slideDistancePx = with(density) { 30.dp.roundToPx() }
 
-    fun enter(scope: AnimatedContentTransitionScope<NavBackStackEntry>): EnterTransition {
-        pop.popping = false
-        return if (scope.isTabSwitch()) fadeThroughIn() else sharedAxisIn()
-    }
+    fun enter(scope: AnimatedContentTransitionScope<NavBackStackEntry>): EnterTransition =
+        if (scope.isTabSwitch()) fadeThroughIn() else sharedAxisIn(forward = true)
 
-    fun exit(scope: AnimatedContentTransitionScope<NavBackStackEntry>): ExitTransition {
-        pop.popping = false
-        return if (scope.isTabSwitch()) fadeThroughOut() else sharedAxisOut()
-    }
+    fun exit(scope: AnimatedContentTransitionScope<NavBackStackEntry>): ExitTransition =
+        if (scope.isTabSwitch()) fadeThroughOut() else sharedAxisOut(forward = true)
 
-    fun popEnter(scope: AnimatedContentTransitionScope<NavBackStackEntry>): EnterTransition {
-        pop.popping = !scope.isTabSwitch()
-        return if (scope.isTabSwitch()) fadeThroughIn() else backIn()
-    }
+    fun popEnter(scope: AnimatedContentTransitionScope<NavBackStackEntry>): EnterTransition =
+        if (scope.isTabSwitch()) fadeThroughIn() else sharedAxisIn(forward = false)
 
-    fun popExit(scope: AnimatedContentTransitionScope<NavBackStackEntry>): ExitTransition {
-        pop.popping = !scope.isTabSwitch()
-        return if (scope.isTabSwitch()) fadeThroughOut() else backOut()
-    }
+    fun popExit(scope: AnimatedContentTransitionScope<NavBackStackEntry>): ExitTransition =
+        if (scope.isTabSwitch()) fadeThroughOut() else sharedAxisOut(forward = false)
 
     fun barEnter(): EnterTransition = slideInVertically(tween(DURATION, easing = EmphasizedDecelerate)) { it }
 
     fun barExit(): ExitTransition = slideOutVertically(tween(BAR_EXIT, easing = EmphasizedAccelerate)) { it }
 
-    private fun sharedAxisIn(): EnterTransition =
-        slideInHorizontally(tween(DURATION, easing = EmphasizedDecelerate)) { slideDistancePx } +
+    private fun sharedAxisIn(forward: Boolean): EnterTransition =
+        slideInHorizontally(tween(DURATION, easing = EmphasizedDecelerate)) { if (forward) slideDistancePx else -slideDistancePx } +
             fadeIn(tween(FADE_IN, delayMillis = FADE_OUT, easing = LinearEasing))
 
-    private fun sharedAxisOut(): ExitTransition =
-        slideOutHorizontally(tween(DURATION, easing = EmphasizedDecelerate)) { -slideDistancePx } +
+    private fun sharedAxisOut(forward: Boolean): ExitTransition =
+        slideOutHorizontally(tween(DURATION, easing = EmphasizedDecelerate)) { if (forward) -slideDistancePx else slideDistancePx } +
             fadeOut(tween(FADE_OUT, easing = LinearEasing))
-
-    private fun backOut(): ExitTransition =
-        scaleOut(tween(BackMotion.DURATION_MS, easing = BackMotion.previewOnly), targetScale = BackMotion.LEAVING_SCALE) +
-            slideOutHorizontally(tween(BackMotion.DURATION_MS, easing = BackMotion.leavingSlide)) { it }
-
-    private fun backIn(): EnterTransition =
-        slideInHorizontally(tween(BackMotion.DURATION_MS, easing = BackMotion.enteringSlide)) {
-            -(it * BackMotion.ENTERING_SHIFT).toInt()
-        }
 
     private fun fadeThroughIn(): EnterTransition =
         fadeIn(tween(FADE_IN, delayMillis = FADE_OUT, easing = EmphasizedDecelerate)) +

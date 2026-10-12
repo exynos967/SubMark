@@ -2,6 +2,7 @@ package io.github.submark.feature.overview
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
 import io.github.submark.core.ui.navigation.AnalyticsRoute
 import io.github.submark.core.ui.navigation.FinancialDetailRoute
 import io.github.submark.core.ui.navigation.FinancialReportPosterRoute
@@ -16,7 +17,6 @@ import io.github.submark.core.ui.navigation.TabDestination
 import io.github.submark.core.ui.navigation.WalletActivityRoute
 import io.github.submark.core.ui.navigation.WalletManagementRoute
 import io.github.submark.core.ui.navigation.navigateToTab
-import io.github.submark.core.ui.navigation.screen
 import io.github.submark.feature.overview.ui.customize.OverviewCustomizationRoute
 import io.github.submark.feature.overview.ui.overview.OverviewRoute
 import io.github.submark.feature.overview.ui.search.GlobalSearchRoute
@@ -25,7 +25,7 @@ import io.github.submark.feature.overview.ui.search.GlobalSearchRoute
 fun NavGraphBuilder.overviewGraph(navController: NavController) {
     val back: () -> Unit = { navController.popBackStack() }
 
-    screen<OverviewDest> {
+    composable<OverviewDest> {
         TabDestination {
             OverviewRoute(
                 onBack = back,
@@ -43,10 +43,10 @@ fun NavGraphBuilder.overviewGraph(navController: NavController) {
             )
         }
     }
-    screen<OverviewCustomizeDest> {
+    composable<OverviewCustomizeDest> {
         OverviewCustomizationRoute(onBack = back)
     }
-    screen<GlobalSearchDest> {
+    composable<GlobalSearchDest> {
         GlobalSearchRoute(
             onBack = back,
             onOpenSubscription = { navController.navigate(SubscriptionDetailRoute(it)) },

@@ -2,10 +2,10 @@ package io.github.submark.feature.backup
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
 import io.github.submark.core.ui.navigation.DataManagementRoute
 import io.github.submark.core.ui.navigation.WebDavProfileRoute
 import io.github.submark.core.ui.navigation.WebDavProfilesRoute
-import io.github.submark.core.ui.navigation.screen
 import io.github.submark.feature.backup.ui.datamanage.DataManagementRoute as DataManagementDestination
 import io.github.submark.feature.backup.ui.editor.ProfileEditorRoute
 import io.github.submark.feature.backup.ui.profiles.WebDavProfilesRoute as WebDavProfilesDestination
@@ -15,19 +15,19 @@ import io.github.submark.feature.backup.ui.profiles.WebDavProfilesRoute as WebDa
  * profile editor (which also hosts the per-profile detail sections).
  */
 fun NavGraphBuilder.backupGraph(navController: NavController) {
-    screen<DataManagementRoute> {
+    composable<DataManagementRoute> {
         DataManagementDestination(
             onBack = { navController.popBackStack() },
             onNavigate = { route -> navController.navigate(route) },
         )
     }
-    screen<WebDavProfilesRoute> {
+    composable<WebDavProfilesRoute> {
         WebDavProfilesDestination(
             onBack = { navController.popBackStack() },
             onNavigate = { route -> navController.navigate(route) },
         )
     }
-    screen<WebDavProfileRoute> {
+    composable<WebDavProfileRoute> {
         ProfileEditorRoute(onBack = { navController.popBackStack() })
     }
 }
