@@ -2,7 +2,6 @@ package io.github.submark.core.ui.component
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,22 +11,18 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -46,7 +41,6 @@ import io.github.submark.core.ui.icon.SubscriptionIcon
 import io.github.submark.core.ui.theme.LocalThemeConfig
 import io.github.submark.core.ui.theme.SubMarkTheme
 import io.github.submark.core.ui.theme.ThemeConfig
-import io.github.submark.core.ui.util.contentColorFor
 import java.time.LocalDate
 
 enum class SubscriptionBadge(@StringRes val labelRes: Int, val tone: BadgeTone) {
@@ -88,7 +82,7 @@ enum class SubscriptionCardVariant { LIST, GRID }
  * @param cycleText e.g. "/mo" or "Monthly".
  * @param dateText the single date line, e.g. "Next: Mar 14".
  * @param dueDate with [today], shows a [CountdownBadge].
- * @param accentColor category color; used for the gradient when colorful cards are on.
+ * @param accentColor category color; tints the card and its icon tile when colorful cards are on.
  * @param dimmed lowers emphasis (paused/archived rows).
  */
 @OptIn(ExperimentalFoundationApi::class)
@@ -111,9 +105,10 @@ fun SubscriptionCard(
     onClick: (() -> Unit)? = null,
     onLongClick: (() -> Unit)? = null,
 ) {
-    val colorful = LocalThemeConfig.current.colorfulCards && accentColor != null
-    val container = MaterialTheme.colorScheme.surfaceContainerLow
-    val contentColor = if (colorful) accentColor!!.contentColorFor() else MaterialTheme.colorScheme.onSurface
+    // Colorful cards take the category chips' tonal style: a light wash of the category color, never a dark slab.
+    val accent = accentColor?.takeIf { LocalThemeConfig.current.colorfulCards }
+    val container = accent?.copy(alpha = 0.10f)?.compositeOver(MaterialTheme.colorScheme.surfaceContainerLow)
+        ?: MaterialTheme.colorScheme.surfaceContainerLow
     val clickModifier = if (onClick != null || onLongClick != null) {
         Modifier.combinedClickable(onClick = { onClick?.invoke() }, onLongClick = onLongClick)
     } else {
@@ -122,50 +117,25 @@ fun SubscriptionCard(
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.large,
-        colors = CardDefaults.cardColors(containerColor = if (colorful) Color.Transparent else container, contentColor = contentColor),
+        colors = CardDefaults.cardColors(containerColor = container, contentColor = MaterialTheme.colorScheme.onSurface),
     ) {
-        Box(
-            Modifier
-                .then(clickModifier)
-                .then(
-                    if (colorful) {
-                        Modifier.background(Brush.linearGradient(listOf(accentColor!!, lerp(accentColor, Color.Black, 0.35f))))
-                    } else {
-                        Modifier
-                    },
-                )
-                .alpha(if (dimmed) 0.6f else 1f),
-        ) {
-            if (colorful) {
-                // Large faded watermark of the icon in the corner.
+        Box(Modifier.then(clickModifier).alpha(if (dimmed) 0.6f else 1f)) {
+            val icon = @Composable {
                 SubscriptionIcon(
                     type = iconType,
                     value = iconValue,
                     fallbackName = name,
-                    size = 96.dp,
-                    tint = contentColor.copy(alpha = 0.14f),
-                    background = Color.Transparent,
-                    modifier = Modifier.align(Alignment.BottomEnd).offset(x = 16.dp, y = 20.dp),
+                    size = 44.dp,
+                    background = accent?.copy(alpha = 0.18f) ?: MaterialTheme.colorScheme.primaryContainer,
+                    tint = accent ?: MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             }
-            CompositionLocalProvider(LocalContentColor provides contentColor) {
-                val icon = @Composable {
-                    SubscriptionIcon(
-                        type = iconType,
-                        value = iconValue,
-                        fallbackName = name,
-                        size = 44.dp,
-                        background = if (colorful) Color.White.copy(alpha = 0.22f) else MaterialTheme.colorScheme.primaryContainer,
-                        tint = if (colorful) contentColor else MaterialTheme.colorScheme.onPrimaryContainer,
-                    )
-                }
-                val countdown = @Composable {
-                    if (dueDate != null && today != null) CountdownBadge(dueDate, today)
-                }
-                when (variant) {
-                    SubscriptionCardVariant.LIST -> ListLayout(name, priceText, cycleText, dateText, secondaryText, badges, colorful, icon, countdown)
-                    SubscriptionCardVariant.GRID -> GridLayout(name, priceText, cycleText, dateText, secondaryText, badges, colorful, icon, countdown)
-                }
+            val countdown = @Composable {
+                if (dueDate != null && today != null) CountdownBadge(dueDate, today)
+            }
+            when (variant) {
+                SubscriptionCardVariant.LIST -> ListLayout(name, priceText, cycleText, dateText, secondaryText, badges, icon, countdown)
+                SubscriptionCardVariant.GRID -> GridLayout(name, priceText, cycleText, dateText, secondaryText, badges, icon, countdown)
             }
         }
     }
@@ -179,7 +149,6 @@ private fun ListLayout(
     dateText: String?,
     secondaryText: String?,
     badges: List<SubscriptionBadge>,
-    colorful: Boolean,
     icon: @Composable () -> Unit,
     countdown: @Composable () -> Unit,
 ) {
@@ -188,12 +157,12 @@ private fun ListLayout(
         Spacer(Modifier.width(12.dp))
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
             Text(name, style = MaterialTheme.typography.titleMedium, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            SubtleLine(listOfNotNull(secondaryText, dateText).joinToString(" · "), colorful)
+            SubtleLine(listOfNotNull(secondaryText, dateText).joinToString(" · "))
             BadgeRow(badges)
         }
         Spacer(Modifier.width(8.dp))
         Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            PriceLine(priceText, cycleText, colorful)
+            PriceLine(priceText, cycleText)
             countdown()
         }
     }
@@ -207,7 +176,6 @@ private fun GridLayout(
     dateText: String?,
     secondaryText: String?,
     badges: List<SubscriptionBadge>,
-    colorful: Boolean,
     icon: @Composable () -> Unit,
     countdown: @Composable () -> Unit,
 ) {
@@ -219,21 +187,21 @@ private fun GridLayout(
         }
         Spacer(Modifier.width(4.dp))
         Text(name, style = MaterialTheme.typography.titleMedium, maxLines = 1, overflow = TextOverflow.Ellipsis)
-        PriceLine(priceText, cycleText, colorful)
-        SubtleLine(listOfNotNull(secondaryText, dateText).joinToString(" · "), colorful)
+        PriceLine(priceText, cycleText)
+        SubtleLine(listOfNotNull(secondaryText, dateText).joinToString(" · "))
         BadgeRow(badges)
     }
 }
 
 @Composable
-private fun PriceLine(priceText: String, cycleText: String?, colorful: Boolean) {
+private fun PriceLine(priceText: String, cycleText: String?) {
     Row(verticalAlignment = Alignment.Bottom) {
         Text(priceText, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold, maxLines = 1)
         if (!cycleText.isNullOrEmpty()) {
             Text(
                 cycleText,
                 style = MaterialTheme.typography.bodySmall,
-                color = subtleColor(colorful),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
                 modifier = Modifier.padding(start = 2.dp, bottom = 1.dp),
             )
@@ -242,15 +210,12 @@ private fun PriceLine(priceText: String, cycleText: String?, colorful: Boolean) 
 }
 
 @Composable
-private fun SubtleLine(text: String, colorful: Boolean) {
+private fun SubtleLine(text: String) {
     if (text.isNotEmpty()) {
-        Text(text, style = MaterialTheme.typography.bodySmall, color = subtleColor(colorful), maxLines = 1, overflow = TextOverflow.Ellipsis)
+        Text(text, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
     }
 }
 
-@Composable
-private fun subtleColor(colorful: Boolean): Color =
-    if (colorful) LocalContentColor.current.copy(alpha = 0.8f) else MaterialTheme.colorScheme.onSurfaceVariant
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable

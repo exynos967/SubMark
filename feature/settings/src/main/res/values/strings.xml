@@ -52,7 +52,7 @@
     <string name="settings_dynamic_color_desc">Use colors from your wallpaper (Material You)</string>
     <string name="settings_dynamic_color_unsupported">Needs Android 12 or later</string>
     <string name="settings_colorful_cards">Colorful cards</string>
-    <string name="settings_colorful_cards_desc">Tint subscription cards with their accent color</string>
+    <string name="settings_colorful_cards_desc">Tint subscription cards lightly with their category color</string>
     <string name="settings_animations">Animated effects</string>
     <string name="settings_animations_desc">Background and transition animations</string>
     <string name="settings_haptics">Haptic feedback</string>

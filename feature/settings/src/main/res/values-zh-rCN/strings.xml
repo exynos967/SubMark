@@ -51,7 +51,7 @@
     <string name="settings_dynamic_color_desc">使用壁纸颜色（Material You）</string>
     <string name="settings_dynamic_color_unsupported">需要 Android 12 或更高版本</string>
     <string name="settings_colorful_cards">彩色卡片</string>
-    <string name="settings_colorful_cards_desc">订阅卡片使用其主题色渐变</string>
+    <string name="settings_colorful_cards_desc">订阅卡片带上所属分类的浅色</string>
     <string name="settings_animations">动态效果</string>
     <string name="settings_animations_desc">背景与过渡动画</string>
     <string name="settings_haptics">触感反馈</string>
