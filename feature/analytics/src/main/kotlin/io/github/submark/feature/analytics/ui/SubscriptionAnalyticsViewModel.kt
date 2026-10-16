@@ -7,7 +7,6 @@ import androidx.navigation.toRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.submark.core.data.repository.SubscriptionRepository
 import io.github.submark.core.data.service.PaymentService
-import io.github.submark.core.data.service.SharedService
 import io.github.submark.core.data.time.TimeProvider
 import io.github.submark.core.domain.BillingCalculator
 import io.github.submark.core.domain.CostCalculator
@@ -45,10 +44,6 @@ data class SubscriptionAnalyticsUiState(
     val projectedQuarterly: BigDecimal? = null,
     val projectedSemiAnnual: BigDecimal? = null,
     val projectedAnnual: BigDecimal? = null,
-    // Shared
-    val isShared: Boolean = false,
-    val memberCount: Int = 0,
-    val userShare: BigDecimal? = null,
     // Lifetime
     val daysOwned: Long = 0,
     val dailyHoldingCost: BigDecimal? = null,
@@ -59,7 +54,6 @@ class SubscriptionAnalyticsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     subscriptions: SubscriptionRepository,
     payments: PaymentService,
-    shared: SharedService,
     time: TimeProvider,
 ) : ViewModel() {
 
@@ -68,8 +62,7 @@ class SubscriptionAnalyticsViewModel @Inject constructor(
     val uiState: StateFlow<SubscriptionAnalyticsUiState> = combine(
         subscriptions.observeItem(route.subscriptionId),
         payments.observeForSubscription(route.subscriptionId),
-        shared.observeMembers(route.subscriptionId),
-    ) { item, records, members ->
+    ) { item, records ->
         val sub = item?.subscription ?: return@combine SubscriptionAnalyticsUiState(loading = false, notFound = true)
         val today = time.today()
         val success = records.filter { it.status == PaymentStatus.SUCCESS }
@@ -86,14 +79,15 @@ class SubscriptionAnalyticsViewModel @Inject constructor(
             )
         } else {
             val cycle = BillingCalculator.cycleLength(sub)
+            // A shared subscription costs the user only their share.
+            val price = item.ownPrice
             val lifecycle = lifecycleNumbers(
                 payments = points,
                 startDate = sub.startDate,
                 today = today,
-                price = sub.price,
+                price = price,
                 nextPaymentDate = sub.nextPaymentDate,
             )
-            val activeMembers = members.count { it.status == io.github.submark.core.model.MemberStatus.ACTIVE }.coerceAtLeast(1)
             SubscriptionAnalyticsUiState(
                 loading = false,
                 subscription = sub,
@@ -103,15 +97,12 @@ class SubscriptionAnalyticsViewModel @Inject constructor(
                     BillingCalculator.trialEndDate(sub)?.let { it >= today } == true,
                 trialEndDate = BillingCalculator.trialEndDate(sub),
                 paused = sub.status == SubscriptionStatus.PAUSED,
-                projectedCurrentCycle = sub.price,
-                projectedWeekly = cycle?.let { CostCalculator.weekly(sub.price, it) },
-                projectedMonthly = cycle?.let { CostCalculator.monthly(sub.price, it) },
-                projectedQuarterly = cycle?.let { CostCalculator.monthly(sub.price, it).multiply(BigDecimal(3)) },
-                projectedSemiAnnual = cycle?.let { CostCalculator.monthly(sub.price, it).multiply(BigDecimal(6)) },
-                projectedAnnual = cycle?.let { CostCalculator.annualize(sub.price, it) },
-                isShared = sub.isShared,
-                memberCount = activeMembers,
-                userShare = null,
+                projectedCurrentCycle = price,
+                projectedWeekly = cycle?.let { CostCalculator.weekly(price, it) },
+                projectedMonthly = cycle?.let { CostCalculator.monthly(price, it) },
+                projectedQuarterly = cycle?.let { CostCalculator.monthly(price, it).multiply(BigDecimal(3)) },
+                projectedSemiAnnual = cycle?.let { CostCalculator.monthly(price, it).multiply(BigDecimal(6)) },
+                projectedAnnual = cycle?.let { CostCalculator.annualize(price, it) },
             )
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), SubscriptionAnalyticsUiState())

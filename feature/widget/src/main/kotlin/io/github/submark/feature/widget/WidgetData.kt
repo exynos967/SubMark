@@ -65,13 +65,17 @@ object WidgetData {
         }
     }
 
-    /** Eligible rows: active recurring subscriptions with a due date, overdue first then by date. */
+    /**
+     * Eligible rows: active recurring subscriptions with a due date, overdue first then by date. Amounts are the
+     * user's share ([userShares]) of shared subscriptions.
+     */
     fun upcoming(
         subs: List<Subscription>,
         today: LocalDate,
         limit: Int,
         convert: (BigDecimal, String) -> BigDecimal?,
         defaultCurrencyCode: String = "USD",
+        userShares: Map<String, BigDecimal> = emptyMap(),
     ): UpcomingWidgetState {
         val eligible = subs
             .filter {
@@ -88,14 +92,14 @@ object WidgetData {
                 id = sub.id,
                 name = sub.name,
                 fallbackLetter = fallbackLetterOf(sub.name),
-                amount = sub.price,
+                amount = userShares[sub.id] ?: sub.price,
                 currencyCode = sub.currencyCode,
                 dueLabel = dueLabel(sub.nextPaymentDate, today),
                 overdue = BillingCalculator.isOverdue(sub, today),
             )
         }
         val total = eligible
-            .mapNotNull { convert(it.price, it.currencyCode) }
+            .mapNotNull { convert(userShares[it.id] ?: it.price, it.currencyCode) }
             .fold(null as BigDecimal?) { acc, v -> (acc ?: BigDecimal.ZERO) + v }
             ?.setScale(2, RoundingMode.HALF_UP)
         return UpcomingWidgetState(rows = rows, subscriptionCount = eligible.size, total = total, defaultCurrencyCode = defaultCurrencyCode)
@@ -103,13 +107,15 @@ object WidgetData {
 
     /**
      * Projected spending for the current month: remaining due dates of every active recurring
-     * subscription (including overdue) inside the current calendar month, converted.
+     * subscription (including overdue) inside the current calendar month, converted. Shared subscriptions count
+     * only the user's share ([userShares]).
      */
     fun spendingSummary(
         subs: List<Subscription>,
         today: LocalDate,
         annualBudget: BigDecimal?,
         convert: (BigDecimal, String) -> BigDecimal?,
+        userShares: Map<String, BigDecimal> = emptyMap(),
     ): SpendingSummaryState {
         val monthEnd = today.withDayOfMonth(today.lengthOfMonth())
         val active = subs.filter { sub ->
@@ -120,7 +126,7 @@ object WidgetData {
         for (sub in active) {
             val occurrenceCount = occurrencesLeftInMonth(sub, today, monthEnd).size
             if (occurrenceCount == 0) continue
-            val converted = convert(sub.price, sub.currencyCode) ?: continue
+            val converted = convert(userShares[sub.id] ?: sub.price, sub.currencyCode) ?: continue
             projected = (projected ?: BigDecimal.ZERO) + converted.multiply(BigDecimal(occurrenceCount))
         }
         projected = projected?.setScale(2, RoundingMode.HALF_UP)

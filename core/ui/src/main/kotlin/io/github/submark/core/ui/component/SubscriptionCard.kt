@@ -78,7 +78,8 @@ enum class SubscriptionCardVariant { LIST, GRID }
  * Subscription row/tile built from plain display values (format them with [formatMoney],
  * [io.github.submark.core.ui.format.CycleLabels], [io.github.submark.core.ui.format.DateLabels]).
  *
- * @param priceText e.g. "$9.99" (or the stored-value balance).
+ * @param priceText e.g. "$9.99"; the user's share for a shared subscription.
+ * @param totalPriceText small line under the price, e.g. the full price of a shared subscription.
  * @param cycleText e.g. "/mo" or "Monthly".
  * @param dateText the single date line, e.g. "Next: Mar 14".
  * @param dueDate with [today], shows a [CountdownBadge].
@@ -92,6 +93,7 @@ fun SubscriptionCard(
     priceText: String,
     modifier: Modifier = Modifier,
     cycleText: String? = null,
+    totalPriceText: String? = null,
     dateText: String? = null,
     secondaryText: String? = null,
     iconType: IconType? = null,
@@ -134,8 +136,8 @@ fun SubscriptionCard(
                 if (dueDate != null && today != null) CountdownBadge(dueDate, today)
             }
             when (variant) {
-                SubscriptionCardVariant.LIST -> ListLayout(name, priceText, cycleText, dateText, secondaryText, badges, icon, countdown)
-                SubscriptionCardVariant.GRID -> GridLayout(name, priceText, cycleText, dateText, secondaryText, badges, icon, countdown)
+                SubscriptionCardVariant.LIST -> ListLayout(name, priceText, cycleText, totalPriceText, dateText, secondaryText, badges, icon, countdown)
+                SubscriptionCardVariant.GRID -> GridLayout(name, priceText, cycleText, totalPriceText, dateText, secondaryText, badges, icon, countdown)
             }
         }
     }
@@ -146,6 +148,7 @@ private fun ListLayout(
     name: String,
     priceText: String,
     cycleText: String?,
+    totalPriceText: String?,
     dateText: String?,
     secondaryText: String?,
     badges: List<SubscriptionBadge>,
@@ -162,7 +165,10 @@ private fun ListLayout(
         }
         Spacer(Modifier.width(8.dp))
         Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            PriceLine(priceText, cycleText)
+            Column(horizontalAlignment = Alignment.End) {
+                PriceLine(priceText, cycleText)
+                totalPriceText?.let { SubtleLine(it) }
+            }
             countdown()
         }
     }
@@ -173,6 +179,7 @@ private fun GridLayout(
     name: String,
     priceText: String,
     cycleText: String?,
+    totalPriceText: String?,
     dateText: String?,
     secondaryText: String?,
     badges: List<SubscriptionBadge>,
@@ -188,6 +195,7 @@ private fun GridLayout(
         Spacer(Modifier.width(4.dp))
         Text(name, style = MaterialTheme.typography.titleMedium, maxLines = 1, overflow = TextOverflow.Ellipsis)
         PriceLine(priceText, cycleText)
+        totalPriceText?.let { SubtleLine(it) }
         SubtleLine(listOfNotNull(secondaryText, dateText).joinToString(" · "))
         BadgeRow(badges)
     }

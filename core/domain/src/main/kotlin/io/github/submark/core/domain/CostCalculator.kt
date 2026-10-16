@@ -39,14 +39,17 @@ object CostCalculator {
         sub.status == SubscriptionStatus.ACTIVE &&
             sub.kind == SubscriptionKind.REGULAR
 
-    /** Monthly equivalent in the subscription's own currency, or null if it has no recurring cost. */
-    fun monthlyOf(sub: Subscription): BigDecimal? {
+    /**
+     * Monthly equivalent in the subscription's own currency, or null if it has no recurring cost. [price] is the
+     * per-cycle amount to count, e.g. the user's share of a shared subscription.
+     */
+    fun monthlyOf(sub: Subscription, price: BigDecimal = sub.price): BigDecimal? {
         if (!countsTowardRecurringCost(sub)) return null
         val cycle = BillingCalculator.cycleLength(sub) ?: return null
-        return monthly(sub.price, cycle)
+        return monthly(price, cycle)
     }
 
-    fun annualOf(sub: Subscription): BigDecimal? = monthlyOf(sub)?.multiply(TWELVE, MC)
+    fun annualOf(sub: Subscription, price: BigDecimal = sub.price): BigDecimal? = monthlyOf(sub, price)?.multiply(TWELVE, MC)
 
     /** Holding cost per day of a one-time purchase since [daysOwned]. */
     fun lifetimeDailyCost(price: BigDecimal, daysOwned: Long): BigDecimal =

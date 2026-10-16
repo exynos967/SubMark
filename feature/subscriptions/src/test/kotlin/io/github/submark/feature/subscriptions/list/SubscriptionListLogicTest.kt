@@ -206,6 +206,16 @@ class SubscriptionListLogicTest {
     }
 
     @Test
+    fun summary_sharedSubscription_countsOnlyUserShare() {
+        val items = listOf(
+            item("shared", price = "20", next = LocalDate.of(2026, 3, 15)).copy(userShare = BigDecimal("5")),
+            item("solo", price = "10", next = LocalDate.of(2026, 3, 20)),
+        )
+        val s = SubscriptionListLogic.summary(items, emptyList(), today, converter, "USD")
+        assertThat(s.thisMonth.compareTo(BigDecimal("15"))).isEqualTo(0)
+    }
+
+    @Test
     fun summary_inOtherCurrency() {
         val s = SubscriptionListLogic.summary(listOf(item("m", price = "2")), emptyList(), today, converter, "CNY")
         assertThat(s.thisMonth.compareTo(BigDecimal("14"))).isEqualTo(0)

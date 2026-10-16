@@ -104,10 +104,10 @@ class CalendarViewModel @Inject constructor(
                 subscriptions.observeAll(),
                 categories.observeAll(),
                 payments.observeBetween(from, to),
-                currencies.observeCurrencies(),
-                currencies.observeConverter(),
-            ) { subs, cats, payList, curList, converter ->
-                buildState(env, today, subs, cats, payList, curList, converter)
+                combine(currencies.observeCurrencies(), currencies.observeConverter(), ::Pair),
+                shared.observeUserShares(),
+            ) { subs, cats, payList, (curList, converter), userShares ->
+                buildState(env, today, subs, cats, payList, curList, converter, userShares)
             }
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), CalendarUiState())
@@ -138,6 +138,7 @@ class CalendarViewModel @Inject constructor(
         payList: List<PaymentRecord>,
         curList: List<Currency>,
         converter: io.github.submark.core.domain.CurrencyConverter,
+        userShares: Map<String, java.math.BigDecimal>,
     ): CalendarUiState {
         val s = env.settings
         val scenario = env.scenario
@@ -151,6 +152,7 @@ class CalendarViewModel @Inject constructor(
             defaultCode = s.money.defaultCurrencyCode,
             converter = converter,
             categoriesById = cats.associateBy { it.id },
+            userShares = userShares,
             includeChildren = includeChildren,
         )
         val agenda = byDate[scenario.selectedDate].orEmpty()

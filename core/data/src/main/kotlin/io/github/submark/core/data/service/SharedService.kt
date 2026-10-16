@@ -16,6 +16,7 @@ import io.github.submark.core.model.SharedMember
 import io.github.submark.core.model.SplitMode
 import io.github.submark.core.model.Subscription
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import java.math.BigDecimal
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -37,6 +38,22 @@ class SharedService @Inject internal constructor(
     fun observeAllConfigs(): Flow<List<SharedConfig>> = sharedDao.observeAllConfigs()
 
     fun observeAllMembers(): Flow<List<SharedMember>> = sharedDao.observeAllMembers()
+
+    /**
+     * The user's per-cycle share of every shared subscription, in its own currency. Subscriptions that are not shared
+     * are absent: their cost is the full price. Money totals and forecasts count only this share.
+     */
+    fun observeUserShares(): Flow<Map<String, BigDecimal>> = combine(
+        subscriptionDao.observeAll(),
+        sharedDao.observeAllConfigs(),
+        sharedDao.observeAllMembers(),
+    ) { subs, configs, members ->
+        val configBySub = configs.associateBy { it.subscriptionId }
+        val membersBySub = members.groupBy { it.subscriptionId }
+        subs.filter { it.isShared }.associate { sub ->
+            sub.id to SplitCalculator.userShare(sub, configBySub[sub.id], membersBySub[sub.id].orEmpty())
+        }
+    }
 
     /** Turns sharing on with EQUAL split and a creator member named [creatorName] (the user). Idempotent. */
     suspend fun enable(subscriptionId: String, creatorName: String): DataResult<Unit> = mutate(subscriptionId) { sub ->
@@ -118,13 +135,8 @@ class SharedService @Inject internal constructor(
     /** The user's (creator's) share of one cycle, in the subscription currency. Equals the price when not shared. */
     suspend fun userShare(subscriptionId: String): BigDecimal? = subscriptionDao.get(subscriptionId)?.let { userShareOf(it) }
 
-    internal suspend fun userShareOf(sub: Subscription): BigDecimal {
-        if (!sub.isShared) return sub.price
-        val config = sharedDao.getConfig(sub.id) ?: return sub.price
-        val members = sharedDao.getMembers(sub.id)
-        val creator = members.firstOrNull { it.isCreator } ?: return sub.price
-        return SplitCalculator.shares(sub.price, config.splitMode, members)[creator.id] ?: sub.price
-    }
+    internal suspend fun userShareOf(sub: Subscription): BigDecimal =
+        if (!sub.isShared) sub.price else SplitCalculator.userShare(sub, sharedDao.getConfig(sub.id), sharedDao.getMembers(sub.id))
 
     private fun validate(member: SharedMember) {
         if (member.name.isBlank()) abort(InvalidReason.BLANK_NAME)

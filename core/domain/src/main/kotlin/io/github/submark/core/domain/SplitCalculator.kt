@@ -1,8 +1,10 @@
 package io.github.submark.core.domain
 
 import io.github.submark.core.model.MemberStatus
+import io.github.submark.core.model.SharedConfig
 import io.github.submark.core.model.SharedMember
 import io.github.submark.core.model.SplitMode
+import io.github.submark.core.model.Subscription
 import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
@@ -12,6 +14,16 @@ object SplitCalculator {
     private val MC = MathContext.DECIMAL64
     private val HUNDRED = BigDecimal(100)
     private val RATIO_TOLERANCE = BigDecimal("0.5")
+
+    /**
+     * The user's (creator's) per-cycle share of [sub], in its currency; the full price when it is not shared or the
+     * sharing setup is incomplete.
+     */
+    fun userShare(sub: Subscription, config: SharedConfig?, members: List<SharedMember>): BigDecimal {
+        if (!sub.isShared || config == null) return sub.price
+        val creator = members.firstOrNull { it.isCreator } ?: return sub.price
+        return shares(sub.price, config.splitMode, members)[creator.id] ?: sub.price
+    }
 
     /**
      * Shares keyed by member id. Inactive members get zero. EQUAL and RATIO round to [scale]

@@ -43,6 +43,7 @@
     <string name="subscriptions_list_empty_wishlist_message">Save things you are thinking about buying.</string>
     <string name="subscriptions_list_no_match_title">No matches</string>
     <string name="subscriptions_list_no_match_message">Try another search or remove some filters.</string>
+    <string name="subscriptions_list_total_price">Total %1$s</string>
     <string name="subscriptions_list_free">Free</string>
     <string name="subscriptions_list_date_next">Next %1$s</string>
     <string name="subscriptions_list_date_end">Ends %1$s</string>

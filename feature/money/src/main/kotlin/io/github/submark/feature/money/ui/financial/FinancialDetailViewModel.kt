@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.submark.core.data.currency.CurrencyRepository
 import io.github.submark.core.data.repository.SubscriptionRepository
 import io.github.submark.core.data.service.PaymentService
+import io.github.submark.core.data.service.SharedService
 import io.github.submark.core.data.settings.FinancialDetailFilter
 import io.github.submark.core.data.settings.SettingsRepository
 import io.github.submark.core.data.time.TimeProvider
@@ -54,6 +55,7 @@ data class FinancialDetailUiState(
 class FinancialDetailViewModel @Inject constructor(
     private val payments: PaymentService,
     private val subscriptions: SubscriptionRepository,
+    private val shared: SharedService,
     private val currencies: CurrencyRepository,
     private val settings: SettingsRepository,
     private val time: TimeProvider,
@@ -167,15 +169,20 @@ class FinancialDetailViewModel @Inject constructor(
             progress.value = (i + 1) to dates.size
         }
         result.value = FinancialAggregator.aggregate(records, subs, filter, defaultCode, convertedConverters)
-        theoretical.value = computeTheoretical(subscriptions.getAll(), defaultCode)
+        theoretical.value = computeTheoretical(subscriptions.getAll(), shared.observeUserShares().first(), defaultCode)
         progress.value = 0 to 0
     }
 
-    private suspend fun computeTheoretical(items: List<io.github.submark.core.model.Subscription>, defaultCode: String): BigDecimal? {
+    /** Recurring cost per month at current prices, counting only the user's share of shared subscriptions. */
+    private suspend fun computeTheoretical(
+        items: List<io.github.submark.core.model.Subscription>,
+        userShares: Map<String, BigDecimal>,
+        defaultCode: String,
+    ): BigDecimal? {
         val converter = currencies.converter()
         var acc: BigDecimal? = null
         items.forEach { sub ->
-            val monthly = CostCalculator.monthlyOf(sub) ?: return@forEach
+            val monthly = CostCalculator.monthlyOf(sub, userShares[sub.id] ?: sub.price) ?: return@forEach
             val converted = converter.convert(monthly, sub.currencyCode, defaultCode) ?: return@forEach
             acc = (acc ?: BigDecimal.ZERO) + converted
         }

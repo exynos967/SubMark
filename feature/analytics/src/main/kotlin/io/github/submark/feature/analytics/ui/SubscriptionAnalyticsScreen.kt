@@ -26,8 +26,6 @@ import io.github.submark.core.ui.component.formatMoney
 import io.github.submark.core.ui.format.DateLabels
 import io.github.submark.core.ui.format.asString
 import io.github.submark.feature.analytics.R
-import java.math.BigDecimal
-import java.math.MathContext
 
 @Composable
 fun SubscriptionAnalyticsRoute(
@@ -160,16 +158,6 @@ fun SubscriptionAnalyticsScreen(
                                             stringResource(R.string.analytics_detail_actual_monthly),
                                             formatMoney(life.actualMonthly, code),
                                         )
-                                        if (uiState.isShared && uiState.memberCount > 1) {
-                                            DetailRow(
-                                                stringResource(R.string.analytics_detail_per_person_daily),
-                                                formatMoney(life.actualDaily, code),
-                                            )
-                                            DetailRow(
-                                                stringResource(R.string.analytics_detail_per_person_monthly),
-                                                formatMoney(life.actualMonthly, code),
-                                            )
-                                        }
                                     }
                                 }
                             }
@@ -212,23 +200,6 @@ fun SubscriptionAnalyticsScreen(
                                     }
                                     uiState.projectedAnnual?.let {
                                         DetailRow(stringResource(R.string.analytics_detail_annual), formatMoney(it, code))
-                                        if (uiState.isShared && uiState.memberCount > 1) {
-                                            DetailRow(
-                                                "${stringResource(R.string.analytics_detail_monthly)} · ${stringResource(R.string.analytics_detail_per_person)}",
-                                                formatMoney(
-                                                    (uiState.projectedMonthly ?: BigDecimal.ZERO)
-                                                        .divide(BigDecimal(uiState.memberCount), MathContext.DECIMAL64),
-                                                    code,
-                                                ),
-                                            )
-                                            DetailRow(
-                                                "${stringResource(R.string.analytics_detail_annual)} · ${stringResource(R.string.analytics_detail_per_person)}",
-                                                formatMoney(
-                                                    it.divide(BigDecimal(uiState.memberCount), MathContext.DECIMAL64),
-                                                    code,
-                                                ),
-                                            )
-                                        }
                                     }
                                 }
                             }

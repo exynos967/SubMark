@@ -176,7 +176,8 @@ internal fun MetricsSection(state: DetailUiState, content: DetailContent) {
                     )
                 }
             }
-            CostCalculator.annualOf(sub.copy(status = SubscriptionStatus.ACTIVE))?.let { annual ->
+            // A shared subscription costs the user only their share.
+            CostCalculator.annualOf(sub.copy(status = SubscriptionStatus.ACTIVE), userShare ?: sub.price)?.let { annual ->
                 tiles += { m ->
                     MetricTile(stringResource(R.string.subscriptions_detail_metric_annual), state.money(annual, sub.currencyCode), m) {
                         val def = state.defaultCurrency

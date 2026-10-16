@@ -79,10 +79,15 @@ fun SubscriptionItemCard(
     onLongClick: (() -> Unit)? = null,
 ) {
     val sub = item.subscription
-    val priceText = if (sub.price.signum() == 0) {
+    // A shared subscription shows the user's share, with the full price underneath.
+    val priceText = if (item.ownPrice.signum() == 0) {
         stringResource(R.string.subscriptions_list_free)
     } else {
-        formatMoney(sub.price, sub.currencyCode, symbols[sub.currencyCode])
+        formatMoney(item.ownPrice, sub.currencyCode, symbols[sub.currencyCode])
+    }
+    // Only worth a second line when the user pays less than the full price.
+    val totalPriceText = item.userShare?.takeIf { it.compareTo(sub.price) != 0 }?.let {
+        stringResource(R.string.subscriptions_list_total_price, formatMoney(sub.price, sub.currencyCode, symbols[sub.currencyCode]))
     }
     val cycleText = when {
         sub.kind == SubscriptionKind.LIFETIME || sub.kind == SubscriptionKind.WISHLIST && sub.billingCycle == null -> null
@@ -104,6 +109,7 @@ fun SubscriptionItemCard(
         priceText = priceText,
         modifier = modifier,
         cycleText = cycleText,
+        totalPriceText = totalPriceText,
         dateText = dateText,
         secondaryText = item.category?.displayName()?.asString()?.ifBlank { null },
         iconType = sub.iconType,

@@ -151,6 +151,7 @@ class OverviewViewModel @Inject constructor(
                 currencies.observeConverter(),
                 walletService.observeWallets(),
                 priceMonitors.observeSummary(),
+                shared.observeUserShares(),
             ) { values ->
                 @Suppress("UNCHECKED_CAST")
                 val subs = values[0] as List<Subscription>
@@ -164,7 +165,9 @@ class OverviewViewModel @Inject constructor(
                 val wallets = values[4] as List<io.github.submark.core.model.Wallet>
                 @Suppress("UNCHECKED_CAST")
                 val priceSummary = values[5] as io.github.submark.feature.overview.data.PriceMonitorSummary
-                buildState(env, subs, payList, curList, converter, wallets, priceSummary)
+                @Suppress("UNCHECKED_CAST")
+                val userShares = values[6] as Map<String, BigDecimal>
+                buildState(env, subs, payList, curList, converter, wallets, priceSummary, userShares)
             }
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), OverviewUiState())
@@ -177,6 +180,7 @@ class OverviewViewModel @Inject constructor(
         converter: CurrencyConverter,
         wallets: List<io.github.submark.core.model.Wallet> = emptyList(),
         priceSummary: io.github.submark.feature.overview.data.PriceMonitorSummary? = null,
+        userShares: Map<String, BigDecimal> = emptyMap(),
     ): OverviewUiState {
         val s = env.settings
         val today = env.today
@@ -197,6 +201,7 @@ class OverviewViewModel @Inject constructor(
             today = today,
             defaultCode = defaultCode,
             converter = converterSafe,
+            userShares = userShares,
             includeChildren = true,
         )
         fun shown(occ: PaymentOccurrence) = includeChildren || occ.subscription.parentId == null

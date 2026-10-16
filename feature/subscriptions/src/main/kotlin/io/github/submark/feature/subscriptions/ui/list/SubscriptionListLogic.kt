@@ -28,7 +28,7 @@ data class ListFilter(
 
 /**
  * Totals in [currencyCode]. [thisMonth]/[thisYear] are the recurring payments of the calendar month/year, paid
- * plus still due, the same figure as the overview's projected total; [total] is the sum of one-time (lifetime)
+ * plus still due (only the user's share of shared subscriptions), the same figure as the overview's projected total; [total] is the sum of one-time (lifetime)
  * or planned (wishlist) prices. Amounts whose currency has no rate are skipped and listed in [missingRateCodes].
  */
 data class ListSummary(
@@ -79,7 +79,7 @@ object SubscriptionListLogic {
     fun filter(items: List<SubscriptionItem>, filter: ListFilter): List<SubscriptionItem> = items.filter { matches(it, filter) }
 
     /**
-     * NAME by name; PRICE by the per-cycle price converted to [currencyCode] (unconvertible last);
+     * NAME by name; PRICE by the user's per-cycle cost converted to [currencyCode] (unconvertible last);
      * DATE by next payment (subscriptions), purchase date (lifetime) or creation time (wishlist). Missing dates go last.
      */
     fun sort(
@@ -101,7 +101,7 @@ object SubscriptionListLogic {
             return sorted + without.sortedWith(byName)
         }
         return when (field) {
-            SortField.PRICE -> keyed { converter.convert(it.subscription.price, it.subscription.currencyCode, currencyCode) }
+            SortField.PRICE -> keyed { converter.convert(it.ownPrice, it.subscription.currencyCode, currencyCode) }
             else -> when (segment) {
                 ListSegment.SUBSCRIPTIONS -> keyed { it.subscription.nextPaymentDate }
                 ListSegment.LIFETIME -> keyed { it.subscription.startDate }
@@ -129,6 +129,7 @@ object SubscriptionListLogic {
             today = today,
             defaultCode = currencyCode,
             converter = converter,
+            userShares = items.mapNotNull { item -> item.userShare?.let { item.id to it } }.toMap(),
             includeChildren = true,
         )
         val month = YearMonth.from(today)
@@ -137,8 +138,9 @@ object SubscriptionListLogic {
         recurring.filter { PaymentProjection.counts(it) }.map { it.currencyCode }
             .plus(ownPayments.map { it.currencyCode })
             .filterTo(missing) { converter.convert(BigDecimal.ONE, it, currencyCode) == null }
-        for (sub in items.map { it.subscription }.filter { it.kind != SubscriptionKind.REGULAR }) {
-            val converted = converter.convert(sub.price, sub.currencyCode, currencyCode)
+        for (item in items.filter { it.subscription.kind != SubscriptionKind.REGULAR }) {
+            val sub = item.subscription
+            val converted = converter.convert(item.ownPrice, sub.currencyCode, currencyCode)
             if (converted == null) missing += sub.currencyCode else total = total.add(converted, MC)
         }
         return ListSummary(

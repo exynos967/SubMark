@@ -8,6 +8,7 @@ import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
 import io.github.submark.core.data.currency.CurrencyRepository
 import io.github.submark.core.data.repository.SubscriptionRepository
+import io.github.submark.core.data.service.SharedService
 import io.github.submark.core.data.settings.SettingsRepository
 import io.github.submark.core.data.time.TimeProvider
 import io.github.submark.core.ui.format.MoneyFormatter
@@ -25,6 +26,7 @@ class WidgetLoader(private val context: Context) {
         fun currencyRepository(): CurrencyRepository
         fun settingsRepository(): SettingsRepository
         fun timeProvider(): TimeProvider
+        fun sharedService(): SharedService
     }
 
     private val entry: WidgetEntryPoint by lazy {
@@ -36,7 +38,8 @@ class WidgetLoader(private val context: Context) {
         val converter = entry.currencyRepository().converter()
         val defaultCode = entry.settingsRepository().settings.first().money.defaultCurrencyCode
         val today = entry.timeProvider().today()
-        return WidgetData.upcoming(subs, today, limit, { amount, code -> converter.convert(amount, code, defaultCode) }, defaultCode)
+        val shares = entry.sharedService().observeUserShares().first()
+        return WidgetData.upcoming(subs, today, limit, { amount, code -> converter.convert(amount, code, defaultCode) }, defaultCode, shares)
     }
 
     suspend fun spendingSummary(): SpendingSummaryState {
@@ -44,9 +47,14 @@ class WidgetLoader(private val context: Context) {
         val converter = entry.currencyRepository().converter()
         val money = entry.settingsRepository().settings.first().money
         val today = entry.timeProvider().today()
-        return WidgetData.spendingSummary(subs, today, money.annualBudget) { amount, code ->
-            converter.convert(amount, code, money.defaultCurrencyCode)
-        }
+        val shares = entry.sharedService().observeUserShares().first()
+        return WidgetData.spendingSummary(
+            subs = subs,
+            today = today,
+            annualBudget = money.annualBudget,
+            convert = { amount, code -> converter.convert(amount, code, money.defaultCurrencyCode) },
+            userShares = shares,
+        )
     }
 
     fun format(amount: BigDecimal, code: String, locale: Locale = Locale.getDefault()): String =

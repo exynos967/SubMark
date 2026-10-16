@@ -41,6 +41,7 @@
     <string name="subscriptions_list_empty_wishlist_message">把打算购买的东西先存起来。</string>
     <string name="subscriptions_list_no_match_title">没有匹配项</string>
     <string name="subscriptions_list_no_match_message">换个关键词，或去掉一些筛选条件。</string>
+    <string name="subscriptions_list_total_price">总价 %1$s</string>
     <string name="subscriptions_list_free">免费</string>
     <string name="subscriptions_list_date_next">下次 %1$s</string>
     <string name="subscriptions_list_date_end">%1$s 到期</string>
