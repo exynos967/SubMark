@@ -365,16 +365,18 @@ internal fun OccurrenceRow(
         Spacer(Modifier.width(10.dp))
         Column(modifier = Modifier.weight(1f)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
+                // The name yields width to the badge, so a long name ellipsizes instead of squeezing the badge.
                 Text(
                     text = occ.subscription.name,
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f, fill = false),
                 )
                 if (occ.paid) {
                     Spacer(Modifier.width(4.dp))
                     Badge(containerColor = MaterialTheme.colorScheme.primaryContainer) {
-                        Text(stringResource(R.string.overview_badge_paid), style = MaterialTheme.typography.labelSmall)
+                        Text(stringResource(R.string.overview_badge_paid), style = MaterialTheme.typography.labelSmall, maxLines = 1, softWrap = false)
                     }
                 } else if (occ.isOverdue(today)) {
                     Spacer(Modifier.width(4.dp))
@@ -382,6 +384,8 @@ internal fun OccurrenceRow(
                         Text(
                             stringResource(R.string.overview_overdue_by, java.time.temporal.ChronoUnit.DAYS.between(occ.date, today).toInt()),
                             style = MaterialTheme.typography.labelSmall,
+                            maxLines = 1,
+                            softWrap = false,
                         )
                     }
                 } else {
@@ -393,7 +397,7 @@ internal fun OccurrenceRow(
                         else -> pluralStringResource(R.plurals.overview_days_until, daysUntil.toInt(), daysUntil.toInt())
                     }
                     Badge(containerColor = MaterialTheme.colorScheme.tertiaryContainer) {
-                        Text(countdownText, style = MaterialTheme.typography.labelSmall)
+                        Text(countdownText, style = MaterialTheme.typography.labelSmall, maxLines = 1, softWrap = false)
                     }
                 }
             }
